@@ -1,0 +1,176 @@
+﻿@*@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+<div ng-controller="LocationController">
+    <div class="page-title" style="padding: 2px 36px 25px 0!important">
+        <h4>
+            <i class="icon-arrow-left52 position-left"></i>
+            <span class="text-semibold">Admin</span> - Location
+            @*<small class="display-block">Good morning, Victoria Baker!</small>*@
+        </h4>
+    </div>
+    <div class="content">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel-group panel-group-control panel-group-control-right">
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <h6 class="panel-title">
+                                <a class="wd-full" data-toggle="collapse" href="#SearchPanel">
+                                    <i class="icon-search4 position-left"></i> <b class="text-bold pt-0" style="text-transform:uppercase;">Advanced Search</b>
+                                </a>
+                            </h6>
+                        </div>
+                        <div id="SearchPanel" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label for="Name" class="col-sm-3 text-right">Search :</label>
+                                        <div class="col-sm-8">
+                                            <label class="control-label radio-inline"><input type="radio" /> Location</label>
+                                            <label class="control-label radio-inline"><input type="radio" /> Doctor</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <button class="btn btn-primary">Search</button>
+                                            @*<input type="button" class="btn btn-default" onclick="ResetClick()" />*@
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row" style="padding:20px 0px;">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">ID:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="experience-position" placeholder="Company name" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Name:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="experience-position" placeholder="Company name" class="form-control">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Phone No:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="experience-position" placeholder="Company name" class="form-control">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Department:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="experience-position" placeholder="Company name" class="form-control">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Address:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="experience-position" placeholder="Company name" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">City:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="experience-position" placeholder="Company name" class="form-control">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">State:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="experience-position" placeholder="Company name" class="form-control">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row pull-right">
+                                    <button class="btn btn-primary mr-5">Clear</button>
+                                    <button class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-flat">
+        <div class="panel-body">
+            <fieldset>
+                <legend class="text-bold pt-0">
+                    <i class="icon-list position-left"></i><b class="text-bold pt-0" style="text-transform:uppercase;">List</b>
+                </legend>
+
+                <div class="col-md-12" style="padding-bottom: 7px; text-align: right;">
+                    <button type="button" class="btn btn-primary">Add Location</button>
+                </div>
+                <div class="col-sm-12" style="overflow-x:auto!important">
+                    <table class="table datatable-basic table-bordered" cellspacing="0" width="100%">
+                        <thead class="k-grid-header">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th style="text-align:center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>Aura</td>
+                                <td>Hard</td>
+                                <td>Business Services Sales Representative</td>
+                                <td>19 Apr 1969</td>
+                                <td><span class="label label-danger">Suspended</span></td>
+
+                            </tr>
+
+                            <tr>
+                                <td>Coy</td>
+                                <td>Wollard</td>
+                                <td>Customer Service Operator</td>
+                                <td>12 Oct 1982</td>
+                                <td><span class="label label-success">Active</span></td>
+
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+</div>
+   

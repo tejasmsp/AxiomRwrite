@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" value="IE=9" />
+    <title>Use the PrizmDoc Server API </title>
+    <meta name="Title" content="Use the PrizmDoc Server API " />
+    <script src="template/packages/jquery/script/default/jquery-1.11.3.min.js" type="text/javascript" id="mshs_support_script"></script>
+    <script src="template/packages/jquery-ui/script/default/jquery-ui-1.11.4.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="template/packages/jquery-ui/css/default/jquery-ui-1.11.4.css"></link>
+    <meta name="Description" content="PrizmDoc Server exposes a RESTful API that clients may use to perform operations on documents, enabling them to manipulate and extract content.  In the same way that the PrizmDoc Server API is used by the Viewer, Developers can use the API to create " />
+    <link rel="stylesheet" type="text/css" href="template/packages/plugins-topics/css/default/jquery-plugins.css"></link>
+    <link rel="stylesheet" type="text/css" href="template/packages/core-topics/css/topics.css" data-mshv2-stylesheet="/template/packages/core-topics/topics.mshv2.css" data-mshv1-stylesheet="/template/packages/core-topics/topics.mshv1.css" data-responsive-mobile="template/packages/core-topics/topics.mobile.css" data-responsive-tablet="template/packages/core-topics/topics.tablet.css"></link>
+    <script src="template/packages/plugins-topics/script/default/jquery-plugins.min.js" type="text/javascript"></script>
+    <script src="template/packages/core-topics/script/topics.min.js" type="text/javascript"></script>
+    <meta name="Microsoft.Help.Id" content="f1d96873-c687-4297-8a1c-8ae85d3a01db" />
+    <meta name="Microsoft.Help.TocParent" content="e4167c95-dfbf-45d4-b0b2-b6b42ecc09f4" />
+    <meta name="Microsoft.Help.TocOrder" content="1" />
+    <meta name="Microsoft.Help.F1" content="" />
+    <meta name="Microsoft.Help.ContentType" content="Concepts" />
+    <link rel="stylesheet" type="text/css" href="styles/jsdoc-default.css"></link>
+    <link rel="stylesheet" type="text/css" href="styles/prettify-jsdoc.css"></link>
+    <link rel="stylesheet" type="text/css" href="styles/prettify-tomorrow.css"></link>
+    <link rel="stylesheet" type="text/css" href="styles/markdown.css"></link>
+    <link rel="stylesheet" type="text/css" href="template/packages/custom/css/accusoft.topics.css"></link>
+    <link rel="stylesheet" type="text/css" href="template/packages/custom/css/accusoft.booklet.css"></link>
+    <link rel="stylesheet" type="text/css" href="template/packages/custom/css/accusoft.booklettopics.css"></link>
+    <script src="script/swfobject.js" type="text/javascript"></script>
+    <script src="template/packages/custom/script/customLongDate.js" type="text/javascript"></script>
+    <script src="scripts/prettify/prettify.js" type="text/javascript"></script>
+    <script src="scripts/prettify/lang-css.js" type="text/javascript"></script>
+    <!-- Start of Async HubSpot Analytics Code -->
+    <script type="text/javascript">
+    (function(d,s,i,r) {
+      if (d.getElementById(i)){return;}
+      var n=d.createElement(s),e=d.getElementsByTagName(s)[0];
+      n.id=i;n.src='//js.hs-analytics.net/analytics/'+(Math.ceil(new Date()/r)*r)+'/106921.js';
+      e.parentNode.insertBefore(n, e);
+    })(document,"script","hs-analytics",300000);
+    </script>
+    <!-- End of Async HubSpot Analytics Code -->
+
+</head>
+<body>
+    <div id="i-before-header-content" class="i-before-header-content">
+
+    </div>
+    <div id="i-header-content" class="i-header-content">
+        <img class="logoimage" src="images/AccusoftLogoColor2015.png" border="0"></img>
+        <div class="i-project-title">
+            PrizmDoc v13.3 - Updated
+            <script>document.write(customLongDate("Thursday, June 21, 2018"));</script>
+        </div>
+        <div class="i-page-title">
+            <div class="i-page-title-text">Use the PrizmDoc Server API </div>
+        </div>
+    </div>
+    <div id="i-after-header-content" class="i-after-header-content">
+        <!-- Spacing -->
+        <span class="i-toggle-all-sections i-function-link">
+            <label class="i-collapse-all">Collapse All</label>
+            <label class="i-expand-all" style="display: none;">Expand All</label>
+        </span>
+        <a href='#' class="i-page-link" class="i-view-in-frame-link" title='Open this Topic in a view that includes Navigation tools (Table of Contents, Index, Search)' style='display: none' data-root-page='webframe.html' target='_top'>View with Navigation Tools</a>
+    </div>
+    <div class="i-breadcrumbs-container">
+        <table>
+            <tr>
+                <td>
+                    <a href="Developer_Guide.html">Developer Guide</a>
+                    >
+                    <a href="Developer_Guide_PrizmDoc_Server.html">PrizmDoc Server </a>
+                    > Use the PrizmDoc Server API
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="i-body-content" class="i-body-content">
+        <p>
+            PrizmDoc Server exposes a
+            <a href="Accusoft_PrizmDoc_Server_RESTful_API.html">RESTful API</a> that clients may use to perform operations on documents, enabling them to manipulate and extract content.&nbsp; In the same way that the PrizmDoc Server API is used by the Viewer, Developers can use the API to create their own applications to generate viewable content, perform redactions, and convert documents.
+        </p>
+        <div class="i-in-this-topic-container">
+            <ul class="i-in-this-topic-list">
+                <li class="i-in-this-topic-item">
+                    <a class="i-in-this-topic-link" href="#i-in-this-topic-29b900c3-17a4-4673-b865-8b9bc32e7e6d">Resources</a>
+                </li>
+                <li class="i-in-this-topic-item">
+                    <a class="i-in-this-topic-link" href="#i-in-this-topic-1c00aad7-f0e0-4bef-8acc-69c313736014">PrizmDoc Server Operations</a>
+                </li>
+            </ul>
+        </div>
+        <h1>
+            Resources
+            <a name="i-in-this-topic-29b900c3-17a4-4673-b865-8b9bc32e7e6d" id="i-in-this-topic-29b900c3-17a4-4673-b865-8b9bc32e7e6d"></a>
+        </h1>
+        <p>The PrizmDoc Server API exposes several resources that are designed to work together to perform document operations. This overview of these resources will provide developers with the understanding required to quickly get up and running with PrizmDoc Services:</p>
+        <div class="i-in-this-topic-container">
+            <ul class="i-in-this-topic-list">
+                <li class="i-in-this-topic-item">
+                    <a class="i-in-this-topic-link" href="#i-in-this-topic-70d3b61a-4280-41a7-9997-d0ef8cf17fd7">Work Files</a>
+                </li>
+                <li class="i-in-this-topic-item">
+                    <a class="i-in-this-topic-link" href="#i-in-this-topic-979c9894-fdd4-4f59-b543-0cc5a06b7eea">Processes</a>
+                </li>
+                <li class="i-in-this-topic-item">
+                    <a class="i-in-this-topic-link" href="#i-in-this-topic-8dd41875-5256-4592-bd88-b959d167b364">Viewing Sessions</a>
+                </li>
+            </ul>
+        </div>
+        <h2>
+            Work Files
+            <a name="i-in-this-topic-70d3b61a-4280-41a7-9997-d0ef8cf17fd7" id="i-in-this-topic-70d3b61a-4280-41a7-9997-d0ef8cf17fd7"></a>
+        </h2>
+        <p>
+            <a href="work-files.html">Work Files</a> form the basis of the PrizmDoc Service temporary document storage.&nbsp; Documents provided by users, converted content results, redaction markup, and burned output are all stored within Work Files.&nbsp; Documents are stored and retrieved through requests to the Work File Service made by user applications or other PrizmDoc services.&nbsp; Work Files are not intended for long-term storage and are periodically removed when they are no longer required for PrizmDoc operations.
+        </p>
+        <p>
+            <img style="BORDER-TOP: rgb(0,0,0) 1px solid; BORDER-RIGHT: rgb(0,0,0) 1px solid; BORDER-BOTTOM: rgb(0,0,0) 1px solid; BORDER-LEFT: rgb(0,0,0) 1px solid" alt="" src="images/2016_UsingPDServerAPI_workfiles.png" />
+        </p>
+        <h2>
+            Processes
+            <a name="i-in-this-topic-979c9894-fdd4-4f59-b543-0cc5a06b7eea" id="i-in-this-topic-979c9894-fdd4-4f59-b543-0cc5a06b7eea"></a>
+        </h2>
+        <p>Several PrizmDoc operations are represented as asynchronous work processes.&nbsp; These processes are created by a request containing configuration information and immediately begin their work.&nbsp; Prior to completion, information about the process can be requested in order to determine its current state.&nbsp; Processes eventually reach a terminal state, at which point either the process was successful and the output is available or the process failed and is in an error state.&nbsp; After completion, processes do remain available for a short time, but since their work is done, they are soon removed by periodic maintenance.&nbsp; The lifetime of a process is configurable within its creation options.</p>
+        <p>
+            <img style="BORDER-TOP: rgb(0,0,0) 1px solid; BORDER-RIGHT: rgb(0,0,0) 1px solid; BORDER-BOTTOM: rgb(0,0,0) 1px solid; BORDER-LEFT: rgb(0,0,0) 1px solid" alt="" src="images/2016_UsingPDServerAPI_processes.png" />
+        </p>
+        <p>These processes include:</p>
+        <div class="i-in-this-topic-container">
+            <ul class="i-in-this-topic-list">
+                <li class="i-in-this-topic-item">
+                    <a class="i-in-this-topic-link" href="#i-in-this-topic-7fb89809-50fb-45a4-b6ec-c288812eb4e0">Redaction Creators</a>
+                </li>
+                <li class="i-in-this-topic-item">
+                    <a class="i-in-this-topic-link" href="#i-in-this-topic-c8196f14-cd92-459f-b013-da8403585d44">Markup Burners</a>
+                </li>
+                <li class="i-in-this-topic-item">
+                    <a class="i-in-this-topic-link" href="#i-in-this-topic-0effd15f-7114-4fb7-b7c9-76386144229d">Content Converters</a>
+                </li>
+            </ul>
+        </div>
+        <h3>
+            Redaction Creators
+            <a name="i-in-this-topic-7fb89809-50fb-45a4-b6ec-c288812eb4e0" id="i-in-this-topic-7fb89809-50fb-45a4-b6ec-c288812eb4e0"></a>
+        </h3>
+        <p>
+            <a href="redaction-creator.html">Redaction Creators</a> are processes that operate on a document Work File to generate a document markup Work File.&nbsp; The user provides regular expressions that identify the text to be redacted, and the process generates a markup Work File that contains data describing the locations of the matches.&nbsp; The generated markup Work File can then be used in a Markup Burner process to create a document with the redactions burned in.
+        </p>
+        <p>
+            <img style="BORDER-TOP: rgb(0,0,0) 1px solid; BORDER-RIGHT: rgb(0,0,0) 1px solid; BORDER-BOTTOM: rgb(0,0,0) 1px solid; BORDER-LEFT: rgb(0,0,0) 1px solid" alt="" src="images/2016_UsingPDServerAPI_redactioncreators.png" />
+        </p>
+        <h3>
+            Markup Burners
+            <a name="i-in-this-topic-c8196f14-cd92-459f-b013-da8403585d44" id="i-in-this-topic-c8196f14-cd92-459f-b013-da8403585d44"></a>
+        </h3>
+        <p>
+            <a href="markup-burners.html">Markup Burners</a> are processes that create a "burned" document Work File as output from a source document Work File and a markup Work File describing redactions or annotations.
+        </p>
+        <p>
+            <img style="BORDER-TOP: rgb(0,0,0) 1px solid; BORDER-RIGHT: rgb(0,0,0) 1px solid; BORDER-BOTTOM: rgb(0,0,0) 1px solid; BORDER-LEFT: rgb(0,0,0) 1px solid" alt="" src="images/2016_UsingPDServerAPI_markupburners.png" />
+        </p>
+        <h3>
+            Content Converters
+            <a name="i-in-this-topic-0effd15f-7114-4fb7-b7c9-76386144229d" id="i-in-this-topic-0effd15f-7114-4fb7-b7c9-76386144229d"></a>
+        </h3>
+        <p>
+            <a href="content-converters.html">Content Converters</a> are&nbsp;processes that convert one or more source Work File documents to one or more output Work File documents.&nbsp; Many different document formats are supported as source documents, and several common formats are allowed for output.&nbsp; After process completion, converted output is available as one or more Work Files.
+        </p>
+        <p>
+            <img style="BORDER-TOP: rgb(0,0,0) 1px solid; BORDER-RIGHT: rgb(0,0,0) 1px solid; BORDER-BOTTOM: rgb(0,0,0) 1px solid; BORDER-LEFT: rgb(0,0,0) 1px solid" alt="" src="images/2016_UsingPDServerAPI_contentconverters.png" />
+        </p>
+        <h2>
+            Viewing Sessions
+            <a name="i-in-this-topic-8dd41875-5256-4592-bd88-b959d167b364" id="i-in-this-topic-8dd41875-5256-4592-bd88-b959d167b364"></a>
+        </h2>
+        <p>
+            <a href="viewing-sessions.html">Viewing Sessions</a> create converted content primarily for, but certainly not restricted to, use by the Viewer.&nbsp;They provide access to&nbsp;
+            <a href="html5-viewing.html">SVG and raster renderings of document pages as well as any extracted document text, metadata for the converted content</a>, and&nbsp;
+            <a href="attachments.html">attachments</a>&nbsp;in the case of email documents. Viewing Sessions are typically short-lived (20 minutes by default), but their lifetimes are configurable (see the
+            <code>viewing.sessionLifetime</code> property in
+            <a href="central-configuration.html">Central Configuration</a>&nbsp;for details). Viewing Sessions also provide access to other document processes not directly related to viewing.
+        </p>
+        <p>
+            <img style="BORDER-TOP: rgb(0,0,0) 1px solid; BORDER-RIGHT: rgb(0,0,0) 1px solid; BORDER-BOTTOM: rgb(0,0,0) 1px solid; BORDER-LEFT: rgb(0,0,0) 1px solid" alt="" src="images/2016_UsingPDServerAPI_viewingsessions.png" />
+        </p>
+        <h1>
+            PrizmDoc Server Operations
+            <a name="i-in-this-topic-1c00aad7-f0e0-4bef-8acc-69c313736014" id="i-in-this-topic-1c00aad7-f0e0-4bef-8acc-69c313736014"></a>
+        </h1>
+        <p>
+            The PrizmDoc RESTful API also provides server level operations that allow the user to query the&nbsp;
+            <a href="health-status.html">health status</a> of sub-services as well as the overall system health.&nbsp; When using several PrizmDoc instances in a
+            <a href="cluster-management.html">cluster environment</a>, APIs exist to query and configure the servers that each instance can use to route traffic for load balancing.
+        </p>
+        <a name="seealsobookmark"></a>
+    </div>
+    <div id="i-footer-content" class="i-footer-content">
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <hr style="height: 1px" />
+        <p>
+            ©2018.
+            <a href="http://www.accusoft.com" target="_blank">Accusoft Corporation</a>. All Rights Reserved.
+        </p>
+        <a href="https://www.accusoft.com/help-files-feedback/" target="_blank">Send Feedback</a>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            var documentInstance = new Innovasys.Content.Document(document.body);
+            documentInstance.isNew = !(typeof setIsNew === "undefined");
+            documentInstance.isResponsiveEnabled = !(typeof setIsResponsiveEnabled === "undefined");
+            documentInstance.load();
+        });
+    </script>
+    <script src="template\packages\custom\script\customLongDate.js"></script>
+</body>
+</html>

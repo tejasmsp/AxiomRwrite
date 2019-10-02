@@ -1,0 +1,73 @@
+﻿
+<div class="page-content" ng-controller="RoleController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-text2 mr-10 fs-19"></i>Manage Role</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Admin', 'Roles', 'Add Role')"> <a ng-click="AddRole()" class="blue_link">[ + Add Role ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblRole"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_Role" class="modal fade" data-backdrop="static"  data-keyboard="false">
+        <form class="form-horizontal" name="Roleform" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Roleform.$submitted && !Roleform.$valid)">
+                                    <ul ng-show="(Roleform.$submitted && (!Roleform.$valid))">
+                                        <li ng-show="Roleform.RoleName.$error.required">Role name is required.</li>                                        
+                                    </ul>
+                                </div>
+                            </div>                                                 
+                         
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary required">Role Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="RoleName" ng-model="RoleObj.RoleName" class="form-control" maxlength="100"  required="required"/>                                    
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary">Description</label>
+                                <div class="col-sm-9">                                    
+                                    <textarea rows="5" name="scope" ng-model="RoleObj.Description" maxlength="1000" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary"> Active</label>
+                                <div class="col-sm-9">
+                                    <input  type="checkbox" class="mt-10"  ng-model="RoleObj.IsActive" ng-checked="RoleObj.IsActive"/>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrEditRole(Roleform)" class="btn btn-primary" title="Save">Save </button>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+   
+</div>

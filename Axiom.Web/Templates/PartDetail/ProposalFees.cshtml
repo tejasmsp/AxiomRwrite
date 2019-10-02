@@ -1,0 +1,118 @@
+﻿<div class="panel panel-white cls-box">
+    <div class="panel-heading">
+        <h4 class="panel-title text-semibold"><i class="icon-file-text2 position-left"></i>Proposal Fees</h4>
+        <div class="heading-elements">
+            <ul class="icons-list mt-0">
+                <li class="mr-5">
+                    <button type="button" class="btn btn-primary pull-right" ng-click="NewProposalFeesPopUp()"><i class="icon-floppy-disk mr-5 font-10 mt-1"></i>Add Proposal Fees</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body pnl-back-grey pa-10 overflow-auto cls-boxscroll cls-box-custom-height">
+        <div class="table-responsive table-grid">
+            <table class="table table-bordered table-framed" id="tblOrderPart">
+                <thead>
+                    <tr>
+                        <th width="20%">Page</th>
+                        <th width="20%">Amount</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in ProposalFeesList">
+                        <td style="vertical-align:top;" ng-bind="item.Pages"> </td>
+                        <td style="vertical-align:top;">$&nbsp;{{item.Amount.toFixed(2)}}</td>
+                        <td style="vertical-align:top;" ng-bind="item.Descr"></td>
+                        <td style="vertical-align:top;" ng-if="item.FeesStatus===1">Approved</td>
+                        <td style="vertical-align:top;" ng-if="item.FeesStatus===2">Not Approved</td>
+                        <td style="vertical-align:top;" ng-if="item.FeesStatus===3">Edit Scope</td>
+                        <td style="vertical-align:top;" ng-if="!item.FeesStatus">None</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="modal_Add_ProposalFees" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <form name="OrderPartform" class="form-horizontal" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5 class="modal-title">Add Proposal Fees</h5>
+                    </div>
+                    <div class="modal-body" style="overflow-y: scroll!important;">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="validateCal">
+                                    <ul ng-show="validateCal">
+                                        <li ng-show="showRecordTypeValidate">Record Type is Required</li>
+                                        <li ng-show="showPageNoValidate">Page No is Required</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary required">File Type:</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" ng-model="ProposalFees.FileTypeId" name="ProposalFileType" ng-change="onFileTypeDDChange(ProposalFees.FileTypeId)()" required="required" ng-options="item.FileTypeId as (item.FileType) for item in FileTypeDetailList" ng-disabled="true"></select>
+                                            @*<div required="required" custom-select="item.FileTypeId as (item.FileType) for item in FileTypeDetailList  | filter: $searchTerm" ng-model="ProposalFees.FileTypeId" ng-change="onFileTypeDDChange(ProposalFees.FileTypeId)" ng-disabled="disbaledFileType"></div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary required">Record Type:</label>
+                                        <div class="col-sm-6">
+                                            <div custom-select="item.Code as item.Descr for item in RecTypeDetailList   | filter: $searchTerm" ng-model="ProposalFees.RecordTypeId" ng-change="onRecordTypeDDChange(ProposalFees.RecordTypeId)"></div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary required">Page No:</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" ng-model="ProposalFees.PageNo" placeholder="Page No." class="form-control" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Description</label>
+                                        <div class="col-sm-6">
+                                            <textarea ng-model="ProposalFees.Description" rows="5" name="Description" placeholder="Description" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-8">
+                                            <button type="button" ng-click="CalculationProposalFees();" title="Calculate" class="btn btn-primary">Calculate</button> &nbsp;&nbsp;<b ng-show="TotalFee" style="font-size:15px;">$ {{TotalFee}}</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" ng-disabled="!TotalFee" data-toggle='tooltip' data-placement='left' tooltip title="Please Calculate To Save Proposal Fees" ng-click="SaveProposalFee()">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

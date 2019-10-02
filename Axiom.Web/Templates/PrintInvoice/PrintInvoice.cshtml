@@ -1,0 +1,213 @@
+﻿<div class="page-content" ng-controller="PrintInvoiceController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-user mr-10 fs-19"></i>Billing</h4>
+            <div class="heading-elements">
+                <ul class="icons-list mt-0">
+                    <li>
+                        <button class="btn btn-primary mr-5" ng-click="DownloadInvoice()">Download Invoice</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel-body text-center" id="invoiceTable" >
+            <table id="table{{$index}}" width="900"   border="0" cellspacing="1" ng-style="(InvoiceDetailList.length!=($index+1)) && {'page-break-after':'always'}" cellpadding="2" style="text-align:center;border:1px solid #000000;font-family:Calibri;font-size:15px;" ng-repeat="InvoiceDetail in InvoiceDetailList">
+                <tr>
+                    <td width="24" rowspan="14">&nbsp;</td>
+                    <td colspan="3">&nbsp;</td>
+                    <td width="25" rowspan="14">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:left;"><img src="https://www.axiomcopyonline.com/Clients/images/logo-axiom.png" width="194" height="73" alt="" /></td>
+                    <td><h1 align="center" style="color:#b6121b;padding:0px;margin:0px;font-weight: bolder;font-family: monospace;font-size:-webkit-xxx-large;">INVOICE</h1></td>
+                </tr>
+                <tr>
+                    <td height="169" colspan="2" valign="top" style="text-align:left;font-family:Calibri;font-size:15px;">
+                        {{InvoiceDetail.CompName}}<br />
+                        {{InvoiceDetail.CompStreet}}<br />
+                        {{InvoiceDetail.CompCity}} {{InvoiceDetail.CompState}} {{InvoiceDetail.CompZip}}<br />
+                        Phone : {{InvoiceDetail.CompanyPhoneNumber}}<br />
+                        Fax : {{InvoiceDetail.CompanyFaxNumber}}<br />
+                        @*Axiom Legal Logic<Br />
+        2869 Jolly Rd<br />
+        Okemos, MI 48864<br />
+        (877) 886-5090 &nbsp;&nbsp;Fax (517) 886-4116<br />*@
+                        <br />
+                        {{InvoiceDetail.SoldAttorneyName}}<br />
+                        {{InvoiceDetail.SoldFirmName}}<br />
+                        {{InvoiceDetail.SoldAddress}}<br />
+                        {{InvoiceDetail.SoldCity}} {{InvoiceDetail.SoldState}} {{InvoiceDetail.SoldZip}}
+
+                    </td>
+                    <td rowspan="2" valign="top">
+                        <table border="0" cellspacing="1" cellpadding="5" style="width:100%;border:1px solid #000000;" cellpadding="0" cellspacing="0"  >
+                            <tr style="border-bottom:1px solid black;"  >
+                                <td style="border-right:1px solid black;border-bottom:1px solid black;"    width="31%" align="center" bgcolor="#CCCCCC"><strong>INVOICE NO</strong></td>
+                                <td style="border-right:1px solid black;border-bottom:1px solid black;" width="37%" align="center" bgcolor="#CCCCCC"><strong>DATE</strong></td>
+                                <td  style="border-bottom:1px solid black;" width="32%" align="center" bgcolor="#CCCCCC"><strong>TERMS</strong></td>
+                            </tr>
+                            <tr style="border:1px solid black;">
+                                <td style="border-right:1px solid black;border-bottom:1px solid black;" align="center" bgcolor="#f5f5f5">{{InvoiceDetail.InvNo}}</td>
+                                <td style="border-right:1px solid black;border-bottom:1px solid black;" align="center" bgcolor="#f5f5f5">{{InvoiceDetail.InvDate}}</td>
+                                <td align="center" style="border-bottom:1px solid black;" bgcolor="#f5f5f5">{{InvoiceDetail.InvNo}}</td>
+                            </tr>
+                            <tr style="border:1px solid black;">
+                                <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center" bgcolor="#CCCCCC"><strong>ORDER NO</strong></td>
+                                <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center" bgcolor="#CCCCCC"><strong>ORDER DATE</strong></td>
+                                <td align="center" style="border-bottom:1px solid black;" bgcolor="#CCCCCC"><strong>CAUSE NO</strong></td>
+                            </tr>
+                            <tr style="border:1px solid black;">
+                                <td style="border-right:1px solid black;border-bottom:1px solid black;" align="center" bgcolor="#F5F5F5">{{InvoiceDetail.OrderNumber}}</td>
+                                <td style="border-right:1px solid black;border-bottom:1px solid black;" align="center" bgcolor="#F5F5F5">{{InvoiceDetail.OrderDate}}</td>
+                                <td style="border-bottom:1px solid black;" align="center" bgcolor="#F5F5F5">{{InvoiceDetail.CauseNo}}</td>
+                            </tr>
+                            <tr style="border:1px solid black;">
+                                <td style="border-bottom:1px solid black;" colspan="3" align="center" bgcolor="#CCCCCC"><strong>CASE CAPTION</strong></td>
+                            </tr>
+                            <tr ng-hide="InvoiceDetail.Caption==''" style="border-bottom:1px solid black;border-right:1px solid black;">
+                                <td colspan="3" align="center" bgcolor="#F5F5F5" style="border-bottom:1px solid black;">
+                                    {{InvoiceDetail.Caption}}
+                                </td>
+                            </tr>
+                            <tr style="border:1px solid black;"><td style="border-bottom:1px solid black;" colspan="3" align="center" bgcolor="#CCCCCC"><strong>RECORDS PERTAINING TO</strong></td>        </tr>
+                            <tr style="border:1px solid black;">
+                                <td colspan="3" align="center" bgcolor="#F5F5F5">{{InvoiceDetail.Name}}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="35" valign="top">&nbsp;</td>
+                    <td width="387" valign="top" style="text-align:left;" ></td>
+                </tr>
+
+                <tr>
+                    <td colspan="3">
+                        <table border="0" cellspacing="1" cellpadding="5" style="width:100%;border:1px solid #000000;">
+                            <tr><td align="center" bgcolor="#CCCCCC"><strong>RECORDS FROM</strong></td></tr>
+                            <tr>
+                                <td style="text-align:left;">
+                                    {{InvoiceDetail.OrderLocationName}}<br />
+                                    {{InvoiceDetail.OrderLocationAddress}} {{InvoiceDetail.OrderLocationCity}} {{InvoiceDetail.OrderLocationState}} {{InvoiceDetail.OrderLocationZip}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#F5F5F5">
+                                    <table border="0" cellspacing="1" cellpadding="5" style="width:100%;">
+                                        <tr class="odd" ng-repeat="InvoiceFeesItem in InvoiceFeesHeaderRow">
+                                            <td width="50%" valign="top">
+                                                {{InvoiceFeesItem.InvHdr}} ({{InvoiceDetail.Name}})
+                                            </td>
+                                            <td style="padding-top:30px;">
+                                                <table style="width:100%">
+                                                    <tr style="width:100%" ng-repeat="InvoiceFeesDetailItem in InvoiceFeesDetail | filter:{ ItemNo: InvoiceFeesItem.ItemNo }">
+                                                        <td align="left">
+                                                            <span ng-show="InvoiceFeesDetailItem.FeeValue <= 0">
+                                                                {{InvoiceFeesDetailItem.Pages}} Page @@ {{InvoiceFeesDetailItem.OrigRate > 0 ? InvoiceFeesDetailItem.OrigRate : InvoiceFeesDetailItem.CopyRate}}
+                                                            </span>
+                                                            <span ng-show="InvoiceFeesDetailItem.FeeValue > 0">
+                                                                {{InvoiceFeesDetailItem.FeeName}}
+                                                            </span>
+                                                        </td>
+                                                        <td align="right">
+                                                            <span ng-show="InvoiceFeesDetailItem.FeeValue <= 0">
+                                                                {{(InvoiceFeesDetailItem.OrigRate) > 0 ? (InvoiceFeesDetailItem.OrigRate * InvoiceFeesDetailItem.Pages  | number:2) : (InvoiceFeesDetailItem.CopyRate * InvoiceFeesDetailItem.Pages  | number:2)}}
+                                                            </span>
+                                                            <span ng-show="InvoiceFeesDetailItem.FeeValue > 0">
+                                                                {{InvoiceFeesDetailItem.FeeValue  | number:2}}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="width:100%" ng-show="InvoiceDetail.MiscChrg > 0" >
+                                                        <td align="left">
+                                                            MISCELLANEOUS CHARGES
+                                                        </td>
+                                                        <td align="right">
+                                                            {{InvoiceDetail.MiscChrg}}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td align="right"><strong>Total Due</strong><span style="border-top:1px solid #333333">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <strong>${{InvoiceDetail.InvAmt | number:2 }}</strong></span></td>
+                                            @*<td style="border-top:1px solid #333333;"><strong>{{InvoiceDetail.InvAmt | number:2 }}</strong></td>*@
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            @*<td align="left" width="50px;" valign="top">ORDERED BY:</td>*@
+                                            <td colspan="2" style="text-align:left;padding-left:5px;">
+                                                <b>ORDERED BY:</b><br />
+                                                {{InvoiceDetail.SoldAttorneyName}}<br />
+                                                {{InvoiceDetail.SoldFirmName}}<br />
+                                                {{InvoiceDetail.SoldAddress}}<br />
+                                                {{InvoiceDetail.SoldCity}} {{InvoiceDetail.SoldState}} {{InvoiceDetail.SoldZip}}
+                                            </td>
+                                            <td align="right">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <table border="0" cellspacing="1" cellpadding="5" style="width:100%;font-family:Arial, Helvetica, sans-serif; font-size:13px;">
+                            <tr>
+                                <td width="30%" style="text-align:left;"><strong>TAX ID NO:</strong>{{InvoiceDetail.TaxID}}</td>
+                                <td colspan="2" align="right">
+                                    <b>Phone :</b> {{InvoiceDetail.BillPhoneNumber}}
+                                    <b>Fax :</b> {{InvoiceDetail.BillFaxNumber}}
+                                </td>
+                            </tr>
+                            <tr><td>&nbsp;</td><td align="center">&nbsp;</td><td>&nbsp;</td> </tr>
+                            <tr><td colspan="3" align="center"><em>Please detach and return this portion with your payment</em></td></tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td colspan="3">&nbsp;</td></tr>                
+                <tr>
+                    <td colspan="3">
+                        <table border="0" cellspacing="1"  cellpadding="5" style="width:100%;font-family:Calibri;font-size:15px;margin-top:20px;">
+                            <tr>
+                                <td colspan="2" valign="top" style="text-align:left;font-family:Calibri;font-size:15px;">
+                                    {{InvoiceDetail.SoldAttorneyName}}<br />
+                                    {{InvoiceDetail.SoldFirmName}}<br />
+                                    {{InvoiceDetail.SoldAddress}}<br />
+                                    {{InvoiceDetail.SoldCity}} {{InvoiceDetail.SoldState}} {{InvoiceDetail.SoldZip}}
+                                </td>
+                                <td width="25%">&nbsp;</td>
+                                <td width="34%">
+                                    <table width="100%" border="0" cellspacing="1" cellpadding="3" style="font-family:Calibri;font-size:15px;">
+                                        <tr><td align="right">Invoice No :</td><td align="left">&nbsp;{{InvoiceDetail.InvNo}}</td> </tr>
+                                        <tr><td align="right">Date :</td><td align="left">&nbsp;{{InvoiceDetail.InvDate}}</td></tr>
+                                        <tr><td align="right"><strong>TOTAL DUE :</strong></td><td align="left"><strong>&nbsp;${{InvoiceDetail.InvAmt | number:2}}</strong></td></tr>
+                                        <tr><td align="right">Order No. :</td><td align="left">&nbsp;{{InvoiceDetail.OrderNumber}}</td></tr>
+                                        <tr><td align="right">Cause No. :</td><td align="left">&nbsp;{{InvoiceDetail.CauseNo}}</td></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom:1px solid black;" align="left"><strong>Remit To:</strong></td>
+                                <td style="border-bottom:1px solid black;" width="32%" valign="top" align="left">
+                                    {{InvoiceDetail.CompName}}<br />
+                                    {{InvoiceDetail.CompStreet}}<br />
+                                    {{InvoiceDetail.CompCity}} {{InvoiceDetail.CompState}} {{InvoiceDetail.CompZip}}<br />
+                                </td>
+                                <td style="border-bottom:1px solid black;">&nbsp;</td>
+                                <td style="border-bottom:1px solid black;">&nbsp;</td>
+                            </tr>
+                        </table>
+                        <br />
+                        <br />                     
+                    </td>
+                </tr>                
+            </table>
+        </div>
+    </div>
+</div>

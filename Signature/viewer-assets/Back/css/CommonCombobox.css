@@ -1,0 +1,175 @@
+﻿/** JQuery UI **/
+.ui-widget
+{
+    font-size: 1em !important;
+}
+.ui-combobox
+{
+    display: inline-block;
+    
+}
+.ui-combobox .ui-corner-all, .ui-combobox .ui-corner-bottom, .ui-combobox .ui-corner-left, .ui-combobox .ui-corner-bl
+{
+    border-bottom-left-radius: 5px;
+}
+.ui-combobox .ui-corner-all, .ui-combobox .ui-corner-top, .ui-combobox .ui-corner-left, .ui-combobox .ui-corner-tl
+{
+    border-top-left-radius: 5px;
+}
+/*
+.jqmContent .ui-combobox .ui-corner-all, .jqmContent .ui-combobox .ui-corner-bottom, .jqmContent .ui-combobox .ui-corner-left, .jqmContent .ui-combobox .ui-corner-bl
+{
+    border-bottom-left-radius: 0px !important;
+}
+.jqmContent .ui-combobox .ui-corner-all, .jqmContent .ui-combobox .ui-corner-top, .jqmContent .ui-combobox .ui-corner-left, .jqmContent .ui-combobox .ui-corner-tl
+{
+    border-top-left-radius: 0px !important;
+}*/
+.ui-button
+{
+    float: right;
+    position: relative !important;
+    margin-left: 0px !important;
+}
+.ui-menu
+{
+    border-bottom-left-radius:5px !important;
+    border-bottom-right-radius:5px !important;
+    box-shadow: 0px 6px 9px rgba(0, 0, 0, 0.5);
+}
+.ui-button-icon-only {
+    height: 21px;
+}
+.ui-widget-content
+{
+    padding: 3px;
+}
+/*.jqmContent .ui-button-icon-only {
+    height: 28px !important;
+}
+.jqmContent .ui-widget-content
+{
+    padding: 6px;
+}*/
+.ui-autocomplete-category
+{
+    padding-top: 4px;
+    /*height: 20px;*/
+    float: left;
+    color: white;
+    padding-left: 6px;
+}
+.ui-menu
+{
+    padding: 3px !important;
+    /*background: rgba(74, 113, 181, 0.75) !important;*/
+    background: #fcfcfc !important;
+    color: #4A71B5 !important;
+    /*border-bottom: 3px solid rgba(74, 113, 181, 0.5) !important;*/
+    border-bottom: 0px solid rgba(255, 255, 255, 1) !important; 
+}
+.ui-menu .ui-autocomplete-category
+{
+    background-color: rgba(74, 113, 181, 1);
+    width: 96%;
+    padding-top: 4px;
+    /*height: 20px;*/
+    padding-bottom:5px;
+    color: white;
+    padding-left: 6px;
+}
+.ui-widget-content a
+{
+    color: black !important;
+}
+
+.ui-menu-item
+{
+    background-color: #fcfcfc;
+}
+.ui-menu .ui-state-hover
+{
+    border: 0px solid rgba(74, 113, 181, 0.3) !important;
+    background:#f7f7f7 !important;
+}
+
+.ui-menu .ui-menu-item a.ui-state-hover, .ui-menu .ui-menu-item a.ui-state-active {
+    margin: 0px !important;
+}
+.ui-menu .ui-menu-item 
+{
+    border-bottom: 1px solid #E5E5E5;
+    margin: 0px !important;
+}
+/*.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default
+{
+    background-color: #770c12 !important;
+    color: White !important;
+    border: 1px solid #b5121b !important;
+}*/
+.ui-autocomplete 
+{
+    max-width:175px;
+	max-height: 200px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+	/* add padding to account for vertical scrollbar */
+	padding-right: 20px;
+}
+.inputWrapper.large.combobox .ui-autocomplete
+{
+    max-width: 275px !important;
+    position: fixed !important;
+    text-align:left;
+}
+a.ui-button
+{
+    background: #f7f7f7; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f7f7f7 0%, #cecece 100%) !important; /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(100%,#cecece)) !important; /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #f7f7f7 0%,#cecece 100%) !important; /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #f7f7f7 0%,#cecece 100%) !important; /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #f7f7f7 0%,#cecece 100%) !important; /* IE10+ */
+    background: linear-gradient(top,  #f7f7f7 0%,#cecece 100%) !important; /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#cecece',GradientType=0 ) !important; /* IE6-9 */
+}
+a.ui-button:hover
+{
+    opacity:0.8;
+}
+a.ui-button:active
+{
+    background-color:White !important;
+    opacity:1;
+}
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon, .ui-state-default .ui-icon
+{
+    background-image: url("/Clients/images/icons/triangledown.png") !important;
+}
+.ui-state-default .ui-icon.ui-icon-closethick { background-image: url("images/ui-icons_ef8c08_256x240.png") !important;border:none; }
+.ui-icon-triangle-1-s 
+{
+    background-position: 5px 6px !important;
+}
+.ui-autocomplete-input.
+{
+    outline:none;
+    margin:0;
+}
+/* IE 6 doesn't support max-height
+	* we use height instead, but this forces the menu to always be this tall
+	*/
+	
+* html .ui-autocomplete {
+	height: 100px;
+}
+
+
+.ui-combobox .ui-button-icon-only
+{
+    width:16px;
+    margin-right: 0 !important;
+    border:1px solid white !important;
+    height:23px;
+}

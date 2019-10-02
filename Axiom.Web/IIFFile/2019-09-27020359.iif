@@ -1,0 +1,6 @@
+"!TRNS","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT","DOCNUM","TOPRINT","ADDR1","ADDR2","ADDR3"
+"!SPL","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT"
+"!ENDTRNS"
+"TRNS","CHECK","09/27/2019","1011","Axiom Requisition","-11.0000","abcd","N","2869 Jolly Rd","","okemos, MI 48864",
+"SPL","CHECK","09/27/2019","5060","Axiom Requisition","11.0000",
+"ENDTRNS"

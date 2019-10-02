@@ -1,0 +1,119 @@
+﻿
+<div class="page-content" ng-controller="EmployeeController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-users2 mr-10 fs-19"></i>Manage Employee</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Employees', 'Add Employee')"> <a ng-click="AddEmployee()" class="blue_link">[ + Add Employee ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 no-padding">
+                <div class="table-responsive table-grid">
+                    <table class="table table-bordered table-framed" id="tblEmployee"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_Employee" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <form class="form-horizontal" name="Employeeform" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Employeeform.$submitted && !Employeeform.$valid)">
+                                    <ul ng-show="(Employeeform.$submitted && (!Employeeform.$valid))">
+                                        <li ng-show="Employeeform.Email.$error.required">Email is required.</li>
+                                        <li ng-show="Employeeform.DepartmentId.$error.required">Department is required.</li>
+                                        <li ng-show="Employeeform.FirstName.$error.required">First Name is required.</li>
+                                        <li ng-show="Employeeform.LastName.$error.required">Last Name is required.</li>
+                                        <li ng-show="Employeeform.CompanyID.$error.required">Company Name is required.</li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">UserName / Email </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="Email" class="form-control" maxlength="50" ng-model="EmployeeObj.Email" ng-disabled="isEdit" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">Department</label>
+                                    <div class="col-sm-8">
+                                        <select name="DepartmentId" class="form-control" ng-model="EmployeeObj.DepartmentId" ng-options="item.DepartmentId as item.Department for item in DeptList" required>
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-10">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">First Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="FirstName" class="form-control" maxlength="50" ng-model="EmployeeObj.FirstName" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">Last Name </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="LastName" class="form-control" maxlength="50" ng-model="EmployeeObj.LastName" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-10">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary">Status</label>
+                                    <div class="col-sm-8">
+                                        <ul class="borderless pt-0 pl-0 pr-0">
+                                            <li class="li-checkbox col-sm-6 pl-0 pr-0"><label class="lbl-checkbox bg-white mb-0" ng-class="(EmployeeObj.IsLockedOut==true? 'active': '')"><input type="checkbox" name="IsLockedOut" class="cursor-pointer" ng-checked="EmployeeObj.IsLockedOut" ng-model="EmployeeObj.IsLockedOut">Locked Out</label></li>
+                                            <li class="li-checkbox col-sm-6 pr-0"><label class="lbl-checkbox bg-white mb-0" ng-class="(EmployeeObj.IsApproved==true? 'active': '')"><input type="checkbox" name="IsApproved" class="cursor-pointer" ng-checked="EmployeeObj.IsApproved" ng-model="EmployeeObj.IsApproved">Is Active</label></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-0">
+                                    <label class="col-sm-4 control-label lbl-primary">Role</label>
+                                    <div class="col-sm-8" id="divMultiRoleDropDown">
+                                        <dropdown-multiselect id="ddRole" model="EmployeeObj.SelectedRoles" ng-click="SelectedRoles()"
+                                                              options="RoleList" name="Role"></dropdown-multiselect>
+                                        <strong> <span class="control-label" ng-bind="RoleNames"></span></strong>
+                                        @*<ul class="borderless pt-0 pl-0">
+                                                <li class="li-checkbox col-sm-6 pl-0"><label class="lbl-checkbox bg-white mb-0" ng-class="(EmployeeObj.IsAdmin==true? 'active': '')"><input type="checkbox" name="IsAdmin" class="cursor-pointer" ng-checked="EmployeeObj.IsAdmin" ng-model="EmployeeObj.IsAdmin">Is Admin</label></li>
+                                                <li class="li-checkbox col-sm-6 pl-0 pr-0"><label class="lbl-checkbox bg-white mb-0" ng-class="(EmployeeObj.IsDocumentAdmin==true? 'active': '')"><input type="checkbox" name="IsDocumentAdmin" class="cursor-pointer" ng-checked="EmployeeObj.IsDocumentAdmin" ng-model="EmployeeObj.IsDocumentAdmin">Is Doc Admin</label></li>
+                                            </ul>*@
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">Company</label>
+                                    <div class="col-sm-8">
+                                        <select name="CompanyID" class="form-control" ng-model="EmployeeObj.CompanyNo" ng-options="item.CompNo as item.CompName for item in CompanyList" required>
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrEditEmployee(Employeeform)" class="btn btn-primary" title="Save"><lable ng-bind="btnText"></lable></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

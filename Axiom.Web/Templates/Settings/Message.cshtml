@@ -1,0 +1,69 @@
+﻿
+<div class="page-content" ng-controller="MessageController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-bubble2 mr-10 fs-19"></i>Manage Custom Message</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Message', 'Add Message')"> <a ng-click="AddMessage()" class="blue_link">[ + Add Message ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 no-padding">
+                <div class="table-responsive table-grid">
+                    <table class="table table-bordered table-framed" id="tblMessage"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_Message" class="modal fade">
+        <form class="form-horizontal" name="Messageform" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close   ">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Messageform.$submitted && !Messageform.$valid)">
+                                    <ul ng-show="(Messageform.$submitted && (!Messageform.$valid))">
+                                        <li ng-show="Messageform.Name.$error.required">Name is required.</li>
+                                        <li ng-show="Messageform.CustomMessage.$error.required">Message is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-2 control-label lbl-primary required">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="Name" class="form-control" maxlength="50" ng-model="MessageObj.Name" required>        
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-2 lbl-primary required">Message</label>
+                                <div class="col-sm-10">
+                                    <textarea rows="5" name="CustomMessage" class="form-control textarea-resize-none" ng-model="MessageObj.CustomMessage" required></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label lbl-primary mb-0">Status</label>
+                                <div class="col-sm-10">
+                                    <ul class="borderless pt-0 pl-0">
+                                        <li class="li-checkbox col-sm-12 pl-0 pr-0"><label class="lbl-checkbox bg-white mb-0" ng-class="(MessageObj.IsActive==true? 'active': '')"><input type="checkbox" name="IsActive" class="cursor-pointer" ng-checked="MessageObj.IsActive" ng-model="MessageObj.IsActive">Is Active</label></li>
+                                    </ul>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close" >Close</button>
+                        <button type="submit" ng-click="AddOrEditMessage(Messageform)" class="btn btn-primary" title="Save"><lable ng-bind="btnText"></lable> </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

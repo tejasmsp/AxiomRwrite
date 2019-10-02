@@ -1,0 +1,54 @@
+﻿<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-main">
+            <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+            <h6 class="modal-title"><i class="icon-bell2 mr-5"></i>Notification</h6>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" name="UserProfileForm" novalidate>
+                <div class="modal-container">
+                    <div class="table-bordered p-10 pnl-back-grey">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <ul>
+                                    <li ng-repeat="item in objCustomNotification">
+                                        {{item.CustomMessage}}
+                                    </li>
+                                </ul>
+                                <div ng-show="objCustomNotification.length <= 0" class="has-fixed-height" style="height:50px;" >
+                                    Any notification is not available at this time.
+                                </div>
+                                @*<div class="col-md-12 mb-10 mt-10">
+                                        <label class="col-sm-3 control-label lbl-primary">Username</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="UserName" ng-disabled="true" class="form-control" maxlength="50" ng-model="objUserProfile.UserName" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-10">
+                                        <label class="col-sm-3 control-label lbl-primary required">First Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="FirstName" class="form-control" maxlength="50" ng-model="objUserProfile.FirstName" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-10">
+                                        <label class="col-sm-3 control-label lbl-primary required">Last Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="LastName" class="form-control" maxlength="50" ng-model="objUserProfile.LastName" required />
+                                        </div>
+                                    </div>*@
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer mt-10">
+                    @*<button type="submit" ng-click="UpdateUserProfile(UserProfileForm)" class="btn btn-primary">Save</button>*@
+                    <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="HideNotification()" data-dismiss="modal" title="This will hide notification for today">Hide Notification For The Day</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

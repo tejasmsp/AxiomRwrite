@@ -1,0 +1,113 @@
+﻿<div class="page-content" ng-controller="FirmController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-versions mr-10 fs-19"></i>Manage Firm</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Admin', 'Firms', 'Add Firm')"> <a href="" ng-href="ManageFirm" class="blue_link">[ + Add Firm ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-group panel-group-control panel-group-control-right">
+                        <div class="panel panel-white">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">
+                                    <a class="wd-full" data-toggle="collapse" href="#SearchPanel">
+                                        <i class="icon-search4 position-left"></i> <b class="text-bold pt-0" style="text-transform:uppercase;">Search</b>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="SearchPanel" class="panel-collapse in pnl-back-grey">
+                                <div class="panel-body">
+                                    <div class="row mb-10">
+                                        <div class="col-md-3 hidden">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Type :</label>
+                                                <div class="col-sm-9">
+                                                    <label class="control-label radio-inline"><input type="radio" /> Firm</label>
+                                                    <label class="control-label radio-inline"><input type="radio" /> Doctor</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">ID:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="FirmID" class="form-control" maxlength="8" ng-model="FirmSearchObj.FirmID" ng-keydown="($event.keyCode === 13) && FirmSearch_Click()" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Name:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="FirmName" class="form-control" maxlength="300" ng-model="FirmSearchObj.FirmName" ng-keydown="($event.keyCode === 13) && FirmSearch_Click()" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Address:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="Address" class="form-control" maxlength="100" ng-model="FirmSearchObj.Address" ng-keydown="($event.keyCode === 13) && FirmSearch_Click()" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">City:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="City" class="form-control" maxlength="50" ng-model="FirmSearchObj.City" ng-keydown="($event.keyCode === 13) && FirmSearch_Click()" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">State:</label>
+                                                <div class="col-sm-9">
+                                                    <select ng-model="FirmSearchObj.State" class="form-control" ng-options="item.StateId as item.StateName for item in Statelist">
+                                                        <option value="">--Select--</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="col-sm-9 col-sm-offset-3">
+                                                    <button class="btn btn-primary mr-5" ng-click="FirmSearch_Click()" title="Search" >Search</button>
+                                                    <button class="btn btn-default" ng-click="ClearFirmSearch_Click()" title="Clear Search Text">Clear</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblFirm"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+

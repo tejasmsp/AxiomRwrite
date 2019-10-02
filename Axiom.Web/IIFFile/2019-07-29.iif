@@ -1,0 +1,231 @@
+"!TRNS","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT","DOCNUM","TOPRINT","ADDR1","ADDR2","ADDR3"
+"!SPL","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT"
+"!ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","UPS WorldShip","-25.0000","up","N","","","Lansing, MI           ",
+"SPL","CHECK","05/01/2019","5060","UPS WorldShip","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","United States Treasury","-250.0000","168232","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-____",
+"SPL","CHECK","05/01/2019","5060","United States Treasury","250.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","UnitedHealthcare Services","-65.0000","168235","N","P.O. Box 860068","","Minneapolis, MN 55486-____",
+"SPL","CHECK","05/01/2019","5060","UnitedHealthcare Services","65.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Dr. Kenneth McCulloch","-12.0000","168233","N","110 Duane St.","","Newyork, NY 10007-0000",
+"SPL","CHECK","05/01/2019","5060","Dr. Kenneth McCulloch","12.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Grace Family Care P.C.","-81.9100","168241","N","31500 Dequindre Rd","","Warren, MI 48092-0000",
+"SPL","CHECK","05/01/2019","5060","Grace Family Care P.C.","81.9100",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Mendelson Kornblum Orthopedic & Spine Specialists","-78.2700","168240","N","Attn: Lauren Kalpin","27472 Schoenherr Rd., Suite 100","Warren, MI 48088     ",
+"SPL","CHECK","05/01/2019","5060","Mendelson Kornblum Orthopedic & Spine Specialists","78.2700",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","McLaren-Macomb","-20.0000","168239","N","Attn: Mary Swartz Diagnostic Imaging Dep","1000 Harrington Blvd","Mount Clemens, MI 48043     ",
+"SPL","CHECK","05/01/2019","5060","McLaren-Macomb","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Advantage Diagnostics","-20.0000","168238","N","6400 E. Broad Street","","Columbus, OH 43213-____",
+"SPL","CHECK","05/01/2019","5060","Advantage Diagnostics","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","South Nassau Communities Hospital","-33.7500","168237","N","Department of Radiology","One Healthy Way","Oceanside, NY 11572     ",
+"SPL","CHECK","05/01/2019","5060","South Nassau Communities Hospital","33.7500",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Dr. Matthew Goldschmidt","-91.2500","168236","N","1995 Merrick Road","Suite 105","Merrick, NY 11566-____",
+"SPL","CHECK","05/01/2019","5060","Dr. Matthew Goldschmidt","91.2500",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Horvath Chiropractic Center","-30.0000","168234","N","264 Ontario Street","","Buffalo, NY 14207-____",
+"SPL","CHECK","05/01/2019","5060","Horvath Chiropractic Center","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Family Medicine Associates","-50.0000","168213","N","580 Sunrise Highway","Unit A","West Babylon, NY 11704     ",
+"SPL","CHECK","05/01/2019","5060","Family Medicine Associates","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Ultimate Billing and Management, LLC","-24.4800","168212","N","P.O. Box 251808","","West Bloomfield, MI 48325     ",
+"SPL","CHECK","05/01/2019","5060","Ultimate Billing and Management, LLC","24.4800",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Henry Ford Health System","-15.0000","168211","N","Dept. Radiology","2799 West Grand Blvd.","Detroit, MI 48202     ",
+"SPL","CHECK","05/01/2019","5060","Henry Ford Health System","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Michigan Medicine","-33.0000","168210","N","Radiology Litigation UHB1D240-F","1500 E Medical Center Drive","Ann Arbor, MI 48109-0030",
+"SPL","CHECK","05/01/2019","5060","Michigan Medicine","33.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Mid Michigan Physical Therapy Specialists","-59.4900","168209","N","PO BOX 323","","Fowlerville, MI 48836     ",
+"SPL","CHECK","05/01/2019","5060","Mid Michigan Physical Therapy Specialists","59.4900",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Med Request Solutions, Inc.","-68.2300","168208","N","P.O. Box 23","","South River, NJ 08882-____",
+"SPL","CHECK","05/01/2019","5060","Med Request Solutions, Inc.","68.2300",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Beaumont Health","-89.6600","168207","N","Imaging Center/Attn: Jennifer Hull","3601 W 13 Mile Rd","Royal Oak, MI 48073-0000",
+"SPL","CHECK","05/01/2019","5060","Beaumont Health","89.6600",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Michigan Medicine","-33.0000","168206","N","Radiology Litigation UHB1D240-F","1500 E Medical Center Drive","Ann Arbor, MI 48109-0030",
+"SPL","CHECK","05/01/2019","5060","Michigan Medicine","33.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Ascension St. John Hospital","-25.0000","168205","N","Attn: Imaging Services Department","22101 Moross Rd.","Detroit, MI 48236     ",
+"SPL","CHECK","05/01/2019","5060","Ascension St. John Hospital","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","David Gilboe & Associates","-157.4500","168204","N","23161 Greater Mack Avenue","","St. Clair Shores, MI 48080-000",
+"SPL","CHECK","05/01/2019","5060","David Gilboe & Associates","157.4500",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Genesys Regional Medical Center","-25.0000","168203","N","1 Genesys Parkway","","Grand Blanc, MI 48439-8066",
+"SPL","CHECK","05/01/2019","5060","Genesys Regional Medical Center","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Orlin & Cohen Orthopedic Associates","-109.5000","168202","N","444 Merrick Road","Suite 104","Lynbrook, NY 11563-____",
+"SPL","CHECK","05/01/2019","5060","Orlin & Cohen Orthopedic Associates","109.5000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Caring Hands Medical Care, P.C.","-117.4500","168201","N","1646 Brentwood Rd.","","Brentwood, NY 11717     ",
+"SPL","CHECK","05/01/2019","5060","Caring Hands Medical Care, P.C.","117.4500",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Center for Preventative Medicine","-172.4600","168200","N","20870 Mack Avenue","","Grosse Pointe Woods, MI 48236-",
+"SPL","CHECK","05/01/2019","5060","Center for Preventative Medicine","172.4600",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Westerly Hospital","-43.3600","168199","N","HIM Department","25 Wells St.","Westerly, RI 02891     ",
+"SPL","CHECK","05/01/2019","5060","Westerly Hospital","43.3600",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","ASPCares","-55.1000","168197","N","560 West 14 Mile Road","","Clawson, MI 48017     ",
+"SPL","CHECK","05/01/2019","5060","ASPCares","55.1000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Hesselberg Chiropractic","-45.0000","168196","N","4039 Carpenter Road","","Ypsilanti, MI 48197-____",
+"SPL","CHECK","05/01/2019","5060","Hesselberg Chiropractic","45.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Orlin & Cohen Medical Specialists Group","-51.3600","168195","N","Medical Records Dept.","45 Crossways Park Dr.","Woodbury, NY 11797     ",
+"SPL","CHECK","05/01/2019","5060","Orlin & Cohen Medical Specialists Group","51.3600",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Orlin & Cohen Medical Specialists Group","-21.8500","168194","N","Medical Records Dept.","45 Crossways Park Dr.","Woodbury, NY 11797     ",
+"SPL","CHECK","05/01/2019","5060","Orlin & Cohen Medical Specialists Group","21.8500",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Methodist Medical Center","-79.2500","168193","N","Attn: Release of Information","1400 Centerpoint Blvd Suite 172","Knoxville, TN 37932-0000",
+"SPL","CHECK","05/01/2019","5060","Methodist Medical Center","79.2500",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Pain Consultants of East Tennessee","-20.0000","168189","N","1128 E Weisgarber Rd #100","","Knoxville, TN 37909-0000",
+"SPL","CHECK","05/01/2019","5060","Pain Consultants of East Tennessee","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Vista Radiology","-40.5000","168188","N","Records Custodian","PO Box 10627","Knoxville, TN 37939     ",
+"SPL","CHECK","05/01/2019","5060","Vista Radiology","40.5000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Walgreen Louisiana Co., Inc. c/o The Prentice-Hall Corporation System, Inc.","-6.6800","168231","N","320 Somerulos Street","","Baton Rouge, LA 70802     ",
+"SPL","CHECK","05/01/2019","5060","Walgreen Louisiana Co., Inc. c/o The Prentice-Hall Corporation System, Inc.","6.6800",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Neurosurgical Associates, P.C.","-20.0000","168187","N","1932 Alcoa Hwy","Suite 360","Knoxville, TN 37920     ",
+"SPL","CHECK","05/01/2019","5060","Neurosurgical Associates, P.C.","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Vittorio M Morreale M.D.","-71.5000","168184","N","50505 Schoenherr Road","Suite 200","Shelby Township, MI 48315-0000",
+"SPL","CHECK","05/01/2019","5060","Vittorio M Morreale M.D.","71.5000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Detroit Fire Department/EMS","-6.0000","168224","N","2 Woodward Ave","Suite 500","Detroit, MI 48226-____",
+"SPL","CHECK","05/01/2019","5060","Detroit Fire Department/EMS","6.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Michigan Department of Treasury","-17.0000","168218","N","430 W. Allegan Street","","Lansing, MI 48922     ",
+"SPL","CHECK","05/01/2019","5060","Michigan Department of Treasury","17.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Michigan Department of Treasury","-23.0000","168219","N","430 W. Allegan Street","","Lansing, MI 48922     ",
+"SPL","CHECK","05/01/2019","5060","Michigan Department of Treasury","23.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Meridian Billing","-69.7100","168180","N","11650 Belleville Rd. Suite 105","","Belleville, MI 48111     ",
+"SPL","CHECK","05/01/2019","5060","Meridian Billing","69.7100",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Detroit Public Schools Office of the General Counsel","-6.0000","168222","N","3011 West Grand Blvd.","Fisher Building, 10th Floor Ste 1002","Detroit, MI 48202     ",
+"SPL","CHECK","05/01/2019","5060","Detroit Public Schools Office of the General Counsel","6.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Beaumont Taylor Hospital Radiology","-50.0000","168179","N","1000 Telegraph Rd","","Taylor, MI 48180-0000",
+"SPL","CHECK","05/01/2019","5060","Beaumont Taylor Hospital Radiology","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Henry Ford Health System","-15.0000","168178","N","Dept. Radiology","2799 West Grand Blvd.","Detroit, MI 48202     ",
+"SPL","CHECK","05/01/2019","5060","Henry Ford Health System","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","SouthEast Michigan Shared Services Center","-20.0000","168225","N","20555 Victor Parkway","","Livonia, MI 48152-____",
+"SPL","CHECK","05/01/2019","5060","SouthEast Michigan Shared Services Center","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Michigan Department of Treasury","-20.0000","168221","N","430 W. Allegan Street","","Lansing, MI 48922     ",
+"SPL","CHECK","05/01/2019","5060","Michigan Department of Treasury","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Blue Cross Blue Shield of Michigan","-34.0000","168217","N","600 East Lafayette","Mail Code: 1920","Detroit, MI 48226-____",
+"SPL","CHECK","05/01/2019","5060","Blue Cross Blue Shield of Michigan","34.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Bear Creek Surgery Center, LLC","-30.0000","168226","N","100 Bourland Road","#110","Keller, TX 76248-____",
+"SPL","CHECK","05/01/2019","5060","Bear Creek Surgery Center, LLC","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Detroit Police Department c/o City of Detroit Law Department","-6.0000","168223","N","2 Woodward Avenue","Suite 500","Detroit, MI 48226-____",
+"SPL","CHECK","05/01/2019","5060","Detroit Police Department c/o City of Detroit Law Department","6.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Southwest General Health Center","-15.0000","168177","N","18697 Bagley Road","","Middleburg Heights, OH 44130-0",
+"SPL","CHECK","05/01/2019","5060","Southwest General Health Center","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Litigation Solutions, LLC.","-121.4500","168176","N","Brentwood Towne Centre","101 Towne Square Way, Suite 251","Pittsburgh, PA 15227     ",
+"SPL","CHECK","05/01/2019","5060","Litigation Solutions, LLC.","121.4500",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Detroit Public Schools Office of the General Counsel","-6.0000","168216","N","3011 West Grand Blvd.","Fisher Building, 10th Floor Ste 1002","Detroit, MI 48202     ",
+"SPL","CHECK","05/01/2019","5060","Detroit Public Schools Office of the General Counsel","6.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Shelbydale Medical Clinic","-177.8600","168174","N","49221 Van Dyke Avenue","","Shelby Township, MI 48317     ",
+"SPL","CHECK","05/01/2019","5060","Shelbydale Medical Clinic","177.8600",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","David S. Muldowny MD, APMC","-146.8100","168173","N","1103 Kaliste Saloom Rd","Suite 100-102","Lafayette, LA 70508-0000",
+"SPL","CHECK","05/01/2019","5060","David S. Muldowny MD, APMC","146.8100",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Michigan Department of Treasury","-20.0000","168214","N","430 W. Allegan Street","","Lansing, MI 48922     ",
+"SPL","CHECK","05/01/2019","5060","Michigan Department of Treasury","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Ascension Providence Hospital Novi","-30.0000","168172","N","Diagnostic Imaging Dept/Film Room","47601 Grand River Avenue","Novi, MI 48374     ",
+"SPL","CHECK","05/01/2019","5060","Ascension Providence Hospital Novi","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Radiology Affiliates Imaging","-25.0000","168171","N","2501 Kuser Rd.","","Hamilton, NJ 08691-3302",
+"SPL","CHECK","05/01/2019","5060","Radiology Affiliates Imaging","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Wayne County Community College District","-6.0000","168229","N","801 W. Fort Street","5th floor","Detroit, MI 48226-____",
+"SPL","CHECK","05/01/2019","5060","Wayne County Community College District","6.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Ultimate Billing and Management, LLC","-24.4800","168170","N","P.O. Box 251808","","West Bloomfield, MI 48325     ",
+"SPL","CHECK","05/01/2019","5060","Ultimate Billing and Management, LLC","24.4800",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Spectrum Neurology Center","-41.0000","168169","N","3409 Division Street","","Metairie, LA 70002-0000",
+"SPL","CHECK","05/01/2019","5060","Spectrum Neurology Center","41.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","United States Treasury","-350.0000","168228","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-____",
+"SPL","CHECK","05/01/2019","5060","United States Treasury","350.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Henry Ford Health System","-15.0000","168168","N","Dept. Radiology","2799 West Grand Blvd.","Detroit, MI 48202     ",
+"SPL","CHECK","05/01/2019","5060","Henry Ford Health System","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Livonia Counseling Center","-69.9600","168167","N","37450 Schoolcraft Road","Suite 170","Livonia, MI 48150-____",
+"SPL","CHECK","05/01/2019","5060","Livonia Counseling Center","69.9600",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Mendelson Kornblum Orthopedic & Spine Specialists","-56.3200","168192","N","Attn: Lauren Kalpin","27472 Schoenherr Rd., Suite 100","Warren, MI 48088     ",
+"SPL","CHECK","05/01/2019","5060","Mendelson Kornblum Orthopedic & Spine Specialists","56.3200",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","United States Treasury","-350.0000","168227","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-____",
+"SPL","CHECK","05/01/2019","5060","United States Treasury","350.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Michigan Institute for Neurological Disorders","-121.0200","168191","N","28595 Orchard Lake Rd.","Suite 200","Farmington Hills, MI 48334    ",
+"SPL","CHECK","05/01/2019","5060","Michigan Institute for Neurological Disorders","121.0200",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Dr. Jeffrey Schildhorn","-3.0000","168190","N","521 Park Ave.","","New York, NY 10065     ",
+"SPL","CHECK","05/01/2019","5060","Dr. Jeffrey Schildhorn","3.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Dr. Jeffrey Schildhorn","-12.0000","168186","N","521 Park Ave.","","New York, NY 10065     ",
+"SPL","CHECK","05/01/2019","5060","Dr. Jeffrey Schildhorn","12.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Reinhardt Family Practice ","-43.1900","168185","N","1701 12th Ave ","Suite G1","Altoona, PA 16601-____",
+"SPL","CHECK","05/01/2019","5060","Reinhardt Family Practice ","43.1900",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","New York Central Mutual Fire Insurance Co.","-25.0000","168183","N","1899 Central Plaza East","","Edmeston, NY 13335-____",
+"SPL","CHECK","05/01/2019","5060","New York Central Mutual Fire Insurance Co.","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","SurgiCore of Jersey City, LLC","-51.2500","168182","N","Medical Records Department","550 Newark Avenue","Jersey City, NJ 07306     ",
+"SPL","CHECK","05/01/2019","5060","SurgiCore of Jersey City, LLC","51.2500",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","St. Joseph's Hospital Health Center","-6.5000","168181","N","Health Information Services - Room 1606","301 Prospect Ave","Syracuse, NY 13203     ",
+"SPL","CHECK","05/01/2019","5060","St. Joseph's Hospital Health Center","6.5000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Silver Pine Medical Group","-44.3400","168175","N","31225 23 Mile Rd.","","Chesterfield, MI 48047     ",
+"SPL","CHECK","05/01/2019","5060","Silver Pine Medical Group","44.3400",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","ProMedica","-222.8900","168215","N","System Health Info Management Dept.","5855 Monroe St.","Sylvania, OH 43560-0000",
+"SPL","CHECK","05/01/2019","5060","ProMedica","222.8900",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","HIM - Montefiore","-78.0000","168220","N","Montefiore Health Information Management","111 East 210th Street","Bronx, NY 10467     ",
+"SPL","CHECK","05/01/2019","5060","HIM - Montefiore","78.0000",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Healthcare Technologies of Mid-Michigan, Inc.","-207.4600","168230","N","PO Box 315","","Swartz Creek, MI 48473     ",
+"SPL","CHECK","05/01/2019","5060","Healthcare Technologies of Mid-Michigan, Inc.","207.4600",
+"ENDTRNS"
+"TRNS","CHECK","05/01/2019","1011","Edward J. Linkner, MD, PC","-200.0000","168198","N","2345 South Huron Parkway","Suite 7","Ann Arbor, MI 48104-____",
+"SPL","CHECK","05/01/2019","5060","Edward J. Linkner, MD, PC","200.0000",
+"ENDTRNS"

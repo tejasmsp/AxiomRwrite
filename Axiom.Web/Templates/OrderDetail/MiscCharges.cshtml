@@ -1,0 +1,173 @@
+﻿<div class="panel panel-white cls-box">
+    <div class="panel-heading">
+        <h4 class="panel-title text-semibold"><i class="icon-coin-dollar position-left"></i>Misc Charges</h4>
+        <div class="heading-elements">
+            <ul class="icons-list mt-0">
+                <li ng-if="isSubModuleAccessibleToUser('Order', 'Order Detail', 'Add Misc Charges')">
+                    <button type="button" class="btn btn-primary pull-right" ng-click="AddMiscCharges()"><i class="icon-plus3 mr-5 font-10 mt-1"></i> Add </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body pnl-back-grey overflow-auto cls-boxscroll pa-10  cls-box-sm-height">
+        <div class="table-responsive table-grid">
+            <table class="table table-bordered table-framed" id="tblAssistantContact">
+                <thead>
+                    <tr>
+                        <th>Attorney</th>
+                        <th class="text-center" width="8%" ng-if="PartNo==0">Part #</th>
+                        <th width="15%">Description</th>
+                        <th class="text-center" width="10%">Unit</th>
+                        <th class="text-center" width="12%">Rate</th>
+                        <th class="text-center" width="9%">Amount</th>
+                        <th class="text-center" width="12%" >Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in MiscChargesList">
+                        <td style="vertical-align:top;" ng-bind="item.BillToAttorneyName"></td>
+                        <td  class="text-center" style="vertical-align:top;" ng-bind="item.PartNo" ng-if="PartNo==0"></td>
+                        <td  style="vertical-align:top;" ng-bind="item.Descr"></td>
+                        <td  class="text-center" style="vertical-align:top;" ng-bind="item.Units"></td>
+                        <td  class="text-center" style="vertical-align:top;" ng-bind="item.RegFee"></td>
+                        <td  class="text-center" style="vertical-align:top;" ng-bind="item.Amount"></td>
+                        <td  class="text-center">
+                            <a ng-click="EditMiscCharges(item.MiscChrgId)" class="ico_btn" data-toggle='tooltip' data-placement='left' tooltip title="Edit"><i class="icon-pencil3"></i> </a>
+                            <a ng-click="DeleteMiscChargesByMiscChrgId(item.MiscChrgId)" class="ico_btn" data-toggle='tooltip' data-placement='left' tooltip title="Delete"><i class="icon-trash"></i> </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="modal_MiscCharges" class="modal fade" style="z-index:10000"  data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <form name="MiscChargesform" class="form-horizontal" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <h5 class="modal-title">Add Misc Charges</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container"> 
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(MiscChargesform.$submitted && !MiscChargesform.$valid)">
+                                    <ul ng-show="(MiscChargesform.$submitted && (!MiscChargesform.$valid))">
+                                        <li ng-show="MiscChargesform.BillToAttorneyName.$error.required">Please Select Attorney.</li>
+                                        <li ng-show="MiscChargesform.ddlRegFee.$error.required">Please Select Misc Charge </li>
+                                        <li ng-show="MiscChargesform.Units.$error.required">Units is required.</li>
+                                        <li ng-show="MiscChargesform.Amount.$error.required">Amount is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Part No :</label>
+                                        <div class="col-sm-9">
+                                            <input name="PartNoStr" type="text" ng-disabled="true" ng-model="MiscChargesObj.PartNoStr" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Attorney :</label>
+                                        <div class="col-sm-9">
+                                            <select name="BillToAttorneyName" ng-model="MiscChargesObj.BillToAttorneyName" class="form-control" ng-options="item.AttyID as item.AttorneyName for item in MiscChargesAttorneyList" required>
+                                                <option value="">--Select--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Misc Charge  :</label>
+                                        <div class="col-sm-9">
+                                            <select name="ddlRegFee" ng-model="MiscChargesObj.Descr" class="form-control" ng-change="SetMiscChargeDropDown()" ng-options="item.Descr as item.Descr for item in MiscChrgsDropDownList" required>
+                                                <option value="">--Select--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Unit:</label>
+                                        <div class="col-sm-9">
+                                            <input name="Units" type="number" ng-change="SetMiscCharge()" ng-model="MiscChargesObj.Units" value="1" class="form-control" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Rate :</label>
+                                        <div class="col-sm-9">
+                                            <input name="RegFee" type="number" ng-change="SetMiscCharge()"  ng-model="MiscChargesObj.RegFee" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Amount:</label>
+                                        <div class="col-sm-9">
+                                            <input name="Amount" type="text"  ng-disabled="true" ng-model="MiscChargesObj.Amount" class="form-control" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" value="Save" title="Save" ng-click="SaveMiscCharges(MiscChargesform)" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal_OrderPart" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <form name="OrderPartform" class="form-horizontal" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <h5 class="modal-title">Select Locations (Parts)</h5>
+                    </div>
+                    <div class="modal-body" style="overflow-y: scroll!important;height:720px!important">
+                        <div class="modal-container">
+                            <div class="table-responsive table-grid">
+                                <table class="table table-bordered table-framed">
+                                    <tr>
+                                        <td width="7%" class="text-center"></td>
+                                        <td width="10%" class="text-center">Part No</td>
+                                        <td>Location</td>
+                                        <td>Record Type</td>
+                                    </tr>
+                                    <tr ng-repeat="item in OrderPartList">
+                                        <td><input type="checkbox" ng-checked="item.selected" ng-model="item.selected" class="cursor-pointer"></td>
+                                        <td>{{item.PartNo}}</td>
+                                        <td>{{item.Name1}}</td>
+                                        <td>
+                                            {{item.Descr}}
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" value="Next" ng-click="SelectOrderPart(OrderPartform)" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

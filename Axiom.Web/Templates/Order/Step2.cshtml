@@ -1,0 +1,214 @@
+﻿<form name="step2form" id="step2form" novalidate ng-init="createDatePicker()">
+    <div class="panel panel-white panel-custom-color">
+        <div class="panel-body OrderWizardPnl" ng-class="PageMode==Enum.PageMode.ViewOnly?'disabledbutton':''">
+            @*<div id="messages">
+                    <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(step2form.$submitted && !step2form.$valid)">
+                        <ul ng-show="(step2form.$submitted && (!step2form.$valid))">
+                            <li ng-show="step2form.BillingClaimNo.$error.required">Billing Claim No is required.</li>
+                        </ul>
+                    </div>
+                </div>*@
+            @*<div class="row mb-5">
+                    <div class="col-md-6 pl-0">
+                        <label class="col-sm-2 control-label lbl-primary required pt-7"> Bill to Ordering Firm: </label>
+                        <div class="col-sm-8">
+                            <select ng-model="OrderStep2Obj.BillToOrderingFirm" class="form-control" style="width:16%;" ng-change="ChangeBillToOrderingFirm()" ng-options="o.value as o.label for o in options"></select>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Search Firm:</label>
+                        <select id="searchfirmId" name="Firm" ng-model="OrderStep2Obj.BillingFirmId" ng-change="BillFirmChangeEvent()"
+                                class="form-control" ng-options="item.FirmID as item.FirmName for item in Firmlist">
+                            <option value="">-- Select --</option>
+                        </select>
+                    </div>
+                </div>
+                @*<div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label lbl-primary">Firm ID:</label>
+                            <input type="text" ng-model="OrderStep2Obj.BillingFirmId" name="FirmID" ng-disabled="true" class="form-control" />
+                        </div>
+                    </div>*@
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Select Attorney: <span class="text-danger">*</span></label>
+                        <div class="ml-0" required="required" custom-select="item.AttyID as item.AttorneyName for item in AttorneyListByFirm | filter: $searchTerm" ng-model="OrderStep2Obj.BillingAttorneyId" ></div>
+                        @*<select name="Attorney" ng-model="OrderStep2Obj.BillingAttorneyId" class="form-control"
+                                ng-options="item.AttyID as item.AttorneyName for item in AttorneyListByFirm">
+                            <option value="">-- Select --</option>
+                        </select>*@
+                    </div>
+                </div>
+                <div class="col-md-4" ng-hide="true">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Company:</label>
+                        <input type="text" name="Company" class="form-control" placeholder="Company" disabled="disabled">
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" ng-hide="true">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <input type="text" name="name" class="form-control" placeholder="Address" disabled="disabled" ng-model="firmobj.Street1">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>City:</label>
+                        <input type="text" name="name" class="form-control" placeholder="City" disabled="disabled" ng-model="firmobj.City">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>State: </label>
+                        <select name="State" class="form-control" ng-model="firmobj.State" disabled="disabled"
+                                ng-options="item.StateId as item.StateName for item in StateList">
+                            <option value="">-- Select --</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" ng-hide="true">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Zip:</label>
+                        <input type="text" name="name" class="form-control" placeholder="Zip" disabled="disabled" ng-model="firmobj.Zip">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Phone:</label>
+                        <div class="clearfix"></div>
+                        <div>
+                            <div class="col-sm-4">
+                                <input type="text" name="name" class="form-control" placeholder="Fax" disabled="disabled" ng-model="firmobj.AreaCode1">
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="text" name="name" class="form-control" placeholder="Phone" disabled="disabled" ng-model="firmobj.PhoneNo">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Fax:</label><div class="clearfix"></div>
+                        <div>
+                            <div class="col-sm-4">
+                                <input type="text" name="name" class="form-control" placeholder="Fax" disabled="disabled" ng-model="firmobj.AreaCode2">
+                            </div>
+                            <div class="col-sm-8">
+                                <input type="text" name="name" class="form-control" placeholder="Fax" disabled="disabled" ng-model="firmobj.FaxNo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary " ng-class="{'required': validateClaimNo}">Claim No:</label>
+                        <input type="text" name="BillingClaimNo" class="form-control" ng-model="OrderStep2Obj.BillingClaimNo" maxlength="50" placeholder="Claim No">
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary ">Insured:</label>
+                        <input type="text" name="Insured" class="form-control" ng-model="OrderStep2Obj.BillingInsured" maxlength="50" placeholder="Insured">
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="OrderStep2Obj.BillingFirmId">
+                <div class="col-lg-12">
+                    <label class="control-label lbl-primary ">Selected Firm:</label>&nbsp;{{SelectedFirm}}
+                </div>
+            </div>
+            <div class="row" ng-if="OrderStep2Obj.BillingFirmId">
+                <div class="col-lg-12">
+                    <label class="control-label lbl-primary ">Address:</label>
+                </div>
+                <div class="col-lg-12" ng-bind-html="billingFirmAddress"></div>
+            </div>
+
+        </div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode!=Enum.PageMode.ViewOnly">
+            <input type="button" class="btn btn-primary pull-right" value="Next" ng-click="SubmitStep2(step2form)" />
+            <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+        </div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode==Enum.PageMode.ViewOnly">
+            <input type="button" class="btn btn-primary pull-right" value="Next" ng-click="MoveNext()" />
+            <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+        </div>
+    </div>
+</form>
+
+<div id="modal_MoreBillSearchFirm" class="modal fade">
+    <form class="form-horizontal" name="MoreBillSearchFirmForm" novalidate>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title">Search More Firm</h6>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div class="row pt-10">
+                            <div class="col-md-12">
+                                <div class="form-group pb-0 mb-0">
+                                    <div class="table-responsive table-grid">
+                                        <table class="table table-bordered table-framed cursor-pointer" id="tblSearchFirm"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="modal_StateFarm" class="modal fade">
+    <form class="form-horizontal" name="stateFarm" novalidate>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title">Search More Firm</h6>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div class="row pt-10">
+                            <div class="col-md-12">
+                                <div class="form-group pb-0 mb-0">
+                                    <div class="table-responsive table-grid">
+                                        <table class="table table-bordered table-framed cursor-pointer" id="tblStateFarm"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

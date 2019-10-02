@@ -1,0 +1,321 @@
+﻿<form name="step5form" id="step5form" novalidate ng-init="createDatePicker()">
+    <div class="panel panel-custom panel-custom-color">
+        <div class="panel-heading " ng-class="PageMode==Enum.PageMode.ViewOnly?'disabledbutton':''">
+            <h4 class="panel-title text-semibold"><i class="icon-file-media mr-10 fs-19"></i>Additional Attorney</h4>
+            <div class="heading-elements">
+                <ul class="icons-list mt-0">
+                    <li>
+                        <button type="button" value="Download Form" title="Add Attorney" class="btn btn-primary pull-right" ng-click="AddOppositeAttorney()">
+                            <i class="icon-plus2"></i>
+                            Add Attorney
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body orderStep5pnlHeight" ng-class="PageMode==Enum.PageMode.ViewOnly?'disabledbutton':''">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid overflow-hidden">
+                            <table class="table table-bordered table-framed" id="tblOppositeAttorney" ng-init="GetOrderWizardStep5AttorneyRecords(OrderId)"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode!=Enum.PageMode.ViewOnly">
+            <input type="submit" class="btn btn-primary pull-right" value="Next" ng-click="SubmitStep5(step5form)" />
+            <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+        </div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode==Enum.PageMode.ViewOnly">
+            <input type="button" class="btn btn-primary pull-right" value="Next" ng-click="MoveNext()" />
+            <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+        </div>
+    </div>
+
+    <div id="modal_form_addoppositeattorney" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                    <h5 class="modal-title">Add Additional Attorney</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div class="row mb-10">
+                            <div class="col-md-4 pl-0">
+                                <label class="col-sm-4 control-label lbl-primary required pt-8 pr-0">Search By:</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" ng-model="searchCriteria" ng-show="IsAttyUser">
+                                        <option value="a.FirstName">First Name</option>
+                                        <option value="a.LastName">Last Name</option>
+                                        <option value="f.FirmName">Firm Name</option>
+                                    </select>
+
+                                    <select class="form-control" ng-model="searchCriteria" ng-show="!IsAttyUser">
+                                        <option value="a.AttyID">AttorneyID</option>
+                                        <option value="a.FirstName" selected="selected">First Name</option>
+                                        <option value="a.LastName">Last Name</option>
+                                        <option value="a.FirmID">Firm ID</option>
+                                        <option value="f.FirmName">Firm Name</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-5 pl-0">
+                                @*<div class="col-sm-4">
+                <select class="form-control  pr-5 pl-5" ng-model="searchCondition" ng-options="item.Id as item.Name for item in ConditionAry"></select>
+            </div>*@
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="searchText" name="SearchText" maxlength="80" placeholder="Search" class="form-control" ng-keydown="($event.keyCode === 13) && BindAttorneyList()">
+                                </div>
+                            </div>
+                            <div class="col-md-1 pr-10">
+                                    <input type="button" value="Search" title="Search" name="Search" class="btn btn-primary" ng-click="BindAttorneyList()">
+                            </div>
+                            <div class="col-md-1">
+                                    <input type="button" ng-hide="ShowAddNewAttorney" id="btnAddNewAttorney" value="Add New Attorney" title="Add New Attorney" name="AddAttorney" class="btn btn-default" ng-click="NewAttorney()">
+                            </div>
+                            
+                        </div>
+
+                        <div class="row pt-10">
+                            <div class="col-md-12">
+                                <div class="form-group pb-0 mb-0">
+                                    <div class="table-responsive table-grid">
+                                        <table class="table table-bordered table-framed" id="tblAddOppositeAttorney"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"  class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                    @*<button type="submit" ng-click="SaveAttorneyRecord(model_AttorneyRecord_form)" class="btn btn-primary">Submit</button>*@
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal_form_editoppositeattorney" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title" title="Close" ng-model="popupTitle">Edit Attorney</h5>
+                </div>
+
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label lbl-primary required col-sm-4 pt-8">Attorney Name:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttorneyObj.Name" name="AttorneyName" disabled="disabled" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label lbl-primary required col-sm-4 pt-8">Attorney ID:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttorneyObj.AttyID" name="AttyID" disabled="disabled" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label lbl-primary required col-sm-4 pt-8">Firm Name:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttorneyObj.FirmName" name="FirmName" disabled="disabled" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label lbl-primary required col-sm-4 pt-8">Firm ID:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttorneyObj.FirmID" name="FirmID" disabled="disabled" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label lbl-primary col-sm-4"></label>
+                                <div class="col-sm-8">
+                                    <ul class="borderless pt-0 pl-0">
+                                        <li class="li-checkbox pl-0">
+                                            <label class="lbl-checkbox">
+                                                <input type="checkbox" ng-model="AttorneyObj.IsPatientAttorney" name="IsPatientAttorney"> Is Patient Attorney
+                                            </label>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label lbl-primary col-sm-4"></label>
+                                <div class="col-sm-8">
+                                    <ul class="borderless pt-0 pl-0">
+                                        <li class="li-checkbox pl-0">
+                                            <label class="lbl-checkbox" for="OppSide">
+                                                <input type="checkbox" ng-model="AttorneyObj.OppSide" id="OppSide" name="OppSide">OppSide
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label lbl-primary col-sm-4 pt-8">Represent:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttorneyObj.Represents" name="Represents" maxlength="255" placeholder="Represents" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label lbl-primary col-sm-4 pt-8">Notes:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="Notes" ng-model="AttorneyObj.Notes" maxlength="255" placeholder="Notes" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" title="Save" ng-show="mode=='edit'" class="btn btn-primary" ng-click="UpdateOrderFirmAttorney()">
+                        Save
+                    </button>
+                    <button type="submit" title="Save & Continue" ng-show="mode=='add'" class="btn btn-primary" ng-click="AddOrderFirmAttorney()">
+                        Save & Continue
+                    </button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+</form>
+
+<div id="modal_NewAttorney" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form name="NewAttorneyform" class="form-horizontal" novalidate>
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                    <h5 class="modal-title">{{IsNewFirm?'Add New Firm':'New Attorney'}} </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div id="messages">
+                            <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(NewAttorneyform.$submitted && !NewAttorneyform.$valid)">
+                                <ul ng-show="(NewAttorneyform.$submitted && (!NewAttorneyform.$valid))">
+                                    <li ng-show="NewAttorneyform.FirmName.$error.required">Firm Name is required.</li>
+                                    <li ng-show="NewAttorneyform.FirmCity.$error.required">City Name is required.</li>
+                                    <li ng-show="NewAttorneyform.FirstName.$error.required">First Name is required.</li>
+                                    <li ng-show="NewAttorneyform.LastName.$error.required">Last Name is required.</li>
+                                    <li ng-show="NewAttorneyform.Email.$error.email">Invalid Email.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-md-6 pl-0">
+                                <label class=" col-sm-4 control-label lbl-primary">Firm:</label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" ng-model="AttyObj.FirmID" ng-options="item.FirmID as item.FirmName for item in ddlFirmList" ng-change="ChangeFirmDropDown()" ng-disabled="IsNewFirm">
+                                        <option value="">-- Select -- </option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2 pl-0">
+                                    <button type="button" class="btn btn-group-sm" ng-click="AddNewFirm(1)" ng-hide="IsNewFirm">New</button>
+                                    <button type="button" class="btn btn-default" ng-click="AddNewFirm(2)" ng-show="IsNewFirm">Select </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pr-0">
+                                <label class="col-sm-4 control-label lbl-primary">Firm ID:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttyObj.FirmID" name="FirmName" ng-disabled="true" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-md-6 pl-0">
+                                <label class="col-sm-4 control-label lbl-primary required">Firm Name:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttyObj.FirmName" placeholder="Firm Name" name="FirmName" maxlength="80" class="form-control" ng-disabled="!IsNewFirm" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pr-0">
+                                <label class="col-sm-4 control-label lbl-primary required">City:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttyObj.City" placeholder="City" name="FirmCity" maxlength="24" class="form-control" ng-disabled="!IsNewFirm" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-md-6 pl-0">
+                                <label class="col-sm-4 control-label lbl-primary required pt-0 lh-15">Attorney <br />First Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttyObj.FirstName" placeholder="First Name" name="FirstName" class="form-control" maxlength="20" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pr-0">
+                                <label class="col-sm-4 control-label lbl-primary required pt-0 lh-15"> Attorney <br /> Last Name:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttyObj.LastName" placeholder="Last Name" name="LastName" class="form-control" maxlength="20" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-md-6 pl-0">
+                                <label class="col-sm-4 control-label lbl-primary ">Phone</label>
+                                <div class="col-sm-3">
+                                    <input type="text" ng-model="AttyObj.AreaCode1" integer-Only="" placeholder="Code" name="AreaCode1" maxlength="4" class="form-control ">
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" ng-model="AttyObj.PhoneNo" integer-Only="" placeholder="Phone" name="PhoneNo" maxlength="12" class="form-control">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 pr-0">
+                                <label class="col-sm-4 control-label lbl-primary "> Fax</label>
+                                <div class="col-sm-3">
+                                    <input type="text" ng-model="AttyObj.AreaCode2" integer-Only="" placeholder="Code" name="AreaCode2" maxlength="4" class="form-control">
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" ng-model="AttyObj.FaxNo" integer-Only="" placeholder="Fax No." name="FaxNo" maxlength="12" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-md-6 pl-0">
+                                <label class="col-sm-4 control-label lbl-primary ">Email</label>
+                                <div class="col-sm-8">
+                                    <input type="email" ng-model="AttyObj.Email" placeholder="Email" name="Email" maxlength="250" class="form-control">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 pr-0">
+                                <label class="col-sm-4 control-label lbl-primary "> State Bar No</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="AttyObj.StateBarNo" placeholder="State Bar No." name="StateBarNo" maxlength="16" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" title="Clsoe">Close</button>
+                    <button type="submit" class="btn btn-primary" ng-click="SaveNewAttorney(NewAttorneyform)" title="Save">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

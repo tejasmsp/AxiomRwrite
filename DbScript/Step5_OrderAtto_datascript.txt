@@ -1,0 +1,29 @@
+INSERT INTO OrderFirmAttorney
+(
+OrderId
+,FirmID
+,AttyID
+,AttorneyFor
+,IsPatientAttorney
+,OppSide
+,Represents
+,Notes
+,CreatedBy
+,CreatedDate	
+,CreatedByUserAccessId	
+)
+
+SELECT OFA.OrderNo
+, F.FirmID
+,A.AttyID
+,OFA.AttyFor
+,OFA.PtntAtty
+,OFA.OppSide
+,OFA.Represent
+,OFA.Notes
+,OFA.EntBy
+,OFA.EntDate
+,-1
+from dbo.OppAtty OFA 
+INNER JOIN dbo.Attorney A ON OFA.AttyID=A.AttyID 
+LEFT JOIN dbo.Firm F ON A.FirmID=F.FirmID

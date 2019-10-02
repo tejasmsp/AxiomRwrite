@@ -1,0 +1,55 @@
+﻿<div class="page-content" ng-controller="RoleRightsConfigurationController">
+    <form name="rolerightform" id="rolerightform" novalidate>
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title text-semibold"><i class="icon-cog52 mr-10 fs-19"></i>Configure Permissions For : <span ng-bind="RoleName"></span></h4>
+                <div class="heading-elements">
+                    <ul class="icons-list mt-0">
+                        <li><input type="button" value="Cancel" ng-click="Cancel()" title="Cancel" class="btn btn-default"> </li>
+                        <li><input type="button" value="Save" ng-click="AddOrUpdateRoleConfiguration(rolerightform)" title="Save Permission" class="btn btn-primary"> </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row" id="roleConfiguration">
+
+                            <div class="col-sm-2">
+                                <div class="roleConfigHead">Modules</div>
+                                <div class="roleConfigList mt-10 mb-10">
+                                    <div ng-class="(SelectedModuleName==option.ModuleName)?'roleData cursor-pointer active':'roleData cursor-pointer'" ng-repeat="option in RoleRightsList | unique:'ModuleName'" ng-click="getSubModules(option.ModuleName)" style="cursor:pointer;">
+                                        {{option.ModuleName}}
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2" ng-show="SelectedModuleName != null">
+                                <div class="roleConfigHead">Sub-Modules</div>
+                                <div class="roleConfigList mt-10 mb-10">
+                                    <div ng-class="(SelectedModuleName==subModule.ModuleName && SelectedSubmoduleName==subModule.SubmoduleName)?'roleData cursor-pointer active':'roleData cursor-pointer'" ng-repeat="subModule in RoleRightsList | unique:'SubmoduleName'" ng-click="getAccessRights(subModule.SubmoduleName,subModule.ModuleName)" ng-show="subModule.ModuleName==SelectedModuleName" style="cursor:pointer;">
+                                        {{subModule.SubmoduleName}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6" ng-show="SelectedModuleName != null && SelectedSubmoduleName!=null">
+
+                                <div class="roleConfigHead">Access Rights</div>
+                                <div class="roleConfigList mt-10 mb-10">
+                                    <div ng-class="(func.IsSelected==true)?'roleData active':'roleData'" ng-repeat="func in RoleRightsList" ng-show="func.SubmoduleName==SelectedSubmoduleName && func.ModuleName==SelectedModuleName">
+                                        {{func.FunctionName}}
+                                        <input type="checkbox" class="pull-right " ng-model="func.IsSelected" style="cursor:pointer;"
+                                               ng-change="setSelectedFunctionsForRole(func)" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

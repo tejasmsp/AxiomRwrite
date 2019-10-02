@@ -1,0 +1,172 @@
+<style>
+    /*a:hover {
+        border-bottom: 1px solid #2394bc;
+        padding-bottom: 2px;
+    }*/
+</style>
+<div class="panel panel-white cls-box" ng-if="!IsFromClientOrderList">
+    <div class="panel-heading">
+        <h4 class="panel-title text-semibold"><i class="icon-stack position-left"></i>Documents</h4>
+        <div class="heading-elements">
+            <ul class="icons-list mt-0">
+                <li class="mr-5" ng-if="false"> <a href="#" class="blue_link">[ <i class="icon-cog3" style="font-size:11px;"></i> Admin ]</a></li>
+                <li ng-if="isSubModuleAccessibleToUser('Order', 'Order Detail', 'Upload Document')">
+                    <button ng-click="AddDocumentPopUp()" class="btn btn-primary pull-right"><i class="icon-upload7 cursor-pointer mr-5 font-12"></i>Upload</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body pnl-back-grey overflow-auto NoteScrollBar pa-10 cls-box-md-height">
+        <table class="table table-bordered tblOrderDoc">
+            <tr>
+                <th class="tbldocHeader" width="44%">File Name</th>
+                <th class="tbldocHeader" width="25%">File Type</th>
+                <th class="tbldocHeader" width="18%">Created Date</th>
+                <th class="tbldocHeader" width="2%" ng-if="RoleName!='Attorney'">Status</th>
+                <th class="tbldocHeader" width="2%" ng-if="RoleName!='Attorney'">Action</th>
+
+            </tr>
+            <tr ng-click="selectedtableRowDocument(item.FileDiskName,item.FileName)" ng-repeat="item in FileList">
+                <td ng-if="item.FileTypeId==11"><a>{{ item.FileName}}<b>({{item.PageNo}})</b></a></td>
+                <td ng-if="item.FileTypeId!=11"><a>{{ item.FileName }}</a></td>
+                <td>{{ item.FileType }}</td>
+                <td>{{ item.DtsCreated | date : GlobalDateFormat }}</td>
+                <td ng-if="RoleName!='Attorney'">{{item.IsPublic?'Public':'Private'}}</td>
+                <td class="text-center" width="2%" ng-if="RoleName!='Attorney'">
+                    <a href="javascript:void(0)" class="ico_btn cursor-pointer" ng-if="item.IsPublic" data-toggle='tooltip' data-placement='left' tooltip title="Make Private" ng-click="FileStatusClick(item.IsPublic,item.FileId,$event)">
+                        <i class="icon-unlocked2"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="ico_btn cursor-pointer" data-toggle='tooltip' data-placement='left' tooltip ng-if="!item.IsPublic"
+                       title="Make Public" ng-click="FileStatusClick(item.IsPublic,item.FileId,$event)">
+                        <i class="icon-lock2"></i>
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <div class="dataTables_info" ng-show="FileList.length>0">
+            Showing 1 to {{FileList.length}} of {{FileList.length}} entries
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="panel-group panel-group-control panel-group-control-left mb-0 panel-white">
+        <div class="panel-heading" ng-hide="PartNo==0">
+            <h4 class="panel-title text-semibold font-12">
+                <a class="wd-full collapsed" data-toggle="collapse" data-target="#div_other" style="padding-left: 20px;">
+                    <b class="text-bold pt-0" style="text-transform:uppercase;cursor:pointer;">Other Documents</b>
+                </a>
+            </h4>
+        </div>
+        <div id="div_other" class="collapse">
+            <div class="panel-body" style="background-color: #ECECF2">
+                <div class="table-responsive table-grid">
+                    <table class="table table-bordered table-framed " id="tblOtherFile" ng-init="GetOtherFileList()"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="modal_Document" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog ">
+        <form name="Documentform" class="form-horizontal" novalidate>
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">{{OrderId > 0 ? OrderId : ""}}{{PartNo> 0 ? "-" : "" }}{{PartNo> 0 ? PartNo : "" }}  Upload {{PartNo> 0 ?"Part" : "Order"}} Document </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div id="messages">
+                            <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Documentform.$submitted && !Documentform.$valid)||validateFileType">
+                                <ul ng-show="(Documentform.$submitted && (!Documentform.$valid)) || (validateFileType)">
+                                    <li ng-show="validateFileType">File Type Required.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 lbl-primary">File Type:</label>
+                                    <div class="col-sm-9">
+                                        <div required="required" custom-select="item.FileTypeId as (item.FileType) for item in FileTypeList | filter: $searchTerm" ng-model="DocumentObj.FileTypeId" ng-change="onFileTypeChange(DocumentObj.FileTypeId)"></div>
+                                        @*<select name="filetype" ng-model="DocumentObj.FileTypeId" ng-options="item.FileTypeId as item.FileType for item in FileTypeList" class="form-control" required>
+                                                <option value="">--Select--</option>
+                                            </select>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="DocumentObj.FileTypeId==11">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 lbl-primary">Record Type:</label>
+                                    <div class="col-sm-6">
+                                        <div custom-select="item.Code as item.Descr for item in RecTypeList | filter: $searchTerm" ng-model="DocumentObj.RecordTypeId"></div>
+                                        @*<select name="ddlFileType" ng-model="DocumentObj.RecordTypeId" ng-options="item.Code as item.Descr for item in RecTypeList " class="form-control">
+                                                  <option value="">--Select--</option>
+                                            </select>*@
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" ng-model="DocumentObj.PageNo" placeholder="Page No." class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 lbl-primary">Add File:</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" id="file" name="file" multiple onchange="angular.element(this).scope().GetFileDetails(this)" class="form-control" /> <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 lbl-primary" style="padding-top:0px;">Is Public</label>
+                                    <div class="col-sm-9">
+                                        <input type="checkbox" ng-model="DocumentObj.IsPublic" ng-checked="DocumentObj.IsPublic" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-framed">
+                                    <tr ng-repeat="file in files">
+                                        <td style="vertical-align:top;" width="10%">{{$index + 1}}</td>
+                                        <td style="vertical-align:top;" ng-bind="file.name"></td>
+                                        <td style="vertical-align:top;" width="20%" class="text-center"> <a ng-click="RemoveFile(file)" data-toggle='tooltip' data-placement='left' tooltip class="ico_btn" title="Delete"><i class="icon-trash"></i> </a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" title="Close" data-dismiss="modal">Close</button>
+                    <input type="submit" title="Save" value="Save" ng-click="UploadDocument(Documentform)" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style type="text/css">
+    .tblOrderDoc tr {
+        cursor: pointer !important;
+    }
+
+    .tblOrderDoc tbody tr:hover td, .tblOrderDoc tbody tr:hover th {
+        background-color: #efefef !important;
+    }
+
+    .iconfontSize {
+        font-size: 10px;
+    }
+</style>

@@ -1,0 +1,120 @@
+﻿
+<div class="page-content" ng-controller="PaymentController" ng-init="createDatePicker()">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-stack mr-10 fs-19"></i>Manage Payment</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Payment', 'Add Payment')"> <a href="#" ng-click="GetPaymentDetail(0)" class="blue_link">[ + Add Payment ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12 search-panel">
+                    <div class="panel no-border-radius panel-body pnl-back-grey">
+                        <div class="col-md-2">
+                            <div class="col-md-2 mt-10"><span>Date: </span></div>
+                            <div class="col-md-10">
+                                <div class="input-group myDatePicker date">
+                                    <input type="text" class="form-control"
+                                           name="paymentDate" placeholder="Payment Date" ng-model="payment.paymentDate" tabindex="1">
+                                    <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary mr-5" ng-click="SearchPayment();">Search</button>
+                            <button type="button" class="btn btn-default" ng-click="ResetPayment();">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 no-padding">
+                    <div class="table-responsive table-grid">
+                        <table class="table table-bordered table-framed" id="tblPayment"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment modal -->
+    <div id="modal_Payment" class="modal fade">
+        <form class="form-horizontal" name="Paymentform" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Paymentform.$submitted && !Paymentform.$valid)">
+                                    <ul ng-show="(Paymentform.$submitted && (!Paymentform.$valid))">
+                                        <li ng-show="Paymentform.chequeAmount.$error.required">Cheque Amt is required.</li>
+                                        <li ng-show="Paymentform.ChequeNo.$error.required">Cheque No. is required.</li>
+                                        <li ng-show="Paymentform.Invoice.$error.required">Invoice is required.</li>
+                                        <li ng-show="Paymentform.paymentDate.$error.required">Inv Date is required.</li>
+                                        <li ng-show="Paymentform.InvAmt.$error.required">Inv Amount is required.</li>
+                                        <li ng-show="Paymentform.PaidBy.$error.required">Bill To is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary required">Cheque Amt</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="chequeAmount" class="form-control" ng-model="opjPayment.ChkAmt" required>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary required">Cheque No.</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="ChequeNo" class="form-control" ng-model="opjPayment.ChkNo" required>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 lbl-primary control-label mb-0 required">Invoice</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="Invoice" class="form-control" ng-model="opjPayment.Invoice" required>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 lbl-primary control-label mb-0 required">Inv Date</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group myDatePicker date">
+                                        <input type="text" class="form-control"
+                                               name="paymentDate" placeholder="Invoice Date" ng-model="opjPayment.PmtDate">
+                                        <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 lbl-primary control-label mb-0 required">Inv Amount</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="InvAmt" class="form-control" ng-model="opjPayment.InvAmt" required>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 lbl-primary control-label mb-0 required">Bill To</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="PaidBy" class="form-control" ng-model="opjPayment.PaidBy" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrUpdatePayment(Paymentform)" class="btn btn-primary" title="Save">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Payment modal -->
+</div>
+

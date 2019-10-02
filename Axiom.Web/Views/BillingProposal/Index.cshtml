@@ -1,0 +1,102 @@
+﻿@using Axiom.Web.Models
+@model Axiom.Entity.BillingProposalReply
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXIOM- Billing Proposal</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div class="navbar navbar-inverse fixed">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html"><img src="~/assets/images/logo-axiom.png" alt=""></a>
+            <ul class="nav navbar-nav pull-right visible-xs-block">
+                <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    @if (Model.BtnType == "y")
+    {
+        <div class="row pt-20">
+            <div class="col-md-12 text-center">
+                <b>Choose your Document Preference, you can add comments and click on Submit button to send to Account Executive.</b>
+            </div>
+        </div>
+
+        using (Html.BeginForm("UpdateBillingProposal", "BillingProposal", FormMethod.Post, new { @id = "frmService" }))
+        {
+            @Html.HiddenFor(m => m.AccExecutiveEmail);
+            @Html.HiddenFor(m => m.AccExecutiveName);
+            @Html.HiddenFor(m => m.OrderNo);
+            @Html.HiddenFor(m => m.Location);
+            @Html.HiddenFor(m => m.Pages);
+            @Html.HiddenFor(m => m.Amount);
+            @Html.HiddenFor(m => m.PartNo);
+            @Html.HiddenFor(m => m.AttorneyNm);
+            @Html.HiddenFor(m => m.BtnType);
+
+
+
+            <div class="row pt-20">
+                <div class="col-md-12 text-center">
+                    <div class="col-md-4 text-right pt-5">
+                        Document Preference:
+                    </div>
+                    <div class="col-md-4" style="text-align:left;">
+                        @*@Html.TextBoxFor(m => m.Newpages, new { @class = "form-control" })*@
+                        <label>Digital</label>&nbsp;@Html.RadioButtonFor(m => m.DocPreference, "true")
+                        <label>Hard Copy</label>&nbsp;@Html.RadioButtonFor(m => m.DocPreference, "false")
+                    </div>
+                </div>
+            </div>
+
+            <div class="row pt-10">
+                <div class="col-md-12 text-center">
+                    <div class="col-md-4 text-right pt-5">
+                        Comment:
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextAreaFor(m => m.Comment, new { @class = "form-control", @rows = 5 })
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-20">
+                <div class="col-md-12 text-center">
+                    <button type="submit" value="Submit" title="Submit" name="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="row mt-20">
+            <div class="col-lg-12 text-center">
+                <label class="colorGreen">Your response has been successfully sent to Account Executive.</label>
+            </div>
+        </div>
+    }
+    <div class="footer text-muted text-center">
+        &copy; @DateTime.Today.Year <a href="#">Axiom</a>, All Rights Reserved.
+    </div>
+</body>
+</html>
+<script type="text/javascript" lang="ja">
+    
+</script>
+<style type="text/css">
+    .colorGreen {
+        color: green;
+        font-weight: bold;
+    }
+</style>

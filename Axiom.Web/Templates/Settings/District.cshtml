@@ -1,0 +1,72 @@
+﻿<div class="page-content" ng-controller="DistrictController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-text2 mr-10 fs-19"></i>Manage District</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'District', 'Add District')"> <a ng-click="GetDistrictDetail(0)" class="blue_link">[ + Add District ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 no-padding">
+                <div class="table-responsive table-grid">
+                    <table class="table table-bordered table-framed" id="tblDistrict"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Primary modal -->
+    <div id="modal_District" class="modal fade">
+        <form class="form-horizontal" name="Districtform" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Districtform.$submitted && !Districtform.$valid)">
+                                    <ul ng-show="(Districtform.$submitted && (!Districtform.$valid))">
+                                        <li ng-show="Districtform.StateId.$error.required">State is required.</li>
+                                        <li ng-show="Districtform.DistrictName.$error.required">District Name is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-2 control-label lbl-primary required">State</label>
+                                <div class="col-sm-10">
+                                    <select id="ddlcounty" name="StateId" ng-model="DistrictObj.StateId" class="form-control" ng-options="item.StateId as item.StateName  for item in  Statelist" required>
+                                        <option value="">-- Select --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-2 control-label lbl-primary required">District</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="DistrictName" class="form-control" maxlength="50" ng-model="DistrictObj.DistrictName" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 lbl-primary control-label mb-0">Status</label>
+                                <div class="col-sm-10">
+                                    <ul class="borderless pt-0 pl-0">
+                                        <li class="li-checkbox col-sm-12 pl-0 pr-0"><label class="lbl-checkbox bg-white mb-0" ng-class="(DistrictObj.IsActive==true? 'active': '')"><input type="checkbox" name="IsActive" class="cursor-pointer" ng-checked="DistrictObj.IsActive" ng-model="DistrictObj.IsActive">Is Active</label></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrUpdateDistrict(Districtform)" title="Save" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

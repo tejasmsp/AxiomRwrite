@@ -1,0 +1,137 @@
+﻿<div class="page-content" ng-controller="IIFFilesController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-files-empty mr-10 fs-19"></i>IIF Files</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'IIF Files', 'Add Court')"> <a ng-click="GetCourtDetail(0)" href="#" class="blue_link">[ + Add Court ]</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <form class="form-horizontal" name="frmIIFFiles" novalidate>
+                <div id="messages">
+                    <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(frmIIFFiles.$submitted && !frmIIFFiles.$valid)">
+                        <ul ng-show="(frmIIFFiles.$submitted && (!frmIIFFiles.$valid))">
+                            <li ng-show="frmIIFFiles.IIFFileDate.$error.required">Please select date.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="required">Select Date:</label>
+                            <div class="input-group myDatePicker date">
+                                <input type="text" class="form-control"
+                                       name="IIFFileDate" placeholder="Select Date" ng-model="objIIFFile.Date" required>
+                                <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 ml-10" ng-if="isSubModuleAccessibleToUser('Settings', 'IIF Files', 'Download')">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <div class="input-group">
+                                <button type="submit" ng-click="GetIIFFiles(frmIIFFiles)" title="Download IIF File" class="btn btn-primary">Downoad</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 ml-10">
+                        <div class="form-group">
+                            <div class="input-group"><label><input type="checkbox" ng-model="objIIFFile.ToBePrint" ng-checked="false" >To Be Print</label></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <form class="form-horizontal" name="frmIIFFilesPrintCheck" novalidate>
+                <div id="messages">
+                    <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(frmIIFFilesPrintCheck.$submitted && !frmIIFFilesPrintCheck.$valid)">
+                        <ul ng-show="(frmIIFFilesPrintCheck.$submitted && (!frmIIFFilesPrintCheck.$valid))">
+                            <li ng-show="frmIIFFilesPrintCheck.FromDate.$error.required">Please select From Date.</li>
+                            <li ng-show="frmIIFFilesPrintCheck.ToDate.$error.required">Please select To Date.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="required">From Date:</label>
+                            <div class="input-group myDatePicker date">
+                                <input type="text" class="form-control" name="FromDate" placeholder="Select From Date" ng-model="objCheckDetail.FromDate" required>
+                                <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 ml-10">
+                        <div class="form-group">
+                            <label class="required">To Date:</label>
+                            <div class="input-group myDatePicker date">
+                                <input type="text" class="form-control" name="ToDate" placeholder="Select To Date" ng-model="objCheckDetail.ToDate" required>
+                                <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 ml-10">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <div class="input-group">
+                                <button type="submit" ng-click="GetCheckDetails(frmIIFFilesPrintCheck)" title="Fetch Check Detail" class="btn btn-primary">Check Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 ml-10">
+                        <div class="form-group">                                
+                            <div class="input-group"><label><input type="checkbox" ng-model="objCheckDetail.ToBePrint">To Be Print</label></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div id="CheckDetailResult" ng-show="showCheckResult" >
+                <form class="form-horizontal" name="formPrintCheck" novalidate>
+                                    <div id="messages1">
+                                        <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(formPrintCheck.$submitted && !formPrintCheck.$valid)">
+                                            <ul>
+                                                <li ng-show="formPrintCheck.CheckNumber.$error.required">Plesae enter check number.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="row md-3">
+                                        <label class="col-sm-1 control-label lbl-primary required">Check Number</label>
+                                        <div class="col-md-1">
+                                            <input type="text" name="CheckNumber" class="form-control" integer-only maxlength="8" ng-model="objPrinCheck.CheckNo" required />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="submit" ng-click="PrintCheck(formPrintCheck)" class="btn btn-primary">Print Check</button>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row md-2">
+                                        <label class="col-sm-4 control-label lbl-primary"></label>
+                                        <div class="col-md-2">
+
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive table-grid">
+                                        <table class="table table-bordered table-framed" id="tbliifCheckList"></table>
+                                    </div>
+                            @*<div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>*@                        
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

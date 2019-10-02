@@ -1,0 +1,97 @@
+﻿/* jqModal base Styling courtesy of;
+	Brice Burgess <bhb@iceburg.net> */
+
+/* The Window's CSS z-index value is respected (takes priority). If none is supplied,
+	the Window's z-index value will be set to 3000 by default (via jqModal.js). */
+	
+.jqmWindow {
+    display: none;
+    position: fixed;
+    top: 17%;
+    left: 50%;
+    
+    margin-left: -225px;
+    width: 450px;
+    
+    background-color: white;
+    color: black;
+    
+    box-shadow: 0px 2px 14px #303030;
+    border-radius: 5px;
+}
+
+.ie8 .jqmWindow
+{
+    border:1px solid #bbb;
+}
+
+
+.jqmHeader
+{
+    background-color:#b5121b;
+    padding:5px;
+    height: 25px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.jqmButtons
+{
+    padding: 10px;
+}
+.jqmHeaderTitle
+{
+    color: White;
+    float:left;
+    margin-top: 5px;
+    margin-left: 3px;
+    font-size: 1em;
+}
+.jqmHeaderRight {
+    color: white;
+    float: right;
+    padding-top: 7px;
+    padding-right: 3px;
+    font-size: .9em;
+}
+.jqmClose.closeBtn
+{
+    background-image: url('/Clients/images/icons/white_x.png');
+    background-repeat:no-repeat;
+    background-position:center center;
+    width: 13px;
+    height: 13px;
+    float:right;
+    margin-top: 5px;
+    margin-right: 3px;
+    cursor:pointer;
+}
+.jqmContent
+{
+    padding:10px;
+    /*font-size:1.2em;*/
+}
+.jqmContent p {
+    font-size: .95em;
+    line-height: 20px;
+    margin-bottom: 7px;
+}
+.jqmClose.closeBtn:hover
+{
+    opacity:0.8;
+}
+
+.jqmOverlay { background-color: #EFEBC3; }
+
+/* Background iframe styling for IE6. Prevents ActiveX bleed-through (<select> form elements, etc.) */
+* iframe.jqm {position:absolute;top:0;left:0;z-index:-1;
+	width: expression(this.parentNode.offsetWidth+'px');
+	height: expression(this.parentNode.offsetHeight+'px');
+}
+
+/* Fixed posistioning emulation for IE6
+     Star selector used to hide definition from browsers other than IE6
+     For valid CSS, use a conditional include instead */
+* html .jqmWindow {
+     position: absolute;
+     top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
+}

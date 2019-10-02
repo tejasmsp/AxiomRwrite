@@ -1,0 +1,235 @@
+﻿<div class="page-content" ng-controller="ScopeController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-text2 mr-10 fs-19"></i>Manage Scope</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Scope', 'Add Scope')"> <a ng-click="AddSelectedScope()" class="blue_link">[ + Add Scope ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-6 pr-0" style="position:relative; float:right; margin-bottom:-38px; z-index:10">
+                <label class="col-sm-8 control-label text-right mt-5"><strong>Scope Type:</strong></label>
+                <div class="col-sm-4 pr-0 pl-0">
+                    <select name="ddlscope" ng-model="SelectedScope" class="form-control" ng-change="fn_ChangeScope()">
+                        <option value="1" selected>Attorney Scope</option>
+                        <option value="2">Firm Scope</option>
+                        <option value="3">Default Scope</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="table-responsive table-grid" ng-if="SelectedScope=='1'">
+                    <table class="table table-bordered table-framed" id="tblAttorneyScope"></table>
+                </div>
+                <div class="table-responsive table-grid" ng-if="SelectedScope=='2'">
+                    <table class="table table-bordered table-framed" id="tblFirmScope"></table>
+                </div>
+                <div class="table-responsive table-grid" ng-if="SelectedScope=='3'">
+                    <table class="table table-bordered table-framed" id="tblDefaultScope"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_AttorneyScope" data-backdrop="static" data-keyboard="false" class="modal fade">
+        <form class="form-horizontal" name="AttorneyScopeform" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(AttorneyScopeform.$submitted && !AttorneyScopeform.$valid)">
+                                    <ul ng-show="(AttorneyScopeform.$submitted && (!AttorneyScopeform.$valid))">
+                                        <li ng-show="AttorneyScopeform.Attorney.$error.required">Attorney is required.</li>
+                                        <li ng-show="AttorneyScopeform.RecordType.$error.required">Record Type is required.</li>
+                                        <li ng-show="AttorneyScopeform.scope.$error.required">Scope is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-3 control-label lbl-primary required">Attorney</label>
+                                    <div class="col-sm-9">
+                                        <select name="Attorney" ng-model="AttorneyScopeObj.AttyID" class="form-control" ng-options="item.AttyID as item.AttorneyName for item in Attorneylist" required>
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-0">
+                                    <label class="col-sm-3 control-label lbl-primary required">Record Type</label>
+                                    <div class="col-sm-9">
+                                        <select name="RecordType" ng-model="AttorneyScopeObj.RecTypeID" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypelist" required></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-6 pl-0">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9 text-left">
+                                        <button type="button" ng-click="SelectScope()" class="btn btn-group-sm">Select Scope</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label lbl-primary required pt-0" style="width:12.2%">Scope</label>
+                                <div class="col-sm-10" style="width:87.8%">
+                                    <textarea rows="5" name="scope" ng-model="AttorneyScopeObj.Scope" class="form-control" required="required" style="resize:none;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrEditAttorneyScope(AttorneyScopeform)" class="btn btn-primary" title="Save"><lable ng-bind="btnText"></lable></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal_FirmScope" class="modal fade">
+        <form class="form-horizontal" name="FirmScopeform" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(FirmScopeform.$submitted && !FirmScopeform.$valid)">
+                                    <ul ng-show="(FirmScopeform.$submitted && (!FirmScopeform.$valid))">
+                                        <li ng-show="FirmScopeform.Firm.$error.required">Firm is required.</li>
+                                        <li ng-show="FirmScopeform.RecordType.$error.required">Record Type is required.</li>
+                                        <li ng-show="FirmScopeform.scope.$error.required">Scope is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-3 control-label lbl-primary required">Firm</label>
+                                    <div class="col-sm-9">
+                                        <select name="Firm" ng-model="FirmScopeObj.FirmID" class="form-control" ng-options="item.FirmID as item.FirmName for item in Firmlist" required>
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-0">
+                                    <label class="col-sm-3 control-label lbl-primary required">Record Type</label>
+                                    <div class="col-sm-9">
+                                        <select name="RecordType" ng-model="FirmScopeObj.RecTypeID" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypelist" required></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-6 pl-0">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9 text-left">
+                                        <button type="button" ng-click="SelectScope()" class="btn btn-group-sm">Select Scope</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label lbl-primary pt-0 required" style="width:12.2%">Scope</label>
+                                <div class="col-sm-10" style="width:87.8%">
+                                    <textarea rows="5" name="scope" ng-model="FirmScopeObj.Scope" class="form-control" required="required" style="resize:none"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrEditFirmScope(FirmScopeform)" class="btn btn-primary" title="Save"><lable ng-bind="btnText"></lable></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal_selectScope" class="modal fade">
+        <form class="form-horizontal" name="selectScopeform" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                        <i class="icon-file-check pull-left mr-10 mt-5"></i> <h6 class="modal-title">Select Scope</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel panel-white mb-0">
+                            <div class="panel-heading">
+                                <h6 class="panel-title text-semibold"><i class="icon-file-text2 position-left"></i>Scope List</h6>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12 no-padding">
+                                    <div class="table-responsive table-grid">
+                                        <table class="table table-bordered table-framed" id="tblScope"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal_DefaultScope" class="modal fade">
+        <form class="form-horizontal" name="DefaultScope" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(DefaultScope.$submitted && !DefaultScope.$valid)">
+                                    <ul ng-show="(DefaultScope.$submitted && (!DefaultScope.$valid))">
+                                        <li ng-show="DefaultScope.RecordType.$error.required">Record Type is required.</li>
+                                        <li ng-show="DefaultScope.scope.$error.required">Scope is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+
+                                <label class="col-sm-2 control-label lbl-primary required">Record Type</label>
+                                <div class="col-sm-10">
+                                    <select name="RecordType" ng-model="DefaultScopeObj.RecType" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypelist" required></select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label lbl-primary pt-0 required">Scope</label>
+                                <div class="col-sm-10">
+                                    <textarea rows="5" name="scope" ng-model="DefaultScopeObj.ScopeDesc" class="form-control" required="required" style="resize:none"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label lbl-primary pt-0 ">Is Default</label>
+                                <div class="col-sm-10">
+                                  <input type="checkbox" ng-model="DefaultScopeObj.IsDefault" ng-checked="DefaultScopeObj.IsDefault"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrEditDefaultScope(DefaultScope)" class="btn btn-primary" title="Save"><lable ng-bind="btnText"></lable></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

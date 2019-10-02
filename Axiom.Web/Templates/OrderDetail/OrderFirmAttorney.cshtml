@@ -1,0 +1,452 @@
+﻿<div class="panel panel-white cls-box">
+    <div class="panel-heading">
+        <h4 class="panel-title text-semibold"><i class="icon-address-book position-left"></i>Contacts</h4>
+        <div class="heading-elements" ng-if="PartNo==0">
+            <ul class="icons-list mt-0">
+                <li ng-if="isSubModuleAccessibleToUser('Order', 'Order Detail', 'Add Contacts')"> 
+                        <button ng-click="NewRqstAttorneyPopup()" class="btn btn-primary pull-right"> <i class="icon-plus3 mr-5 font-10 mt-1"></i> Add </button>
+                </li>
+                    
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body pnl-back-grey pa-10 overflow-auto cls-boxscroll cls-box-sm-height" >
+        <div class="table-responsive table-grid">
+            <table class="table table-bordered table-framed">
+                <thead>
+                    <tr>
+                        <th width="7%">#</th>
+                        <th>Name</th>
+                        <th width="15%">Company</th>
+                        <th class="text-center" width="12%">Patient's Atty.</th>
+                        <th class="text-center" width="10%" ng-if="PartNo==0">Waiver</th>
+                        <th class="text-center" width="16%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in OrderFirmAttorneyList" ng-class="(item.IsOrderAttorneyDisabled)?'bg-slate':''"  >
+                        <td style="vertical-align:top">{{$index + 1}}</td>
+                        <td style="vertical-align:top">
+                            {{item.FirstName +" " +item.LastName +" - "+ item.AttyEmail}}  <div class="clearfix"></div> {{item.FirmName}} <div class="clearfix"></div>{{item.Notes}} <div class="clearfix"></div>
+                            <div id="div_{{$index + 1}}" class="collapse">
+                                <b>Phone : </b>{{item.Phone}}
+                                <div class="clearfix"></div>
+                                <b>Fax :</b> {{item.Fax}}<div class="clearfix"></div>
+                                <b>Assistant :</b> {{item.Assistant}}<div class="clearfix"></div>
+                                <b>Atty Warning : </b>{{item.AttyWarning}}<div class="clearfix"></div>
+                                <b>Firm Warning :</b> {{item.FirmWarning}}
+                            </div>
+
+                        </td>
+                        <td style="vertical-align:top">{{item.Descr}}<div class="clearfix"></div>{{item.Represents}}</td>
+                        <td style="vertical-align:top" align="center">
+                            <label class="label bg-success-400" ng-show="item.IsPatientAttorney">Yes</label>
+                            <label class="label bg-danger" ng-show="!item.IsPatientAttorney">No</label>
+                            @*<input type="checkbox" name="IsPatientAttorney" checked="checked" ng-disabled="true" class="cursor-pointer" ng-checked="item.IsPatientAttorney" ng-model="item.IsPatientAttorney">*@
+                        </td>
+                        <td style="vertical-align:top;text-align:center" ng-if="PartNo==0">
+                        <a class="ico_btn" ng-click="WaiverPopUp(item.OrderFirmAttorneyId)"><i class="icon-plus3"></i> </a></td>
+                        <td style="vertical-align:top" align="center">
+                            <a class="ico_btn" ng-click="EditFirmAttorneyPopup(item.OrderFirmAttorneyId)" ng-if="PartNo==0"><i class="icon-pencil3"></i> </a>
+                            <a class="ico_btn" data-toggle="collapse" data-target='#div_{{$index + 1}}'><i class="icon-eye"></i></a>
+                            <a class="ico_btn" data-toggle='tooltip' data-placement='left' tooltip title="{{(item.IsOrderAttorneyDisabled)?'Enable Attorney':'Disable Attorney'}}"  ng-click="ChangeOrderAttorneyStatus(item)"><i class="glyphicon glyphicon-ban-circle" ng-class="(item.IsOrderAttorneyDisabled)?'disable-order-atty':'enable-order-atty'"></i> </a>
+                        </td>
+                    </tr>
+                  </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="modal_waiver" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <form name="waiverform" class="form-horizontal" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Clsoe">&times;</button>
+                        <h5 class="modal-title">Waiver Response</h5>
+                    </div>
+                    <div class="modal-body" style="overflow-y: scroll!important;height:720px!important">
+                        <div class="modal-container">
+                            <div class="table-responsive table-grid">
+                                <table class="table table-bordered table-framed" id="tblWaiver" >
+                                    <tr>
+                                        <td>Part No</td>
+                                        <td>Location</td>
+                                        <td width="15%"><div>
+                                                <label for="radWaived" class="cursor-pointer" >Waived</label>
+                                                <input id="radWaived" name="radWaivedCopy" type="radio" @*ng-model="rbtnWaived"*@ ng-click="ChangeAllWaived_Copy(1)"  />
+                                            </div>
+                                        </td>
+                                        <td width="15%">
+                                            <div>
+                                                <label for="radCopy" class="cursor-pointer">Copy</label>
+                                                <input id="radCopy" name="radWaivedCopy" type="radio" @*ng-model="rbtnCopy"*@ ng-click="ChangeAllWaived_Copy(2)"   />
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="item in waiverList">
+                                        <td>{{item.PartNo}}</td>
+                                        <td>{{item.Location}}</td>
+                                        <td class="text-center">
+                                            <input type="radio" name="{{item.PartNo}}_waiver" checked="checked" class="cursor-pointer" ng-value="true" ng-change="SetValue(this.item,1)" ng-checked="item.Waiver" ng-model="item.Waiver">
+                                        </td>
+                                        <td class="text-center"> <input type="radio" name="{{item.PartNo}}_waiver" checked="checked" class="cursor-pointer" ng-value="true" ng-change="SetValue(this.item,2)" ng-checked="item.Copy" ng-model="item.Copy">  </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="button" title="Save" value="Save" ng-click="SaveWaiver(waiverform)" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal_FirmAttorney" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <form name="FirmAttorneyform" class="form-horizontal" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal"  title="Close">&times;</button>
+                        <h5 class="modal-title">New Request Attorney</h5>
+                    </div>
+                    <div class="modal-body" style="overflow-y: scroll!important;height:720px!important">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(FirmAttorneyform.$submitted && !FirmAttorneyform.$valid)">
+                                    <ul ng-show="(FirmAttorneyform.$submitted && (!FirmAttorneyform.$valid))">
+                                        <li ng-show="FirmAttorneyform.FirmID.$error.required">Firm ID is required.</li>
+                                        <li ng-show="FirmAttorneyform.AttyId.$error.required">Attorney is required.</li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Select Firm:</label>
+                                        <div class="col-sm-9">
+                                            <input type="button" class="btn btn-default" ng-click="SelectFirmPopup()"  value="Select Firm" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary required">Firm ID:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="FirmID" ng-model="FirmAttorneyObj.FirmID" ng-disabled="true" placeholder="Firm ID" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary required">Firm Name:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="FirmID" ng-model="FirmAttorneyObj.FirmName" ng-disabled="true" placeholder="Firm ID" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary required">Attorney:</label>
+                                        <div class="col-sm-9">
+                                            <select name="AttyId" ng-model="FirmAttorneyObj.AttyId" ng-change="GetAttorneyByAttyId()" class="form-control" ng-options="item.AttyID as item.AttorneyName for item in AttorneyListByFirm" required>
+                                                <option value="">--Select--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Salutation:</label>
+                                        <div class="col-sm-9">
+                                            <select name="ddlSalutation" ng-model="FirmAttorneyObj.Salutation" ng-disabled="true" class="form-control" ng-options="item.Code as item.Descr for item in SalutationList">
+                                                <option value="">--Select--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">First Name:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="FirmID" ng-model="FirmAttorneyObj.FirstName" ng-disabled="true" placeholder="First Name" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Last Name:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="FirmID" ng-model="FirmAttorneyObj.LastName" ng-disabled="true" placeholder="Last Name" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-hide="IsEdit">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Address 1:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="Address1" ng-model="FirmAttorneyObj.Street1" ng-disabled="true" placeholder="Address 1" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary ">Address 2:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="Address2" ng-model="FirmAttorneyObj.Street2" ng-disabled="true" placeholder="Address 2" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-hide="IsEdit">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">City:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="City" ng-model="FirmAttorneyObj.City" ng-disabled="true" placeholder="City" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">State:</label>
+                                        <div class="col-sm-9">
+                                            <select ng-model="FirmAttorneyObj.State" class="form-control" ng-disabled="true" ng-options="item.StateId as item.StateName for item in Statelist">
+                                                <option value="">--Select--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-hide="IsEdit">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Zip:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="Zip" ng-model="FirmAttorneyObj.Zip" ng-disabled="true" placeholder="Zip" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-hide="IsEdit">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Phone:</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" name="AreaCode1" ng-model="FirmAttorneyObj.AreaCode1" ng-disabled="true" maxlength="4" placeholder="Code" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" name="PhoneNo" ng-model="FirmAttorneyObj.PhoneNo" ng-disabled="true" maxlength="12" placeholder="PhoneNo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Fax:</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" name="AreaCode3" ng-model="FirmAttorneyObj.AreaCode2" ng-disabled="true" maxlength="4" placeholder="Code" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" name="FaxNo" ng-model="FirmAttorneyObj.FaxNo" ng-disabled="true" maxlength="12" placeholder="FaxNo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6" ng-hide="IsEdit">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">State Bar No.:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="StateBarNo" ng-model="FirmAttorneyObj.StateBarNo" ng-disabled="true" placeholder="State Bar   No" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Attorney For.:</label>
+                                        <div class="col-sm-9">
+                                            <select ng-model="FirmAttorneyObj.AttorneyFor" class="form-control" ng-options="item.Code as item.Descr for item in AttorneyList" >
+                                                <option value="">--Select--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Represents</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="Represents" ng-model="FirmAttorneyObj.Represents" placeholder="Represent" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3  lbl-primary">Remark:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="Notes" ng-model="FirmAttorneyObj.Notes" placeholder="Notes" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 lbl-primary" style="padding-top:0px;">Is Patient Attorney?:</label>
+                                        <div class="col-sm-8">
+                                            <input type="checkbox" ng-model="FirmAttorneyObj.IsPatientAttorney" name="IsPatientAttorney" class="checkbox">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">OppSide?:</label>
+                                        <div class="col-sm-9">
+                                            <input type="checkbox" ng-model="FirmAttorneyObj.OppSide" name="OppSide" class="checkbox">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="button" title="Save" value="Save" ng-click="SaveNewRqstAttorney(FirmAttorneyform)" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal_FirmSearchForAttorneyContacts" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <form name="Firmform" class="form-horizontal" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5 class="modal-title">Firm</h5>
+                    </div>
+                    <div class="modal-body" style="overflow-y: scroll!important;height:720px!important">
+                        <div class="modal-container">
+                            <div class="row">
+                                <div class="col-md-12 no-padding">
+                                    <div class="panel-group panel-group-control panel-group-control-right">
+                                        <div class="panel panel-white">
+                                            <div class="panel-heading">
+                                                <h6 class="panel-title">
+                                                    <a class="wd-full collapsed" data-toggle="collapse" href="#SearchPanel">
+                                                        <i class="icon-search4 position-left"></i> <b class="text-bold pt-0" style="text-transform:uppercase;">Advanced Search</b>
+                                                    </a>
+                                                </h6>
+                                            </div>
+                                            <div id="SearchPanel" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <div class="row" style="padding:20px 0px;">
+                                                        <div class="col-md-3 hidden">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-3">Type :</label>
+                                                                <div class="col-sm-9">
+                                                                    <label class="control-label radio-inline"><input type="radio" /> Firm</label>
+                                                                    <label class="control-label radio-inline"><input type="radio" /> Doctor</label>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-3">ID:</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" name="FirmID" class="form-control" maxlength="8" ng-model="FirmSearchObj.FirmID" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-3">Name:</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" name="FirmName" class="form-control" maxlength="300" ng-model="FirmSearchObj.FirmName">
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-3">Address:</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" name="Address" class="form-control" maxlength="100" ng-model="FirmSearchObj.Address" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-3">City:</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" name="City" class="form-control" maxlength="50" ng-model="FirmSearchObj.City">
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-sm-3">State:</label>
+                                                                <div class="col-sm-9">
+                                                                    <select ng-model="FirmSearchObj.State" class="form-control" ng-options="item.StateId as item.StateName for item in Statelist">
+                                                                        <option value="">--Select--</option>
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <div class="col-sm-9 col-sm-offset-3">
+                                                                    <button class="btn btn-default mr-5" ng-click="ClearFirmSearch_Click()">Clear</button>
+                                                                    <button class="btn btn-primary" ng-click="FirmSearch_Click()">Search</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group pb-0 mb-0">
+                                        <div class="table-responsive table-grid">
+                                            <table class="table table-bordered table-framed" id="tblFirm"></table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

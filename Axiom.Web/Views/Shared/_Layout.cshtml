@@ -1,0 +1,424 @@
+﻿<!DOCTYPE html>
+<html ng-app="AXIOM">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*<title>Axiom | @ViewBag.Title</title>*@
+    <title ng-cloak ng-bind="'Axiom | '+pageTitle"></title>
+    <base href="/" />
+    @Styles.Render("~/Content/css")
+</head>
+<body ng-cloak>
+    <!-- Main navbar -->
+    <div class="navbar navbar-inverse fixed" ng-controller="SessionController">
+        <div class="navbar-header">
+            <div ng-if="(LoggedInUserDetail.RoleName.indexOf('Administrator') == -1)">
+                <a class="navbar-brand" href="" ui-sref="Dashboard"><img src="~/assets/images/logo-axiom.png" alt=""></a>
+            </div>
+            <div ng-if="(LoggedInUserDetail.RoleName.indexOf('Administrator')!=-1)">
+                <a class="navbar-brand" href="" ui-sref="Home"><img src="~/assets/images/logo-axiom.png" alt=""></a>
+            </div>
+            <ul class="nav navbar-nav pull-right visible-xs-block">
+                <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            </ul>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-mobile">
+            <ul class="nav navbar-nav"></ul>
+            <ul class="nav navbar-nav navbar-right" style="margin-top:12px;">
+                <li class="dropdown dropdown-user" style="min-width:180px;">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="assets/images/placeholder.jpg" alt="">
+                        <span ng-bind="LoggedInUserDetail.UserName"></span>
+                        <i class="caret"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a ng-click="MyProfile()" id="anchorUserProfile"><i class="icon-user-plus"></i> My profile</a></li>
+                        @*<li><a ng-click="ClientRecordsPopup()" id="anchorUserProfile"><i class="icon-user-plus"></i>New Records</a></li>
+                            <li><a ng-click="ClientRecordsPopup()" id="anchorUserProfile"><i class="icon-user-plus"></i>More Information Needed</a></li>*@
+                        <li class="divider"></li>
+                        <li><a ng-click="ChangePassword()" href="#"><i class="icon-cog5"></i>Change Password</a></li>
+                        <li><a href="" id="btnLogout"><i class="icon-switch2"></i> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right dots ul-notification">
+                <li>
+                    <a ng-click="UserNotification()">
+                        <span class="glyphicon glyphicon-bell">
+                            <mark ng-show="NotificationCount > 0" ng-bind="NotificationCount"></mark>
+                        </span>
+                    </a>
+                </li>
+                @*<li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="User Notification" ng-init="GetUserNotification()">
+                            <span class="icon-bubbles4">
+                                <mark ng-show="UserNotificationCount>0" ng-bind="UserNotificationCount"></mark>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-content width-350 cls-notification" ng-show="UserNotificationCount>0">
+                            <div class="dropdown-content-heading user-notilication-media-list">
+                                <i class="icon-bubble9 mr-5"></i> Messages
+                                <ul class="icons-list">
+                                    <li><a ng-click="UpdateUserNotification(0)" title="Remove All Notification" style="padding-right:30px"> <i class="icon-folder-remove cursor-pointer"></i></a></li>
+                                </ul>
+                            </div>
+                            <ul class="media-list dropdown-content-body user-notilication-media-list pl-0 pr-0">
+                                <li class="media cursor-pointer" ng-repeat="item in UserNotificationList" ng-class="($index!=UserNotificationList.length-1)?'media-border-bottom':''">
+                                    <div class="media-body pl-10" ng-click="ShowOrder(item.OrderNo,item.PartNo)">
+                                        <div ng-bind-html="item.NotificationText"></div>
+                                        <div class="media-annotation" ng-bind="item.strCreatedDate"></div>
+                                    </div>
+                                    <div class="media-right pr-10">
+                                        <a title="Delete" ng-click="UpdateUserNotification(item.ID)"> <i class="icon-x cursor-pointer"></i></a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>*@
+            </ul>
+
+        </div>
+    </div>
+
+    <div id="modal_MyProfile" data-backdrop="static" class="modal fade" static-Include="./Templates/Userprofile/UserProfile.cshtml" ng-controller="UserProfileController">
+    </div>
+
+    <div id="modal_Notification" class="modal fade" data-keyboard="false" static-Include="./Templates/Userprofile/UserNotification.cshtml" ng-controller="UserNotificationController">
+    </div>
+
+    <div id="modal_MyProfileChangePassword" class="modal fade" static-Include="./Templates/Userprofile/ChangePassword.cshtml" ng-controller="ChangePasswordController">
+    </div>
+
+    @*<div id="modal_ClientRecords" class="modal fade" static-Include="./Templates/Home/ClientRecords.cshtml" ng-controller="ClientController">
+        </div>*@
+
+    <!-- /main navbar -->
+    <!-- Second navbar -->
+    <div class="navbar navbar-default" id="navbar-second">
+        <ul class="nav navbar-nav no-border visible-xs-block">
+            <li><a class="text-center collapsed" data-toggle="collapse" data-target="#navbar-second-toggle"><i class="icon-menu7"></i></a></li>
+        </ul>
+        <div class="navbar-collapse collapse" id="navbar-second-toggle">
+            <ul class="nav navbar-nav">
+                <li ng-if="(LoggedInUserDetail.RoleName.indexOf('Attorney')!=-1) " ng-class="{ active:$state.includes('Dashboard')}"><a href="" ui-sref="Dashboard"><i class="icon-home4 position-left"></i>Dashboard</a></li>
+                <li ng-if="(LoggedInUserDetail.RoleName.indexOf('Attorney')==-1)" ng-class="{ active:$state.includes('Home')}"><a href="" ui-sref="Home"><i class="icon-home4 position-left"></i>Dashboard</a></li>
+                <li ng-if="isSubModuleAccessibleToUser('Order', 'Order', 'View')" class="dropdown" ng-class="{ active: $state.includes('EditOrder') }">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-bookmark position-left"></i>Order<span class="caret"></span></a>
+                    <ul class="dropdown-menu width-250">
+                        <li ng-class="{ active: $state.includes('EditOrder')}">
+                            <a href="" class="navlink" ui-sref="EditOrder({OrderId:0,Step:Enum.OrderWizardStep.Step1})"><i class="icon-file-plus position-left"></i>New Order</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('OrderList') }" ng-if="isSubModuleAccessibleToUser('Order', 'Orders', 'View')">
+                            <a href="" ui-sref="OrderList"><i class="icon-bookmark position-left"></i>Orders </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li ng-class="{ active: $state.includes('SearchOrderList')|| $state.includes('OrderDetail')|| $state.includes('PartDetail')}" ng-if="isSubModuleAccessibleToUser('Search', 'Search', 'View')"><a ui-sref="SearchOrderList"><i class="icon-search4 position-left"></i>Search</a></li>
+                <li ng-class="{ active: $state.includes('AttorneyUsers') || $state.includes('Employees') || $state.includes('Scope') || $state.includes('SSN')|| $state.includes('Payment')|| $state.includes('InvoiceBatch') || $state.includes('BillingRate')  || $state.includes('Department')  || $state.includes('County') || $state.includes('District') || $state.includes('Court')|| $state.includes('QuickNotes') || $state.includes('Message') || $state.includes('Log')|| $state.includes('IIFFiles')|| $state.includes('Company')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Settings', 'View')" class="dropdown mega-menu mega-menu-wide">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog3 position-left"></i>Settings<span class="caret"></span></a>
+                    <div class="dropdown-menu dropdown-content">
+                        <div class="dropdown-content-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">User and Scope</span>
+                                    <ul class="menu-list">
+                                        <li ng-class="{ active: $state.includes('AttorneyUsers')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Attorney Users', 'View')"><a href="#" ui-sref="AttorneyUsers"><i class="icon-bookmark4 position-left"></i>Attorney Users</a></li>
+                                        <li ng-class="{ active: $state.includes('Employees')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Employees', 'View')"><a href="#" ui-sref="Employees"><i class="icon-users2 position-left"></i>Employees</a></li>
+                                        <li ng-class="{ active: $state.includes('Scope')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Scope', 'View')"><a href="#" ui-sref="Scope"><i class="icon-file-text2 position-left"></i>Scope</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Utility</span>
+                                    <ul class="menu-list">
+                                        <li ng-class="{ active: $state.includes('SSN')}" ng-show="isSubModuleAccessibleToUser('Settings', 'SSN', 'View')"><a ui-sref="SSN"><i class="icon-wrench position-left"></i>SSN</a></li>
+                                        <li ng-class="{ active: $state.includes('InvoiceBatch')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Invoice Batch', 'View')"><a href="#" ui-sref="InvoiceBatch"><i class="icon-calculator position-left"></i>Invoice Batch</a></li>
+                                        <li ng-class="{ active: $state.includes('BillingRate')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Billing Rate', 'View')"><a href="#" ui-sref="BillingRate"><i class="icon-file-spreadsheet position-left"></i>Billing Rate</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Locations</span>
+                                    <ul class="menu-list">
+                                        <li ng-class="{ active: $state.includes('Department')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Department', 'View')"><a href="#" ui-sref="Department"><i class="icon-file-text2 position-left"></i>Department</a></li>
+                                        <li ng-class="{ active: $state.includes('County')}" ng-show="isSubModuleAccessibleToUser('Settings', 'County', 'View')"><a href="#" ui-sref="County"><i class=" icon-flag3 position-left"></i>County</a></li>
+                                        <li ng-class="{ active: $state.includes('District')}" ng-show="isSubModuleAccessibleToUser('Settings', 'District', 'View')"><a href="#" ui-sref="District"><i class="icon-file-text2 position-left"></i>District</a></li>
+                                        <li ng-class="{ active: $state.includes('Court')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Court', 'View')"><a href="#" ui-sref="Court"><i class="icon-file-text2 position-left"></i>Court</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="menu-heading underlined">Other</span>
+                                    <ul class="menu-list">
+                                        <li ng-class="{ active: $state.includes('QuickNotes')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Quick Notes', 'View')"><a href="#" ui-sref="QuickNotes"><i class="icon-clipboard3 position-left"></i>Quick Notes</a></li>
+                                        <li ng-class="{ active: $state.includes('Message')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Message', 'View')"><a href="#" ui-sref="Message"><i class="icon-bubble2 position-left"></i>Message</a></li>
+                                        <li ng-class="{ active: $state.includes('ManageLog')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Log', 'View')"><a href="#" ui-sref="ManageLog"><i class="icon-folder6 position-left"></i>Log</a></li>
+                                        <li ng-class="{ active: $state.includes('IIFFiles')}" ng-show="isSubModuleAccessibleToUser('Settings', 'IIF Files', 'View')"><a href="#" ui-sref="IIFFiles"><i class="icon-files-empty position-left"></i>IIF Files</a></li>
+                                        <li ng-class="{ active: $state.includes('Company')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Company', 'View')"><a href="#" ui-sref="Company"><i class=" icon-store position-left"></i>Company</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li ng-class="{ active: $state.includes('Location') || $state.includes('Firm') || $state.includes('AttorneyDetail') || $state.includes('Roles')}" ng-if="isSubModuleAccessibleToUser('Admin', 'Admin', 'View')" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user position-left"></i>Admin<span class="caret"></span></a>
+                    <ul class="dropdown-menu width-250">
+                        <li ng-class="{ active: $state.includes('Location')}" ng-if="isSubModuleAccessibleToUser('Admin', 'Location', 'View')">
+                            <a href="" class="navlink" ui-sref="Location"><i class=" icon-location3 position-left"></i>Location</a>
+                        </li>
+
+                        <li ng-class="{ active: $state.includes('Firm')}" ng-if="isSubModuleAccessibleToUser('Admin', 'Firms', 'View')">
+                            <a href="#" ui-sref="Firm"><i class="icon-versions position-left"></i>Firms</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('AttorneyDetail')}" ng-if="isSubModuleAccessibleToUser('Admin', 'Attorneys', 'View')">
+                            <a href="#" ui-sref="AttorneyDetail"><i class="icon-file-media position-left"></i>Attorneys</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('Roles')}" ng-if="isSubModuleAccessibleToUser('Admin', 'Roles', 'View')">
+                            <a href="" class="navlink" ui-sref="Roles"><i class="icon-file-locked position-left"></i>Roles</a>
+                        </li>
+
+
+                    </ul>
+                </li>
+                <li ng-class="{ active: $state.includes('Billing')}" ng-if="isSubModuleAccessibleToUser('Billing', 'Billing', 'View')">
+                    <a href="Billing"><i class="icon-stack2 position-left"></i>Billing</a>
+                </li>
+                <li ng-class="{ active: $state.includes('EmployeeLog')}" ng-if="isSubModuleAccessibleToUser('EmployeeLog', 'EmployeeLog', 'View')">
+                    <a href="EmployeeLog"><i class="icon-folder6 position-left"></i>Logs (<span ng-bind="employeeLogCount"></span>)</a>
+                </li>
+                <li ng-class="{ active:$state.includes('AR') || $state.includes('AccountReceivable') || $state.includes('VoidInvoice') }" ng-if="isSubModuleAccessibleToUser('EmployeeLog', 'EmployeeLog', 'View')">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book3 position-left"></i>Account<span class="caret"></span></a>
+                    @*<a href="AccountReceivable"><i class="icon-book3 position-left"></i>Account Receivable</a>*@
+                    <ul class="dropdown-menu width-250">
+                        <li ng-class="{ active: $state.includes('AccountReceivable')}" ng-if="isSubModuleAccessibleToUser('EmployeeLog', 'EmployeeLog', 'View')">
+                            <a href="AccountReceivable" class="navlink" ui-sref="AccountReceivable"><i class="icon-book position-left"></i>Account Receivable</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('VoidInvoice')}" ng-if="isSubModuleAccessibleToUser('EmployeeLog', 'EmployeeLog', 'View')">
+                            <a href="" class="navlink" ui-sref="VoidInvoice"><i class="icon-checkmark4 position-left"></i>Void Invoice</a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-class="{ active: $state.includes('AccessReports')}" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book3 position-left"></i>Reports<span class="caret"></span></a>
+                    <ul class="dropdown-menu width-250">
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'PartsByDate') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'PartsByDate'})"><i class="icon-file-stats position-left"></i>Parts By Date</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'InvoiceByDate') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'InvoiceByDate'})"><i class="icon-file-stats position-left"></i>Invoice By Date</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'ChecksByDate') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'ChecksByDate'})"><i class="icon-file-stats position-left"></i>Checks By Date</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'ChecksByNumber') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'ChecksByNumber'})"><i class="icon-file-stats position-left"></i>Checks By Number</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'OrderBySSN') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'OrderBySSN'})"><i class="icon-file-stats position-left"></i>Order By SSN</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'NonInvoicedParts') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'NonInvoicedParts'})"><i class="icon-file-stats position-left"></i>Non Invoiced Parts</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'HanoverBilling') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'HanoverBilling'})"><i class="icon-file-stats position-left"></i>Hanover Billing</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'HanoverBillingFees') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'HanoverBillingFees'})"><i class="icon-file-stats position-left"></i>Hanover Billing Fees</a>
+                        </li>
+
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'GrangeBilling') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'GrangeBilling'})"><i class="icon-file-stats position-left"></i>Grange Billing</a>
+                        </li>
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'GroverBilling') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'GroverBilling'})"><i class="icon-file-stats position-left"></i>Hackney/Grover</a>
+                        </li>
+                    </ul>
+                    @*<a href="AccessReports"><i class="icon-books position-left"></i>Reports</a>*@
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-controller="AccountExecutiveController">
+                    <a data-toggle="modal" data-target="#modal_Account_Executive"><i class="icon-vcard position-left"></i>Account Executive</a>
+                    <div id="modal_Account_Executive" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-main">
+                                    <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                                    <i class="icon-vcard pull-left mr-10 fs-19" style="margin-top:2px;"></i><h6 class="modal-title">Account Executive</h6>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="modal-container">
+                                        <div class="row mb-5">
+                                            <label class="col-sm-3 control-label lbl-primary">Name</label>
+                                            <div class="col-sm-9">
+                                                <label class="control-label lbl-secondary">{{AccountExecutiveObj.Name}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-5">
+                                            <label class="col-sm-3 control-label lbl-primary">Email</label>
+                                            <div class="col-sm-9">
+                                                <label class="control-label lbl-secondary">{{AccountExecutiveObj.Email}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-5">
+                                            <label class="col-sm-3 control-label lbl-primary">Phone</label>
+                                            <div class="col-sm-9">
+                                                <label class="control-label lbl-secondary">517.886.5099</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-5">
+                                            <label class="col-sm-3 control-label lbl-primary">Fax</label>
+                                            <div class="col-sm-9">
+                                                <label class="control-label lbl-secondary">517.886.4116</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-3 mb-0 control-label lbl-primary">Toll Free</label>
+                                            <div class="col-sm-9">
+                                                <label class="control-label lbl-secondary mb-0">877.886.5090</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="loader" data-loading><img src="~/assets/images/loader2.gif" /></div>
+    <section class="page-container">
+        @RenderBody()
+    </section>
+    @*<div class="page-container">
+            <!-- Page content -->
+            <div class="page-content">
+                <!-- Main content -->
+
+                    @RenderBody()
+
+                <!-- /main content -->
+            </div>
+            <!-- /page content -->
+        </div>*@
+    <!-- /page container -->
+    <!-- Footer -->
+    <div class="footer text-muted">
+        &copy; @DateTime.Today.Year <a href="#">Axiom</a>, All Rights Reserved.
+    </div>
+
+
+
+    <!-- /footer -->
+    @Scripts.Render("~/bundles/Common")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/angular?v=" + @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["ApplicationVersion"]))
+    @Scripts.Render("~/bundles/modernizr?v=" + @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["ApplicationVersion"]))
+    @Scripts.Render("~/bundles/appConfig?v=" + @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["ApplicationVersion"]))
+    @Scripts.Render("~/bundles/ControllerAndServices?v=" + @Html.Raw(System.Configuration.ConfigurationManager.AppSettings["ApplicationVersion"]))
+
+    <script>
+        $(document).ready(function () {
+
+            ApplicationVersion=@Html.Raw(System.Configuration.ConfigurationManager.AppSettings["ApplicationVersion"]);
+
+            $(document).ajaxStart(function () {
+                $('.loader').show();
+            })
+            .ajaxStop(function () {
+                $('.loader').hide();
+                });
+
+        });
+
+        $(".mega-menu-wide a").on("click", function () {
+            $('.mega-menu-wide').removeClass('open');
+        });
+
+
+        //$('li.dropdown.mega-menu.mega-menu-wide a').on('click', function (event) {
+        //    $(this).parent().toggleClass('open');
+        //});
+
+        $("#btnLogout").click(function (e) {
+            $.ajax({
+                type: "Get",
+                url: "/Logout",
+                success: function (result) {
+                    window.location.href = '@Url.Action("Index","Login")';
+                },
+                error: function (result) {
+                    alert('error');
+                }
+            });
+        });
+
+        //SessionController
+        app.controller('SessionController', function ($scope, $state, localStorageService, $stateParams, $rootScope, MessageServices, notificationFactory, configurationService, $compile, $filter) {
+            var aaa = $state;
+            $rootScope.LoggedInUserDetail =@Html.Raw(Json.Encode(@ProjectSession.LoggedInUserDetail));
+            $rootScope.NotificationCount;
+            if(!isNullOrUndefinedOrEmpty($rootScope.LoggedInUserDetail) && !isNullOrUndefinedOrEmpty($rootScope.LoggedInUserDetail.Permissions)){
+                $rootScope.UserPermissionList = $rootScope.LoggedInUserDetail.Permissions;
+                $rootScope.IsAdmin = $rootScope.LoggedInUserDetail.IsAdmin;
+                $rootScope.IsAttyUser = ($rootScope.LoggedInUserDetail.RoleName.indexOf("Attorney") !=-1);
+                $scope.UserAccessId = $rootScope.LoggedInUserDetail.UserAccessId;
+            };
+            $rootScope.Enum=enums;
+            $scope.MyProfile = function() {
+                angular.element("#modal_MyProfile").modal('show');
+            };
+
+            $scope.UserNotification = function () {
+                angular.element("#modal_Notification").modal('show');
+            };
+
+            $scope.ChangePassword = function() {
+                angular.element("#modal_MyProfileChangePassword").modal('show');
+                // $scope.ChangePasswordForm.$setPristine();
+            };
+            $scope.ClientRecordsPopup = function () {
+                angular.element("#modal_ClientRecords").modal('show');
+                // $scope.ChangePasswordForm.$setPristine();
+            };
+
+            $scope.GetUserNotification = function () {
+                var promise = MessageServices.GetUserNotification($scope.UserAccessId);
+                promise.success(function (response) {
+                    $scope.UserNotificationList = response.Data;
+                    if ($scope.UserNotificationList != null) {
+                        $rootScope.UserNotificationCount = $scope.UserNotificationList.length;
+                    }
+                });
+                promise.error(function (data, statusCode) {
+                });
+            };
+
+            $scope.UpdateUserNotification = function (ID) {
+                var promise = MessageServices.UpdateUserNotification($scope.UserAccessId,ID);
+                promise.success(function (response) {
+                    $scope.GetUserNotification();
+                });
+                promise.error(function (data, statusCode) {
+                });
+            };
+
+            $scope.ShowOrder = function (OrderId,PartNo) {
+                window.open($state.href('PartDetail', { 'OrderId': OrderId, 'PartNo': PartNo }), '_blank');
+            };
+
+
+        });
+
+        function InvoiceBatchIframeLoaded() {
+            $('.loader').hide();
+        }
+    </script>
+</body>
+</html>

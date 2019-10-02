@@ -1,0 +1,165 @@
+﻿
+<fieldset>
+    <legend class="text-semibold">
+        <i class="icon-file-text2 position-left"></i>
+        Notes
+    </legend>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-2 lbl-primary">Quick Notes</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="Quicknote" ng-model="PartNoteObj.PartStatusId" ng-options="item.PartStatusId as item.PartStatus for item in QuickNoteList" ng-change="FillNote()">
+                        <option value="">-- Select --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">Internal Notes</label>
+                <div class="col-sm-8">
+                    <textarea rows="4" class="form-control" ng-model="PartNoteObj.NotesInternal"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">Client  Notes</label>
+                <div class="col-sm-8">
+                    <textarea rows="4" class="form-control" ng-model="PartNoteObj.NotesClient"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+
+<fieldset>
+    <legend class="text-semibold">
+        <i class="icon-reading position-left"></i>
+        Responsibilities
+    </legend>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">Assign To</label>
+                <div class="col-sm-8">
+                    <div id="ddlassignedTo" custom-select="item.EmpId as item.EmployeeName for item in EmployeeList | filter: $searchTerm"  ng-model="PartNoteAssgnTo"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">Set Internal Status</label>
+                <div class="col-sm-8">
+                    <select class="form-control" id="Internalstatus" name="Internalstatus" ng-model="PartNoteObj.InternalStatusId" ng-options="item.InternalStatusId as item.InternalStatus for item in InternalStatusList" required>
+                        <option value="">-- Select --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend class="text-semibold">
+        <i class="icon-calendar position-left"></i>
+        Dates
+    </legend>
+    <div class="row" ng-init="createDatePicker()">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">Ordered</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Callback" ng-model="PartNoteObj.OrdDate" ng-disabled="true">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">No Records</label>
+                <div class="col-sm-8">
+                    <div class="input-group myDatePicker date">
+                        <input type="text" class="form-control" name="Callback" ng-model="PartNoteObj.NRDate">
+                        <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">Entered</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Callback" ng-model="PartNoteObj.EntDate" ng-disabled="true">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">Hold</label>
+                <div class="col-sm-8">
+                    <div class="input-group myDatePicker date" >
+                        <input type="text" class="form-control" name="Callback" ng-model="PartNoteObj.HoldDate">
+                        <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">First Call</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="Callback" ng-model="PartNoteObj.FirstCall" ng-disabled="true">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">Cancel</label>
+                <div class="col-sm-8">
+                    <div class="input-group myDatePicker date">
+                        <input type="text" class="form-control" name="Callback" ng-model="PartNoteObj.CanDate">
+                        <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">Due</label>
+                <div class="col-sm-8">
+                    <div class="input-group myDatePicker date">
+                        <input type="text" class="form-control" name="Callback" ng-model="PartNoteObj.DueDate">
+                        <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary">Callback</label>
+                <div class="col-sm-8">
+                    <div class="input-group myDatePicker date" ng-init="createDatePicker()">
+                        <input type="text" class="form-control" name="Callback" ng-model="PartNoteObj.CallBack">
+                        <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label col-sm-4 lbl-primary pt-0 lh-15">Authorization Received</label>
+                <div class="col-sm-8">
+                    <div class="input-group myDatePicker date">
+                        <input type="text" class="form-control" name="Callback" ng-model="PartNoteObj.AuthRecDate">
+                        <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

@@ -1,0 +1,27 @@
+﻿
+<form name="step7form" id="step7form" novalidate ng-init="createDatePicker()">
+    <div class="panel panel-flat panel-custom-color">
+        <div class="panel-heading" ng-class="PageMode==Enum.PageMode.ViewOnly?'disabledbutton':''">
+            <div class="row">
+                <div class="col-sm-3"><input type="file" class="form-control cursor-pointer" id="OrderDocument" onchange="angular.element(this).scope().AddOrUpdateDocument(this)" name="OrderDocument" title="Select file" required accept="image/png, image/jpeg,  image/tif,  image/tiff,image/jpg,application/pdf " /></div>
+                <!-- <div class="col-sm-3"><input type="button" ng-click="AddOrUpdateDocument(step7form)" value="Save" class="btn btn-primary" /></div>-->
+            </div>
+            <p class="text-grey-300 text-size-small">(Upload documents including signed authorizations, letters of authority, etc., to Axiom's servers by clicking the Add File button. Allowed File Types: PDF, ZIP, PNG, JPG, JPEG, TIFF)</p>
+        </div>
+        <div class="panel-body orderStep7pnlHeight" ng-class="PageMode==Enum.PageMode.ViewOnly?'disabledbutton':''">
+            <div class="table-responsive table-grid">
+                <table class="table table-bordered table-striped" id="tblDocument" ng-init="GetDocumentList()"></table>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode!=Enum.PageMode.ViewOnly">
+            <input type="submit" class="btn btn-primary pull-right" value="Next" ng-click="MoveNext()" />  @*ui-sref="EditOrder({'OrderId':OrderStep7Obj.OrderId,'Step':8})"*@
+            <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+        </div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode==Enum.PageMode.ViewOnly">
+            <input type="submit" class="btn btn-primary pull-right" value="Next" ng-click="MoveNext()" />
+            <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+        </div>
+    </div>
+</form>

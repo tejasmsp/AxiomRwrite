@@ -1,0 +1,177 @@
+"!TRNS","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT","DOCNUM","TOPRINT","ADDR1","ADDR2","ADDR3"
+"!SPL","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT"
+"!ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Healthcare Technologies of Mid-Michigan, Inc.","-20.0000","169883","N","PO Box 315","","Swartz Creek, MI 48473",
+"SPL","CHECK","06/05/2019","5060","Healthcare Technologies of Mid-Michigan, Inc.","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Rehabilitation Physicians, P.C.- Novi","-38.1200","169890","N","28455 Haggerty Road","Suite 200","Novi, MI 48377-____",
+"SPL","CHECK","06/05/2019","5060","Rehabilitation Physicians, P.C.- Novi","38.1200",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Rhode Island,Bradley Hospital","-24.0000","169889","N","Lifespan","PO Box 414546","Boston, MA 02241",
+"SPL","CHECK","06/05/2019","5060","Rhode Island,Bradley Hospital","24.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Active Choice Healthcare","-15.0000","169888","N","13 chennell drive","suite 2","concord, NH 03301-____",
+"SPL","CHECK","06/05/2019","5060","Active Choice Healthcare","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Healthcare Technologies of Mid-Michigan, Inc.","-20.0000","169892","N","PO Box 315","","Swartz Creek, MI 48473",
+"SPL","CHECK","06/05/2019","5060","Healthcare Technologies of Mid-Michigan, Inc.","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Healthcare Technologies of Mid-Michigan, Inc.","-20.0000","169894","N","PO Box 315","","Swartz Creek, MI 48473",
+"SPL","CHECK","06/05/2019","5060","Healthcare Technologies of Mid-Michigan, Inc.","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Quickserv","-56.0000","169884","N","P.O. Box 869103","","Milton, MA 02186",
+"SPL","CHECK","06/05/2019","5060","Quickserv","56.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Quickserv","-140.0000","169885","N","P.O. Box 869103","","Milton, MA 02186",
+"SPL","CHECK","06/05/2019","5060","Quickserv","140.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Quickserv","-28.0000","169886","N","P.O. Box 869103","","Milton, MA 02186",
+"SPL","CHECK","06/05/2019","5060","Quickserv","28.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","UnitedHealthcare Services","-35.0000","169875","N","P.O. Box 860068","","Minneapolis, MN 55486-____",
+"SPL","CHECK","06/05/2019","5060","UnitedHealthcare Services","35.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Quickserv","-28.0000","169887","N","P.O. Box 869103","","Milton, MA 02186",
+"SPL","CHECK","06/05/2019","5060","Quickserv","28.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Mount Sinai West","-75.0000","169871","N","1000 10th Ave.","Department of Radiology","New York, NY 10019-0000",
+"SPL","CHECK","06/05/2019","5060","Mount Sinai West","75.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Quickserv","-28.0000","169893","N","P.O. Box 869103","","Milton, MA 02186",
+"SPL","CHECK","06/05/2019","5060","Quickserv","28.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","St. John's Episcopal Hospital","-22.7000","169870","N","327 Beach 19th Street","","Far Rockaway, NY 11691-0000",
+"SPL","CHECK","06/05/2019","5060","St. John's Episcopal Hospital","22.7000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","RWJ University Hospital","-6.5000","169874","N","Attn: Radiology Department","One Robert Wood Johnson PLace","New Brunswick, NJ 08903",
+"SPL","CHECK","06/05/2019","5060","RWJ University Hospital","6.5000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Capital BlueCross","-73.6000","169868","N","2500 Elmerton Avenue","","Harrisburg, PA 17177",
+"SPL","CHECK","06/05/2019","5060","Capital BlueCross","73.6000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","St. Charles Orthopedics","-25.0000","169869","N","Attn: Liz Cohen","6 Technology Drive, Suite 100","East Setauket, NY 11733",
+"SPL","CHECK","06/05/2019","5060","St. Charles Orthopedics","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Social Security Administration","-31.0000","169881","N","140 North Crooks Road","","Clawson, MI 48017-____",
+"SPL","CHECK","06/05/2019","5060","Social Security Administration","31.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","CMHP Mercy Hospital Springfield","-88.2700","169891","N","4605 Duke Dr.","","Mason, OH 45040",
+"SPL","CHECK","06/05/2019","5060","CMHP Mercy Hospital Springfield","88.2700",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Swartz Ambulance Service","-48.9900","169866","N","G-1225 West Hill Road","Suite B","Flint, MI 48507-0000",
+"SPL","CHECK","06/05/2019","5060","Swartz Ambulance Service","48.9900",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Healthcare Technologies of Mid-Michigan, Inc.","-98.5000","169872","N","PO Box 315","","Swartz Creek, MI 48473",
+"SPL","CHECK","06/05/2019","5060","Healthcare Technologies of Mid-Michigan, Inc.","98.5000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","York Hospital","-54.7500","169880","N","15 Hospital Dr.","","York, MN 03909",
+"SPL","CHECK","06/05/2019","5060","York Hospital","54.7500",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Baptist Health","-62.0000","169876","N","Release of Information","2600 Stanley Gault Pkwy, Suite 101","Louisville, KY 40223-0000",
+"SPL","CHECK","06/05/2019","5060","Baptist Health","62.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Episcopal Campus","-12.8100","169867","N","Health Information Management Dept.","100 East Lehigh Avenue","Philadelphia, PA 19125-0000",
+"SPL","CHECK","06/05/2019","5060","Episcopal Campus","12.8100",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Sullivan & Kehoe, LLP","-494.2500","169865","N","44 Main St.","","Kings Park, NY 11754",
+"SPL","CHECK","06/05/2019","5060","Sullivan & Kehoe, LLP","494.2500",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","New Oakland Child-Adolescent & Family Center- Clarkston","-65.5100","169839","N","6549 Town Center Drive","Suite A","Clarkston, MI 48346",
+"SPL","CHECK","06/05/2019","5060","New Oakland Child-Adolescent & Family Center- Clarkston","65.5100",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Ascension St. John Hospital","-25.0000","169864","N","Attn: Imaging Services Department","22101 Moross Rd.","Detroit, MI 48236",
+"SPL","CHECK","06/05/2019","5060","Ascension St. John Hospital","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Pennsauken Diagnostic Center","-61.0000","169863","N","509 Marlton Pike West","","Cherry Hill, NJ 08002",
+"SPL","CHECK","06/05/2019","5060","Pennsauken Diagnostic Center","61.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","April Gardner, D.O. and Associates Inc.","-28.6100","169862","N","1470 North Broadway Suite 100","","Lebanon, OH 45036",
+"SPL","CHECK","06/05/2019","5060","April Gardner, D.O. and Associates Inc.","28.6100",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Broadway Family Medicine","-24.7400","169861","N","1470 N. Broadway Street","Suite 100","Lebanon, OH 45036-____",
+"SPL","CHECK","06/05/2019","5060","Broadway Family Medicine","24.7400",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Accurate Physical Therapy Billing","-70.5400","169879","N","29988 Montmorency Drive","","Novi, MI 48377",
+"SPL","CHECK","06/05/2019","5060","Accurate Physical Therapy Billing","70.5400",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Seton Imaging","-25.0000","169860","N","3730 Sheridan Dr.","","Amherst, NY 14226",
+"SPL","CHECK","06/05/2019","5060","Seton Imaging","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Trinity Health/Shared Services","-20.0000","169882","N","34505 W 12 Mile","Suite 200","Farmington Hills, MI 48331-0000",
+"SPL","CHECK","06/05/2019","5060","Trinity Health/Shared Services","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Excel Physical Therapy","-24.3000","169859","N","PO Box 776","","Milton, VT 05468",
+"SPL","CHECK","06/05/2019","5060","Excel Physical Therapy","24.3000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","The Hartford (Hartford Insurance Company)","-6.0000","169877","N","40600 Ann Arbor Road East","Suite 201","Plymouth, MI 48170-4675",
+"SPL","CHECK","06/05/2019","5060","The Hartford (Hartford Insurance Company)","6.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","NYC Fire Department/EMS","-2.2500","169878","N","First floor","9 MetroTech Center","Brooklyn, NY 11201",
+"SPL","CHECK","06/05/2019","5060","NYC Fire Department/EMS","2.2500",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","MD Now Urgent Care","-137.5500","169855","N","2007 Palm Beach Lakes Boulevard","","West Palm Beach, FL 33409",
+"SPL","CHECK","06/05/2019","5060","MD Now Urgent Care","137.5500",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Oakland County Medical Examiner","-190.6700","169837","N","1200 North Telegraph Road","Building 28 East","Pontiac, MI 48341-0438",
+"SPL","CHECK","06/05/2019","5060","Oakland County Medical Examiner","190.6700",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","United States Treasury","-300.0000","169873","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-____",
+"SPL","CHECK","06/05/2019","5060","United States Treasury","300.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","BlueCross BlueShield of Illinois","-20.0000","169854","N","Records","1001 E. Lookout Dr.","Richardson, TX 75082",
+"SPL","CHECK","06/05/2019","5060","BlueCross BlueShield of Illinois","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Genesys Regional Medical Center","-25.0000","169853","N","1 Genesys Parkway","","Grand Blanc, MI 48439-8066",
+"SPL","CHECK","06/05/2019","5060","Genesys Regional Medical Center","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Abington Memorial Hospital","-85.0000","169852","N","1200 Old York Road","","Abington, PA 19001-0000",
+"SPL","CHECK","06/05/2019","5060","Abington Memorial Hospital","85.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Ascension Macomb Hospital","-25.0000","169851","N","Imaging Services Dept., Attn: Film Room","11800 East 12 Mile Rd.","Warren, MI 48089",
+"SPL","CHECK","06/05/2019","5060","Ascension Macomb Hospital","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Berkley Medical Center","-139.6600","169850","N","3345 Coolidge Hwy","","Berkley, MI 48072-____",
+"SPL","CHECK","06/05/2019","5060","Berkley Medical Center","139.6600",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Seton Imaging","-35.7500","169849","N","3730 Sheridan Dr.","","Amherst, NY 14226",
+"SPL","CHECK","06/05/2019","5060","Seton Imaging","35.7500",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Ascension Providence Hospital Novi","-30.0000","169847","N","Diagnostic Imaging Dept/Film Room","47601 Grand River Avenue","Novi, MI 48374",
+"SPL","CHECK","06/05/2019","5060","Ascension Providence Hospital Novi","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Michigan Institute of Pain and headache, PC","-96.3600","169846","N","DBA Metro Pain Clinic","21751 W. 11 Mile Rd., Suite 215","Southfield, MI 48076",
+"SPL","CHECK","06/05/2019","5060","Michigan Institute of Pain and headache, PC","96.3600",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Hunt Services","-178.0500","169845","N","dba H & H Medical Records, LLC","1031 Greystone Square","Jackson, TN 38305",
+"SPL","CHECK","06/05/2019","5060","Hunt Services","178.0500",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Family Health & Wellness PC","-31.9600","169844","N","4615 Eastman Ave.","","Midland, MI 48640",
+"SPL","CHECK","06/05/2019","5060","Family Health & Wellness PC","31.9600",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Cigna Health and Life Insurance Company","-115.0000","169843","N","Attn: Tasha Burgess, B6LPA","900 Cottage Grove Road, B6LPA","Hartford, CT 06152-0000",
+"SPL","CHECK","06/05/2019","5060","Cigna Health and Life Insurance Company","115.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Rehabilitation Physicians, P.C.- Novi","-29.5000","169842","N","28455 Haggerty Road","Suite 200","Novi, MI 48377-____",
+"SPL","CHECK","06/05/2019","5060","Rehabilitation Physicians, P.C.- Novi","29.5000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Majic City Process Service, LLC","-130.0000","169857","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134",
+"SPL","CHECK","06/05/2019","5060","Majic City Process Service, LLC","130.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Majic City Process Service, LLC","-130.0000","169856","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134",
+"SPL","CHECK","06/05/2019","5060","Majic City Process Service, LLC","130.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Orthopaedic & Spine Center","-38.2100","169840","N","6810 Perimeter Dr.","Suite 200-A","Dublin, OH 43016",
+"SPL","CHECK","06/05/2019","5060","Orthopaedic & Spine Center","38.2100",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Majic City Process Service, LLC","-80.0000","169858","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134",
+"SPL","CHECK","06/05/2019","5060","Majic City Process Service, LLC","80.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Majic City Process Service, LLC","-30.0000","169848","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134",
+"SPL","CHECK","06/05/2019","5060","Majic City Process Service, LLC","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","Healthcare Technologies of Mid-Michigan, Inc.","-75.7900","169838","N","PO Box 315","","Swartz Creek, MI 48473",
+"SPL","CHECK","06/05/2019","5060","Healthcare Technologies of Mid-Michigan, Inc.","75.7900",
+"ENDTRNS"
+"TRNS","CHECK","06/05/2019","1011","ClaimFox, Inc.","-647.4700","169841","N","Attn: Accounts Receivable","905 Marconi Avenue","Ronkonkoma, NY 11779",
+"SPL","CHECK","06/05/2019","5060","ClaimFox, Inc.","647.4700",
+"ENDTRNS"

@@ -1,0 +1,335 @@
+﻿body {
+    font-family: Verdana;
+}
+
+.loginWrapper {
+    position: relative;
+    min-height: 175px;
+}
+
+.innerLoginWrapper {
+    min-height: 159px;
+    /* text-align:center;
+     padding: 15px;  
+    border-radius: 5px;
+   border: 1px solid white;*/
+}
+
+.logo {
+    padding: 30px;
+    text-align: center;
+}
+
+    .logo img {
+        width: 423px;
+        height: 102px;
+    }
+
+.subLogo {
+    padding: 30px 0;
+    text-align: center;
+    font-size: .75em;
+}
+
+    .subLogo span {
+        display: inline-block;
+    }
+/*.subLogo img
+{
+    vertical-align:middle;
+    width:60px;    
+}*/
+#loginBox {
+    width: 220px;
+    margin: 0 auto;
+    /*position: absolute;
+    left:50%;
+    top:0;
+    margin-left:-175px;
+    border: 1px solid gray;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
+    border-radius: 5px;*/
+}
+
+.loginReset {
+    /*position:absolute;
+    font-size:1em;
+    width:350px;
+    text-align:center;
+    padding-top:10px;
+    text-align: center;
+    width: 100%;*/
+    font-size: .9em;
+}
+
+    .loginReset a {
+        color: #fff !important;
+        text-decoration: none !important;
+    }
+
+        .loginReset a:hover {
+            text-decoration: unerline !important;
+        }
+
+.loginHead {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 15px;
+}
+/*.loginInput
+{
+    padding-top: 25px;
+}*/
+.loginInput table {
+    margin: 0 auto 0 auto;
+    /*padding-top: 10px;*/
+    width: 100%;
+}
+
+    .loginInput table tr td {
+        font-size: 1em;
+    }
+
+.loginFailText {
+    padding-top: 10px;
+    text-align: left;
+    font-size: .9em;
+    margin: 0 0 5px;
+}
+
+.loginInput input {
+    border: 1px solid white !important;
+    padding: 8px 0 8px 18% !important;
+    outline: none !important;
+    border-radius: 2px !important;
+    box-sizing: content-box !important;
+    width: 82% !important;
+}
+
+    .loginInput input[type='submit'] {
+        border: 0px solid white !important;
+        padding: 8px 5px !important;
+        outline: none !important;
+        border-radius: 2px !important;
+        box-sizing: content-box !important;
+        width: 97% !important;
+    }
+
+input[type='text'] {
+    cursor: text;
+    color: #000 !important;
+}
+
+input[type='submit'] {
+    border: 0px solid white !important;
+    padding: 8px 5px !important;
+    outline: none !important;
+    border-radius: 2px !important;
+    box-sizing: content-box !important;
+    width: 97% !important;
+    color: White;
+}
+
+    input[type='submit']:active {
+        color: White;
+        opacity: 0.8;
+        width: 100px;
+    }
+
+.loginPositioner {
+    position: relative;
+    top: 15%;
+}
+
+.padBottom {
+    margin-bottom: 5px !important;
+}
+
+
+.jqmWindow {
+    position: fixed;
+    top: 17%;
+    left: 50%;
+    margin-left: -325px !important;
+    width: 650px !important;
+}
+
+.jqmContent .structureWrap {
+    position: relative;
+}
+
+.structureWrap .addPerson {
+    border: 1px solid #D1D1D1;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 15px;
+    height: 15px;
+    background: url('/Clients/images/icons/plus.png') no-repeat;
+    background-size: 15px 15px;
+    cursor: pointer;
+}
+
+.structureWrap .removePerson {
+    border: 1px solid #D1D1D1;
+    position: absolute;
+    bottom: 0px;
+    right: 16px;
+    width: 15px;
+    height: 15px;
+    background: url('/Clients/images/icons/minus.png') no-repeat;
+    background-size: 15px 15px;
+    cursor: pointer;
+}
+
+.structureWrap .addPerson:hover {
+    opacity: .85;
+}
+
+.jqmContent {
+    min-height: 320px;
+}
+
+    .jqmContent .structure {
+        height: 150px;
+        width: 100%;
+        border: 1px solid #D1D1D1;
+        font-size: .95em;
+        margin-top: 15px;
+    }
+
+        .jqmContent .structure thead td {
+            padding: 3px;
+        }
+
+        .jqmContent .structure tr td:first-child {
+            width: 200px;
+            border-right: 1px solid #D1D1D1;
+        }
+
+.peopleList li div {
+    width: 100%;
+    height: 14px;
+}
+
+.peopleList li {
+    padding: 5px;
+    border-bottom: 1px solid #BEBEBE;
+}
+
+.peopleEdit {
+    vertical-align: top;
+}
+
+    .peopleEdit div.grayInput {
+        padding: 5px;
+    }
+
+.jqmContent div.inputWrapper.combobox {
+    width: 148px;
+}
+
+.peopleList li div.error {
+    background: url('/Clients/images/icons/asterisk.png') no-repeat right;
+}
+
+.peopleList li:hover {
+    cursor: pointer;
+}
+
+.jqmContent .loginWrapper {
+    text-align: center;
+}
+
+    .jqmContent .loginWrapper .structure {
+        border: none;
+        padding: 10px;
+        text-align: left;
+        width: 40%;
+        margin: 0 auto;
+    }
+
+#confError {
+    color: Red;
+}
+
+.explanation div {
+    color: #9B272A;
+}
+
+/* ----- 09/04/15 ------- */
+.loginBody {
+    background: url('/viewer-assets/img/login-body-bg.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.loginSpace {
+    height: 80px;
+}
+
+.loginPanel {
+    width: 60%;
+    margin: 0 auto 0 auto;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.logoPanel {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.bgTan3 {
+    padding: 30px 0;
+}
+
+.loginUL div {
+    margin-bottom: 10px;
+}
+
+.textBoxUser {
+    background: #fff url(images/input-user.png) 0 0 no-repeat !important;
+}
+
+.textBoxPwd {
+    background: #fff url(images/input-pwd.png) 0 0 no-repeat !important;
+}
+
+.successMsg {
+    color: #fff;
+    text-align: center;
+}
+
+
+@media (min-width: 768px) and (max-width: 979px) {
+    .loginSpace {
+        height: 80px;
+    }
+
+    .loginPanel {
+        width: 70%;
+    }
+}
+
+@media (max-width: 767px) {
+    .loginSpace {
+        display: none;
+    }
+
+    .loginPanel {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .loginSpace {
+        display: none;
+    }
+
+    .loginPanel {
+        width: 100%;
+    }
+}

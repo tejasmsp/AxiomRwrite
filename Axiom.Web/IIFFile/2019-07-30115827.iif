@@ -1,0 +1,243 @@
+"!TRNS","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT","DOCNUM","TOPRINT","ADDR1","ADDR2","ADDR3"
+"!SPL","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT"
+"!ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Ernesto Mejia, M.D.","-25.0000","171062","N","500 McFarland St.","Suite B","Morristown, TN 37814     ",
+"SPL","CHECK","07/01/2019","5060","Ernesto Mejia, M.D.","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","NYU Langone Health","-36.7500","171056","N","NYU Urology Associates","222 East 41st., 11th & 12th Floor","New York, NY 10017     ",
+"SPL","CHECK","07/01/2019","5060","NYU Langone Health","36.7500",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Comprehensive Pain Specialists","-92.4600","171060","N","4450 Fashion Square Blvd.","","Saginaw, MI 48603     ",
+"SPL","CHECK","07/01/2019","5060","Comprehensive Pain Specialists","92.4600",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","United Automobile Insurance Company","-232.7200","171057","N","PO Box 694120","","Miami, FL 33269     ",
+"SPL","CHECK","07/01/2019","5060","United Automobile Insurance Company","232.7200",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","VRC Companies, dba Vitalchart","-65.0000","171061","N","Attn: Dept# 5853","PO Box 11407","Birmingham, AL 35246-5853",
+"SPL","CHECK","07/01/2019","5060","VRC Companies, dba Vitalchart","65.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Michigan Department of Treasury","-17.0000","171058","N","430 W. Allegan Street","","Lansing, MI 48922     ",
+"SPL","CHECK","07/01/2019","5060","Michigan Department of Treasury","17.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Louis C. Chiara M.D.","-35.0000","171059","N","120 S. Main","Suite D","Milford, MI 48381     ",
+"SPL","CHECK","07/01/2019","5060","Louis C. Chiara M.D.","35.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Oakland Rehabilitation Associates, PLLC","-61.6900","171034","N","Lakes Medical Center","2300 Haggerty Road, Suite 2130","West Bloomfield, MI 48323     ",
+"SPL","CHECK","07/01/2019","5060","Oakland Rehabilitation Associates, PLLC","61.6900",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","GRM Document Management","-40.0000","171039","N","ROI Processing","2002 South East St.","Indianapolis, IN 46225-____",
+"SPL","CHECK","07/01/2019","5060","GRM Document Management","40.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Healthcare Technologies of Mid-Michigan, Inc.","-20.0000","171043","N","PO Box 315","","Swartz Creek, MI 48473     ",
+"SPL","CHECK","07/01/2019","5060","Healthcare Technologies of Mid-Michigan, Inc.","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Healthcare Technologies of Mid-Michigan, Inc.","-20.0000","171042","N","PO Box 315","","Swartz Creek, MI 48473     ",
+"SPL","CHECK","07/01/2019","5060","Healthcare Technologies of Mid-Michigan, Inc.","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Kolb Radiology","-750.0000","171036","N","307 East 60th Street","","New York, NY 10022     ",
+"SPL","CHECK","07/01/2019","5060","Kolb Radiology","750.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","CitiMedical I, PLLC","-765.0000","171037","N","PO Box 21787","","New York, NY 10087     ",
+"SPL","CHECK","07/01/2019","5060","CitiMedical I, PLLC","765.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Comprehensive MRI of New York","-220.0000","171054","N","Attn: Laura Lombard/Medical Records","110 Marcus Dr.","Melville, NY 11747     ",
+"SPL","CHECK","07/01/2019","5060","Comprehensive MRI of New York","220.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Awan & Associates a/k/a Allen Park Health Center","-45.0600","171052","N","7105 Allen Road","","Allen Park, MI 48101     ",
+"SPL","CHECK","07/01/2019","5060","Awan & Associates a/k/a Allen Park Health Center","45.0600",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Parkwest Medical Center","-147.7000","171051","N","Attn: Release of Information","1400 Centerpoint Blvd, Suite 172","Knoxville, TN 37932     ",
+"SPL","CHECK","07/01/2019","5060","Parkwest Medical Center","147.7000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Island Drafting and Technical Institute","-72.0000","171050","N","128 Broadway","","Amityville, NY 11701-____",
+"SPL","CHECK","07/01/2019","5060","Island Drafting and Technical Institute","72.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Ortho Michigan f/k/a Family Orthopedic Associates","-51.9500","171049","N","4466 West Bristol Road","","Flint, MI 48507-____",
+"SPL","CHECK","07/01/2019","5060","Ortho Michigan f/k/a Family Orthopedic Associates","51.9500",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Lenox Hill Radiology","-242.2500","171048","N","1184 Broadway","","Hewlet, NY 11557-0000",
+"SPL","CHECK","07/01/2019","5060","Lenox Hill Radiology","242.2500",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Michigan Medicine","-33.0000","171047","N","Radiology Litigation UHB1D240-F","1500 E Medical Center Drive","Ann Arbor, MI 48109-0030",
+"SPL","CHECK","07/01/2019","5060","Michigan Medicine","33.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Huron Valley Ambulance","-37.8100","171046","N","1200 State Circle","","Ann Arbor, MI 48108     ",
+"SPL","CHECK","07/01/2019","5060","Huron Valley Ambulance","37.8100",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Comprehensive Pain Specialists","-92.4600","171044","N","4901 Towne Centre Road","Suite 300","Saginaw, MI 48604     ",
+"SPL","CHECK","07/01/2019","5060","Comprehensive Pain Specialists","92.4600",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Blackstone Valley Community Health Care","-25.0000","171040","N","42 Park Place","Attn: Medical Records","Pawtucket, RI 02860     ",
+"SPL","CHECK","07/01/2019","5060","Blackstone Valley Community Health Care","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Michigan Medicine","-58.0000","171038","N","Radiology Litigation UHB1D240-F","1500 E Medical Center Drive","Ann Arbor, MI 48109-0030",
+"SPL","CHECK","07/01/2019","5060","Michigan Medicine","58.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Farmington Public Schools","-28.2700","171033","N","ATTN: Kimberly Buckley","32500 Shiawassee St.","Farmington, MI 48336     ",
+"SPL","CHECK","07/01/2019","5060","Farmington Public Schools","28.2700",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Fraser Eye Care Center","-25.0000","171032","N","33080 Utica Rd","","Fraser, MI 48026-____",
+"SPL","CHECK","07/01/2019","5060","Fraser Eye Care Center","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","1 LIV Image","-48.8100","171031","N","20343 Farmington Rd.","Building B","Livonia, MI 48152     ",
+"SPL","CHECK","07/01/2019","5060","1 LIV Image","48.8100",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Windsong Radiology Group, P.C.","-4.2500","171030","N","55 Spindrift Dr.","","Williamsville, NY 14221-0000",
+"SPL","CHECK","07/01/2019","5060","Windsong Radiology Group, P.C.","4.2500",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Windsong Radiology Group, P.C.","-7.0000","171029","N","55 Spindrift Dr.","","Williamsville, NY 14221-0000",
+"SPL","CHECK","07/01/2019","5060","Windsong Radiology Group, P.C.","7.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Bharat J. Shah, M.D., Inc.","-51.9100","171028","N","63 Baker Blvd.","","Akron, OH 44333     ",
+"SPL","CHECK","07/01/2019","5060","Bharat J. Shah, M.D., Inc.","51.9100",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Milford/Novi Dermatology","-35.0000","171027","N","120 S. Main Street","Suite D","Milford, MI 48381     ",
+"SPL","CHECK","07/01/2019","5060","Milford/Novi Dermatology","35.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Barnabas Health Ambulatory care Center","-51.0000","171025","N","Attn: Film Library","200 South Orange Ave.","Livingston, NJ 07039-0000",
+"SPL","CHECK","07/01/2019","5060","Barnabas Health Ambulatory care Center","51.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Lab Corp Of America/ABC Group","-25.0000","171024","N","P.O. Box 1558","","Burlington, NC 27216-1558",
+"SPL","CHECK","07/01/2019","5060","Lab Corp Of America/ABC Group","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Phelps Hospital Northwell Health","-100.0000","171023","N","Department of Radiology File Room","701 North Broadway","Sleepy Hollow, NY 10591-0000",
+"SPL","CHECK","07/01/2019","5060","Phelps Hospital Northwell Health","100.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","GEICO CLAIMS","-44.0000","171022","N","ONE GEICO CENTER","","MACON, GA 31296     ",
+"SPL","CHECK","07/01/2019","5060","GEICO CLAIMS","44.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Synovation","-15.0000","171021","N","10565 Civic Center Dr.","Suite 250 East Building","Rancho Cucamonga, CA 91730    ",
+"SPL","CHECK","07/01/2019","5060","Synovation","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Ortho Michigan f/k/a Family Orthopedic Associates","-40.0600","171020","N","4466 West Bristol Road","","Flint, MI 48507-____",
+"SPL","CHECK","07/01/2019","5060","Ortho Michigan f/k/a Family Orthopedic Associates","40.0600",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Cigna Health and Life Insurance Company","-50.0000","171019","N","Attn: Tasha Burgess, B6LPA","900 Cottage Grove Road, B6LPA","Hartford, CT 06152-0000",
+"SPL","CHECK","07/01/2019","5060","Cigna Health and Life Insurance Company","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Complete Care","-75.0000","171017","N","19 East 37th Street","","New York, NY 10016-____",
+"SPL","CHECK","07/01/2019","5060","Complete Care","75.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Our Lady of the Lake Regional Medical Center","-10.0000","171016","N","5000 Hennessy Blvd","","Baton Rouge, LA 70808-4375",
+"SPL","CHECK","07/01/2019","5060","Our Lady of the Lake Regional Medical Center","10.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","United Automobile Insurance Company","-232.7200","171015","N","200 East Gaines Street","","Tallahassee, FL 32399-4201",
+"SPL","CHECK","07/01/2019","5060","United Automobile Insurance Company","232.7200",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","NYU Langone Health","-124.5000","171014","N","NYU Urology Associates","222 East 41st., 11th & 12th Floor","New York, NY 10017     ",
+"SPL","CHECK","07/01/2019","5060","NYU Langone Health","124.5000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","NYU Langone Health","-36.7500","170991","N","NYU Urology Associates","222 East 41st., 11th & 12th Floor","New York, NY 10017     ",
+"SPL","CHECK","07/01/2019","5060","NYU Langone Health","36.7500",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","LMT Rehabilitation Associates, PC","-79.0800","170990","N","3535 W. 13 Mile Road, Suite 437","","Royal Oak, MI 48073-0000",
+"SPL","CHECK","07/01/2019","5060","LMT Rehabilitation Associates, PC","79.0800",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","NY Ortho, Sports Medicine & Trauma, P.C.","-96.0000","170989","N","160 E. 56th Street","Floor 10","New York, NY 10022-____",
+"SPL","CHECK","07/01/2019","5060","NY Ortho, Sports Medicine & Trauma, P.C.","96.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Macomb County Sheriff's Office","-8.9300","170988","N","43565 Elizabeth Road","","Mt. Clemens, MI 48043-____",
+"SPL","CHECK","07/01/2019","5060","Macomb County Sheriff's Office","8.9300",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Majic City Process Service, LLC","-80.0000","171026","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/01/2019","5060","Majic City Process Service, LLC","80.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","St. Clair Shores OB/GYN","-15.0000","170987","N","46591 Romeo Plank","Ste 225","Macomb, MI 48044-____",
+"SPL","CHECK","07/01/2019","5060","St. Clair Shores OB/GYN","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Erie Niagara Neurosurgery","-5.2500","171013","N","18 Limestone Drive","Suite 2","Williamsville, NY 14221-____",
+"SPL","CHECK","07/01/2019","5060","Erie Niagara Neurosurgery","5.2500",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Kaiser Permanente Medical Group","-15.0000","171018","N","1680 East Roseville Parkway Suite 151","","Roseville, CA 95661-0000",
+"SPL","CHECK","07/01/2019","5060","Kaiser Permanente Medical Group","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Health SOS PT, PC","-7.5000","170986","N","375 Deer Park Ave.","Suite 2","Babylon, NY 11702     ",
+"SPL","CHECK","07/01/2019","5060","Health SOS PT, PC","7.5000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Mendelson Kornblum Orthopedic & Spine Specialists","-56.3200","170985","N","Attn: Shellie Gannon","27472 Schoenherr Rd, Suite 100","Warren, MI 48088-0000",
+"SPL","CHECK","07/01/2019","5060","Mendelson Kornblum Orthopedic & Spine Specialists","56.3200",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","St. Mary Rehabilitation Physical Therapy","-132.0000","170984","N","4415 Metropolitan Pkwy","Suite 100","Sterling Heights, MI 48310    ",
+"SPL","CHECK","07/01/2019","5060","St. Mary Rehabilitation Physical Therapy","132.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Mendelson Kornblum Orthopedic & Spine Specialists","-77.5800","170983","N","Attn: Lauren Kalpin","27472 Schoenherr Rd., Suite 100","Warren, MI 48088     ",
+"SPL","CHECK","07/01/2019","5060","Mendelson Kornblum Orthopedic & Spine Specialists","77.5800",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","North West Labs","-77.9800","170982","N","29580 Northwestern Highway","Suite 120","Southfield, MI 48034-0000",
+"SPL","CHECK","07/01/2019","5060","North West Labs","77.9800",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Promedica Toledo Hospital","-6.5000","170981","N","Imaging Services Reading Room","2142 N. Cove Blvd.","Toledo, OH 43606-____",
+"SPL","CHECK","07/01/2019","5060","Promedica Toledo Hospital","6.5000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Delaware County Open MRI","-142.7900","170980","N","1554 Garrett Road","","Upper Darby, PA 19082-____",
+"SPL","CHECK","07/01/2019","5060","Delaware County Open MRI","142.7900",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Health Information Management","-52.4100","170979","N","MidMichigan Medical Center - Midland","P.O. Box 2129","Midland, MI 48641     ",
+"SPL","CHECK","07/01/2019","5060","Health Information Management","52.4100",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Mendelson Kornblum Orthopedic & Spine Specialists","-49.1800","170978","N","Attn: Shellie Gannon","27472 Schoenherr Rd, Suite 100","Warren, MI 48088-0000",
+"SPL","CHECK","07/01/2019","5060","Mendelson Kornblum Orthopedic & Spine Specialists","49.1800",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Medical Billing Group, LLC","-24.5900","171035","N","115 West Avenue","Suite 125","Jenkintown, PA 19046-____",
+"SPL","CHECK","07/01/2019","5060","Medical Billing Group, LLC","24.5900",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Michigan Neurosurgical Specialists, P.C.","-22.3400","170977","N","4000 Highland Rd.","Suite 102","Waterford, MI 48328     ",
+"SPL","CHECK","07/01/2019","5060","Michigan Neurosurgical Specialists, P.C.","22.3400",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Diab & Kinner Internal Medicine","-29.8000","170976","N","29703 Hoover Road","Suite A","Warren, MI 48093     ",
+"SPL","CHECK","07/01/2019","5060","Diab & Kinner Internal Medicine","29.8000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","University of Kentucky Medical Center","-65.0000","170975","N","800 Rose Street","","Lexington, KY 40536-____",
+"SPL","CHECK","07/01/2019","5060","University of Kentucky Medical Center","65.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Jawad A. Shah MD PC","-72.9400","171055","N","4800 S. Saginaw St.","Suite 1815","Flint, MI 48507     ",
+"SPL","CHECK","07/01/2019","5060","Jawad A. Shah MD PC","72.9400",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","HealthQuest Physical Therapy","-73.1900","171053","N","1773 Star Batt Dr.","","Rochester, MI 48309-3708",
+"SPL","CHECK","07/01/2019","5060","HealthQuest Physical Therapy","73.1900",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Associated Orthopedists of Detroit","-32.7500","170974","N","Attn: Tania","24715 Little Mack Avenue, Suite 100","St. Clair Shores, MI 48080-000",
+"SPL","CHECK","07/01/2019","5060","Associated Orthopedists of Detroit","32.7500",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Metro Detroit Chiropractors","-100.0000","170973","N","1200 W. 9 Mile Rd.","","Ferndale, MI 48220     ",
+"SPL","CHECK","07/01/2019","5060","Metro Detroit Chiropractors","100.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Boro Park Pediatrics P.C.","-25.0000","170972","N","5410 15 Ave.","","Brooklyn, NY 11219     ",
+"SPL","CHECK","07/01/2019","5060","Boro Park Pediatrics P.C.","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Social Security Administration","-31.0000","170971","N","3971 Research Park Drive","Suite A","Ann Arbor, MI 48108-0000",
+"SPL","CHECK","07/01/2019","5060","Social Security Administration","31.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Enas Nakkash","-149.5800","170970","N","1899 E. Wattles Road","","Troy, MI 48080     ",
+"SPL","CHECK","07/01/2019","5060","Enas Nakkash","149.5800",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","St. Clare's Hospital","-10.0000","170969","N","25 Pocono Road","","Denville, NJ 07834-____",
+"SPL","CHECK","07/01/2019","5060","St. Clare's Hospital","10.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Social Security Administration","-106.0000","170967","N","26840 W Seven Mile Rd","","Redford, MI 48240-____",
+"SPL","CHECK","07/01/2019","5060","Social Security Administration","106.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Bone & Joint Clinic of Baton Rouge","-100.0000","170966","N","PO Box 98035","","Baton Rouge, LA 70898     ",
+"SPL","CHECK","07/01/2019","5060","Bone & Joint Clinic of Baton Rouge","100.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Michigan Medicine","-58.0000","170965","N","Radiology Litigation UHB1D240-F","1500 E Medical Center Drive","Ann Arbor, MI 48109-0030",
+"SPL","CHECK","07/01/2019","5060","Michigan Medicine","58.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Garden State Orthopaedic Associates, P.A.","-36.0000","170964","N","28-04 Broadway","","Fair Lawn, NJ 07410     ",
+"SPL","CHECK","07/01/2019","5060","Garden State Orthopaedic Associates, P.A.","36.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","The Visionary","-24.4800","170962","N","7333 Allen Road","","Allen Park, MI 48101-____",
+"SPL","CHECK","07/01/2019","5060","The Visionary","24.4800",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Priority Health Managed Benefits","-138.6300","170963","N","1231 E. Beltline NE","MS 1340","Grand Rapids, MI 49525-____",
+"SPL","CHECK","07/01/2019","5060","Priority Health Managed Benefits","138.6300",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Internal Medicine Physicians","-50.0000","171045","N","Michigan Healthcare Professionals","32255 Northwestern Hwy., Suite 170","Farmington Hills, MI 48334-000",
+"SPL","CHECK","07/01/2019","5060","Internal Medicine Physicians","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Orlin & Cohen Medical Specialists Group","-151.3600","171041","N","Medical Records Department","444 Merrick Road, Suite 104","Lynbrook, NY 11563     ",
+"SPL","CHECK","07/01/2019","5060","Orlin & Cohen Medical Specialists Group","151.3600",
+"ENDTRNS"
+"TRNS","CHECK","07/01/2019","1011","Hurley Medical Center","-6.5000","170968","N","Health Information Services Dept.","One Hurley Plaza","Flint, MI 48503     ",
+"SPL","CHECK","07/01/2019","5060","Hurley Medical Center","6.5000",
+"ENDTRNS"

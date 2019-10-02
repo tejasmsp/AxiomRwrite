@@ -1,0 +1,404 @@
+﻿<div class="page-content" ng-controller="SearchOrderListController" ng-init="createDatePicker()">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-search4 mr-10 fs-19"></i>Search</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li> <a ui-sref="EditOrder({OrderId:0,Step:1})" class="blue_link">[ + Add Order ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-group panel-group-control panel-group-control-right">
+                        <div class="panel panel-white">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">
+                                    <a class="wd-full" data-toggle="collapse" href="#SearchPanel">
+                                        <i class="icon-search4 position-left"></i> <b class="text-bold pt-0" style="text-transform:uppercase;">Advanced Search By</b>
+                                    </a>
+                                    <switch ng-model="OrderSearchObj.ShowPartDetailWithOrder" ng-change="bindOrderList()" on="Part" off="Order" class="wide vertical-align-middle"></switch>
+                                </h6>
+                            </div>
+                            <div id="SearchPanel" class="panel-collapse collapse-in">
+                                <div class="panel-body">
+                                    <div class="row mb-10">
+                                        <div class="col-md-4 pl-0 pr-0">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <div class="col-sm-6 pl-0 pr-0">
+                                                        <label class="control-label col-sm-12">Order No.</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="OrderNo" ng-model="OrderSearchObj.OrderNo" placeholder="Order No" class="form-control" maxlength="100">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 pl-0 pr-0">
+                                                        <label class="control-label col-sm-12">Part No.</label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" name="PartNo" ng-model="OrderSearchObj.PartNo" placeholder="Part No" class="form-control" maxlength="100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Records of Name</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" name="RecordsofName" ng-model="OrderSearchObj.RecordsofName" placeholder="Records of Name" class="form-control" maxlength="100">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 pl-0 pr-0">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Location</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" name="Location" ng-model="OrderSearchObj.Location" placeholder="Location" class="form-control" maxlength="100">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Location State</label>
+                                                    <div class="col-sm-12">
+                                                        <select name="LocationState" ng-model="OrderSearchObj.LocationState" class="form-control" ng-options="item.StateId as item.StateName for item in StateList">
+                                                            <option value="">--Select--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Fax</label>
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-5 pl-0"><input type="text" name="AreaCode" ng-model="OrderSearchObj.AreaCode" placeholder="AreaCode" class="form-control" maxlength="100"></div>
+                                                        <div class="col-sm-7 pl-0 pr-0"><input type="text" name="FaxNo" ng-model="OrderSearchObj.FaxNo" placeholder="FaxNo" class="form-control" maxlength="100"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 pl-0 pr-0">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Patient's Attorney</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" name="PatientAttorney" ng-model="OrderSearchObj.PatientAttorney" placeholder="Patient Attorney" class="form-control" maxlength="100">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Ordering Attorney</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" name="OrderingAttorney" ng-model="OrderSearchObj.OrderingAttorney" placeholder="Ordering Attorney" class="form-control" maxlength="100">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Ordering Firm</label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" name="OrderingFirm" ng-model="OrderSearchObj.OrderingFirm" placeholder="Ordering Firm" class="form-control" maxlength="100">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row mb-10">
+                                        <div class="col-md-4 pl-0 pr-0">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Record Type</label>
+                                                    <div class="col-sm-12">
+                                                        <div id="ddlRecordTypeId" custom-select="item.Code as item.Descr for item in RecordTypeList| filter: $searchTerm | orderBy:'Descr' " ng-model="OrderSearchObj.RecordTypeId"></div>
+                                                        @*<select name="RecordTypeId" ng-model="OrderSearchObj.RecordTypeId" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypeList | orderBy:'Descr' ">
+                                                            <option value="">--Select--</option>
+                                                        </select>*@
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Account Rep</label>
+                                                    <div class="col-sm-12">
+                                                        <div id="ddlAccountRep" custom-select="item.EmpId as item.EmployeeName for item in AccountReplist | filter: $searchTerm" ng-model="OrderSearchObj.AccountRep"></div>
+                                                        @*<select name="RecordTypeId" ng-model="OrderSearchObj.AccountRep" class="form-control" ng-options="item.EmpId as item.EmployeeName for item in AccountReplist">
+                                                            <option value="">--Select--</option>
+                                                        </select>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 pl-0 pr-0" >
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4  pl-0 pr-0" style="display:none">
+                                                    <label class="control-label col-sm-12">Processor</label>
+                                                    <div class="col-sm-12">
+                                                        <select ng-model="OrderSearchObj.Processor" class="form-control" ng-options="item.EmpId as item.EmployeeName for item in AccountReplist">
+                                                            <option value="">--Select--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Assigned To</label>
+                                                    <div class="col-sm-12">
+                                                        <div id="ddl_assignedTo" custom-select="item.EmpId as item.EmployeeName for item in EmployeeList | filter: $searchTerm" ng-model="OrderSearchObj.AssignedTo"></div>
+                                                        @*<select ng-model="OrderSearchObj.AssignedTo" class="form-control" ng-options="item.EmpId as item.EmployeeName for item in AccountReplist">
+                                                            <option value="">--Select--</option>
+                                                        </select>*@
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Company</label>
+                                                    <div class="col-sm-12">
+                                                        <select name="CompanyID" ng-model="OrderSearchObj.CompanyID" class="form-control" ng-options="item.CompID as item.CompName for item in Companylist">
+                                                            <option value="">--Select--</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 pl-0 pr-0">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-4 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Internal Status</label>
+                                                    <div class="col-sm-12">
+                                                        <div id="ddlInternalStatus" custom-select="item.InternalStatus as item.InternalStatus for item in InternalStatuslist | filter: $searchTerm" ng-model="OrderSearchObj.InternalStatus"></div>
+                                                        @*<select name="InternalStatus" ng-model="OrderSearchObj.InternalStatus" class="form-control" ng-options="item.InternalStatus as item.InternalStatus for item in InternalStatuslist">
+                                                            <option value="">--Select--</option>
+                                                        </select>*@
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Rush</label>
+                                                    <div class="col-sm-12">
+                                                        <input tabindex="16" type="radio" value="1" name="Rush">Yes
+                                                        <input tabindex="16" type="radio" value="0" name="Rush">No
+                                                        <input tabindex="16" type="radio" value="" name="Rush" checked="checked">All
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">&nbsp;</label>
+                                                    <div class="col-sm-12">
+                                                        Only Callbacks
+                                                        <input tabindex="16" id="IsOnlyCallbacks" ng-model="OrderSearchObj.IsOnlyCallbacks" type="checkbox" ng-true-value="true" name="IsOnlyCallbacks">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-10">
+                                        <div class="col-md-4 pl-0 pr-0" style="display:none" >
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">Due Date</label>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group myDatePicker date">
+                                                            <input type="text" class="form-control" name="FromDueDate" placeholder="From Date" ng-model="OrderSearchObj.FromDueDate">
+                                                            <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">&nbsp;</label>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group myDatePicker date">
+                                                            <input type="text" class="form-control" name="ToDueDate" placeholder="To Date" ng-model="OrderSearchObj.ToDueDate">
+                                                            <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 pl-0 pr-0">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">
+                                                        Action Date
+                                                    </label>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group myDatePicker date">
+                                                            <input type="text" class="form-control" name="FromActionDate" placeholder="From Date" ng-model="OrderSearchObj.FromActionDate">
+                                                            <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">&nbsp;</label>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group myDatePicker date">
+                                                            <input type="text" class="form-control" name="ToActionDate" placeholder="To Date" ng-model="OrderSearchObj.ToActionDate">
+                                                            <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 pl-0 pr-0">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">
+                                                        Callback Date
+                                                    </label>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group myDatePicker date">
+                                                            <input type="text" class="form-control" name="FromCallbackDate" placeholder="From Date" ng-model="OrderSearchObj.FromCallbackDate">
+                                                            <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 pl-0 pr-0">
+                                                    <label class="control-label col-sm-12">&nbsp;</label>
+                                                    <div class="col-sm-12">
+                                                        <div class="input-group myDatePicker date">
+                                                            <input type="text" class="form-control" name="ToCallbackDate" placeholder="To Date" ng-model="OrderSearchObj.ToCallbackDate">
+                                                            <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row pull-right mt-10">
+                                        <button class="btn btn-default mr-5" ng-click="clearSearchClick()">Clear</button>
+                                        <button class="btn btn-primary" id="btnsearch" ng-click="bindOrderList()">Search</button>
+                                    </div>
+                                    @*<div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Order# :</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="OrderID" ng-model="OrderSearchObj.OrderID" placeholder="Order No" class="form-control" maxlength="100">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Records Of:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="RecordsOf" ng-model="OrderSearchObj.RecordsOf" placeholder="Records Of" class="form-control" maxlength="300">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Attorney:</label>
+                                                <div class="col-sm-9">
+                                                    <select name="Attorney" ng-model="OrderSearchObj.AttorneyID" class="form-control" ng-options="item.AttyID as item.AttorneyName for item in Attorneylist | orderBy: 'AttorneyName'">
+                                                        <option value="">-- Select --</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Caption:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" ng-model="OrderSearchObj.Caption" name="experience-position" placeholder="Caption" class="form-control" maxlength="300">
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                    @*<div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-3">Cause #:</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="Cause" ng-model="OrderSearchObj.Cause" placeholder="Cause No" class="form-control" maxlength="300">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-3">Claim #</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="Cause" ng-model="OrderSearchObj.Claim" placeholder="Claim" class="form-control" maxlength="200">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-3">Client Matter #:</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" name="ClaimMatterNo" ng-model="OrderSearchObj.ClaimMatterNo" placeholder="Client Matter" class="form-control" maxlength="200">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="checkbox-inline col-sm-4"> Hide Archived:<input type="checkbox" data-ng-model="OrderSearchObj.HideArchived" data-ng-value="true" name="HideArchived" placeholder="HideArchived"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row pull-right mt-10">
+                                            <button class="btn btn-default mr-5" ng-click="clearSearchClick()">Clear</button>
+                                            <button class="btn btn-primary" ng-click="bindOrderList()">Search</button>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <input type="button" value="Add Order Part Note" class="btn btn-primary btn-sm mb-10" ng-click="AddPartNotes()" id="btnAddNotesToPart" style="display:none;" />                        
+                        <input type="button" value="Generate Invoice" class="btn btn-primary btn-sm mb-10" ng-click="GenerateInvoice()" title="Generate invoice for selected part" id="btnGenerateInovice" style="display:none;" />
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblOrder"></table>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal_Part" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" ng-controller="OrderPartController">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Part Detail</h6>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div static-include="./Templates/OrderDetail/OrderPart.cshtml"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="CancelPartSendEmail()">Cancel Order/Parts</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="IsFromClientOrderList">
+        <div static-include="./Templates/OrderDetail/OrderDocument.cshtml" ng-controller="OrderDocumentController"></div>
+    </div>
+    <div id="modal_OrderPartNote" class="modal fade" data-backdrop="static" data-keyboard="false" >
+        <div class="modal-dialog modal-lg">
+            <form name="PartNoteform" class="form-horizontal" novalidate>
+                <div class="modal-content" ng-controller="OrderPartNoteController" ng-if="IsNoteSectionEnable==1">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Add Part Note</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(PartNoteform.$submitted && !PartNoteform.$valid)">
+                                    <ul ng-show="(PartNoteform.$submitted && (!PartNoteform.$valid))">
+                                        <li ng-show="PartNoteform.assgnto.$error.required">Select Assign To.</li>
+                                        <li ng-show="PartNoteform.Internalstatus.$error.required">Select Internal Status</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div static-include="./Templates/SearchOrderList/OrderPartNote_SearchPage.cshtml"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary pull-left" ng-click="RemoveCallBackFromNote(PartNoteform)">Remove CallBack</button>
+                        <button type="button" class="btn btn-primary" ng-click="SavePartNote(PartNoteform)">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </form>
+               
+        </div>
+    </div>    
+</div>
+
+

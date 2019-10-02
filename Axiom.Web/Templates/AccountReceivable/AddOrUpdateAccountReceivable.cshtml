@@ -1,0 +1,418 @@
+﻿<style>
+    .readonlyText {
+        background-color: #e1edff!important;
+    }
+    .disableControl {
+        background-color: #e4e4e4!important;
+    }
+</style>
+<div class="page-content" ng-controller="AddOrupdateAccountReceivableController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold">
+                <i class="icon-book3 mr-10 fs-19"></i>
+                {{modal_Title}}
+            </h4>
+            <div class="heading-elements" ng-show="objAccountRec.ArID>0">
+                <ul class="icons-list" style="margin-top:0">
+                    <li>
+                        
+                        <button type="button" ng-hide="objAccountRec.CheckType=='C' || objAccountRec.CheckType=='D'"  class="btn btn-primary mr-5" ng-disabled="objAccountRec.CheckType=='L' || objAccountRec.CheckType=='B'" ng-click="ConfirmBounceCheck()"><span ng-if="objAccountRec.CheckType=='C'">Credit Bounce</span>
+                        <span ng-if="objAccountRec.CheckType=='D'">Debit Bounce</span><span ng-if="objAccountRec.CheckType=='N' || objAccountRec.CheckType=='B' || objAccountRec.CheckType=='L'">Bounce Check</span></button>
+                        <button type="button" class="btn btn-primary mr-5" ng-disabled="objAccountRec.CheckType=='L' || objAccountRec.CheckType=='B'" ng-click="ConfirmationForCancelCheck()">
+                            <span ng-if="objAccountRec.CheckType=='C'">Cancel Credit</span>
+                            <span ng-if="objAccountRec.CheckType=='D'">Cancel Debit</span><span ng-if="objAccountRec.CheckType=='N' || objAccountRec.CheckType=='B' || objAccountRec.CheckType=='L'">Cancel Check</span>                           
+                        </button>
+                        <button ng-show="ShowNote!=true" type="button" class="btn btn-default pull-right mr-5" ng-click="ViewChangeLogOfCheck()"><i class="icon-history position-left"></i>Change Log</button>
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" name="AccountReceviableform" novalidate>
+                <div class="row">
+                    <div id="messages">
+                        <div class="alert alert-danger alert-dismissible validationErrors" ng-show="((AccountReceviableform.$submitted) && !AccountReceviableform.$valid)">
+                            <ul>
+                                <li ng-show="AccountReceviableform.FirmName.$error.required">Firm Name is required.</li>
+                                @*<li ng-show="AccountReceviableform.FirstName.$error.required">Firm First Name is required.</li>
+                                <li ng-show="AccountReceviableform.LastName.$error.required">Firm Last Name is required.</li>*@
+                                <li ng-show="AccountReceviableform.CheckType.$error.required">Check Type is required.</li>
+                                <li ng-show="AccountReceviableform.CheckNo.$error.required">Check No is required.</li>
+                                <li ng-show="AccountReceviableform.CheckAmount.$error.required">Check Amount is required.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-10">
+                    <div class="col-md-6">
+
+                        <label class="col-sm-3 control-label lbl-primary pr-0 mandatoryField">Firm Name:</label>
+                        <div class="col-sm-9 ">
+                            <input type="text" ng-model="objAccountRec.FirmName" required maxlength="50" name="FirmName" placeholder="Firm Name" class="form-control " ng-disabled="objAccountRec.CheckType=='L' || objAccountRec.CheckType=='B'">
+                            @*<span class="col-sm-3">
+                                <input type="text" ng-model="objAccountRec.FirmID" maxlength="10" name="FirmID" placeholder="Firm ID" class="form-control " readonly="readonly" required ng-class="objAccountRec.ArID>0?'disableControl':''">
+                            </span>*@
+                            @*<span class="col-sm-9">
+                                <input type="text" ng-model="objAccountRec.FirmName" maxlength="50" name="FirmName" placeholder="Firm Name" class="form-control " readonly="readonly" ng-class="objAccountRec.ArID>0?'disableControl':''">
+                            </span>*@
+                            @*<a class="ico_btn cursor-pointer pb-0" ng-click="objAccountRec.ArID==0? FirmSearch($event):''" title="Search Firm" ng-class="objAccountRec.ArID>0?'disableControl':''"> <i class="icon-search4"></i></a>*@
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label col-sm-3 lbl-primary mandatoryField" >Check Type:</label>
+                        <div class="col-sm-9">
+                            <select name="CheckType" data-placeholder="Select" ng-model="objAccountRec.CheckType" ng-disabled="objAccountRec.ArID>0" class="form-control" ng-class="objAccountRec.ArID>0?'disableControl':''" required>
+                                <option value="">Select Payment Mode</option>
+                                <option value="N">Payment By Regular Check</option>
+                                <option value="C">Credit Note</option>
+                                 <option value="D">Debit Note</option>
+                                <option ng-show="objAccountRec.ArID>0" value="B">Bounce Check</option>
+                                <option ng-show="objAccountRec.ArID>0" value="L">Cancel Check</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row mb-10">
+
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0 mandatoryField" ng-class="(objAccountRec.CheckType!='C' && objAccountRec.CheckType!='D')?'mandatoryField':''">Check No:</label>
+                        <div class="col-sm-9">
+                            <input type="text" maxlength="50" name="CheckNo" placeholder="Check No" ng-model="objAccountRec.CheckNumber" ng-disabled="objAccountRec.CheckType=='L' || objAccountRec.CheckType=='B'" class="form-control" ng-required="objAccountRec.CheckType!='C' && objAccountRec.CheckType!='D'">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0 mandatoryField">
+                            <span ng-if="objAccountRec.CheckType=='N' || objAccountRec.CheckType==null  || objAccountRec.CheckType=='L' || objAccountRec.CheckType=='B'">Check Amount:</span>
+                            <span ng-if="objAccountRec.CheckType=='C'">Credit Amount:</span>
+                            <span ng-if="objAccountRec.CheckType=='D'">Debit Amount:</span>
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="text" maxlength="10" name="CheckAmount" placeholder="Check Amount" ng-model="objAccountRec.CheckAmount" ng-disabled="objAccountRec.CheckType=='L' || objAccountRec.CheckType=='B'" decimal-only="decimal 2" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-10">
+
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0 ">Note:</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="Notes" rows="4" ng-model="objAccountRec.Note" ng-disabled="objAccountRec.CheckType=='L' || objAccountRec.CheckType=='B'" maxlength="1000"> </textarea>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6" ng-if="ShowNote">
+                        <span class="col-sm-3">
+                        </span>
+                        <span class="col-sm-9" style="color:red">
+                            Firm and Check type can not be alter after saving it.
+                        </span>
+                    </div>
+                </div>
+                <div class="row mb-10">
+
+                    <div class="col-md-12 text-right" style="padding-right:17px;">
+                        <button type="button" class="btn btn-default" title="Cancel" ui-sref="Check">Cancle</button>
+                        <button type="submit" title="Save" class="btn btn-primary" ng-click="AddOrEditAccountReceivable(AccountReceviableform)" ng-disabled="objAccountRec.CheckType=='L' || objAccountRec.CheckType=='B'">Save</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+    <div class="panel panel-white" ng-show="ShowInvoiceList">
+        <div class="panel-body">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary pull-right" title="Add Invoice" ng-hide="(objAccountRec.CheckType=='C' || objAccountRec.CheckType=='D') && AccountReceivableInvoicesList.length>=1" ng-disabled="objAccountRec.CheckType=='L' || objAccountRec.CheckType=='B'" ng-click="AddInvoice()">Add Invoice</button>
+            </div>
+            <div class="col-md-12 mt-5">
+                <div class="form-group pb-0 mb-0">
+                    <div class="table-responsive table-grid">
+                        <table class="table table-bordered table-framed no-footer dataTable" id="tblAccountReceivableInvoice" role="grid"
+                               aria-describedby="tblAccountReceivable_info" style="width: 1826px;"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal_Invoice" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <form class="form-horizontal" name="ReceivableInvoice" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-calculator pull-left mr-10 mt-5"></i> <h6 class="modal-title" ng-bind="ReceivableInvoiceTitle"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages1">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(ReceivableInvoice.$submitted && !ReceivableInvoice.$valid)">
+                                    <ul>
+                                        <li ng-show="ReceivableInvoice.InvNo.$error.required">Invoice No is required.</li>
+                                        <li ng-show="ReceivableInvoice.InvoicePayableAmount.$error.required">Invoice Payable Amount is required.</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10 ">
+                                <label class="col-sm-2 control-label lbl-primary mandatoryField">Invoice No:</label>
+                                <div class="col-sm-9 ">
+                                    <input type="text" class="form-control" ng-readonly="objReceivableInvoice.CheckInvoiceId>0" name="InvNo" ng-model="objReceivableInvoice.InvNo" maxlength="20" ng-blur="GetInvoiceDetailByInvoiceId()" required />
+                                </div>
+                                <div class="col-sm-1 mt-5" ng-hide="objReceivableInvoice.CheckInvoiceId>0">
+                                    <a class="ico_btn cursor-pointer " ng-click="GetInvoiceDeatiles()" title="Search Invoice"> <i class="icon-search4"></i></a>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                @*<label class="col-sm-2 control-label lbl-primary ">Original Amount:</label>
+        <div class="col-sm-4 ">
+            <input type="text" class="form-control" name="InvoiceAmount" ng-model="InvoiceAmount" readonly />
+        </div>*@
+                                <label class="col-sm-2 control-label lbl-primary pt-0">
+                                    <span ng-if="objAccountRec.CheckType=='N'">Check Payable Amount:</span>
+                                    <span ng-if="objAccountRec.CheckType=='C'">Credit Amount:</span>
+                                    <span ng-if="objAccountRec.CheckType=='D'">Debit Amount:</span>
+                                </label>
+                                <div class="col-sm-4 ">
+                                    <input type="text" class="form-control" name="CheckAmountAfterPayment" ng-model="CheckAmountAfterPayment" readonly />
+                                </div>
+                                <label class="col-sm-2 control-label lbl-primary mandatoryField pt-0">Invoice Payable Amount:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" ng-disabled="(objAccountRec.CheckType=='C' || objAccountRec.CheckType=='D')" name="InvoicePayableAmount" ng-model="objReceivableInvoice.InvoicePayableAmount" decimal-only="decimal 2" maxlength="10" required />
+                                </div>
+                                @*<label ng-show="ShowInvoiceStatus" class="col-sm-1 control-label lbl-primary">Status</label>
+        <label ng-show="ShowInvoiceStatus" class="col-sm-2 control-label lbl-primary"></label>*@
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-2 control-label lbl-primary">Status:</label>
+                                <div class="col-sm-4">
+                                    <label class="control-label lbl-primary" style="padding-top:8px">{{InvoiceStatus}}</label>
+                                </div>
+                                <label ng-show="ShowBounceAmt" class="col-sm-2 control-label lbl-primary">Bounce Amount:</label>
+                                <div ng-show="ShowBounceAmt" class="col-sm-4">
+                                    <label class="control-label lbl-primary" style="padding-top:8px">{{BounceAmt}}</label>
+                                </div>
+                                <label ng-show="ShowDebitAmt" class="col-sm-2 control-label lbl-primary">Debit Amount:</label>
+                                <div ng-show="ShowDebitAmt" class="col-sm-4">
+                                    <label class="control-label lbl-primary" style="padding-top:8px">{{DebitAmt}}</label>
+                                </div>
+                                <label ng-show="ShowCreditAmt" class="col-sm-2 control-label lbl-primary">Credit Amount:</label>
+                                <div ng-show="ShowCreditAmt" class="col-sm-4">
+                                    <label class="control-label lbl-primary" style="padding-top:8px">{{CreditAmt}}</label>
+                                </div>
+                            </div>
+                            <div class="row mb-10">                                
+                                <label ng-show="IsCrditORDebitCheck" class="col-sm-2 control-label lbl-primary pt-0">Updated Invoice Amount:</label>                             
+                                <div class="col-sm-4" ng-show="IsCrditORDebitCheck">
+                                    <input type="text" class="form-control" name="DebitOrCreditAmount" ng-model="DebitOrCreditAmount" readonly />
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-2 control-label lbl-primary pr-0 ">Note:</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="Notes" rows="4" ng-model="objReceivableInvoice.Note" maxlength="1000"> </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" class="btn btn-primary" title="Save" ng-click="AddOrEditAccountReceivableInvoice(ReceivableInvoice)">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="modal_FirmSearch" data-backdrop="static" data-keyboard="false" class="modal fade" static-Include="./Templates/Settings/Partial/FirmSearch.cshtml" ng-controller="FirmSearchController">
+    </div>
+    <div id="modal_InvoiceDetailList" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <form class="form-horizontal" name="InvoiceDetailList" novalidate>
+            <div class="modal-dialog modal-lg" style="width:1250px">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-calculator pull-left mr-10 mt-5"></i> <h6 class="modal-title">Invoices</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h6 class="panel-title">
+                                        <a class="wd-full" data-toggle="collapse" href="#SearchPanel">
+                                            <i class="icon-search4 position-left"></i> <b class="text-bold pt-0" style="text-transform:uppercase;">Search</b>
+                                        </a>
+                                    </h6>
+                                </div>
+                                <div id="SearchPanel" class="panel-collapse">
+                                    <div class="panel-body">
+                                        <div class="row mb-10">
+                                            <div class="col-md-6">
+                                                <label class="control-label col-sm-3">Invoice #:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" ng-model="InvoiceNo" ng-keydown="($event.keyCode === 13) && bindInvoices_New()" maxlength="50" integer-only="" placeholder="Invoice Number" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="control-label col-sm-3">Order #:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" ng-model="OrderNo" ng-keydown="($event.keyCode === 13) && bindInvoices_New()" maxlength="50" integer-only="" placeholder="Order Number" class="form-control">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-10">
+                                            <div class="col-md-6">
+                                                <label class="control-label col-sm-3">Billed Attorney:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" ng-model="BilledAttorney" ng-keydown="($event.keyCode === 13) && bindInvoices_New()" maxlength="100" placeholder="Billed Attorney" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                <label class="control-label col-sm-3">Sold Attorney:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" ng-model="SoldAttorney" ng-keydown="($event.keyCode === 13) && bindInvoices_New()" maxlength="100" placeholder="Sold Attorney" class="form-control">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2 pull-right">
+                                                <button class="btn btn-primary mr-5" ng-click="bindInvoices_New()" title="Search">Search</button>
+                                                <button class="btn btn-default" ng-click="ClearSearch()" title="Clear Search Text">Clear</button>
+                                            </div>
+                                        </div>
+                                        @*<div class="row mb-10">
+                                                <div class="col-md-4">
+
+                                                </div>
+                                                <div class="col-md-4">
+
+                                                </div>
+                                                <div class="col-md-3 text-right">
+                                                    <button class="btn btn-primary mr-5" ng-click="SearchAttorney()" title="Search">Search</button>
+                                                    <button class="btn btn-default" ng-click="ClearSearch()" title="Clear Search Text">Clear</button>
+                                                </div>
+                                            </div>*@
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="table-responsive table-grid">
+                                    <table class="table table-bordered table-framed no-footer dataTable" id="tblInvoiceDetailList" role="grid"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="bootbox modal fade bootbox-confirm in" id="model_ConfirmCancelCheck" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="bootbox-close-button close" aria-hidden="true" data-dismiss="modal">×</button>
+                    <div class="bootbox-body">Are you sure to delete all check and realted invoice detail?</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary " ng-click="BounceAndCancelCheck(1)">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bootbox modal fade bootbox-confirm in" id="model_ConfirmBounceCheck" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="bootbox-close-button close" aria-hidden="true" data-dismiss="modal">×</button>
+                    <div class="bootbox-body">Bounce Check will revert all the invoice amount and status?</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="BounceAndCancelCheck(2)">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="model_ChangeLogOfCheck" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <form class="form-horizontal" name="ChangeLogOfCheck" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-history pull-left mr-10 mt-5"></i> <h6 class="modal-title">ChangeLog Of Check</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div class="row mb-10">
+                                <div class="table-responsive table-grid">
+                                    <table class="table table-bordered table-framed no-footer dataTable" id="tblChangeLogOfCheck" role="grid"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="model_ChangeLogOfInvoices" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <form class="form-horizontal" name="ChangeLogOfInvoices" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-history pull-left mr-10 mt-5"></i> <h6 class="modal-title">Change Log Of Invoice</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div class="row mb-10">
+                                <div class="table-responsive table-grid">
+                                    <table class="table table-bordered table-framed no-footer dataTable" id="tblChangeLogOfInvoices" role="grid"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+	
+
+
+
+
+
+
+
+

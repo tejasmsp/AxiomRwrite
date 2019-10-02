@@ -1,0 +1,82 @@
+﻿<div class="panel panel-white cls-box">
+    <div class="panel-heading">
+        <h4 class="panel-title text-semibold"><i class="icon-clipboard3 position-left"></i>Notes</h4>
+        <div class="heading-elements">
+            <ul class="icons-list mt-0">
+                <li ng-if="isSubModuleAccessibleToUser('Order', 'Order Detail', 'Add Notes')">
+                    <button ng-click="AddNotePopUp()" class="btn btn-primary pull-right"> <i class="icon-plus3 mr-5 font-10 mt-1"></i> Add</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body pnl-back-grey pa-10 overflow-auto NoteScrollBar cls-box-md-height" >
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="media-list">
+                    <li class="media cls-note " ng-repeat="item in NoteList">
+                        @*<div class="media-left">
+                                <a href="#" class="btn border-pink text-pink btn-flat btn-rounded btn-icon btn-xs"><i class="icon-statistics"></i></a>
+                            </div>*@
+                        <div class="media-body">
+
+                            <label ng-if="item.IsPublic" class="pull-right label bg-blue">Client</label>
+                            <label ng-if="!item.IsPublic" class="pull-right label bg-success-400">Internal</label>
+                            <br />
+                            {{item.Note}}
+                            <div class="media-annotation"> {{item.DtsInserted}} <span class="pull-right">{{item.FirstName +' '+item.LastName }}</span></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_Note" class="modal fade" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog ">
+            <form name="Noteform" class="form-horizontal" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <h5 class="modal-title">Notes</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Noteform.$submitted && !Noteform.$valid)">
+                                    <ul ng-show="(Noteform.$submitted && (!Noteform.$valid))">
+                                        <li ng-show="Noteform.filetype.$error.required">.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Internal Notes</label>
+                                        <div class="col-sm-9">
+                                            <textarea rows="4" class="form-control" ng-model="NoteObj.NotesInternal"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Client  Notes</label>
+                                        <div class="col-sm-9">
+                                            <textarea rows="4" class="form-control" ng-model="NoteObj.NotesClient"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" value="Save" ng-click="SaveNote(Noteform)" title="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

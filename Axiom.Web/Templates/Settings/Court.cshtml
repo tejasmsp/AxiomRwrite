@@ -1,0 +1,102 @@
+﻿<div class="page-content" ng-controller="CourtController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-text2 mr-10 fs-19"></i>Manage Court</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Court', 'Add Court')"> <a ng-click="GetCourtDetail(0)" href="#" class="blue_link">[ + Add Court ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 no-padding">
+                <div class="table-responsive table-grid">
+                    <table class="table table-bordered table-framed" id="tblCourt"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_Court" class="modal fade">
+        <form class="form-horizontal" name="Courtform" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Courtform.$submitted && !Courtform.$valid)">
+                                    <ul>
+                                        <li ng-show="Courtform.ddlState.$error.required">State is required.</li>
+                                        <li ng-show="Courtform.ddlDistrict.$error.required">District is required.</li>
+                                        <li ng-show="Courtform.ddlCounty.$error.required">County is required.</li>
+                                        <li ng-show="Courtform.CourtType.$error.required">Court Type is required.</li>
+                                        <li ng-show="Courtform.CourtName.$error.required">Court Name is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">State</label>
+                                    <div class="col-sm-8">
+                                        <select name="ddlState" ng-required="true" ng-model="objCourt.StateID" class="form-control" ng-options="item.StateId as item.StateName  for item in  Statelist" required>
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">District</label>
+                                    <div class="col-sm-8">
+                                        <select name="ddlDistrict" ng-required="true" ng-model="objCourt.DistrictID" class="form-control" ng-options="item.DistrictID as item.DistrictName  for item in  DistrictList" required>
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">County</label>
+                                    <div class="col-sm-8">
+                                        <select name="ddlCounty" ng-required="true" ng-model="objCourt.CountyID" class="form-control" ng-options="item.CountyId as item.CountyName  for item in  CountyList" required>
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">Court Type</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="CourtType" class="form-control" maxlength="1" ng-model="objCourt.CourtType" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">Court Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="CourtName" class="form-control" maxlength="50" ng-model="objCourt.CourtName" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-0">
+                                    <label class="col-sm-4 control-label lbl-primary">Status</label>
+                                    <div class="col-sm-8">
+                                        <ul class="borderless pt-0 pl-0">
+                                            <li class="li-checkbox col-sm-12 pl-0 pr-0"><label class="lbl-checkbox bg-white mb-0" ng-class="(objCourt.IsActive==true? 'active': '')"><input type="checkbox" name="IsActive" class="cursor-pointer" ng-checked="objCourt.IsActive" ng-model="objCourt.IsActive">Is Active</label></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrUpdateCourt(Courtform)" title="Save" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

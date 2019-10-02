@@ -1,0 +1,207 @@
+"!TRNS","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT","DOCNUM","TOPRINT","ADDR1","ADDR2","ADDR3"
+"!SPL","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT"
+"!ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Michigan Department of Treasury","-17.0000","171176","N","430 W. Allegan Street","","Lansing, MI 48922     ",
+"SPL","CHECK","07/03/2019","5060","Michigan Department of Treasury","17.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Benchmark Rehab Partners","-126.0700","171161","N","8019 West 151st Street","","Overland Park, KS 66223-0000",
+"SPL","CHECK","07/03/2019","5060","Benchmark Rehab Partners","126.0700",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Universal Open MRI & Diagnostic of the Bronx","-50.0000","171160","N","237 East 149th St.","","Bronx, NY 10451     ",
+"SPL","CHECK","07/03/2019","5060","Universal Open MRI & Diagnostic of the Bronx","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Comprehensive Geriatric Medicine, PC","-4.5000","171159","N","6010 Bay Parkway","","Brooklyn, NY 11204     ",
+"SPL","CHECK","07/03/2019","5060","Comprehensive Geriatric Medicine, PC","4.5000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Social Security Administration","-31.0000","171158","N","3450 Biddle Avenue","","Wyandotte, MI 48192-____",
+"SPL","CHECK","07/03/2019","5060","Social Security Administration","31.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Michigan Medicine","-83.0000","171157","N","Radiology Litigation UHB1D240-F","1500 E Medical Center Drive","Ann Arbor, MI 48109-0030",
+"SPL","CHECK","07/03/2019","5060","Michigan Medicine","83.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Advanced Surgical Institute","-40.0000","171156","N","Attn: Anne Prickett","556 Egg Harbor Rd., Suite B","Sewell, NJ 08080     ",
+"SPL","CHECK","07/03/2019","5060","Advanced Surgical Institute","40.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","State Farm Mutual Automobile Insurance Company","-36.5000","171155","N","PO Box 52254","","Phoenix, AZ 85072     ",
+"SPL","CHECK","07/03/2019","5060","State Farm Mutual Automobile Insurance Company","36.5000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Alliance Physical Therapy","-98.5000","171154","N","2310 Commons Court","Unit 2 W","Ruston, LA 71270-____",
+"SPL","CHECK","07/03/2019","5060","Alliance Physical Therapy","98.5000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Sharecare Health Data Services, LLC","-21.9300","171153","N","8344 Clairemont Mesa Blvd","Suite 201","San Diego, CA 92111-0000",
+"SPL","CHECK","07/03/2019","5060","Sharecare Health Data Services, LLC","21.9300",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Medical Legal Reproductions","-150.0000","171152","N","4940 Disston St.","","Philadelphia, PA 19135     ",
+"SPL","CHECK","07/03/2019","5060","Medical Legal Reproductions","150.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","State Farm Mutual Automobile Insurance Company","-36.5000","171151","N","PO Box 52254","","Phoenix, AZ 85072     ",
+"SPL","CHECK","07/03/2019","5060","State Farm Mutual Automobile Insurance Company","36.5000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Beaumont Health C/O Terri Bies","-26.7100","171150","N","28080 Grand River","Suit 101","Farmington Hills, MI          ",
+"SPL","CHECK","07/03/2019","5060","Beaumont Health C/O Terri Bies","26.7100",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","GEICO","-35.0000","171149","N","Attn: Subpoena Requests","8000 Lincoln Drive East, Suite 300","Marlton, NJ 08053     ",
+"SPL","CHECK","07/03/2019","5060","GEICO","35.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Bay Plaza Chiropractic Health  a/k/a Cooperative City Chiropractic","-171.7500","171148","N","2100 Bartow Avenue","","Bronx, NY 10475-____",
+"SPL","CHECK","07/03/2019","5060","Bay Plaza Chiropractic Health  a/k/a Cooperative City Chiropractic","171.7500",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Good Samaritan Hospital Medical Center","-19.1500","171147","N","Attn:File Room Legal Clerk","1000 Montauk Highway, 1st Floor","West Islip, NY 11795-0000",
+"SPL","CHECK","07/03/2019","5060","Good Samaritan Hospital Medical Center","19.1500",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Michigan Institute for Neurological Disorders","-125.1800","171166","N","28595 Orchard Lake Rd.","Suite 200","Farmington Hills, MI 48334    ",
+"SPL","CHECK","07/03/2019","5060","Michigan Institute for Neurological Disorders","125.1800",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Open MRI of Bala Cynwyd- High Field","-405.0000","171165","N","301 City Avenue","Suite G1","Bala Cynwyd, PA 19004     ",
+"SPL","CHECK","07/03/2019","5060","Open MRI of Bala Cynwyd- High Field","405.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Berkley Medical Center","-211.9000","171164","N","3345 Coolidge Hwy","","Berkley, MI 48072-____",
+"SPL","CHECK","07/03/2019","5060","Berkley Medical Center","211.9000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Jewett Orthopaedic Clinic","-15.0000","171163","N","1285 Orange Avenue","","Winter Park, FL 32789-____",
+"SPL","CHECK","07/03/2019","5060","Jewett Orthopaedic Clinic","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Pasternack, Tilker, Ziegler, Walsh, Stanton & Romano, LLP.","-31.3000","171162","N","111 Livingston Street","","Brooklyn, NY           ",
+"SPL","CHECK","07/03/2019","5060","Pasternack, Tilker, Ziegler, Walsh, Stanton & Romano, LLP.","31.3000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Caddo Parish Clerk of Court","-225.0000","171134","N","501 Texas Street","Room 103","Shreveport, LA 71101-0000",
+"SPL","CHECK","07/03/2019","5060","Caddo Parish Clerk of Court","225.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-30.0000","171146","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-25.0000","171145","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","NYU Langone Health","-17.2500","171133","N","NYU Langone Li Rheumatology","1999 Marcus Ave.","Lake Success, NY 11042     ",
+"SPL","CHECK","07/03/2019","5060","NYU Langone Health","17.2500",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Maimonides Medical Center","-54.8800","171132","N","ATTN: HIS Dept","4802-10th Avenue","Brooklyn, NY 11219-0000",
+"SPL","CHECK","07/03/2019","5060","Maimonides Medical Center","54.8800",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Michigan Institute for Neurological Disorders","-66.3800","171131","N","28595 Orchard Lake Rd.","Suite 200","Farmington Hills, MI 48334    ",
+"SPL","CHECK","07/03/2019","5060","Michigan Institute for Neurological Disorders","66.3800",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Walgreens Company","-6.6800","171177","N","P.O. Box 4039","","Danville, IL 61834-____",
+"SPL","CHECK","07/03/2019","5060","Walgreens Company","6.6800",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","The Center for Rheumatology Saratoga","-26.2500","171130","N","6 Care Lane","","Saratoga Springs, NY 12866-___",
+"SPL","CHECK","07/03/2019","5060","The Center for Rheumatology Saratoga","26.2500",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","National Ambulance","-18.5000","171128","N","425 Saint James Ave","","Springfield , MA 01109-____",
+"SPL","CHECK","07/03/2019","5060","National Ambulance","18.5000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-50.0000","171144","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-50.0000","171141","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-50.0000","171135","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-60.0000","171137","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","60.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-60.0000","171136","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","60.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-50.0000","171143","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-30.0000","171140","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-25.0000","171139","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-30.0000","171138","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Concord Orthopaedics","-25.0000","171126","N","57 Regional Drive, Suite 1","","Concord, NH 03301-8518",
+"SPL","CHECK","07/03/2019","5060","Concord Orthopaedics","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Concord Orthopaedics","-25.0000","171124","N","57 Regional Drive, Suite 1","","Concord, NH 03301-8518",
+"SPL","CHECK","07/03/2019","5060","Concord Orthopaedics","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Michigan Department of Treasury","-17.0000","171172","N","430 W. Allegan Street","","Lansing, MI 48922     ",
+"SPL","CHECK","07/03/2019","5060","Michigan Department of Treasury","17.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Pinnacle Rehabilitation and Personal Training","-40.0000","171122","N","621 Court Street","Suite 101","West Branch, MI 48661-0000",
+"SPL","CHECK","07/03/2019","5060","Pinnacle Rehabilitation and Personal Training","40.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Majic City Process Service, LLC","-30.0000","171142","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","07/03/2019","5060","Majic City Process Service, LLC","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Crozer-Chester medical Center","-58.1400","171121","N","Dianne Kobyrunka, Dept. of Radiology","One Medical Center Blvd.","Upland, PA 19013     ",
+"SPL","CHECK","07/03/2019","5060","Crozer-Chester medical Center","58.1400",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","John D. Dingell Veterans Administration Medical Center","-10.0000","171179","N","4646 John R. Street","ROI - 001B/LL770","Detroit, MI 48201-____",
+"SPL","CHECK","07/03/2019","5060","John D. Dingell Veterans Administration Medical Center","10.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Walgreen Company as Custodian of Records for","-6.6800","171167","N","1901 East Vorhees, MS #735","","Danville, IL 61834     ",
+"SPL","CHECK","07/03/2019","5060","Walgreen Company as Custodian of Records for","6.6800",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Loyola University Medical Center","-26.7700","171180","N","2160 South First Avenue","Building 105, Room 0856","Maywood, IL 60153-____",
+"SPL","CHECK","07/03/2019","5060","Loyola University Medical Center","26.7700",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Trinity Health/Shared Services","-20.0000","171170","N","34505 W 12 Mile","Suite 200","Farmington Hills, MI 48331-000",
+"SPL","CHECK","07/03/2019","5060","Trinity Health/Shared Services","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Upper East Side Rehabilitation and Nursing Center","-230.0000","171125","N","Attn: Catherine Romero, Legal Dept.","225 Crossways Park Dr.","Woodbury, NY 11797     ",
+"SPL","CHECK","07/03/2019","5060","Upper East Side Rehabilitation and Nursing Center","230.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Extended Home Care","-692.2500","171120","N","360 W. 31st Street","Suite 304","New York, NY 10001     ",
+"SPL","CHECK","07/03/2019","5060","Extended Home Care","692.2500",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","ATI Physical Therapy","-50.0000","171129","N","4947 Paysphere Circle","","Chicago, IL 60674-4947",
+"SPL","CHECK","07/03/2019","5060","ATI Physical Therapy","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","St. Mary's of Michigan","-399.0600","171123","N","Medical Records Dept. Attn: HIM Spec.","800 S. Washington","Saginaw, MI 48601-0000",
+"SPL","CHECK","07/03/2019","5060","St. Mary's of Michigan","399.0600",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Michigan Department of Treasury","-17.0000","171169","N","430 W. Allegan Street","","Lansing, MI 48922     ",
+"SPL","CHECK","07/03/2019","5060","Michigan Department of Treasury","17.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Walgreens Company","-6.6800","171181","N","P.O. Box 4039","","Danville, IL 61834-____",
+"SPL","CHECK","07/03/2019","5060","Walgreens Company","6.6800",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Back to Health Physical Therapy Associates PT P.C.","-74.2500","171119","N","2565 East 17th St.","","Brooklyn, NY 11235     ",
+"SPL","CHECK","07/03/2019","5060","Back to Health Physical Therapy Associates PT P.C.","74.2500",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Drs. Harris, Birkhill, Wang, Songe and Associates, P.C.","-20.0000","171178","N","840 Oakwood Boulevard","P.O. Box 2802","Dearborn, MI 48123-9905",
+"SPL","CHECK","07/03/2019","5060","Drs. Harris, Birkhill, Wang, Songe and Associates, P.C.","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Trinity Health/Shared Services","-20.0000","171175","N","34505 W 12 Mile","Suite 200","Farmington Hills, MI 48331-000",
+"SPL","CHECK","07/03/2019","5060","Trinity Health/Shared Services","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","St. Joseph Mercy Hospital","-25.0000","171182","N","P.O. Box 995","","Ann Arbor, MI 48106-____",
+"SPL","CHECK","07/03/2019","5060","St. Joseph Mercy Hospital","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","St. Joseph Mercy Hospital","-25.0000","171174","N","P.O. Box 995","","Ann Arbor, MI 48106-____",
+"SPL","CHECK","07/03/2019","5060","St. Joseph Mercy Hospital","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","St. Joseph Mercy Health Systems","-20.0000","171173","N","5301 East Huron River Drive","PO Box 993","Ann Arbor, MI 48106-0993",
+"SPL","CHECK","07/03/2019","5060","St. Joseph Mercy Health Systems","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Arsenault Dermatology - University","-12.0000","171117","N","8926 77th Terraco East","Suite 101","Lakewood Ranch, FL 34202     ",
+"SPL","CHECK","07/03/2019","5060","Arsenault Dermatology - University","12.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","NEW AGE MEDICAL, PC","-1052.2500","171116","N","111-20 Queens Blvd","","Forest Hills, NY 11375-____",
+"SPL","CHECK","07/03/2019","5060","NEW AGE MEDICAL, PC","1052.2500",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Michigan Department of Treasury","-23.0000","171171","N","430 W. Allegan Street","","Lansing, MI 48922     ",
+"SPL","CHECK","07/03/2019","5060","Michigan Department of Treasury","23.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Northeast Rehabilitation Hospital","-52.3200","171118","N","Attn: Medical Records Dept.","70 Butler St.","Salem, NH 03079     ",
+"SPL","CHECK","07/03/2019","5060","Northeast Rehabilitation Hospital","52.3200",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Rehabilitation Specialists and Center for Progressive Health & Wellness","-30.0000","171168","N","975 S. Monroe Street","Suite C","Monroe, MI 48161-____",
+"SPL","CHECK","07/03/2019","5060","Rehabilitation Specialists and Center for Progressive Health & Wellness","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Spectrum Rehabilitation Centers, Inc.","-50.0000","171183","N","26555 Evergreen Road","Suite 830","Southfield, MI 48076     ",
+"SPL","CHECK","07/03/2019","5060","Spectrum Rehabilitation Centers, Inc.","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","07/03/2019","1011","Social Security Administration","-102.0000","171127","N","1149 Robert T Longway Blvd.","","Flint, MI 48503-0000",
+"SPL","CHECK","07/03/2019","5060","Social Security Administration","102.0000",
+"ENDTRNS"

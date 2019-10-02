@@ -1,0 +1,234 @@
+"!TRNS","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT","DOCNUM","TOPRINT","ADDR1","ADDR2","ADDR3"
+"!SPL","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT"
+"!ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Burke Chiropractic","-70.0000","170241","N","26031 W. Warren","","Dearborn Heights, MI 48127",
+"SPL","CHECK","06/12/2019","5060","Burke Chiropractic","70.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Bend Chiropractic Clinic","-142.7800","170216","N","37339 Green Street","","New Baltimore, MI 48047-____",
+"SPL","CHECK","06/12/2019","5060","Bend Chiropractic Clinic","142.7800",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Majic City Process Service, LLC","-80.0000","170233","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134",
+"SPL","CHECK","06/12/2019","5060","Majic City Process Service, LLC","80.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Majic City Process Service, LLC","-80.0000","170232","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134",
+"SPL","CHECK","06/12/2019","5060","Majic City Process Service, LLC","80.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Walgreen Company","-22.2500","170234","N","16797 Collections Center Drive","","Chicago, IL 60693-0000",
+"SPL","CHECK","06/12/2019","5060","Walgreen Company","22.2500",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Ricardo Cabrero MD","-59.5100","170195","N","7250 Dixie Highway","Suite 100","Clarkston, MI 48346",
+"SPL","CHECK","06/12/2019","5060","Ricardo Cabrero MD","59.5100",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Social Security Administration","-203.0000","170236","N","7385 Triangle Drive","","Sterling Heights, MI 48314-____",
+"SPL","CHECK","06/12/2019","5060","Social Security Administration","203.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Social Security Administration","-69.0000","170245","N","1300 S. Telegraph Rd.","","Monroe, MI 48161-____",
+"SPL","CHECK","06/12/2019","5060","Social Security Administration","69.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Long Beach Memorial Medical Center","-8.5400","170240","N","2801 Atlantic Avenue","","Long Beach, CA 90806-____",
+"SPL","CHECK","06/12/2019","5060","Long Beach Memorial Medical Center","8.5400",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Huron Valley Ambulance","-38.8100","170239","N","1200 State Circle","","Ann Arbor, MI 48108",
+"SPL","CHECK","06/12/2019","5060","Huron Valley Ambulance","38.8100",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Huron Valley Ambulance","-31.3100","170238","N","1200 State Circle","","Ann Arbor, MI 48108",
+"SPL","CHECK","06/12/2019","5060","Huron Valley Ambulance","31.3100",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Huron Valley Ambulance","-30.0600","170244","N","1200 State Circle","","Ann Arbor, MI 48108",
+"SPL","CHECK","06/12/2019","5060","Huron Valley Ambulance","30.0600",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Flint Neurological Center","-42.5600","170171","N","5082 Villa Linde Pkwy","","Flint, MI 48532",
+"SPL","CHECK","06/12/2019","5060","Flint Neurological Center","42.5600",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Hurley Medical Center, Department of Radiology","-25.0000","170242","N","One Hurley Plaza","","Flint, MI 48503-0000",
+"SPL","CHECK","06/12/2019","5060","Hurley Medical Center, Department of Radiology","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Henry Ford Hospital, Radiology IMC","-100.0000","170246","N","Henry Ford Health System","2799 West Grand Blvd.","Detroit, MI 48202-____",
+"SPL","CHECK","06/12/2019","5060","Henry Ford Hospital, Radiology IMC","100.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Henry Ford Hospital, Radiology IMC","-100.0000","170235","N","Henry Ford Health System","2799 West Grand Blvd.","Detroit, MI 48202-____",
+"SPL","CHECK","06/12/2019","5060","Henry Ford Hospital, Radiology IMC","100.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Henry Ford Hospital, Radiology IMC","-300.0000","170231","N","Henry Ford Health System","2799 West Grand Blvd.","Detroit, MI 48202-____",
+"SPL","CHECK","06/12/2019","5060","Henry Ford Hospital, Radiology IMC","300.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Bellevue Hospital Center","-50.0000","170243","N","Medical Correspondence AG90","462 First Ave.","new York, NY 10016",
+"SPL","CHECK","06/12/2019","5060","Bellevue Hospital Center","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Beaumont Hospital Troy","-28.1600","170237","N","Attn: Radiology Release","44201 Dequindre Rd.","Troy, MI 48085-0000",
+"SPL","CHECK","06/12/2019","5060","Beaumont Hospital Troy","28.1600",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","City of Detroit","-12.0000","170217","N","2 Woodward Avenue, Suite 500","","Detroit, MI 48226-3437",
+"SPL","CHECK","06/12/2019","5060","City of Detroit","12.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Greater Flint MRI Center","-100.0000","11","N","G3231 Beecher Road","","Flint, MI 48532-____",
+"SPL","CHECK","06/12/2019","5060","Greater Flint MRI Center","100.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","DataFile technologies, LLC.","-50.0000","170198","N","PO Box 419130","","Kansas City, MO 46141-9134",
+"SPL","CHECK","06/12/2019","5060","DataFile technologies, LLC.","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","MedQuest Attorney DB GA","-87.8500","170211","N","P.O Box 935614","","Atlanta, GA 31193",
+"SPL","CHECK","06/12/2019","5060","MedQuest Attorney DB GA","87.8500",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Henry Ford Health System","-300.0000","170210","N","Dept. Radiology","2799 West Grand Blvd.","Detroit, MI 48202",
+"SPL","CHECK","06/12/2019","5060","Henry Ford Health System","300.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Berkley Medical Center","-81.5800","170226","N","3345 Coolidge Hwy","","Berkley, MI 48072-____",
+"SPL","CHECK","06/12/2019","5060","Berkley Medical Center","81.5800",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Glengariff Operating LLC.","-26.5000","170209","N","Attn: Medical Records","141 Dosoris Lane","Glen Cove, NY 11542",
+"SPL","CHECK","06/12/2019","5060","Glengariff Operating LLC.","26.5000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Mercy Hospital Fairfield","-20.0000","170208","N","Radiology Department","3000 Mack Road","Fairfield, OH 45014-0000",
+"SPL","CHECK","06/12/2019","5060","Mercy Hospital Fairfield","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Geico","-155.0000","170207","N","Payment Center","P.O. Box 98","Woodbury, NY 11797",
+"SPL","CHECK","06/12/2019","5060","Geico","155.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","City of Detroit Law Department","-29.3600","170206","N","2 Woodward Ave., Suite 500","","Detroit,  48226",
+"SPL","CHECK","06/12/2019","5060","City of Detroit Law Department","29.3600",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","ProHealth & Fitness PT OT PLLC","-38.2500","170205","N","180 W. End Ave.","Suite 1M","New York, NY 10023",
+"SPL","CHECK","06/12/2019","5060","ProHealth & Fitness PT OT PLLC","38.2500",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Orlin & Cohen Medical Specialists Group","-46.7500","170204","N","Medical Records Dept.","45 Crossways Park Dr.","Woodbury, NY 11797",
+"SPL","CHECK","06/12/2019","5060","Orlin & Cohen Medical Specialists Group","46.7500",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Orlin & Cohen Medical Specialists Group","-51.3600","170203","N","Medical Records Dept.","45 Crossways Park Dr.","Woodbury, NY 11797",
+"SPL","CHECK","06/12/2019","5060","Orlin & Cohen Medical Specialists Group","51.3600",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Patel Medical Center","-50.0000","170202","N","PO Box 147","","Irvington, KY 40146",
+"SPL","CHECK","06/12/2019","5060","Patel Medical Center","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Patel Medical Center","-50.0000","170201","N","PO Box 147","","Irvington, KY 40146",
+"SPL","CHECK","06/12/2019","5060","Patel Medical Center","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Harrison Physical Therapy, P.C.","-25.7000","170193","N","798 Route 9","Suite B","Fishkill, NY 12524",
+"SPL","CHECK","06/12/2019","5060","Harrison Physical Therapy, P.C.","25.7000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","William Vonroth, Jr. MD","-43.0000","170192","N","316 Claremont Avenue","","Montclair, NJ 07042",
+"SPL","CHECK","06/12/2019","5060","William Vonroth, Jr. MD","43.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Hackensack Radiology Center","-343.0000","170200","N","D/B/A Affinity Radiology","155 State St.","Hackensack, NJ 07601",
+"SPL","CHECK","06/12/2019","5060","Hackensack Radiology Center","343.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Somers Orthopaedic Surgery & Sports Medicine","-16.5000","170191","N","664 Stoneleigh Avenue","Suite 300","Carmel, NY 10512-0000",
+"SPL","CHECK","06/12/2019","5060","Somers Orthopaedic Surgery & Sports Medicine","16.5000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Anna Mathison","-19.7500","170190","N","Records Coordinator, Outpatient Cntr.","2 Fletcher St.","Goshen, NY 10924",
+"SPL","CHECK","06/12/2019","5060","Anna Mathison","19.7500",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Michigan Spine and Brain Surgeons, PLLC","-90.5600","170189","N","22250 Providence Drive","Suite 601","Southfield, MI 48075-____",
+"SPL","CHECK","06/12/2019","5060","Michigan Spine and Brain Surgeons, PLLC","90.5600",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Parkland Health and Hospital System","-87.1400","170187","N","5201 Harry Hines Boulevard","","Dallas, TX 75235-0000",
+"SPL","CHECK","06/12/2019","5060","Parkland Health and Hospital System","87.1400",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Dr. Michelle Gardner","-34.2400","170185","N","1542 W. Maple Ave","","Adrian, MI 49221-____",
+"SPL","CHECK","06/12/2019","5060","Dr. Michelle Gardner","34.2400",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Henry Ford Hospital, Radiology IMC","-100.0000","170183","N","Henry Ford Health System","2799 West Grand Blvd.","Detroit, MI 48202-____",
+"SPL","CHECK","06/12/2019","5060","Henry Ford Hospital, Radiology IMC","100.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Social Security Administration","-106.0000","170182","N","611 East Genesee Avenue","","Saginaw, MI 48607",
+"SPL","CHECK","06/12/2019","5060","Social Security Administration","106.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Jason M. Cochran","-15.0000","170181","N","Michigan Orthopedic Center","2815 S. Pennsylvania Ave., Suite 204","Lansing, MI 48910",
+"SPL","CHECK","06/12/2019","5060","Jason M. Cochran","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","STAR Physical Therapy","-58.5000","170179","N","PO Box 681478","","Franklin, TN 37068",
+"SPL","CHECK","06/12/2019","5060","STAR Physical Therapy","58.5000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","St. Joseph Mercy Hospital","-25.0000","170230","N","P.O. Box 995","","Ann Arbor, MI 48106-____",
+"SPL","CHECK","06/12/2019","5060","St. Joseph Mercy Hospital","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Foot Locker","-6.0000","170228","N","112 W. 34th","","New York, NY 10120",
+"SPL","CHECK","06/12/2019","5060","Foot Locker","6.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Henry Ford Health System","-15.0000","170180","N","Dept. Radiology","2799 West Grand Blvd.","Detroit, MI 48202",
+"SPL","CHECK","06/12/2019","5060","Henry Ford Health System","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","University Hospitals of Cleveland, Billing Customer Service Center","-28.0700","170218","N","20800 Harvard Road","","Highland Hills, OH 44122",
+"SPL","CHECK","06/12/2019","5060","University Hospitals of Cleveland, Billing Customer Service Center","28.0700",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","LogistiCare Solutions, LLC","-50.0900","170178","N","c/o Legal Dept. 6th Floor","1275 Peachtree St. NE","Atlanta, GA 30309",
+"SPL","CHECK","06/12/2019","5060","LogistiCare Solutions, LLC","50.0900",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Social Security Administration","-69.0000","170176","N","10201 West Seven Mile","","Detroit, MI 48221-____",
+"SPL","CHECK","06/12/2019","5060","Social Security Administration","69.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","University of Michigan","-25.0000","170222","N","700 KMS Place","3621 South State Street","Ann Arbor, MI 48108-1652",
+"SPL","CHECK","06/12/2019","5060","University of Michigan","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Top Rehab Services","-60.4700","170175","N","15001 Michigan Ave.","Suite 200","Dearborn, MI 48126",
+"SPL","CHECK","06/12/2019","5060","Top Rehab Services","60.4700",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","University of Chicago Medicine","-28.4400","170225","N","5841 South Maryland Avenue","MC 0978","Chicago, IL 60637-____",
+"SPL","CHECK","06/12/2019","5060","University of Chicago Medicine","28.4400",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","UW Hospital and Clinics","-32.6800","170174","N","7974 UW Health Court","Attn: Deposits (mail code 1020)","Middleton, WI 53562",
+"SPL","CHECK","06/12/2019","5060","UW Hospital and Clinics","32.6800",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Family Practice Center, P.C.","-50.5400","170173","N","Attn: Medical Records Dept.","3040 North Susquehanna Trail, PO Box 129","Shamokin Dam, PA 17876",
+"SPL","CHECK","06/12/2019","5060","Family Practice Center, P.C.","50.5400",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Spectrum Health Systems, Radiology","-20.0000","170223","N","100 Michigan NE","Mail Code MC238, ATTN: Theresa or Jan","Grand Rapids, MI 49503-2560",
+"SPL","CHECK","06/12/2019","5060","Spectrum Health Systems, Radiology","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Majic City Process Service, LLC","-25.0000","170214","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134",
+"SPL","CHECK","06/12/2019","5060","Majic City Process Service, LLC","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Majic City Process Service, LLC","-25.0000","170215","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134",
+"SPL","CHECK","06/12/2019","5060","Majic City Process Service, LLC","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","United States Treasury","-250.0000","170219","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-____",
+"SPL","CHECK","06/12/2019","5060","United States Treasury","250.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Majic City Process Service, LLC","-30.0000","170213","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134",
+"SPL","CHECK","06/12/2019","5060","Majic City Process Service, LLC","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Majic City Process Service, LLC","-30.0000","170212","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134",
+"SPL","CHECK","06/12/2019","5060","Majic City Process Service, LLC","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Midwest Center For Dermatology & Cosmetic Surgery","-100.0000","170172","N","Northeast Medical Building","43900 Garfield, Suite 100","Clinton Township, MI 48038-0000",
+"SPL","CHECK","06/12/2019","5060","Midwest Center For Dermatology & Cosmetic Surgery","100.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Alliance Health Professionals, PLLC","-131.9600","170199","N","43421 Garfield Road","Suite 1","Clinton Twp, MI 48038-____",
+"SPL","CHECK","06/12/2019","5060","Alliance Health Professionals, PLLC","131.9600",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","DataFile technologies, LLC.","-35.0600","170188","N","PO Box 419130","","Kansas City, MO 46141-9134",
+"SPL","CHECK","06/12/2019","5060","DataFile technologies, LLC.","35.0600",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","City of Detroit Law Department","-6.0000","170229","N","2 Woodward Avenue","Suite 500","Detroit, MI 48226",
+"SPL","CHECK","06/12/2019","5060","City of Detroit Law Department","6.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Family Medical Center of Lenawee","-58.6200","170220","N","Medical Records","1200 N. Main St.","Adrian, MI 49221",
+"SPL","CHECK","06/12/2019","5060","Family Medical Center of Lenawee","58.6200",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Premier Orthopedics","-145.0000","170221","N","17000 Executive Plaza Drive","Suite 101","Dearborn, MI 48126-____",
+"SPL","CHECK","06/12/2019","5060","Premier Orthopedics","145.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Jason W. Brown, MD, P.C.","-50.0000","170196","N","952 Fifth Ave.","Suite 1C","New York, NY 10075",
+"SPL","CHECK","06/12/2019","5060","Jason W. Brown, MD, P.C.","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Open MRI Imaging & Imaging of Rochelle Park","-200.0000","170227","N","251 Rochelle Ave.","","Rochelle Park, NJ 07662-0000",
+"SPL","CHECK","06/12/2019","5060","Open MRI Imaging & Imaging of Rochelle Park","200.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Centrastate Medical Center","-70.0000","170197","N","901 West Main Street","","Freehold, NJ 07728-____",
+"SPL","CHECK","06/12/2019","5060","Centrastate Medical Center","70.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","DataFile technologies, LLC.","-112.0000","170186","N","PO Box 419130","","Kansas City, MO 46141-9134",
+"SPL","CHECK","06/12/2019","5060","DataFile technologies, LLC.","112.0000",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","DataFile technologies, LLC.","-83.2100","170177","N","PO Box 419130","","Kansas City, MO 46141-9134",
+"SPL","CHECK","06/12/2019","5060","DataFile technologies, LLC.","83.2100",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","DataFile technologies, LLC.","-95.3200","170184","N","PO Box 419130","","Kansas City, MO 46141-9134",
+"SPL","CHECK","06/12/2019","5060","DataFile technologies, LLC.","95.3200",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","DataFile technologies, LLC.","-100.9600","170194","N","PO Box 419130","","Kansas City, MO 46141-9134",
+"SPL","CHECK","06/12/2019","5060","DataFile technologies, LLC.","100.9600",
+"ENDTRNS"
+"TRNS","CHECK","06/12/2019","1011","Stelton Radiology","-235.0000","170224","N","1092 Stelton Road","","Piscataway Township, NJ 08854-0000",
+"SPL","CHECK","06/12/2019","5060","Stelton Radiology","235.0000",
+"ENDTRNS"

@@ -1,0 +1,257 @@
+﻿<style>
+    .panel {
+        background-color: #ffffff;
+        color: black;
+    }
+    .cls-part .panel {
+        border-color: #ffffff;
+    }
+</style>
+
+<div class="page-content" ng-controller="PartDetailMasterController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-bookmark  position-left"></i>Part Detail | #{{OrderId}}-{{PartNo}}</h4>
+            <div class="heading-elements">
+                <ul class="icons-list mt-0">
+                    <li class="mr-5 cls-part-header" ng-if="IsAdmin">
+                        BillingID : <b>{{OrderBasicDetail.BillingID}} </b>
+                    </li>
+                    <li class="mr-5 cls-part-header" ng-if="IsAdmin">
+                        Assign To : <b>{{AsgnToName}}</b>
+                    </li>
+                    <li class="mr-5" ng-class="IsAdmin?'cls-part-header':''">
+                        Internal Status :<div class="orderstatus statusChanger" ng-class="{statusFilms: internalStatusClass=='Films',
+                                 statusAuthIssue:internalStatusClass=='Auth Issue',
+                                 statusFee:internalStatusClass=='Fee',
+                                 statusHighPriority:internalStatusClass=='High Priority',
+                                 statusIncomplete:internalStatusClass=='Incomplete',
+                                 statusNew:internalStatusClass=='New',
+                                 statusNonCompliant:internalStatusClass=='Non-Compliant',
+                                 statusNotConfirmed:internalStatusClass=='Not Confirmed',
+                                 statusFeeEmailClient:internalStatusClass=='Fee - Emailed Client'}">
+                            <b>{{internalStatusClass}}</b>
+                        </div>
+                    </li>
+                    <li ng-if="IsAdmin" class="mr-5">
+                        <button ui-sref="EditOrder({OrderId:OrderId,Step:1})" data-toggle='tooltip' data-placement='left' tooltip title="Edit Order" class="btn btn-primary pull-right"> <i class="icon-pencil3 mr-5 font-10 mt-1"></i> Edit Full Order</button>
+                    </li>
+                    <li class="mr-5" ng-if="IsAdmin">
+                        <button ng-click="OpenQuickForm($event)" class="btn btn-primary pull-right" data-toggle='tooltip' data-placement='left' tooltip title="Create Forms"><i class="icon-printer mr-5 font-10 mt-1"></i>Create Forms</button>
+                    </li>
+                    <li>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body pa-10 cls-part">
+            <div class="row cls-box mb-10 pl-10 pr-10">
+                <div class="col-md-12 p-20 pnl-back-blue">
+                    <div class="col-md-2 pl-0 mt-10">
+                        <span class="lbl-secondary mr-10">Records Of :</span><span class="lbl-primary">{{CompanyDetailobj.RecordsOf}}</span>
+                    </div>
+                    <div class="col-md-2 mt-10">
+                        <span class="lbl-secondary mr-10">SSN :</span><span class="lbl-primary">{{CompanyDetailobj.SSN}}</span>
+                    </div>
+                    <div class="col-md-2 mt-10">
+                        <span class="lbl-secondary mr-10">Date of Birth :</span><span class="lbl-primary">{{CompanyDetailobj.DateOfBirth | date:GlobalDateFormat}}</span>
+                    </div>
+                    <div class="col-md-2 mt-10">
+                        <span class="lbl-secondary mr-10">Date of Death :</span><span class="lbl-primary">{{CompanyDetailobj.DateOfDeath  | date:GlobalDateFormat}}</span>
+                    </div>
+                    <div class="col-md-2 mt-10">
+                        <span class="lbl-secondary mr-10">Date of Loss :</span><span class="lbl-primary">{{CompanyDetailobj.BillingDateOfLoss  | date:GlobalDateFormat}}</span>
+                    </div>
+                    <div class="col-md-2 mt-10">
+                        <span class="lbl-secondary mr-10">Address :</span><span class="lbl-primary">{{CompanyDetailobj.Address1  }} ,{{CompanyDetailobj.City}},{{CompanyDetailobj.State}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6" @*ng-class="{'col-sm-6': RoleName=='Attorney','col-sm-6':RoleName!='Attorney'}"*@>
+                    <div static-include="./Templates/PartDetail/PartLocation.cshtml" ng-controller="PartLocationController"></div>
+                </div>
+                <div class="col-sm-3" ng-if="RoleName!='Attorney'">
+                    <div class="panel panel-white cls-box">
+                        <div class="panel-heading">
+                            <h4 class="panel-title text-semibold"><i class="icon-file-text2 position-left"></i>Case Information &nbsp;<i ng-click="EditCaseDetail()" class="icon-pencil3 position-right cursor-pointer"></i>  @*<span class="pull-right">Status : <span class="text-dark-blue font-18">New</span></span>*@</h4>
+                        </div>
+                        <div class="panel-body pnl-back-grey cls-lbl-primary-right">
+                            <div class="row">
+                                <label class="col-sm-3 col-xs-3 lbl-primary mt-0">State :</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary mt-0">{{CaseInfoobj.StateName}}</label>
+                            </div>
+                            <div class="row mt-5">
+                                <label class="col-sm-3 col-xs-3 lbl-primary">Cause No.:</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary">{{CaseInfoobj.CauseNo}}</label>
+                            </div>
+                            <div class="row mt-5">
+                                <label class="col-sm-3 col-xs-3 lbl-primary">Caption1 :</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary">{{CaseInfoobj.Caption1}} vs {{CaseInfoobj.VsText1}}</label>
+                            </div>
+                            <div class="row mt-5">
+                                <label class="col-sm-3 col-xs-3 lbl-primary">Caption2 :</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary">{{CaseInfoobj.Caption2}} vs {{CaseInfoobj.VsText2}}</label>
+                            </div>
+                            <div class="row mt-5">
+                                <label class="col-sm-3 col-xs-3 lbl-primary">Caption3 :</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary">{{CaseInfoobj.Caption3}} vs {{CaseInfoobj.VsText3}}</label>
+                            </div>
+                            <div class="row mt-5">
+                                <label class="col-sm-3 col-xs-3 lbl-primary">County :</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary">{{CaseInfoobj.County}}</label>
+                            </div>
+                            <div class="row mt-5">
+                                <label class="col-sm-3 col-xs-3 lbl-primary">Court :</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary">{{CaseInfoobj.Court}}</label>
+                            </div>
+                            <div class="row mt-5">
+                                <label class="col-sm-3 col-xs-3 lbl-primary">District :</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary">{{CaseInfoobj.District}}</label>
+                            </div>
+                            <div class="row mt-5">
+                                <label class="col-sm-3 col-xs-3 lbl-primary">Division :</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary">{{CaseInfoobj.Division}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-white cls-box">
+                        <div class="panel-heading">
+                            <h4 class="panel-title text-semibold"> <i class="icon-git-commit position-left"></i> Responsibilities</h4>
+                        </div>
+                        <div class="panel-body pnl-back-grey pa-10 cls-lbl-primary-right">
+                            <div class="row">
+                                <label class="col-sm-3 col-xs-3 lbl-primary mt-0">Account Rep:</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary mt-0">{{AccountRepresentative}}</label>
+                            </div>
+                            <div class="row mt-5">
+                                <label class="col-sm-3 col-xs-3 lbl-primary">Processor:</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary"></label>
+                            </div>
+                            <div class="row mt-5">
+                                <label class="col-sm-3 col-xs-3 lbl-primary">Assigned To:</label>
+                                <label class="col-sm-9 col-xs-9 lbl-secondary">{{AsgnToName}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div static-include="./Templates/PartDetail/OrderPartNote.cshtml" ng-controller="OrderPartNoteController"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div static-include="./Templates/OrderDetail/OrderDocument.cshtml" ng-controller="OrderDocumentController"></div>
+                </div>
+                <div class="col-md-4" ng-if="RoleName!='Attorney'">
+                    <div static-include="./Templates/PartDetail/LocationFees.cshtml" ng-controller="LocationFeesController"></div>
+                </div>
+                <div class="col-sm-4" ng-if="RoleName!='Attorney'">
+                    <div static-include="./Templates/PartDetail/ProposalFees.cshtml" ng-controller="ProposalFeesController"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" ng-if="RoleName!='Attorney'">
+                    <div static-include="./Templates/OrderDetail/OrderFirmAttorney.cshtml" ng-controller="OrderFirmAttorneyController"></div>
+                </div>
+                <div class="col-sm-6" ng-if="RoleName!='Attorney'">
+                    <div static-include="./Templates/OrderDetail/AssistantContactNotificationInfo.cshtml" ng-controller="AssistantContactController"></div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6" ng-if="RoleName!='Attorney'">
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <h4 class="panel-title text-semibold"><i class="icon-file-text2 position-left"></i>Client Information</h4>
+                        </div>
+                        <div class="panel-body pnl-back-grey cls-box-sm-height cls-lbl-primary-right">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Firm:</label>
+                                        <label class="col-sm-9  col-xs-9 lbl-secondary">{{ClientInfoobj.FirmName}}</label>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Ordered by:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary">{{ClientInfoobj.OrderBy}}</label>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Represents:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary">{{ClientInfoobj.Represents}}</label>
+                                    </div>
+
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Attorney Phone:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary">{{ClientInfoobj.AttorneyPhone}}</label>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Firm Phone:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary">{{ClientInfoobj.FirmPhone}}</label>
+                                    </div>
+
+
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Firm Warning:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary">{{ClientInfoobj.FirmWarning}}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Attorney:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary">{{ClientInfoobj.FirstName}} {{ClientInfoobj.LastName}}</label>
+                                    </div>
+
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Email:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary"><a href="#" class="blue_link">{{ClientInfoobj.Email}}</a></label>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Attorney For:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary">{{ClientInfoobj.Descr}}</label>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Attorney Fax:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary">{{ClientInfoobj.AttorneyFax}}</label>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Firm Fax:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary">{{ClientInfoobj.FirmFax}}</label>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <label class="col-sm-3 col-xs-3 lbl-primary">Attorney Warning:</label>
+                                        <label class="col-sm-9 col-xs-9 lbl-secondary">{{ClientInfoobj.AttorneyWarning}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6" ng-if="RoleName!='Attorney'">
+                    <div static-include="./Templates/OrderDetail/MiscCharges.cshtml" ng-controller="MiscChargesController"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal_QuickForm" class="modal fade" data-backdrop="static" data-keyboard="false " static-Include="./Templates/OrderDetail/QuickForm.cshtml" ng-controller="QuickFormController">
+    </div>
+    <div id="modal_NotesForm" class="modal fade" static-Include="./Templates/Settings/Partial/Notes.cshtml">
+    </div>
+    <div id="modal_Case" class="modal fade" data-backdrop="static" data-keyboard="">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content pb-15">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title">Case Information </h6>
+                </div>
+                <div class="modal-body">
+                    <div static-include="./Templates/Order/Step4.cshtml" ng-controller="Step4Controller" ng-init="createDatePicker()"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

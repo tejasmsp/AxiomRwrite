@@ -1,0 +1,60 @@
+﻿<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-main">
+            <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+            <h6 class="modal-title"><i class="icon-clipboard3 mr-5"></i>Notes</h6>
+        </div>
+        <div class="modal-body ">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="displaynoteformat">
+                        <li ng-repeat="item in notesList track by $index">
+                            <div data-ng-class="{'displayline':item && item.includes('$line$')}"></div>
+                            <div ng-if="item && item.includes('$firstline$')" class="pt-10">
+                                <span>{{item.replace('$firstline$','').split('-')[0]}} - </span>
+                                <a href="mailto:">{{item.replace('$firstline$','').split('-')[1].slice(0,item.replace('$firstline$','').split('-')[1].indexOf(']'))}}</a>
+                                <span>]</span>
+                            </div>
+                            <div ng-if="item && item.includes('$line$')" class="pt-10">
+                                <span>{{item.replace('$line$','').split('-')[0]}} - </span>
+                                <a href="mailto:">{{item.replace('$line$','').split('-')[1].slice(0,item.replace('$line$','').split('-')[1].indexOf(']'))}}</a>
+                                <span>]</span>
+                            </div>
+                            <div ng-if="!(item && (item.includes('$line$')||item.includes('$firstline$')))">
+                                <span> {{ item }}</span>
+                            </div>
+
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" title="Close" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+
+    .displayline {
+        border-bottom: 1px solid #ededed;
+        padding-top: 10px;
+    }
+
+    .displaynoteformat {
+        padding: 8px;
+        margin: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid #ededed;
+        -moz-box-shadow: 2px 2px 4px rgba(0,0,0,.4);
+        -webkit-box-shadow: 2px 2px 4px rgba(0,0,0,.4);
+        background: linear-gradient(to bottom, #fcfcfc 0%,#ededed 100%);
+        list-style-type: none;
+        max-height: 500px;
+        overflow: auto;
+    }
+</style>

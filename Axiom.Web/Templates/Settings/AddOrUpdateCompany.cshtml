@@ -1,0 +1,218 @@
+﻿
+<div class="page-content" ng-controller="CompanyAddUpdateController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-plus mr-10 fs-19"></i>Add/Edit Company</h4>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" name="Companyeditform" novalidate>
+                <div class="row">
+                    <div id="messages">
+                        <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Companyeditform.$submitted && !Companyeditform.$valid)">
+                            <ul ng-show="(Companyeditform.$submitted && (!Companyeditform.$valid))">
+                                <li ng-show="Companyeditform.CompID.$error.required">Company ID is required.</li>
+                                <li ng-show="Companyeditform.CompName.$error.required">Company Name is required.</li>
+                                <li ng-show="Companyeditform.Street1.$error.required">Street1 is required.</li>
+                                @*<li ng-show="Companyeditform.Street2.$error.required">Street2 is required.</li>*@
+                                <li ng-show="Companyeditform.State.$error.required">State is required.</li>
+                                <li ng-show="Companyeditform.City.$error.required">City is required.</li>
+                                <li ng-show="Companyeditform.Zip.$error.required">Zip is required.</li>
+                                @*<li ng-show="Companyeditform.Email.$error.required">Email Address is required.</li>*@
+                                <li ng-show="Companyeditform.AreaCode1.$error.required">Area Code is required.</li>
+                                <li ng-show="Companyeditform.PhoneNo.$error.required">Phone Number is required.</li>
+                                <li ng-show="Companyeditform.AreaCode2.$error.required">Fax Code is required.</li>
+                                <li ng-show="Companyeditform.FaxNo.$error.required">Fax Number is required.</li>
+                                <li ng-show="Companyeditform.TaxID.$error.required">Tax ID  is required.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary required pr-0">Company ID</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="CompID" class="form-control" maxlength="8" ng-model="Companyobj.CompID" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary required pr-0" style="line-height:17px;padding-top:0px;">Company Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="CompName" class="form-control" maxlength="60" ng-model="Companyobj.CompName" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary required">Street 1</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="Street1" class="form-control" maxlength="40" ng-model="Companyobj.Street1" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">Street 2</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="Street2" class="form-control" maxlength="40" ng-model="Companyobj.Street2" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary required">State</label>
+                        <div class="col-sm-10">
+                            <select name="State" ng-model="Companyobj.State" class="form-control" ng-options="item.StateId as item.StateName for item in Statelist" required>
+                                <option value=""> -- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary required">City</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="City" class="form-control" maxlength="24" ng-model="Companyobj.City" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary required">Zip Code</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="Zip" class="form-control" maxlength="10" ng-model="Companyobj.Zip" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">Email</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="Email" class="form-control" maxlength="40" ng-model="Companyobj.Email" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary required">Phone</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="AreaCode1" class="form-control" maxlength="4" ng-model="Companyobj.AreaCode1" style="width:12%;float:left;" required="required">
+                            <input type="text" name="PhoneNo" class="form-control" maxlength="12" ng-model="Companyobj.PhoneNo" style="width:88%;float:left;" required="required">
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary required">Fax</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="AreaCode2" class="form-control" maxlength="4" ng-model="Companyobj.AreaCode2" style="width:12%;float:left;" required="required">
+                            <input type="text" name="FaxNo" class="form-control" maxlength="12" ng-model="Companyobj.FaxNo" style="width:88%;float:left;" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary required">Tax ID</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="TaxID" class="form-control" maxlength="16" ng-model="Companyobj.TaxID" required="required">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">Term</label>
+                        <div class="col-sm-10">
+                            <select name="Term" ng-model="Companyobj.Term" class="form-control" ng-init="Companyobj.Term=Stores[0]" ng-options="item.Descr as item.Descr  for item in  Termlist">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">Remit To</label>
+                        <div class="col-sm-10">
+                            <select name="RemitNo" ng-model="Companyobj.RemitNo" class="form-control" ng-options="item.CompNo as item.CompName  for item in  companydropdownlist">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">Notes</label>
+                        <div class="col-sm-10">
+                            <textarea rows="3" class="form-control" ng-model="Companyobj.Notes" ></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary" style="padding-top:0px;line-height:17px;">Late charge in days</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="Email" class="form-control" maxlength="3"  ng-model="Companyobj.LateDays" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary" style="padding-top:0px;line-height:17px;">Order due in days</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="Email" class="form-control" maxlength="3" ng-model="Companyobj.DueDays" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary"></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="OnInv" checked="checked" class="cursor-pointer" ng-true-value="1" ng-false-value="0" ng-checked="Companyobj.OnInv" ng-model="Companyobj.OnInv">Print Name And Address On Invoice.<br />
+                            <input type="checkbox" name="OnStmt" checked="checked" class="cursor-pointer" ng-true-value="1" ng-false-value="0" ng-checked="Companyobj.OnStmt" ng-model="Companyobj.OnStmt">Print Name And Address On Statement.<br />
+                            <input type="checkbox" name="ShowPage" checked="checked" class="cursor-pointer" ng-true-value="1" ng-false-value="0" ng-checked="Companyobj.ShowPage" ng-model="Companyobj.ShowPage"> Show Per Page Rate.<br />
+                            <input type="checkbox" name="PreprtInv" checked="checked" class="cursor-pointer" ng-true-value="1" ng-false-value="0" ng-checked="Companyobj.PreprtInv" ng-model="Companyobj.PreprtInv"> Preprinted Invoice.<br />
+                            <input type="checkbox" name="PreprtStmt" checked="checked" class="cursor-pointer" ng-true-value="1" ng-false-value="0" ng-checked="Companyobj.PreprtStmt" ng-model="Companyobj.PreprtStmt">Preprinted Statement.<br />
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">Checking</label>
+                        <div class="col-sm-10">
+                            <select name="ChkNo" ng-model="Companyobj.ChkNo" class="form-control" ng-options="item.AcctNo as item.AcctNo  for item in  Accountlist" >
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">RefundNo</label>
+                        <div class="col-sm-10">
+                            <select name="RefundNo" ng-model="Companyobj.RefundNo" class="form-control" ng-options="item.AcctNo as item.AcctNo  for item in  Accountlist" >
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">FCNo</label>
+                        <div class="col-sm-10">
+                            <select name="FCNo" ng-model="Companyobj.FCNo" class="form-control" ng-options="item.AcctNo as item.AcctNo  for item in  Accountlist" >
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">DcntNo</label>
+                        <div class="col-sm-10">
+                            <select name="DcntNo" ng-model="Companyobj.DcntNo" class="form-control" ng-options="item.AcctNo as item.AcctNo  for item in  Accountlist" >
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">DebtNo</label>
+                        <div class="col-sm-10">
+                            <select name="DebtNo" ng-model="Companyobj.DebtNo" class="form-control" ng-options="item.AcctNo as item.AcctNo  for item in  Accountlist" >
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">PayrollNo</label>
+                        <div class="col-sm-10">
+                            <select name="PayrollNo" ng-model="Companyobj.PayrollNo" class="form-control" ng-options="item.AcctNo as item.AcctNo  for item in  Accountlist" >
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right" style="padding-right:17px;">
+                        <button type="button" ui-sref="Company" class="btn btn-default" title="Cancel">Cancle</button>
+                        <button type="submit" ng-if="((isSubModuleAccessibleToUser('Settings', 'Company', 'Edit Company')) || (isSubModuleAccessibleToUser('Settings', 'Company', 'Add Company')))" ng-click="SaveCompany(Companyeditform)" class="btn btn-primary" title="Save">Save</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

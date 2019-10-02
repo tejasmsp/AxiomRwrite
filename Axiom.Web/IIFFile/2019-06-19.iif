@@ -1,0 +1,9 @@
+"!TRNS","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT","DOCNUM","TOPRINT","ADDR1","ADDR2","ADDR3"
+"!SPL","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT"
+"!ENDTRNS"
+"TRNS","CHECK","06/19/2019","5060","Record Connect, Inc.","-23.71","VISA","N","Attn: Accounts Payable","4778 N. Michigan Ave Suite 100","Saginaw,MI 48604-____",
+"SPL","CHECK","11-10-2018 00:00:00","5060","Record Connect, Inc.","23.71",
+"ENDTRNS""","Record Connect, Inc.","23.7100","","29018 1","","Batman","29018","1",
+"TRNS","CHECK","06/19/2019","5060","","-200.00","1","N","2869 Jolly Rd","","Okemos,MI 48864",
+"SPL","CHECK","31-01-2019 00:00:00","5060","","200.00",
+"ENDTRNS""","Gotham City Hospital","200.0000","","29018 1","","Batman","29018","1",

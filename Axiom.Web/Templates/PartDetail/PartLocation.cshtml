@@ -1,0 +1,252 @@
+﻿<div class="panel panel-white cls-box">
+    <div class="panel-heading">
+        <h4 class="panel-title text-semibold"><i class="icon-location4 position-left"></i>Location</h4>
+        <div class="heading-elements">
+            <ul class="icons-list mt-0">
+                <li class="mr-5" ng-if="RoleName=='Administrator'"> 
+                    <button type="button" class="btn btn-primary pull-right" ng-click="EditPartPopUp()"><i class=" icon-pencil3 mr-5 font-10 mt-1" ></i>Edit</button>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body pnl-back-grey overflow-auto cls-boxscroll cls-box-lg-height">
+        <div class="row">
+            <div class="col-md-6">
+                <span style="font-weight:500;font-size:15px;" ng-bind="OrderPartObj.Name1"> </span><div class="clearfix"></div>
+                <span style="font-size:12px;" ng-bind="OrderPartObj.Name2"></span> <div class="clearfix"></div>
+                (<span style="font-size:12px;font-weight:bold;" ng-bind="OrderPartObj.LocID"></span>)
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12 mt-5">
+                    @*<span ng-bind="OrderPartObj.Descr"></span>*@
+                    <label class="control-label text-right valign-middle"><span class="text-bold">Record Type : </span> {{OrderPartObj.Descr}}</label>
+                </div>
+                @*<div class="col-md-8">                    
+                    <select name="RecordTypeId" ng-model="OrderPartObj.RecordTypeId" ng-disabled="RoleName!='Administrator'" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypeList">
+                  <option value="">--Select--</option>
+                </select>                
+                </div>*@
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <span style="font-size:14px;font-weight:500;">Contact Information</span>
+                <div class="form-control" style="height:auto !important;min-height:90px;">
+                    <span ng-bind="OrderPartObj.Contact"></span><div class="clearfix"></div>
+                    <span>{{OrderPartObj.Street1}}</span><div class="clearfix"></div>
+                    <span>{{OrderPartObj.Street2}}</span><div class="clearfix"></div>
+                    <span><b>{{OrderPartObj.CityStateZip}}</b></span>
+                </div>
+            </div>
+            <div class="col-md-6 mt-20">
+                <div class="form-control" style="height:auto !important;">
+                    Phone:	{{OrderPartObj.AreaCode1}} {{OrderPartObj.PhoneNo1}}<div class="clearfix"></div>
+                    Phone 2:{{OrderPartObj.AreaCode2}} {{OrderPartObj.PhoneNo2}}<div class="clearfix"></div>
+                    Fax:{{OrderPartObj.AreaCode3}}{{OrderPartObj.FaxNo}}<div class="clearfix"></div>
+                    Email:<span>{{OrderPartObj.Email}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-10">
+            <div class="col-md-12">
+                <span style="font-size:14px;font-weight:500;">Scope of Records Requested</span>
+                <div class="clearfix"></div>
+                <div ng-bind-html="OrderPartObj.Scope" class="scopeLocationPage"></div>
+            </div>
+        </div>
+
+        <div class="row pt-10" ng-if="RoleName!='Attorney'">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <span style="font-size:14px;font-weight:500;">Warning</span> <div class="clearfix"></div>
+                    <div class="scopeLocationPage" ng-bind="OrderPartObj.Warning"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Notes &nbsp;<i class="icon-clipboard3 position-left cursor-pointer" data-toggle='tooltip' data-placement='left' tooltip title="Open note for this location" ng-click="openNotesClick();"></i> </h4>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="modal_Edit_Part" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <form name="OrderPartLocationform" id="OrderPartform" class="form-horizontal" novalidate>
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Locations</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div id="messages">
+                            <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(OrderPartLocationform.$submitted && !OrderPartLocationform.$valid)">
+                                <ul ng-show="(OrderPartLocationform.$submitted && (!OrderPartLocationform.$valid))">
+                                    <li ng-show="OrderPartLocationform.Name1.$error.required">Name1 is required.</li>
+                                    <li ng-show="OrderPartLocationform.City.$error.required">City Name is required.</li>
+                                    <li ng-show="OrderPartLocationform.DepartmentId.$error.required">Please Select Department.</li>
+                                    <li ng-show="OrderPartLocationform.StateId.$error.required">Please Select State.</li>
+                                    <li ng-show="OrderPartLocationform.RecordTypeId.$error.required">Please Select RecordType.</li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2 lbl-primary">Search Location:</label>
+                                    <div class="col-sm-2">
+                                        <input type="button" class="btn btn-default" ng-click="GetLocationSearch()" value="Select Location" />
+                                    </div>
+                                    <labe class="control-label col-sm-7 fw600" ng-bind="OrderPartObj.LocationName"></labe>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Location ID:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="OrderPartObj.LocID" ng-disabled="IsLocSelect" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Record Type :</label>
+                                    <div class="col-sm-9">
+                                        <select name="RecordTypeId" ng-model="OrderPartObj.RecordTypeId" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypeList" required="required">
+                                            <option value="">--Select--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                                                                  
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Scope:</label>
+                                    <div class="col-sm-9">
+                                        @*<textarea rows="3" class="form-control" name="Scope" placeholder="Scope" ng-model="OrderPartObj.Scope"></textarea>*@
+                                        <div id="divScope" ng-bind-html="OrderPartObj.Scope" class="htCommentTextArea editableScopeDiv" contenteditable="true">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Notes :</label>
+                                    <div class="col-sm-9">
+                                        <textarea rows="3" class="form-control" name="Notes" placeholder="Notes" ng-model="OrderPartObj.Notes"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" title="Close" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" title="Save" ng-click="UpdatePart(OrderPartLocationform)">Save</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@*<div id="modal_Search_Location" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-main">
+                <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title">Search Location</h5>
+            </div>
+            <div class="modal-body" style="overflow-y: scroll!important;height:720px!important">
+                <div class="modal-container">
+                    <div class="table-responsive table-grid">
+                        <table class="table table-bordered table-framed" id="tblSearchLocation"></table>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<div id="modal_Location_Search" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-main">
+                <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                <h5 class="modal-title">Search Location</h5>
+            </div>
+            <div class="modal-body">
+                <div class="modal-container">
+                    <div class="row mb-10">
+                        <label class="lbl-primary text-bold">Search Existing Location From System By Typing Name Of Location In Below Search Box</label>
+                        @*<label class="control-label lbl-primary pt-8">Search Existing Location From System By Typing Name Of Location In Below Search Box</label>*@
+                    </div>
+                    <div class="row mb-10">
+                        <div class="col-md-10 pl-0" ng-hide="true">
+                            <label class="col-sm-2 control-label lbl-primary pt-8">Search By:</label>
+                            <ul class="borderless pt-0 pl-0">
+                                <li class="li-checkbox col-sm-4 pl-0">
+                                    <label class="lbl-checkbox bg-white" for="rbtnLocName">
+                                        <input type="radio" name="university" id="rbtnLocName" ng-model="searchCriteria" ng-value="'Name1'" ng-checked="searchCriteria"><span class="text-bold">Location Name</span>
+                                    </label>
+                                </li>
+                                <li class="li-checkbox col-sm-3 pl-0">
+                                    <label class="lbl-checkbox" for="rbtnDocName">
+                                        <input type="radio" name="university" checked="checked" id="rbtnDocName" ng-model="searchCriteria" ng-value="'Name2'" ng-checked="searchCriteria"><span class="text-bold">Doctor Name</span>
+                                    </label>
+                                </li>
+                                <li class="li-checkbox col-sm-3 pl-0">
+                                    <label class="lbl-checkbox" for="rbtnBoth">
+                                        <input type="radio" name="university" id="rbtnBoth" ng-model="searchCriteria" ng-value="'Both'" ng-checked="searchCriteria"><span class="text-bold">Both</span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row mb-10">
+                        <div class="col-md-10 pl-0">
+                            <label class="col-sm-2 control-label lbl-primary required pt-8">Search Text:</label>
+                            <div class="col-sm-6 pl-0">
+                                <input type="text" ng-model="searchText" spellcheck="false" id="SearchText" autofocus name="SearchText" maxlength="80" placeholder="Search" ng-keydown="($event.keyCode === 13) && SearchLocation()" class="form-control">
+                            </div>
+                            <div class="col-md-1">
+                                <input type="button" value="Search" title="Search" name="Search" class="btn btn-primary" ng-click="SearchLocation()">
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="row pt-10">
+                        <div class="col-md-12">
+                            <div class="form-group pb-0 mb-0">
+                                <div class="table-responsive table-grid fixed-height" id="divLocationSearchGrid">
+                                    <table class="table table-bordered table-framed" id="tblSearchLocationGrid"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" title="Close">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

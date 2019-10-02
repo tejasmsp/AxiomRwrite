@@ -1,0 +1,233 @@
+﻿<div class="page-content" ng-controller="BillingRateController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-spreadsheet mr-10 fs-19"></i>Billing Rate</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Billing Rate', 'Add Billing Rate')"><a ng-click="GetBillingRateDetail(objBillingRate.MemberID,0)" href="#" class="blue_link">[ + Add Billing Rate ]</a></li>
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Billing Rate', 'Add Record Type')"><a ng-click="GetRecordTypeDetail()" href="#" class="blue_link">[ + Add Record Type ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-5" style="">
+                <label class="col-sm-1 control-label" style="margin-top:7px;font-weight: bold;color: #777777;width:80px;padding-bottom:15px;">Member :</label>
+                <div class="col-sm-3">
+                    <select name="ddlMember" ng-model="objBillingRate.MemberID" ng-change="OnMemberChanged()" class="form-control" ng-options="item.MemberID as item.MemberID  for item in  MemberList"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblBillingList">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 266px;">Record Type</th>
+                                        <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 235px;padding:0 !important;">
+                                            <table class="table-bordered" width="100%" style="border-top:none !important;border-left:none !important;border-right:none !important;">
+                                                <tr><td style="text-align:center;vertical-align:central;" colspan="2">Basic Fee </td></tr>
+                                                <tr><td>Dcnt Rate</td><td>Reg Rate</td></tr>
+                                            </table>
+                                        </th>
+                                        <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 235px;padding:0 !important;">
+                                            <table class="table-bordered" width="100%" style="border-top:none !important;border-left:none !important;border-right:none !important;">
+                                                <tr><td style="text-align:center;vertical-align:central;" colspan="2">Subpoena</td></tr>
+                                                <tr><td>Dcnt Rate</td><td>Reg Rate</td></tr>
+                                            </table>
+                                        </th>
+                                        <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 235px;padding:0 !important;">
+                                            <table class="table-bordered" width="100%" style="border-top:none !important;border-left:none !important;border-right:none !important;">
+                                                <tr><td style="text-align:center;vertical-align:central;" colspan="2">Binding and Printing</td></tr>
+                                                <tr><td>Dcnt Rate</td><td>Reg Rate</td></tr>
+                                            </table>
+                                        </th>
+                                        <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 235px;padding:0 !important;">
+                                            <table class="table-bordered" width="100%" style="border-top:none !important;border-left:none !important;border-right:none !important;">
+                                                <tr><td style="text-align:center;vertical-align:central;" colspan="2">Copy</td></tr>
+                                                <tr><td>Dcnt Rate</td><td>Reg Rate</td></tr>
+                                            </table>
+                                        </th>
+                                        <th class="dt-center sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 235px;padding:0 !important;">
+                                            <table class="table-bordered" width="100%" style="border-top:none !important;border-left:none !important;border-right:none !important;">
+                                                <tr><td style="text-align:center;vertical-align:central;" colspan="2">Shipping</td></tr>
+                                                <tr><td>Dcnt Rate</td><td>Reg Rate</td></tr>
+                                            </table>
+                                        </th>
+                                        <th ng-if="isSubModuleAccessibleToUser('Settings', 'Billing Rate', 'Edit Billing Rate')" class="dt-center sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width: 161px;text-align:center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd" ng-repeat="item in BillingList | unique:'RecordTypeID'">
+                                        <td>{{item.RecordTypeName}}</td>
+                                        <td ng-repeat="item1 in BillingList | filter:{ RecordTypeID: item.RecordTypeID } : true ">
+                                            <table class="table-borderless" width="100%" style="padding:0 !important;">
+                                                <tr>
+                                                    <td style="padding:0 !important;" width="50%">{{item1.RegRate}}</td>
+                                                    <td style="padding:0 !important;" width="50%">{{item1.DcntRate}}</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td ng-if="isSubModuleAccessibleToUser('Settings', 'Billing Rate', 'Edit Billing Rate')" style="text-align:center;"><a class='ico_btn cursor-pointer' ng-click='EditBillingRate(item.RecordTypeID)' title='Edit'> <i class='icon-pencil3'></i></a></td>
+                                        @*<td valign="top" colspan="7" class="dataTables_empty">No records found</td>*@
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal_recordtype" class="modal fade">
+        <form class="form-horizontal" name="RecordTypeForm" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Add Record Type</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages1">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(RecordTypeForm.$submitted && !RecordTypeForm.$valid)">
+                                    <ul>
+                                        <li ng-show="RecordTypeForm.RecordTypeName.$error.required">Please enter Record Type.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary">Record Type</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="RecordTypeName" ng-model="objRecordTypePopup.Descr" class="form-control" maxlength="60" required />
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary">Show On Rate Page</label>
+                                <div class="col-sm-9 pt-5">
+                                    <input type="checkbox" name="isOnRatePage" checked="checked" class="cursor-pointer" ng-checked="objRecordTypePopup.isOnRatePage" ng-model="objRecordTypePopup.isOnRatePage" />
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary">Show On Part Page</label>
+                                <div class="col-sm-9 pt-5">
+                                    <input type="checkbox" name="isDisable" checked="checked" class="cursor-pointer" ng-checked="objRecordTypePopup.isDisable" ng-model="objRecordTypePopup.isDisable" />
+                                </div>
+                            </div>
+
+                            <div class="table-responsive table-grid fixed-height">
+                                <table class="table table-bordered table-framed" id="tblRecordTypeList">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:50px;">Code</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:266px;">Record Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd" ng-repeat="item in RecordList">
+                                            <td>{{item.Code}}</td>
+                                            <td>{{item.Descr}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button title="Close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button title="Save" type="submit" ng-click="SaveRecordType()" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="modal_billing" class="modal fade">
+        <form class="form-horizontal" name="BillingRateForm" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="((BillingRateForm.$submitted && !BillingRateForm.$valid) || (isStartValidate || isEndValidate))">
+                                    <ul>
+                                        <li ng-show="BillingRateForm.ddlRecordType.$error.required">Please select Record Type.</li>
+                                        @*<li ng-show="BillingRateForm.StartPage.$error.required && ShowPageNumber">Please Enter Start Page Number.</li>*@
+                                        @*<li ng-show="BillingRateForm.EndPage.$error.required && ShowPageNumber">Please Enter End Page Number.</li>*@
+                                        <li ng-if="isStartValidate">Please Enter Start Page Number.</li>
+                                        <li ng-if="isEndValidate">Please Enter End Page Number.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary">Member ID</label>
+                                <div class="col-sm-9">
+                                    <label class="col-sm-3 control-label lbl-primary">{{objBillingRatePopup.MemberID}}</label>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary">Record Type</label>
+                                <div class="col-sm-8 pl-10">
+                                    <select name="ddlRecordType" ng-disabled="isEdit" ng-required="true" ng-model="objBillingRatePopup.Code" class="form-control" ng-options="item.Code as item.Descr  for item in  FilterBillingRate" required>
+                                        <option value="">-- Select --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary">Type</label>
+                                <div class="col-sm-9">
+                                    <div class="pb-5 pr-5 col-sm-12">
+                                        <ul class="borderless pt-0 pl-0">
+                                            <li class="li-checkbox col-sm-4 pl-0" ng-repeat="item in RecordTypeOption">
+                                                <label class="lbl-checkbox bg-white">
+                                                    <input name="RequestSentgrp" type="radio" ng-disabled="isEdit" data-ng-model="item.IsChecked" ng-click="RadioCheckChange(item, RecordTypeOption,$event)" data-ng-value="true">{{item.Titile}}
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10" ng-show="ShowPageNumber">
+                                <label class="col-sm-3 control-label lbl-primary">Page Number</label>
+                                <div class="col-sm-9 pt-5">
+                                    <span class="col-sm-4">
+                                        Start<input type="text" name="StartPage" ng-disabled="isEdit" class="form-control" maxlength="8" ng-model="objBillingRatePopup.StartPage" />
+                                    </span>
+                                    <span class="col-sm-4">
+                                        End<input type="text" name="EndPage" ng-disabled="isEdit" class="form-control" maxlength="8" ng-model="objBillingRatePopup.EndPage" />
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row mt-20">
+                                <label class="col-sm-3 control-label mandatoryField">&nbsp;</label>
+                                <label class="control-label lbl-primary col-sm-3">Regular Rate</label>
+                                <label class="control-label lbl-primary col-sm-3">Discount Rate</label>
+                            </div>
+                            <div class="row mb-10" ng-repeat="item in RateEditList">
+                                <label class="col-sm-3 control-label lbl-primary required">{{item.RateName}}</label>
+                                <span class="col-sm-3">
+                                    <input type="text" name="{{item.RateName}}RegRate" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="item.RegRate" required />
+                                </span>
+                                <span class="col-sm-3">
+                                    <input type="number" name="{{item.RateName}}DcntRate" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="item.DcntRate" required />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button title="Close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button title="Save" type="submit" ng-click="AddOrUpdateBillingRate(BillingRateForm)" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

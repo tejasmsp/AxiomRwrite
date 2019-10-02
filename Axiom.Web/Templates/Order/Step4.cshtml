@@ -1,0 +1,198 @@
+﻿<form name="step4form" id="step4form" novalidate ng-init="createDatePicker()">
+    <div class="panel panel-white panel-custom-color">
+        <div class="panel-body OrderWizardPnl"   ng-class="PageMode==Enum.PageMode.ViewOnly?'disabledbutton':''">
+            <div class="row">
+                <div class="col-md-10" id="divCaseFilterDiv">
+                    <div class="col-sm-6 pr-0">
+                        <ul class="borderless pt-0 pl-0">
+                            <li class="li-checkbox col-sm-6 pl-0">
+                                <label class="lbl-checkbox bg-white" for="rbtnFileCase">
+                                    <input type="radio" name="university" id="rbtnFileCase" placeholder="University name" ng-model="OrderStep4Obj.CaseTypeId" ng-value="1" ng-checked="OrderStep4Obj.CaseTypeId"><span class="text-bold">Filed Case</span>
+                                </label>
+                            </li>
+                            <li class="li-checkbox col-sm-6 pl-0">
+                                <label class="lbl-checkbox" for="rbtnCaseType">
+                                    <input type="radio" name="university" checked="checked" id="rbtnCaseType" placeholder="University name" ng-model="OrderStep4Obj.CaseTypeId" ng-value="2" ng-checked="OrderStep4Obj.CaseTypeId"><span class="text-bold">Pre-suit</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" ng-show="OrderStep4Obj.CaseTypeId!=2">
+                <div class="col-md-12">
+                    <label class="control-label lbl-primary">Caption</label> <div class="clearfix"> </div>
+                    <div class="form-group row">
+                        <div class="col-sm-5">
+                            <input type="text" name="Caption1" class="form-control" placeholder="Caption" maxlength="200" ng-model="OrderStep4Obj.Caption1">
+                        </div>
+                        <div class="col-md-1 text-center">
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="VsText1" class="form-control"  maxlength="200" ng-model="OrderStep4Obj.VsText1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <div class="col-sm-5">
+                            <input type="text" name="Caption2" class="form-control" placeholder="Caption" maxlength="200" ng-model="OrderStep4Obj.Caption2">
+                        </div>
+                        <div class="col-md-1 text-center">
+                            VS
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="VsText2" class="form-control"  maxlength="200" ng-model="OrderStep4Obj.VsText2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <div class="col-sm-5">
+                            <input type="text" name="Caption3" class="form-control" placeholder="Caption" maxlength="200" ng-model="OrderStep4Obj.Caption3">
+                        </div>
+                        <div class="col-md-1 text-center">
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="VsText3" class="form-control"  maxlength="200" ng-model="OrderStep4Obj.VsText3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show="OrderStep4Obj.CaseTypeId!=2">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Cause No:</label>
+                        <input type="text" name="CauseNo" class="form-control" placeholder="Cause No" maxlength="50" ng-model="OrderStep4Obj.CauseNo">
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Trial Date:</label>
+                        <div class="input-group myDatePicker date">
+                            <input type="text" class="form-control" name="ReleaseDate" ng-model="OrderStep4Obj.TrialDate" />
+                            <span class="input-group-addon cursor-pointer">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show="OrderStep4Obj.CaseTypeId!=2">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Client Matter No:</label>
+                        <input type="text" name="ClientMatterNo" placeholder="Client Matter No" maxlength="15" class="form-control"
+                               ng-model="OrderStep4Obj.ClaimMatterNo">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="OrderStep4Obj.CaseTypeId!=2">
+                <div class="col-md-3">
+                    <label class="col-sm-2 control-label lbl-primary pt-7 pl-0">State:</label>
+                    <div class="col-sm-10 form-group">
+                        @*<select name="ddlState" ng-model="OrderStep4Obj.State" class="form-control" ng-options="item.StateId as item.StateName  for item in  StateList" ng-change="BindDropDown(OrderStep4Obj.State)">
+                            <option value="">-- Select --</option>
+                        </select>*@
+                        <div name="ddlState" class="ml-0" custom-select="item.StateId as item.StateName  for item in  StateList | filter: $searchTerm" ng-model="OrderStep4Obj.State" ng-change="BindDropDown(OrderStep4Obj.State)"></div>
+                    </div>
+                </div>
+                @*<div class="col-md-3">
+                    <div class="col-md-12 pl-0">
+                        <ul class="borderless pt-0 pl-0">
+                            <li class="li-checkbox col-sm-12 pl-0">
+                                <label class="lbl-checkbox bg-white" for="rush">
+                                    <input type="checkbox" name="Rush" id="rush" ng-model="OrderStep4Obj.Rush" ng-checked="OrderStep4Obj.Rush">Rush
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>*@
+                <div class="col-md-6">
+                    <ul class="borderless pt-0 pl-0">
+                        <li class="li-checkbox col-sm-6 pl-0">
+                            <label class="lbl-checkbox bg-white" for="State">
+                                <input type="radio" name="IsStateOrFedral" id="State" ng-value="1" ng-checked="true" ng-model="OrderStep4Obj.IsStateOrFedral" ng-change="showHideSates()"> State
+                            </label>
+                        </li>
+                        <li class="li-checkbox col-sm-6 pr-0">
+                            <label class="lbl-checkbox bg-white" for="Federal">
+                                <input type="radio" name="IsStateOrFedral" id="Federal" ng-value="2" ng-model="OrderStep4Obj.IsStateOrFedral" ng-change="showHideFederals()">Federal
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" ng-show="OrderStep4Obj.CaseTypeId!=2">
+                <div class="col-md-3">
+                    <label class="control-label lbl-primary ">Date Of Loss:</label>
+                    <div class="input-group myDatePicker date">
+                        <input type="text" class="form-control"
+                               name="BillingDateOfLoss" placeholder="Date Of Loss" ng-model="OrderStep4Obj.BillingDateOfLoss">
+                        <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+                <div class="col-md-3" ng-show="OrderStep4Obj.IsStateOrFedral!=1">
+                    <label class="control-label lbl-primary">District:</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="OrderStep4Obj.District" ng-blur="BindDropDownByDistrict(OrderStep4Obj.District,OrderStep4Obj.State)" maxlength="50" list="DistrictNames">
+                        <datalist id="DistrictNames" ng-model="District">
+                            <option ng-repeat="option in DistrictList | filter:OrderStep4Obj.District | limitTo:3" value="{{option.DistrictName}}"></option>
+                        </datalist>
+                    </div>
+                </div>
+
+                <div class="col-md-3" ng-show="OrderStep4Obj.IsStateOrFedral!=1">
+                    <label class="control-label lbl-primary">Division:</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="OrderStep4Obj.Division" maxlength="50" list="DivisionNames">
+                        <datalist id="DivisionNames" ng-model="Division">
+                            <option value=''>-- select an option --</option>
+                            <option ng-repeat="item in DivisionList | filter:OrderStep4Obj.Division | limitTo:3" value="{{item.CourtName}}"></option>
+                        </datalist>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3" ng-show="OrderStep4Obj.IsStateOrFedral==1">
+                    <label class="control-label lbl-primary">County:</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="OrderStep4Obj.County" maxlength="50" list="CountyNames">
+                        <datalist id="CountyNames" ng-model="County">
+                            <option value=''>-- select an option --</option>
+                            <option ng-repeat="item in CountyList | filter:OrderStep4Obj.OrderStep4Obj | limitTo:3" value="{{item.CountyName}}"></option>
+                        </datalist>
+                    </div>
+                </div>
+
+                <div class="col-md-3" ng-show="OrderStep4Obj.IsStateOrFedral==1">
+                    <label class="control-label lbl-primary">Court:</label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="OrderStep4Obj.Court" maxlength="50" list="CourtNames">
+                        <datalist id="CourtNames" ng-model="Court">
+                            <option value=''>-- select an option --</option>
+                            <option ng-repeat="item in CourtList | filter:OrderStep4Obj.Court | limitTo:3" value="{{item.CourtName}}"></option>
+                        </datalist>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode!=Enum.PageMode.ViewOnly && CurrentState!='OrderDetail' && CurrentState!='PartDetail'">
+            <input type="submit" class="btn btn-primary pull-right" value="Next" ng-click="SubmitStep4(step4form)" />
+            <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+        </div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode==Enum.PageMode.ViewOnly && CurrentState!='OrderDetail' && CurrentState!='PartDetail'">
+            <input type="button" class="btn btn-primary pull-right" value="Next" ng-click="MoveNext()" />
+            <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+        </div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="CurrentState=='OrderDetail' || CurrentState=='PartDetail'">
+            <input type="submit" class="btn btn-primary pull-right" value="Save" title="Save" ng-click="SubmitStep4(step4form)" />
+            <input type="button" class="btn btn-default pull-right mr-15" data-dismiss="modal" value="Close" title="Close" />
+        </div>      
+    </div>
+</form>

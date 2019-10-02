@@ -1,0 +1,49 @@
+UPDATE OrderDetail SET CreatedDate=NULL where CreatedDate='1900-01-01 00:00:00.000'
+-------------------------------------------------------------------------------------------
+UPDATE OrderBilling SET BillingDateOfLoss = NULL where BillingDateOfLoss='1900-01-01 00:00:00.000'
+UPDATE OrderBilling SET CreatedDate = NULL where CreatedDate='1900-01-01 00:00:00.000'
+-------------------------------------------------------------------------------------------
+UPDATE OrderCase SET TrialDate = NULL where TrialDate='1900-01-01 00:00:00.000'
+UPDATE OrderCase SET CreatedDate = NULL where CreatedDate='1900-01-01 00:00:00.000'
+-------------------------------------------------------------------------------------------
+UPDATE OrderPatient SET DateOfDeath=NULL WHERE DateOfDeath='1900-01-01 00:00:00.000'
+UPDATE OrderPatient SET DateOfBirth=NULL WHERE DateOfBirth='1900-01-01 00:00:00.000'
+UPDATE OrderPatient SET CreatedDate=NULL WHERE CreatedDate='1900-01-01 00:00:00.000'
+-------------------------------------------------------------------------------------------
+UPDATE Part SET OrdDate = NULL WHERE OrdDate='1900-01-01 00:00:00'
+UPDATE Part SET CompDate = NULL WHERE CompDate='1900-01-01 00:00:00'
+UPDATE Part SET NRDate = NULL WHERE NRDate='1900-01-01 00:00:00'
+UPDATE Part SET FirstCall = NULL WHERE FirstCall='1900-01-01 00:00:00'
+UPDATE Part SET NRDate = NULL WHERE NRDate='1900-01-01 00:00:00'
+UPDATE Part SET CallDate = NULL WHERE CallDate='1900-01-01 00:00:00'
+UPDATE Part SET DueDate = NULL WHERE DueDate='1900-01-01 00:00:00'
+UPDATE Part SET CallBack = NULL WHERE CallBack='1900-01-01 00:00:00'
+UPDATE Part SET SchDate = NULL WHERE SchDate='1900-01-01 00:00:00'
+UPDATE Part SET QuashDate = NULL WHERE QuashDate='1900-01-01 00:00:00'
+UPDATE Part SET CanDate = NULL WHERE CanDate='1900-01-01 00:00:00'
+UPDATE Part SET CanDate = NULL WHERE CanDate='1900-01-01 00:00:00'
+UPDATE Part SET DepoDate = NULL WHERE DepoDate='1900-01-01 00:00:00'
+UPDATE Part SET HoldDate = NULL WHERE HoldDate='1900-01-01 00:00:00'
+UPDATE Part SET ActionDate = NULL WHERE ActionDate='1900-01-01 00:00:00'
+UPDATE Part SET ChngDate = NULL WHERE ChngDate='1900-01-01 00:00:00'
+UPDATE Part SET EntDate = NULL WHERE EntDate='1900-01-01 00:00:00'
+-------------------------------------------------------------------------------------------
+alter table dbo.checks alter column VoidDate smalldatetime NULL
+alter table dbo.checks alter column ClrDate smalldatetime NULL
+
+UPDATE dbo.checks SET VoidDate = NULL WHERE VoidDate='1900-01-01 00:00:00'
+UPDATE dbo.checks SET ClrDate= NULL WHERE ClrDate='1900-01-01 00:00:00'
+-------------------------------------------------------------------------------------------
+UPDATE Attorney SET ChngDate = NULL WHERE ChngDate='1900-01-01 00:00:00'
+-------------------------------------------------------------------------------------------
+UPDATE dbo.Firm SET CallBack=NULL WHERE CallBack='1900-01-01 00:00:00'
+UPDATE dbo.Firm SET Action=NULL WHERE Action='1900-01-01 00:00:00'
+UPDATE dbo.Firm SET PmtDate=NULL WHERE PmtDate='1900-01-01 00:00:00'
+UPDATE dbo.Firm SET CODSent=NULL WHERE CODSent='1900-01-01 00:00:00'
+UPDATE dbo.Firm SET DemandSent=NULL WHERE DemandSent='1900-01-01 00:00:00'
+UPDATE dbo.Firm SET ChngDate=NULL WHERE ChngDate='1900-01-01 00:00:00'
+UPDATE dbo.Firm SET LastUsedDate=NULL WHERE LastUsedDate='1900-01-01 00:00:00'
+-------------------------------------------------------------------------------------------
+UPDATE Location SET ChngDate=NULL WHERE ChngDate='1900-01-01 00:00:00'
+UPDATE Location SET LastUsedDate=NULL WHERE LastUsedDate='1900-01-01 00:00:00'
+-------------------------------------------------------------------------------------------

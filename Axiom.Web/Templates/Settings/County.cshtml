@@ -1,0 +1,73 @@
+﻿<div class="page-content" ng-controller="CountyController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-flag3 mr-10 fs-19"></i>Manage County</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'County', 'Add County')"> <a ng-click="GetCountyDetail(0)" class="blue_link">[ + Add County ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 no-padding">
+                <div class="table-responsive table-grid">
+                    <table class="table table-bordered table-framed" id="tblCounty"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Primary modal -->
+    <div id="modal_County" class="modal fade">
+        <form class="form-horizontal" name="Countyform" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Countyform.$submitted && !Countyform.$valid)">
+                                    <ul ng-show="(Countyform.$submitted && (!Countyform.$valid))">
+                                        <li ng-show="Countyform.StateId.$error.required">State is required.</li>
+                                        <li ng-show="Countyform.CountyName.$error.required">County Name is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-2 control-label lbl-primary required">State</label>
+                                <div class="col-sm-10">
+                                    <select id="ddlcounty" name="StateId" ng-model="CountyObj.StateId" class="form-control" ng-options="item.StateId as item.StateName  for item in  Statelist" required>
+                                        <option value="">-- Select --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-2 control-label lbl-primary required">County</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="CountyName" class="form-control" maxlength="50" ng-model="CountyObj.CountyName" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 lbl-primary control-label mb-0">Status</label>
+                                <div class="col-sm-10">
+                                    <ul class="borderless pt-0 pl-0">
+                                        <li class="li-checkbox col-sm-12 pl-0 pr-0"><label class="lbl-checkbox bg-white mb-0" ng-class="(CountyObj.IsActive==true? 'active': '')"><input type="checkbox" name="IsActive" checked="checked" class="cursor-pointer" ng-checked="CountyObj.IsActive" ng-model="CountyObj.IsActive">Is Active</label></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrUpdateCounty(Countyform)" class="btn btn-primary" title="Save">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /primary modal -->
+</div>
+

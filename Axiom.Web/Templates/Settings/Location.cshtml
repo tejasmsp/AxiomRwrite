@@ -1,0 +1,136 @@
+﻿<div class="page-content" ng-controller="LocationController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-text2 mr-10 fs-19"></i>Manage Location</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Admin', 'Location', 'Add Location')"> <a href="" ng-href="ManageLocation" class="blue_link">[ + Add Location ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-group panel-group-control panel-group-control-right">
+                        <div class="panel panel-white ">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">
+                                    <a class="wd-full" style="width:100%" data-toggle="collapse" href="#SearchPanel">
+                                        <i class="icon-search4 position-left"></i> <b class="text-bold pt-0" style="text-transform:uppercase;">Search</b>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="SearchPanel" class="panel-collapse collapse-in">
+                                <div class="panel-body pnl-back-grey">
+
+                                    <div class="row mb-10">
+                                        <div class="col-md-3 hidden">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Type :</label>
+                                                <div class="col-sm-9">
+                                                    <label class="control-label radio-inline"><input type="radio" /> Location</label>
+                                                    <label class="control-label radio-inline"><input type="radio" /> Doctor</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3 pt-8">Location Code:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="LocID" class="form-control" maxlength="20" ng-model="LocationSearchObj.LocID" ng-keydown="($event.keyCode === 13) && LocationSearch_Click()"  />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3 pt-8">Name:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="Name" class="form-control" maxlength="300" ng-model="LocationSearchObj.Name" ng-keydown="($event.keyCode === 13) && LocationSearch_Click()" >
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3 pt-8">Phone / Fax :</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="PhoneNo" class="form-control" maxlength="12" ng-model="LocationSearchObj.PhoneNo" ng-keydown="($event.keyCode === 13) && LocationSearch_Click()" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3 pt-8">Department:</label>
+                                                <div class="col-sm-9">
+                                                    <select name="Department" ng-model="LocationSearchObj.Department" class="form-control" ng-options="item.Department as item.Department for item in Departmentlist">
+                                                        <option value="">--Select--</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3 pt-8">Address:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="Address" class="form-control" maxlength="100" ng-model="LocationSearchObj.Address" ng-keydown="($event.keyCode === 13) && LocationSearch_Click()" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3 pt-8">City:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="City" class="form-control" maxlength="50" ng-model="LocationSearchObj.City" ng-keydown="($event.keyCode === 13) && LocationSearch_Click()" >
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3 pt-8">State:</label>
+                                                <div class="col-sm-9">
+                                                    <select ng-model="LocationSearchObj.State" class="form-control" ng-options="item.StateId as item.StateName for item in Statelist">
+                                                        <option value="">--Select--</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 text-right pr-20">
+                                            <div class="form-group">
+                                                    <button class="btn btn-primary mr-5" ng-click="LocationSearch_Click()" title="Search" >Search</button>
+                                                    <button class="btn btn-default" ng-click="ClearLocationSearch_Click()" title="Clear Search Text" >Clear</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblLocation"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Primary modal -->
+    <div id="modal_LocationMergedLocation" data-backdrop="static"  data-keyboard="false" class="modal fade" static-Include="./Templates/Settings/Partial/MergedLocation.cshtml" ng-controller="MergeLocationController">
+    </div> 
+    <!-- /primary modal -->
+</div>
+

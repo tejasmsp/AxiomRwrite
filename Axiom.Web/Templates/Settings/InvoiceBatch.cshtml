@@ -1,0 +1,131 @@
+﻿
+<style>
+    datalist {
+        display: none;
+    }
+
+    #ReportViewer1_ctl09 {
+        overflow: visible !important;
+    }
+    .bootstrap-select > .btn {        
+        padding-right: 12px;
+    }
+</style>
+<link href="~/Content/bootstrap-select.css" rel="stylesheet" />
+<div class="page-content" ng-controller="InvoiceBatchController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-calculator mr-10 fs-19"></i>Invoice Batch</h4>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 no-padding">
+                <div class="col-md-2">
+                    <div class="row" style="margin-left:0px;">
+                        <div class="row">
+                            <label class="control-label lbl-primary lbl-display-block">
+                                Firm : <b>{{InvoiceBatch.FirmID}}</b>
+                                <label class="checkbox-inline pull-right">
+                                    <input type="checkbox" ng-checked="InvoiceBatch.IsFirmID" ng-model="InvoiceBatch.IsFirmID" ng-change="IsFirmIDChange()" >Firm
+                                </label>
+                            </label>
+                            <select class="form-control cls-firm1" data-live-search="true" data-width="100%" data-size="15" ng-model="InvoiceBatch.FirmID" name="FirmID" ng-change="BindAttorneyByFirmDropdown(InvoiceBatch.FirmID)" ng-options="item.FirmID as (item.FirmName) for item in FirmList">
+                                <option value="">--Select--</option>
+                            </select>
+                            @*<input ng-show="InvoiceBatch.IsFirmID" type="text" name="txtFirmID" ng-blur="BindAttorneyByFirmDropdown(txtFirmID)" class="form-control" maxlength="100" placeholder="Enter Firm ID" ng-model="txtFirmID">*@
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Caption</label>
+                        <input type="text" name="Caption" class="form-control" maxlength="100" ng-model="InvoiceBatch.Caption">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Claim No </label>
+                        <input type="text" name="ClaimNo" class="form-control" maxlength="100" ng-model="InvoiceBatch.ClaimNo">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Invoice No</label>
+                        <input type="text" name="InvoiceNO" class="form-control" maxlength="100" ng-model="InvoiceBatch.InvoiceNO">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary lbl-display-block">
+                            Attorney Name : <b>{{InvoiceBatch.AttyID}}</b>
+                            <label class="checkbox-inline pull-right">
+                                <input type="checkbox" ng-checked="InvoiceBatch.IsAttyID" ng-model="InvoiceBatch.IsAttyID">Atty ID
+                            </label>
+                        </label>
+                        <select ng-hide="InvoiceBatch.IsAttyID" class="form-control cls-attorney1" data-live-search="true" ng-model="InvoiceBatch.AttyID" name="AttyID" ng-options="item.AttyID as item.AttorneyName for item in AttorneyList">
+                            <option value="">--Select--</option>
+                        </select>
+                        @*<input ng-show="InvoiceBatch.IsAttyID" type="text" name="txtAttyID" class="form-control" maxlength="100" placeholder="Enter Atty ID" ng-model="txtAttyID">*@
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Sold Attorney</label>
+                        <input id="txtSoldAttorney" type="text" ng-model="soldAttorney" class="form-control" list="soldAttrorneyNames">
+                        <datalist id="soldAttrorneyNames" class="form-control" ng-model="name" style="display:none;">
+                            <option value=''>-- select an option --</option>
+                            <option ng-repeat="option in SoldAttorneylist | filter:soldAttorney | limitTo:10" value="{{option.AttorneyName}}"></option>
+                        </datalist>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">From Date </label>
+                        <div class="input-group myDatePicker date">
+                            <input type="text" class="form-control"
+                                   name="FromDate" placeholder="From Date" ng-model="InvoiceBatch.FromDate">
+                            <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">To Date </label>
+                        <div class="input-group myDatePicker date">
+                            <input type="text" class="form-control"
+                                   name="ToDate" placeholder="To Date" ng-model="InvoiceBatch.ToDate">
+                            <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">&nbsp; </label>
+                        <ul class="borderless pt-0 pl-0 ml-10">
+                            <li class="li-checkbox col-sm-1 pl-0"><label class="lbl-checkbox bg-white mb-0"><input type="checkbox" name="Invoice" class="cursor-pointer" ng-checked="InvoiceBatch.Invoice" ng-model="InvoiceBatch.Invoice">Invoice</label></li>
+                            <li class="li-checkbox col-sm-2 pl-0 "><label class="lbl-checkbox bg-white mb-0"><input type="checkbox" name="Statement" class="cursor-pointer" ng-checked="InvoiceBatch.Statement" ng-model="InvoiceBatch.Statement">Statement</label></li>
+                            <li class="li-checkbox col-sm-2 pl-0 "><label class="lbl-checkbox bg-white mb-0"><input type="checkbox" name="OpenInvoiceOnly" class="cursor-pointer" ng-checked="InvoiceBatch.OpenInvoiceOnly" ng-model="InvoiceBatch.OpenInvoiceOnly">Open Invoice Only</label></li>
+                            <li class="col-sm-3 list-style-none">
+                                <button type="button" ng-click="ResetSearch()" class="btn btn-default mr-10">Reset</button>
+                                <button ng-click="Search()" class="btn btn-primary mr-5">Search</button>
+                                <button ng-click="GenerateLEDESFile()" ng-show="showLEDButton" class="btn btn-primary mr-5">Generate LEDES</button>
+                                </li>
+</ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-12 no-padding">
+                <div id="divInvoiceBatchReport">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/bootstrap-select.js"></script>
+</div>
+

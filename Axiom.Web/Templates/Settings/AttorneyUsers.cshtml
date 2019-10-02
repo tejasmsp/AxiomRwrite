@@ -1,0 +1,151 @@
+﻿<div class="page-content" ng-controller="AttorneyUserController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4  class="panel-title text-semibold"><i class="icon-bookmark4 mr-10 fs-19"></i>Manage Attorney User</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings','Attorney Users','Add Attorney User')">
+                        <a href="#" class="blue_link" ng-click='ClearScreenForNewAttorneyUser()' data-target="#modal_form_addattorneyuser" data-toggle="modal">[ + Add Attorney User ]</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 no-padding">
+                <div class="table-responsive table-grid">
+                    <table class="table table-bordered table-framed" id="tblAttorneyUser"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_form_addattorneyuser" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <form class="form-horizontal" name="addupdateform" autocomplete="off" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" title="Close" ng-click="DeleteAttorneyUser()">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title">Add Attorney User</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            {{addupdateform.AccessAttorneyLength}}
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors"
+                                     ng-show="(addupdateform.$submitted && !addupdateform.$valid) || (addupdateform.$submitted && AccessAttorneyList.length == 0 && IsEditMode==true)">
+                                    <ul ng-show="(addupdateform.$submitted && (!addupdateform.$valid)) || (addupdateform.$submitted && !(addupdateform.AccessAttorneyLength>0)&& IsEditMode==true)">
+                                        <li ng-show="addupdateform.Email.$error.required">Email is required.</li>
+                                        <li ng-show="addupdateform.Email.$error.email">Invalid Email address.</li>
+                                        <li ng-show="addupdateform.AttorneyEmployeeTypeId.$error.required">Attorney EmployeeType is required.</li>
+                                        <li ng-show="addupdateform.FirstName.$error.required">First Name is required.</li>
+                                        <li ng-show="addupdateform.LastName.$error.required">Last Name is required.</li>
+                                        <li ng-show="addupdateform.CompanyID.$error.required">Company is required.</li>
+                                        <li ng-show="AccessAttorneyList.length==0 && IsEditMode==true">Access Attrony is required.</li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">Username / Email</label>
+                                    <div class="col-sm-8">
+                                        <input type="email" ng-model="AttorneyUserObj.Email" name="Email" maxlength="50" placeholder="Email" class="form-control" required="required">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">Employee Type</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="AttorneyUserObj.AttorneyEmployeeTypeId" name="AttorneyEmployeeTypeId"
+                                                required="required" ng-options="AttorneyEmployeeType.AttorneyEmployeeTypeId as AttorneyEmployeeType.AttorneyEmployeeType
+                                                    for AttorneyEmployeeType in AttorneyEmployeeTypeList">
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">First Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="FirstName" ng-model="AttorneyUserObj.FirstName" placeholder="First name" maxlength="20" required="required" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">Last Name</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="LastName" ng-model="AttorneyUserObj.LastName" placeholder="Last name" maxlength="20" class="form-control" required="required">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pt-10">
+                                <div class="col-md-6 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">Company</label>
+                                    <div class="col-sm-8">
+                                        <select name="CompanyID" class="form-control" ng-model="AttorneyUserObj.CompanyNo" ng-options="item.CompNo as item.CompName for item in CompanyList" required>
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-white mt-20 mb-0" ng-show="IsEditMode==true">
+                            <div class="panel-heading">
+                                <h6 class="panel-title text-semibold"><i class="icon-file-text2 position-left"></i>Manage Attorney Access</h6>
+                                <div class="heading-elements">
+                                    <ul class="icons-list">
+                                        <li ng-if="isSubModuleAccessibleToUser('Settings', 'Attorney Users', 'Add Attorney Acess')">
+                                            <a href="#" class="blue_link" ng-click='GetAttorneyListWhoNeedToAccessUser()' data-target="#modal_form_addattorneyaccess" data-toggle="modal">[ + Add Attorney Acess ]</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12 no-padding">
+                                    <div class="table-responsive table-grid">
+                                        <table class="table table-bordered table-framed" id="tblAttorneyWhoCanAccessUser"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" title="Close" ng-click="DeleteAttorneyUser()" class="btn btn-default">Close</button>
+                        <button type="submit" title="Save" ng-show="IsEditMode==true" class="btn btn-primary" ng-click="AddOrUpdateAttorneyUser(addupdateform)">Save</button>
+                        <button type="submit" title="Save & Add Attorney" ng-show="IsEditMode==false" class="btn btn-primary" ng-click="AddOrUpdateAttorneyUser(addupdateform)">Save & Add Attorney</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal_form_addattorneyaccess" class="modal fade">
+        <form class="form-horizontal" name="addupdateattorneyform" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" title="Close" class="close" data-dismiss="modal">&times;</button>
+                        <i class="icon-file-check pull-left mr-10 mt-5"></i><h6 class="modal-title">Add Attorney Access</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel panel-white mb-0" style="min-height:620px;">
+                            <div class="panel-heading">
+                                <h6 class="panel-title text-semibold"><i class="icon-file-text2 position-left"></i>Attorney List</h6>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12 no-padding">
+                                    <div class="table-responsive table-grid">
+                                        <table class="table table-bordered table-framed" id="tblAttorneyWhoNeedToAccessUser"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"  title="Close" class="btn btn-default" ng-click="CloseAttorneyListPopup()" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

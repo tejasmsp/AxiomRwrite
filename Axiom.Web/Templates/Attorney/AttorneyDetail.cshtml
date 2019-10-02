@@ -1,0 +1,83 @@
+﻿<div class="page-content" ng-controller="AttorneyController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-text2 mr-10 fs-19"></i>Attorney</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Admin', 'Attorneys', 'Add Attorney')"> <a ng-href="ManageAttorney" class="blue_link">[ + Add Attorney ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-group panel-group-control panel-group-control-right form-horizontal">
+                        <div class="panel panel-white">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">
+                                    <a class="wd-full" data-toggle="collapse" href="#SearchPanel">
+                                        <i class="icon-search4 position-left"></i> <b class="text-bold pt-0" style="text-transform:uppercase;">Search</b>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="SearchPanel" class="panel-collapse in pnl-back-grey">
+                                <div class="panel-body">
+                                    <div class="row mb-10">
+                                        <div class="col-md-4">
+                                            <label class="control-label col-sm-3">Firm ID :</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" readonly="readonly" ng-model="objAttorney.FirmID" ng-keydown="($event.keyCode === 13) && SearchAttorney()" maxlength="10" name="Firm" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1" style="width:8%!important">
+                                            <button type="button" ng-click="FirmPopup()" class="btn btn-info btn-icon btn-rounded" title="Open Firm Search Popup.">
+                                                <i class="glyphicon glyphicon-search"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="col-sm-12">
+                                                <input type="text" name="FirmID" ng-model="objAttorney.FirmIDSearch" ng-keydown="($event.keyCode === 13) && SearchAttorney()" maxlength="10" placeholder="Firm ID" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" ng-model="objAttorney.FirmName" name="FirmName" ng-keydown="($event.keyCode === 13) && SearchAttorney()" maxlength="100" placeholder="Firm Name" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-10">
+                                        <div class="col-md-4">
+                                            <label class="control-label col-sm-3">Attorney First Name:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="AttorneyFirstName" ng-model="objAttorney.AttorneyFirstName" ng-keydown="($event.keyCode === 13) && SearchAttorney()" maxlength="50" placeholder="Attorney First Name" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="control-label col-sm-3">Attorney Last Name:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="AttorneyLastName" ng-model="objAttorney.AttorneyLastName" ng-keydown="($event.keyCode === 13) && SearchAttorney()" maxlength="50" placeholder="Attorney Last Name" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 text-right">
+                                                <button class="btn btn-primary mr-5" ng-click="SearchAttorney()" title="Search" >Search</button>
+                                                <button class="btn btn-default" ng-click="ClearSearch()" title="Clear Search Text">Clear</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblAttorney"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modal_FirmSearch" class="modal fade" static-Include="./Templates/Settings/Partial/FirmSearch.cshtml" ng-controller="FirmSearchController">
+        </div>
+    </div>
+</div>

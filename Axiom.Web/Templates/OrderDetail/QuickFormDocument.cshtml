@@ -1,0 +1,63 @@
+﻿<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-main">
+            <button type="button" class="close" ng-click="closeClick()">&times;</button>
+            <h6 class="modal-title"><i class="icon-printer mr-5"></i>{{DocumetType}}</h6>
+        </div>
+        <div class="modal-body">
+            <div class="modal-container">
+                <div class="row" ng-hide="DocumetType=='Facesheets'">
+                    <div class="col-lg-12">
+                        <b>
+                            Select Document
+                        </b>
+                    </div>
+                </div>
+                <div class="row pt-10" ng-hide="DocumetType=='Facesheets'">
+                    <div class="col-lg-12">
+                        <select class="form-control" multiple="multiple" ng-model="quickFormDoc.documentName">
+                            <option ng-repeat="item in documentdataList" value="{{item.DocumentName}}">{{item.DocumentName}}</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="row pt-10  pnl-back-grey" style="padding:10px;">
+                    <div class="table-responsive table-grid">
+                        <table class="table table-bordered ">
+                            <tr>
+                                <th class="tbldocHeader"></th>
+                                <th class="tbldocHeader">First Name</th>
+                                <th class="tbldocHeader">Last Name</th>
+                                <th class="tbldocHeader">Attorney Type</th>
+                                <th class="tbldocHeader">Represents</th>
+
+                            </tr>
+                            <tr ng-click="selectedAttorneyRowDocument($index)" ng-repeat="item in attorneyList">
+                                <td><input type="checkbox" id="chk-{{item.attIdwithoutSpace}}" ng-click="selectedAttorneyData($index,$event)"></td>
+                                <td>{{ item.FirstName }}</td>
+                                <td>{{ item.LastName }}</td>
+                                <td>{{ item.AttorneyType }}</td>
+                                <td>{{ item.Represent }}</td>
+                            </tr>
+                        </table>
+                        <div class="dataTables_info" ng-show="attorneyList.length>0">
+                            Showing 1 to {{attorneyList.length}} of {{attorneyList.length}} entries
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click="saveClick()">Save & Close</button>
+            <button type="button" class="btn btn-default" ng-click="closeClick()">Close</button>
+        </div>
+    </div>
+</div>
+
+
+

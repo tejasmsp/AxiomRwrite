@@ -1,0 +1,80 @@
+﻿
+<div class="page-content" ng-controller="QuickNotesController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-clipboard3 mr-10 fs-19"></i>Manage Quick Notes</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Quick Notes', 'Add Quick Note')"> <a ng-click="ManageQuickNoteById(0)" class="blue_link">[ + Add Quick Note ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 no-padding">
+                <div class="table-responsive table-grid">
+                    <table class="table table-bordered table-framed" id="tblQuickNote"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Primary modal -->
+    <div id="modal_QuickNotes" class="modal fade">
+        <form class="form-horizontal" name="QuickNotesform" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(QuickNotesform.$submitted && !QuickNotesform.$valid)">
+                                    <ul ng-show="(QuickNotesform.$submitted && (!QuickNotesform.$valid))">
+                                        <li ng-show="QuickNotesform.PartStatusGroupId.$error.required">Part Status Group is required.</li>
+                                        <li ng-show="QuickNotesform.PartStatus.$error.required">Part Status is required.</li>
+                                        <li ng-show="QuickNotesform.Note.$error.required">Note is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary required">Part Status Group</label>
+                                <div class="col-sm-9">
+                                    <select name="PartStatusGroupId" ng-model="QuickNotesobj.PartStatusGroupId" class="form-control" ng-options="item.PartStatusGroupId as item.PartStatusGroup  for item in  partstatusgrouplist" required>
+                                        <option value="">-- Select --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary required pr-0">Part Status</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="PartStatus" class="form-control" maxlength="50" ng-model="QuickNotesobj.PartStatus" required="required">
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 lbl-primary required">Note</label>
+                                <div class="col-sm-9">
+                                    <textarea rows="3" name="Note" class="form-control textarea-resize-none" ng-model="QuickNotesobj.Note" required="required"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-3 lbl-primary control-label mb-0">Status</label>
+                                <div class="col-sm-9">
+                                    <ul class="borderless pt-0 pl-0">
+                                        <li class="li-checkbox col-sm-12 pl-0 pr-0"><label class="lbl-checkbox bg-white mb-0" ng-class="(QuickNotesobj.IsHidden==true? 'active': '')"><input type="checkbox" name="IsHidden" class="cursor-pointer" ng-checked="QuickNotesobj.IsHidden" ng-model="QuickNotesobj.IsHidden">Is Active</label></li>
+                                    </ul>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="SaveQuickNotes(QuickNotesform)" class="btn btn-primary" title="Save">Save</button>                        
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

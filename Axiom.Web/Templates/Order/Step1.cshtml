@@ -1,0 +1,133 @@
+﻿<link href="~/Content/bootstrap-select.css" rel="stylesheet" />
+
+<form name="step1form" id="step1form" novalidate>
+    <div class="panel panel-white panel-custom-color">
+        <div class="panel-body OrderWizardPnl" ng-class="PageMode==Enum.PageMode.ViewOnly?'disabledbutton':''">
+            <div id="messages">
+                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(step1form.$submitted && !step1form.$valid)">
+                    <ul ng-show="(step1form.$submitted && (!step1form.$valid))">
+                        <li ng-show="step1form.OrderingFirmId.$error.required">Ordering Firm is required.</li>
+                        <li ng-show="!OrderStep1Obj.OrderingAttorney">Ordering Attorney is required.</li>
+                        <li ng-show="step1form.AttorneyFor.$error.required">AttorneyFor is required.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row" style="margin-left:0px;">
+                        <label class="control-label lbl-primary required">Ordering Firm: </label>
+                        <select class="form-control cls-firm" name="OrderingFirmId" data-live-search="true" data-width="100%" data-size="15" ng-model="OrderStep1Obj.OrderingFirmID" ng-change="onFirmChange()" required="required" @*ng-change="GetProviderAddressAndCalculateDiscount(WorkFlowObj.ProviderName)"*@ ng-options="item.FirmID as (item.FirmName) for item in OrderFirmList">
+                            <option value="">-- Select Firm --</option>
+                        </select>
+                        @*<select class="form-control" ng-model="OrderStep1Obj.OrderingFirmID" name="OrderingFirmID" ng-disabled="FirmList.length==1" required="required" ng-options="item.FirmID as item.FirmName for item in FirmList" ng-change="onFirmChange()">
+                                <option value="">--Select--</option>
+                            </select>*@
+                    </div>
+                    @*<div class="ml-0" required="required" custom-select="item.FirmID as (item.FirmName) for item in OrderFirmList | filter: $searchTerm" ng-model="OrderStep1Obj.OrderingFirmID" ng-change="onFirmChange()"></div>*@
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary required">Ordering Attorney:</label>
+                        <select class="form-control cls-attorney" ng-model="OrderStep1Obj.OrderingAttorney" data-live-search="true" name="OrderingAttorney" ng-change="RefreshNotificationList()" required="required" ng-options="OrderingAttorney.AttyID as OrderingAttorney.AttorneyName for OrderingAttorney in OrderingAttorneyList">
+                            <option value="">--Select--</option>
+                        </select>
+                        @*<div class="ml-0" required="required" custom-select="OrderingAttorney.AttyID as OrderingAttorney.AttorneyName for OrderingAttorney in OrderingAttorneyList | filter: $searchTerm" ng-model="OrderStep1Obj.OrderingAttorney"></div>*@
+                        @*<select class="" ng-model="OrderStep1Obj.OrderingAttorney" name="OrderingAttorney" ng-change="RefreshNotificationList()" required="required" ng-options="OrderingAttorney.AttyID as OrderingAttorney.AttorneyName for OrderingAttorney in OrderingAttorneyList">
+                                <option value="">--Select--</option>
+                            </select>*@
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Attorney For: </label>
+                        @*<select class="form-control" ng-model="OrderStep1Obj.AttorneyFor" name="AttorneyFor"
+                                         required="required" ng-options="AttorneyForCode.Code as AttorneyForCode.Descr
+                                         for AttorneyForCode in AttorneyForCodeList">
+                            <option value="">--Select--</option>
+                            </select>*@
+                        <div class="ml-0" name="AttorneyFor" custom-select="item.Code as item.Descr for item in AttorneyForCodeList | filter: $searchTerm" ng-model="OrderStep1Obj.AttorneyFor"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Represents:</label>
+                        <input type="text" name="Represents" class="form-control" maxlength="100" ng-model="OrderStep1Obj.Represents" placeholder="Represents">
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show="NotificationList.length>0">
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <h4 class="panel-title">Please select who should be notified for following Categories.</h4>
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed">
+                                <thead>
+                                    <tr>
+                                        <th width="3%"></th>
+                                        <th>Contact Name</th>
+                                        <th width="25%">Contact Email</th>
+                                        <th width="10%" class="text-center">
+                                            Order Confirmation
+
+                                            <input type="checkbox" class="ml-10" ng-model="chkOrderConfirmation" name="OrderConfirmation" ng-click="fnChangeCol(1)">
+                                        </th>
+                                        <th width="10%" class="text-center">Fee approval<input type="checkbox" class="ml-10" ng-model="chkFeeApproval" name="FeeApproval" ng-click="fnChangeCol(2)"></th>
+                                        <th width="10%" class="text-center">Auth Notice <input type="checkbox" class="ml-10" ng-model="chkAuthNotice" name="AuthNotice" ng-click="fnChangeCol(3)"></th>
+                                        <th width="10%" class="text-center">New Records Available <input type="checkbox" class="ml-5" ng-model="chkNewRecordAvailable" name="NewRecordAvailable" ng-click="fnChangeCol(4)"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="Notification in NotificationList">
+                                        <th class="text-center"><input type="checkbox" ng-model="IsChecknotification" ng-click="fnChangeRow($index)" id="{{'chkrow_'+$index}}"></th>
+                                        <td>{{Notification.AssistantName}}</td>
+                                        <td>{{Notification.AssistantEmail}}</td>
+                                        <td class="text-center">
+                                            <div class="text-center">
+                                                <label>
+                                                    <input type="checkbox" rel="OrderConfirmation" relrow="row_{{$index}}" name="name" ng-model="Notification.OrderConfirmation" ng-checked="Notification.OrderConfirmation">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="text-center">
+                                                <label>
+                                                    <input type="checkbox" rel="FeeApproval" relrow="row_{{$index}}" name="name" ng-model="Notification.FeeApproval" ng-checked="Notification.FeeApproval">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="text-center">
+                                                <label>
+                                                    <input type="checkbox" rel="AuthNotice" relrow="row_{{$index}}" name="name" ng-model="Notification.AuthNotice" ng-checked="Notification.AuthNotice">
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="text-center">
+                                                <label>
+                                                    <input type="checkbox" rel="NewRecordAvailable" relrow="row_{{$index}}" name="name" ng-model="Notification.NewRecordAvailable" ng-checked="Notification.NewRecordAvailable">
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-sm-12 mt-10 pr-0">
+            <input type="submit" class="btn btn-primary pull-right" value="Next" ng-click="SubmitStep1(step1form)" ng-if="PageMode!=Enum.PageMode.ViewOnly" />
+            <input type="button" title="Next" class="btn btn-primary pull-right" value="Next" ng-click="MoveNext()" ng-if="PageMode==Enum.PageMode.ViewOnly" />
+        </div>
+    </div>
+
+</form>
+
+
+<script src="~/Scripts/bootstrap-select.js"></script>

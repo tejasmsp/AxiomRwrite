@@ -1,0 +1,649 @@
+﻿<style>
+    .nav-tabs.nav-tabs-bottom > li.active > a:after {
+        background-color: #2196F3;
+    }
+
+    .modelsize {
+        height: 420px !important;
+    }
+
+    .panelLocHeight {
+        min-height: 260px;
+    }
+</style>
+<div class="wizard-height">
+    <div ng-class="PageMode==Enum.PageMode.ViewOnly?'disabledbutton':''">
+        <div class="panel panel-custom panelLocHeight panel-custom-color">
+            <div class="panel-heading">
+                <h4 class="panel-title text-semibold"><i class="icon-location4 mr-10 fs-19"></i>Location</h4>
+                <div class="heading-elements">
+                    <ul class="icons-list mt-0">
+                        <li>
+                            <button type="button" value="Download Form" title="Add Location" class="btn btn-primary pull-right" ng-click="AddLocationPopup()">
+                                <i class="icon-plus2"></i>
+                                Add Location
+                            </button>
+                        </li>
+                    </ul>
+
+                </div>
+
+                @*<div class="heading-elements">
+                        <ul class="icons-list">
+                            <li class="mr-5">
+                                <a href="#" class="blue_link" ng-click="AddLocationPopup()" title="Add Location">[ + Add Location ]</a>
+                            </li>
+                        </ul>
+                    </div>*@
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group pb-0 mb-0" ng-if="LocationList.length!=0">
+                            <div class="table-responsive table-grid">
+                                <table class="table table-bordered table-framed" id="tblStep6" ng-init="GetOrderWizardStep6Location(OrderId)"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel panel-custom panelLocHeight panel-custom-color">
+            <div class="panel-heading">
+                <h4 class="panel-title text-semibold"><i class="icon-user mr-10 fs-19"></i>Canvas</h4>
+                <div class="heading-elements">
+                    <ul class="icons-list mt-0">
+                        <li>
+                            <button type="button" value="Download Form" title="Add Canvas" class="btn btn-primary pull-right" ng-click="AddCanvasPopup()">
+                                <i class="icon-plus2"></i>
+                                Add Canvas Request
+                            </button>
+                        </li>
+                    </ul>
+
+                </div>
+
+                @*<div class="heading-elements">
+                        <ul class="icons-list">
+                            <li class="mr-5">
+                                <a class="blue_link" ng-click="AddCanvasPopup()">[ + Canvas Request ]</a>
+                            </li>
+                        </ul>
+                    </div>*@
+
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group pb-0 mb-0" ng-if="CanvasList.length!=0">
+                            <div class="table-responsive table-grid">
+                                <table class="table table-bordered table-framed" id="tblCanvas" ng-init="GetCanvasList()"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode!=Enum.PageMode.ViewOnly">
+        <input type="submit" class="btn btn-primary pull-right" value="Next" ng-click="MoveNext()" /> @*ui-sref="EditOrder({'OrderId':OrderId,'Step':7})"*@
+        <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+    </div>
+    <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode==Enum.PageMode.ViewOnly">
+        <input type="button" class="btn btn-primary pull-right" value="Next" ng-click="MoveNext()" />
+        <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+    </div>
+
+    <div id="modal_Add_Location" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <form name="step6form" class="form-horizontal" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header  bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i>
+                        <h6 class="modal-title">Locations</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div class="tabbable">
+                                <ul class="nav nav-tabs nav-tabs-bottom text-left">
+                                    <li id="LocatonStep1" class="active" ng-click="ShowLocationSteps(1)"><a href="#" data-toggle="tab" title='Step 1'>Step 1 <i class="icon-location4 position-right"></i></a></li>
+                                    <li id="LocatonStep2" ng-click="ShowLocationSteps(2)"><a href="#" data-toggle="tab" title='Step 2'>Step 2 <i class="icon-location4 position-right"></i></a></li>
+                                    <li id="LocatonStep3" ng-click="ShowLocationSteps(3)"><a href="#" data-toggle="tab" title='Step 3'>Step 3 <i class="icon-location4 position-right"></i></a></li>
+                                    @*<li id="LocatonStep4" ng-click="ShowLocationSteps(4)"><a href="#" data-toggle="tab" title='Step 4'>Step 4 <i class="icon-location4 position-right"></i></a></li>*@
+                                </ul>
+                            </div>
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(step6form.$submitted && !step6form.$valid)">
+                                    <ul ng-show="(step6form.$submitted && (!step6form.$valid))">
+                                        <li ng-show="step6form.Name1.$error.required">Name1 is required.</li>
+                                        <li ng-show="step6form.City.$error.required">City Name is required.</li>
+                                        <li ng-show="step6form.DepartmentId.$error.required">Department is required.</li>
+                                        <li ng-show="step6form.StateId.$error.required">State is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10" ng-if="LocationStep1==true">
+                                <div class="col-md-12 pl-0">
+                                    @*<label class="col-sm-2 control-label lbl-primary required">Location</label>*@
+                                    <div class="col-sm-2">
+                                        <input type="button" class="btn btn-group-sm" ng-click="LocationSearchPopup()" ng-disabled="IsEdit" value="Search Location" />
+                                    </div>
+                                    <div class="col-sm-8 pt-5">
+                                        <b>Location : </b>{{Name1}} {{Name2}}
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10" ng-if="LocationStep1==true">
+                                <div class="col-md-12 pl-10" ng-if="ErrorLocation">
+                                    <span class="wysiwyg-color-red text-bold">Please select Location.</span>
+                                </div>
+                            </div>
+                            <div class="row mb-10" ng-hide="true">
+                                <div class="col-md-12 pl-0">
+                                    <label class="col-sm-4 control-label lbl-primary required">Comment</label>
+                                    <div class="col-sm-8">
+                                        <textarea rows="3" name="Comment" placeholder="Comment" ng-model="OrderStep6Obj.comment" maxlength="3000" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10" ng-if="LocationStep1==true">
+                                <div class="col-md-7 pl-0">
+                                    <label class="col-sm-9 control-label lbl-primary">Would you like to request these records by means of:</label>
+                                </div>
+                                <div class="col-md-5 pl-0" ng-show="OrderStep6Obj.RequestMeansId == 2">
+                                    <input type="file" class="input" id="myfile" file-model="myFile" multiple="true" style="display:none;" onchange="angular.element(this).scope().UploadFile(event)" />
+                                    <button type="button" class="btn btn-primary" ng-click="FileUploadClick()">Upload File</button>
+                                    <span ng-if="ErrorFileUpload" class="wysiwyg-color-red text-bold">Please upoad a file.</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row mb-12" ng-if="LocationStep1==true">
+                                        <div class="col-sm-6">
+                                            <select name="Authorization" class="form-control" ng-model="OrderStep6Obj.IsAuthorization" ng-options="item.Id as item.Name for item in IsAuthorizationAry" ng-change="AuthorizationChange()"></select>
+                                        </div>
+                                        <div class="col-sm-6 pr-0" ng-if="showcreateUpload">
+                                            <select name="AuthOption"  class="form-control" ng-model="OrderStep6Obj.RequestMeansId" ng-options="item.Id as item.Name for item in RequestMeansAry" ng-change="AuthorizationChange()"></select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-10" ng-if="LocationStep1==true">
+                                        <div class="col-md-12 pl-10" ng-if="ErrorAuthSubSelection || ErrorCreateUploadSelection">
+                                            <span class="wysiwyg-color-red text-bold">Please select request.</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-6 has-fixed-height" style="height:50px;" ng-if="LocationStep1==true">
+                                        <div class="col-md-12 pl-10">
+                                            <label class="control-label lbl-primary" ng-bind="InfomrationText"></label>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="col-lg-6 mb-10" ng-show="OrderStep6Obj.RequestMeansId == 2 && LocationStep1 == true">
+                                    <div class="table-responsive table-grid">
+                                        <table class="table table-bordered table-framed">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1">FileName</th>
+                                                    <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1">Delete</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="table-responsive table-grid" style="max-height:180px;overflow-y:scroll;">
+                                        <table class="table table-bordered table-framed" id="tblUploadFileList">
+                                            <tbody>
+                                                <tr class="odd" ng-repeat="item in UploadFileList">
+                                                    <td>{{item.FileName}}</td>
+                                                    <td class="text-center"><a href="javascript:void(0)" title="Delete" class="ico_btn cursor-pointer"><i class="icon-trash cursor-pointer" ng-click="deleteUploadedDocument($index,item.BatchId,item.FileName,item.FileId,item.PartNo)"></i></a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- #region ------ STEP 2 ------  -->
+
+                            <div class="row mb-6" ng-if="LocationStep2==true">
+                                <div class="col-md-12 pl-0">
+                                    <label class="col-sm-2 control-label lbl-primary">Scope Start Date:</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group myDatePicker date">
+                                            <input type="text" class="form-control" name="ScopeStartDate" placeholder="Start Date" ng-model="OrderStep6Obj.ScopeStartDate" />
+                                            <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-6 mt-10" ng-if="LocationStep2==true">
+                                <div class="col-md-12 pl-0">
+                                    <label class="col-sm-2 control-label lbl-primary"> Scope End Date:</label>
+                                    <div class="col-sm-4">
+                                        <div class="input-group myDatePicker date">
+                                            <input type="text" class="form-control" name="ScopeEndDate" placeholder="End Date" ng-model="OrderStep6Obj.ScopeEndDate">
+                                            <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row mb-6 mt-10" ng-if="LocationStep2==true">
+                                <div class="col-md-12 pl-0">
+                                    <label class="col-sm-2 control-label lbl-primary pt-0">Additional Services:</label>
+                                    <div class="col-sm-4 pr-0">
+                                        <ul class="borderless pt-0 pl-0">
+                                            <li class="col-sm-12 li-checkbox pl-0">
+                                                <label class="lbl-checkbox">
+                                                    <input type="checkbox" name="IsRequireAdditionalService" ng-model="OrderStep6Obj.IsRequireAdditionalService"> Chronology / Nurse Review
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-12 pl-0 pr-0" ng-if="LocationStep2==true">
+                                <label class="col-sm-2 control-label lbl-primary pt-0 required">Record Type:</label>
+                                <div class="col-sm-10">
+                                    <ul class="borderless pt-0 pl-0">
+                                        <li class="li-checkbox col-sm-6 pl-0" ng-repeat="item in RecordTypeList | filter :{'IsLocationPageView':1}">
+                                            <label class="lbl-checkbox" for="rb_{{item.Code}}" ng-class="{true: 'bg-disabled'}[OrderStep6Obj.IsOtherChecked]">
+                                                <input id="rb_{{item.Code}}" type="radio" data-ng-model="OrderStep6Obj.RecordTypeId" ng-disabled="OrderStep6Obj.IsOtherChecked" data-ng-value="{{item.Code}}" />{{item.Descr}}
+                                            </label>
+                                        </li>
+                                        <li class="li-checkbox col-sm-6 pl-0">
+                                            <label class="lbl-checkbox bg-white" for="rb_OtherChecked">
+                                                <input id="rb_OtherChecked" type="checkbox" data-ng-model="OrderStep6Obj.IsOtherChecked" data-ng-value="OrderStep6Obj.IsOtherChecked" />Other
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-12 pl-0 pr-0" ng-show="OrderStep6Obj.IsOtherChecked && LocationStep2==true">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label lbl-primary pt-0"></label>
+                                        <div class="col-sm-6">
+                                            <select name="RecordTypeId" ng-model="OrderStep6Obj.RecordTypeId" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypeList | orderBy:'Descr' ">
+                                                    <option value="">--Select--</option>
+                                                </select>
+                                            @*<div name="RecordTypeId" class="ml-0" custom-select="item.Code as item.Descr for item in RecordTypeList | filter: $searchTerm" ng-model="OrderStep6Obj.RecordTypeId"></div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-12" ng-if="ErrorRecordSelect && LocationStep2==true">
+                                <label class="col-sm-2 control-label lbl-primary pt-0"></label>
+                                <div class="col-md-6">
+                                    <span class="wysiwyg-color-red text-bold">Please select a Record Type.</span>
+                                </div>
+                            </div>
+                            <!-- #endregion -->
+                            <!-- #region ------ STEP 3 ------  -->
+
+                            <div class="row mb-12 mt-10" ng-if="LocationStep3==true">
+                                <label class="col-sm-2 control-label lbl-primary pt-0">Scope</label>
+                                <div class="col-sm-9">
+                                    @*<textarea rows="8" name="scope" ng-model="OrderStep6Obj.Scope" class="form-control" style="resize:none;"></textarea>*@
+                                    <div id="divScope" ng-bind-html="OrderStep6Obj.Scope" class="htCommentTextArea editableScopeDiv" contenteditable="true">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-12 mt-10" ng-if="LocationStep3==true">
+                                <label class="col-sm-2 control-label lbl-primary pt-0">Comment</label>
+                                <div class="col-sm-9">
+                                    <textarea rows="3" name="scope" ng-model="OrderStep6Obj.Comment" class="form-control" style="resize:none;"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- #endregion -->
+
+
+
+
+
+
+                            <div class="row  mb-12 mt-15">
+                                <div class="col-sm-1 pull-right" ng-if="NextLocatinStep==true && (LocationStep1==true || LocationStep2==true || LocationStep3==true)">
+                                    <button type="button" ng-if="NextLocatinStep==true && LocationStep1==true" class="btn btn-primary" ng-click="NextLocationStep('Step1')">Next</button>
+                                    <button type="button" ng-if="NextLocatinStep==true  && LocationStep2==true" class="btn btn-primary" ng-click="NextLocationStep('Step2')">Next</button>
+                                    @*<button type="button" ng-if="NextLocatinStep==true && LocationStep3==true" class="btn btn-primary" ng-click="NextLocationStep('Step3')">Next</button>*@
+                                </div>
+                                <div class="col-sm-1 pull-right" ng-if="PriviousLocatinStep==true && (LocationStep2==true || LocationStep3==true || LocationStep4==true)">
+                                    <button type="button" ng-if="PriviousLocatinStep==true && LocationStep2==true" class="btn btn-default" ng-click="PriviousLocationStep('Step2')">Back</button>
+                                    <button type="button" ng-if="PriviousLocatinStep==true && LocationStep3==true" class="btn btn-default" ng-click="PriviousLocationStep('Step3')">Back</button>
+                                    @*<button type="button" ng-if="PriviousLocatinStep==true && LocationStep4==true" class="btn btn-default" ng-click="PriviousLocationStep('Step4')">Back</button>*@
+                                </div>
+
+                            </div>
+                            @*<div class="col-sm-6" style="position:fixed;bottom: 90px">
+                                    <div class="col-sm-2" ng-if="PriviousLocatinStep==true && (LocationStep2==true || LocationStep3==true || LocationStep4==true)">
+                                        <button type="button" ng-if="PriviousLocatinStep==true && LocationStep2==true" class="btn btn-default" ng-click="PriviousLocationStep('Step2')">Back</button>
+                                        <button type="button" ng-if="PriviousLocatinStep==true && LocationStep3==true" class="btn btn-default" ng-click="PriviousLocationStep('Step3')">Back</button>
+                                        <button type="button" ng-if="PriviousLocatinStep==true && LocationStep4==true" class="btn btn-default" ng-click="PriviousLocationStep('Step4')">Back</button>
+                                    </div>
+                                    <div class="col-sm-2" ng-if="NextLocatinStep==true && (LocationStep1==true || LocationStep2==true || LocationStep3==true)">
+                                        <button type="button" ng-if="NextLocatinStep==true && LocationStep1==true" class="btn btn-primary" ng-click="NextLocationStep('Step1')">Next</button>
+                                        <button type="button" ng-if="NextLocatinStep==true  && LocationStep2==true" class="btn btn-primary" ng-click="NextLocationStep('Step2')">Next</button>
+                                        <button type="button" ng-if="NextLocatinStep==true && LocationStep3==true" class="btn btn-primary" ng-click="NextLocationStep('Step3')">Next</button>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="button" class="btn btn-primary" title="Save" ng-click="SubmitStep6(step6form)" ng-if="LocationStep3 == true">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal_New_Location" class="modal fade" data-backdrop="static" data-keyboard="false" style="z-index:1100">
+        <div class="modal-dialog modal-lg">
+            <form name="newLocationform" class="form-horizontal" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <h5 class="modal-title">New Location</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(newLocationform.$submitted && !newLocationform.$valid)">
+                                    <ul ng-show="(newLocationform.$submitted && (!newLocationform.$valid))">
+                                        <li ng-show="newLocationform.Name1.$error.required">Name1 is required.</li>
+                                        <li ng-show="newLocationform.City.$error.required">City Name is required.</li>
+                                        @*<li ng-show="newLocationform.DepartmentId.$error.required">Department is required.</li>*@
+                                        <li ng-show="newLocationform.StateId.$error.required">State is required. </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 required">Name 1:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="Name1" ng-model="NewLocationObj.Name1" maxlength="100" placeholder="Name 1" class="form-control " required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Name 2:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="Name2" ng-model="NewLocationObj.Name2" maxlength="100" placeholder="Name 2" class="form-control">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Address 1:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="Street1" ng-model="NewLocationObj.Street1" maxlength="150" placeholder="Address 1" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Address 2:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="Street1" ng-model="NewLocationObj.Street2" maxlength="150" placeholder="Address 2" class="form-control">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 required">City:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="City" ng-model="NewLocationObj.City" maxlength="80" placeholder="City" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 required">State:</label>
+                                        <div class="col-sm-9">
+                                            <select name="StateId" ng-model="NewLocationObj.State" class="form-control" ng-options="item.StateId as item.StateName for item in StateList" required>
+                                                <option value="">--Select--</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label  col-sm-3">Zip:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="Zip" ng-model="NewLocationObj.Zip" maxlength="10" placeholder="Zip" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Phone:</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" name="AreaCode1" ng-model="NewLocationObj.AreaCode1" integer-Only="" maxlength="4" placeholder="Code" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" name="PhoneNo1" ng-model="NewLocationObj.PhoneNo1" integer-Only="" maxlength="12" placeholder="Phone No" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Fax:</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" name="AreaCode3" ng-model="NewLocationObj.AreaCode3" integer-Only="" maxlength="4" placeholder="Code" class="form-control">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" name="FaxNo" ng-model="NewLocationObj.FaxNo" integer-Only="" maxlength="12" placeholder="FaxNo" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Department:</label>
+                                        <div class="col-sm-9">
+                                            <select name="DepartmentId" ng-model="NewLocationObj.Dept" class="form-control" ng-options="item.Descr as item.Descr for item in departmentlist" >
+                                                <option value="">--Select--</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" class="btn btn-primary" ng-click="SaveNewLocation(newLocationform)" title="Save & Continue">Save & Continue</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div id="modal_Location_Search" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                    <h5 class="modal-title">Search Location</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div class="row mb-10">
+                            <label class="lbl-primary text-bold">Search Existing Location From System By Typing Name Of Location In Below Search Box</label>
+                            @*<label class="control-label lbl-primary pt-8">Search Existing Location From System By Typing Name Of Location In Below Search Box</label>*@
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col-md-10 pl-0" ng-hide="true">
+                                <label class="col-sm-2 control-label lbl-primary pt-8">Search By:</label>
+                                <ul class="borderless pt-0 pl-0">
+                                    <li class="li-checkbox col-sm-4 pl-0">
+                                        <label class="lbl-checkbox bg-white" for="rbtnLocName">
+                                            <input type="radio" name="university" id="rbtnLocName" ng-model="searchCriteria" ng-value="'Name1'" ng-checked="searchCriteria"><span class="text-bold">Location Name</span>
+                                        </label>
+                                    </li>
+                                    <li class="li-checkbox col-sm-3 pl-0">
+                                        <label class="lbl-checkbox" for="rbtnDocName">
+                                            <input type="radio" name="university" checked="checked" id="rbtnDocName" ng-model="searchCriteria" ng-value="'Name2'" ng-checked="searchCriteria"><span class="text-bold">Doctor Name</span>
+                                        </label>
+                                    </li>
+                                    <li class="li-checkbox col-sm-3 pl-0">
+                                        <label class="lbl-checkbox" for="rbtnBoth">
+                                            <input type="radio" name="university" id="rbtnBoth" ng-model="searchCriteria" ng-value="'Both'" ng-checked="searchCriteria"><span class="text-bold">Both</span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col-md-10 pl-0">
+                                <label class="col-sm-2 control-label lbl-primary required pt-8">Search Text:</label>
+                                <div class="col-sm-6 pl-0">
+                                    <input type="text" ng-model="searchText" spellcheck="false" id="SearchText" autofocus name="SearchText" maxlength="80" placeholder="Search" ng-keydown="($event.keyCode === 13) && GetLocationSearch()" class="form-control">
+                                </div>
+
+                                <div class="col-md-1">
+                                    <input type="button" value="Search" title="Search" name="Search" class="btn btn-primary" ng-click="GetLocationSearch()">
+                                </div>
+                                <div class="col-md-1 ml-20" ng-if="ShowAddNewLocation">
+                                    <input type="button" value="Add New Location" title="Add New Location" name="NewLocation" class="btn btn-primary" ng-click="AddNewLocation()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pt-10">
+                            <div class="col-md-12">
+                                <div class="form-group pb-0 mb-0">
+                                    <div class="table-responsive table-grid fixed-height" id="divLocationSearchGrid">
+                                        <table class="table table-bordered table-framed" id="tblSearchLocationGrid"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" title="Close">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal_Canvas" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form name="step6Canvasform" class="form-horizontal" novalidate>
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <h5 class="modal-title">Canvas</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(step6Canvasform.$submitted && !step6Canvasform.$valid)||canvasuploadError">
+                                    <ul ng-show="(step6Canvasform.$submitted && (!step6Canvasform.$valid))||canvasuploadError">
+                                        <li ng-show="step6Canvasform.PkgType.$error.required">Pakage Type is required.</li>
+                                        <li ng-show="step6Canvasform.ZipCode.$error.required">Zip Code is required.</li>
+                                        <li ng-show="canvasuploadError">Upload Authorization is required.</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-12 pl-0">
+                                    <label class="col-sm-3 control-label lbl-primary required pt-8">Request Type</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control  pr-5 pl-5" name="PkgType" ng-model="Step6CanvasObj.PkgType" ng-change="ChangePkgType()" ng-options="item.Id as item.Name for item in PkgType" required>
+                                            <option value="">-- Select --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10 pl-0 pr-0">
+                                <label class="col-sm-3 control-label lbl-primary pt-0">Record Type:</label>
+                                <div class="col-sm-9">
+                                    <ul class="borderless pt-0 pl-0">
+                                        <li class="li-checkbox col-sm-6 pl-0" ng-repeat="item in CanvasRequestMasterList">
+                                            <label class="lbl-checkbox" for="rb_{{item.ID}}" ng-if="Step6CanvasObj.PkgType == 1">
+                                                <input id="rb_{{item.ID}}" type="radio" data-ng-model="Step6CanvasObj.PkgVal" data-ng-value="{{item.ID}}" />{{item.Description}}
+                                            </label>
+                                            <label class="lbl-checkbox" for="rb_{{item.ID}}" ng-if="Step6CanvasObj.PkgType == 2 || Step6CanvasObj.PkgType == 3">
+                                                <input id="rb_{{item.ID}}" type="checkbox" ng-change="SelectPkgType(item)" ng-disabled="checkedCount >= maxlimit && !item.Selected" data-ng-model="item.Selected" />{{item.Description}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-12 pl-0">
+                                    <label class="col-sm-3 control-label lbl-primary required pt-8">Zip Code</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="ZipCode" placeholder="Zip Code" maxlength="6" ng-model="Step6CanvasObj.ZipCode" class="form-control" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <div class="col-md-12 pl-0">
+                                    <label class="col-sm-3 control-label lbl-primary required pt-8">Upload Authorization</label>
+                                    <div class="col-sm-9">
+                                        <button type="button" class="btn btn-primary" ng-click="UploadCanvasFile();">Upload File</button>
+
+                                        <input type="file" style="display:none;" id="canvasfile" name="canvasfile" multiple="multiple" onchange="angular.element(this).scope().GetFileDetails(this)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered table-framed">
+                                        <tr ng-repeat="file in files">
+                                            <td style="vertical-align:top;" width="10%">{{$index + 1}}</td>
+                                            <td style="vertical-align:top;" ng-bind="file.FileName"></td>
+                                            <td style="vertical-align:top;" width="20%" class="text-center"> <a ng-click="RemoveFile($index,file.BatchId,file.FileName)" class="ico_btn" title="Delete"><i class="icon-trash"></i> </a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" class="btn btn-primary" ng-click="SaveCanvas(step6Canvasform)" title="Save">Save</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

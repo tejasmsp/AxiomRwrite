@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXIOM-Access Denied</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+
+    <div class="navbar navbar-inverse fixed">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html"><img src="~/assets/images/logo-axiom.png" alt=""></a>
+            <ul class="nav navbar-nav pull-right visible-xs-block">
+                <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="page-container">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="col-lg-12">
+                    <div class="centering text-center error-container mt-30">
+                        <div class="text-center">
+                            <h3 class="without-margin">
+                                <img src="~/assets/images/Access-Denied.jpg" height="70px" width="70px" />
+                                We are sorry, but you have not been granted access to the action you attempted.
+                            </h3>
+                            <br />
+                            <h4>
+                                <b>Please click <a href="javascript:void(0)" onclick="location.href = document.location.origin">here</a> to go on home page.</b>
+                            </h4>
+                        </div>
+                        <br />
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer text-muted">
+        &copy; @DateTime.Today.Year <a href="#">Axiom</a>, All Rights Reserved.
+    </div>
+</body>
+</html>

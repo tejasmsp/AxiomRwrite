@@ -1,0 +1,70 @@
+﻿
+<div class="page-content" ng-controller="LogController" ng-init="createDatePicker()">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-folder6 mr-10 fs-19"></i>Log Details</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Log', 'Export Log')"> <a href="#" class="blue_link">[ + Export ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12 search-panel">
+                    <div class="panel no-border-radius panel-body pnl-back-grey">
+                        <div class="col-md-2">
+                            <div class="input-group myDatePicker date">
+                                <input type="text" class="form-control" name="FromDate" placeholder="From Date" ng-model="log.fromDate">
+                                <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="input-group myDatePicker date">
+                                <input type="text" class="form-control"
+                                       name="ToDate" placeholder="To Date" ng-model="log.toDate">
+                                <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2" ng-hide="true">
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option value="0">--Select Department--</option>
+                                    <option value="1">Department 1</option>
+                                    <option value="2">Department 2</option>
+                                    <option value="2">Department 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2" ng-hide="true">
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option value="0">--Select User--</option>
+                                    <option value="1">User 1</option>
+                                    <option value="2">User 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary mr-5" ng-click="searchLogClick();">Search</button>
+                            <button type="button" class="btn btn-default" ng-click="resetDataClick();">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblLog"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

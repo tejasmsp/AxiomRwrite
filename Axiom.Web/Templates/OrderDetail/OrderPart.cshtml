@@ -1,0 +1,307 @@
+﻿<div class="panel panel-white cls-box">
+    <div class="panel-heading ">
+        <h4 class="panel-title text-semibold"><i class="icon-file-text2 position-left"></i>Parts</h4>
+        <div class="heading-elements">
+            <ul class="icons-list mt-0" ng-if="!IsFromClientOrderList">
+                <li ng-if="isSubModuleAccessibleToUser('Order', 'Order Detail', 'Add Part')">
+                    <button @*ng-click="NewPartPopUp()"*@ ng-click="AddLocation()" class="btn btn-primary pull-right"> <i class="icon-plus3 mr-5 font-10 mt-1"></i>Part</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel-body pnl-back-grey pa-10 overflow-auto NoteScrollBar cls-box-md-height" style="min-height:600px !important;" >
+        <div class="table-responsive table-grid">
+            <table class="table table-bordered table-framed " id="tblOrderPart">
+                <thead>
+                    <tr>
+                        <th width="15px" ng-if="IsFromClientOrderList"><input type="checkbox" class="cursor-pointer" id="chkAll" ng-click="OnSelectAll_click($event)" /></th>
+                        <th width="15px">#</th>
+                        <th>Location</th>
+                        <th width="15%">Record Type</th>
+                        <th width="8%" class="text-center">Order Date</th>
+                        <th width="8%">Status</th>
+                        <th width="5%" ng-if="!LoggedInUserDetail.RoleName.includes('Attorney')">Chronology</th>
+                        <th width="7%" ng-if="IsFromClientOrderList">Upload Document</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in OrderPartList" class="cursor-pointer" data-toggle='tooltip' data-placement='top' tooltip title="Click to open Part Detail page." ng-click="OpenPart(OrderId,item.PartNo,$event)">
+                        <td style="vertical-align:top;" ng-if="IsFromClientOrderList">
+                            <input type="checkbox" class="cursor-pointer chkchildItem" ng-click="OnSelect_click($event)" PartNo="{{item.PartNo}}" />
+                        </td>
+                        <td style="vertical-align:top;">
+                            <a class="btn-link display-inline-flex" data-toggle='tooltip' data-placement='right' tooltip title="Click here to open part">
+                                {{item.PartNo}} <i class="icon-square-up-right" style="padding-left:5px;padding-top:2px;"></i>
+                            </a>
+                        </td>
+                        <td style="vertical-align:top;">
+                            <span class="lbl-secondary">{{item.Name1}}</span> <div class="clearfix"></div>
+                            {{item.Name2}}<div class="clearfix"></div>
+                            {{item.Contact}} <div class="clearfix"></div>{{item.Street1}} <div class="clearfix"></div> {{item.City }},{{item.State}}-{{item.Zip}}
+                        </td>
+                        <td style="vertical-align:top;" ng-bind="item.Descr"></td>
+                        <td style="vertical-align:top;" ng-bind="item.OrdDate | date:GlobalDateFormat"></td>
+                        <td style="vertical-align:top;" ng-bind="item.PartStatus"></td>
+                        <td class="text-center" style="vertical-align:top; text-align:center" ng-if="!LoggedInUserDetail.RoleName.includes('Attorney')">
+                            <input type="checkbox" data-ng-model="item.ISChronology" class="cursor-pointer" ng-click="SaveChronology(item,$event)" />
+                        </td>
+                        <td ng-if="IsFromClientOrderList" style="vertical-align:top; text-align:center">
+                            <a ng-click="AddDocumentPopUp(item,$event)" class="ico_btn cursor-pointer" data-toggle='tooltip' data-placement='left' tooltip title="Upload Document"><i class="icon-upload7" style="font-size:11px;"></i></a>
+                        </td>
+                    </tr>
+                    <tr ng-show="!(OrderPartList.length > 0)">
+                        <td colspan="{{IsFromClientOrderList? 8 : 6}}" class="text-center">No Record Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div ng-controller="Step6Controller" ng-if="IsFromPart">
+        <div id="modal_Add_Location" class="modal fade" data-backdrop="static" data-keyboard="false" static-include="./Templates/Order/AddLocationSteps.cshtml"></div>
+        <div id="modal_Location_Search" class="modal fade" data-backdrop="static" data-keyboard="false" static-include="./Templates/Order/SearchLocation.cshtml"></div>
+        <div id="modal_New_Location" class="modal fade" data-backdrop="static" data-keyboard="false" static-include="./Templates/Order/AddNewLocation.cshtml"></div>
+    </div>
+    @*<div id="modal_Add_Part" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <form name="OrderPartform" class="form-horizontal" novalidate>
+                    <div class="modal-content">
+                        <div class="modal-header bg-main">
+                            <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                            <h5 class="modal-title">Locations</h5>
+                        </div>
+                        <div class="modal-body" style="overflow-y: scroll!important;height:720px!important">
+                            <div class="modal-container">
+                                <div id="messages">
+                                    <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(OrderPartform.$submitted && !OrderPartform.$valid)">
+                                        <ul ng-show="(OrderPartform.$submitted && (!OrderPartform.$valid))">
+                                            <li ng-show="OrderPartform.Name1.$error.required">Location name is required.</li>
+                                            <li ng-show="OrderPartform.City.$error.required">City Name is required.</li>
+                                            <li ng-show="OrderPartform.DepartmentId.$error.required">Please Select Department.</li>
+                                            <li ng-show="OrderPartform.StateId.$error.required">Please Select State.</li>
+                                            <li ng-show="OrderPartform.RecordTypeId.$error.required">Please Select RecordType.</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-5 lbl-primary" style="padding-top:0px;">Search Location:</label>
+                                            <div class="col-sm-7 pl-0">
+                                                <input type="button" class="btn btn-default" ng-click="GetLocationSearch()" value="Select Location" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <div class="col-sm-4">
+                                                <label class="control-label form-control" ng-bind="OrderPartObj.LocID"></label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <label class="control-label form-control" ng-bind="OrderPartObj.Name1"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Location Name:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="Name1" ng-model="OrderPartObj.Name1" ng-disabled="IsLocSelect" placeholder="Location Name" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Doctor Name:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="Name2" ng-model="OrderPartObj.Name2" ng-disabled="IsLocSelect" placeholder="Doctor Name" class="form-control">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Address 1:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="Street1" ng-model="OrderPartObj.Street1" ng-disabled="IsLocSelect" placeholder="Street1" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Address 2:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="Street1" ng-model="OrderPartObj.Street2" ng-disabled="IsLocSelect" placeholder="Street2" class="form-control">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">City:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="City" ng-model="OrderPartObj.City" ng-disabled="IsLocSelect" placeholder="City" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">State:</label>
+                                            <div class="col-sm-9">
+                                                <select name="StateId" ng-model="OrderPartObj.State" ng-disabled="IsLocSelect" class="form-control" ng-options="item.StateId as item.StateName for item in StateList" required>
+                                                    <option value="">--Select--</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label  col-sm-3">Zip:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="Zip" ng-model="OrderPartObj.Zip" ng-disabled="IsLocSelect" maxlength="10" placeholder="Zip" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Phone:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" name="AreaCode1" ng-model="OrderPartObj.AreaCode1" ng-disabled="IsLocSelect" maxlength="4" placeholder="Code" class="form-control">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="text" name="PhoneNo1" ng-model="OrderPartObj.PhoneNo1" ng-disabled="IsLocSelect" maxlength="12" placeholder="PhoneNo" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Fax:</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" name="AreaCode3" ng-model="OrderPartObj.AreaCode3" ng-disabled="IsLocSelect" maxlength="4" placeholder="Code" class="form-control">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="text" name="FaxNo" ng-model="OrderPartObj.FaxNo" ng-disabled="IsLocSelect" maxlength="12" placeholder="FaxNo" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Department:</label>
+                                            <div class="col-sm-9">
+                                                <select name="DepartmentId" ng-model="OrderPartObj.Dept" ng-disabled="IsLocSelect" class="form-control" ng-options="item.Descr as item.Descr for item in departmentlist" required>
+                                                    <option value="">--Select--</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3">Record Type :</label>
+                                            <div class="col-sm-9">
+                                                <select name="RecordTypeId" ng-model="OrderPartObj.RecordTypeId" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypeList" required>
+                                                    <option value="">--Select--</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-1 col-md-1-custom">Scope:</label>
+                                            <div class="col-sm-10 col-md-10-custom">
+                                                <textarea rows="3" class="form-control" name="Scope" placeholder="Scope" ng-model="OrderPartObj.Scope"></textarea>
+                                                <a class="ico_btn cursor-pointer" title="Select Scope" ng-click="SelectScope()" style="position: absolute;right: 8px;top: 0px;line-height:1.2em">
+                                                    <i class='icon-pencil3' ></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-1 col-md-1-custom">Notes :</label>
+                                            <div class="col-sm-10 col-md-10-custom">
+                                                <textarea rows="3" class="form-control" name="Notes" placeholder="Notes" ng-model="OrderPartObj.Notes"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                            <button title="Save" type="button"  class="btn btn-primary"  ng-click="SaveNewPart(OrderPartform)">Save</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="modal_Search_Location" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <h5 class="modal-title">Search Location</h5>
+                    </div>
+                    <div class="modal-body" style="overflow-y: scroll!important;height:720px!important">
+                        <div class="modal-container">
+                            <div class="table-responsive table-grid">
+                                <table class="table table-bordered table-framed" id="tblSearchLocation"></table>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="modal_selectScope" class="modal fade">
+            <form class="form-horizontal" name="selectScopeform" novalidate>
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-main">
+                            <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                            <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Select Scope</h6>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group pb-0 mb-0">
+                                            <div class="table-responsive table-grid">
+                                                <table class="table table-bordered table-framed" id="tblScope"></table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>*@
+
+</div>

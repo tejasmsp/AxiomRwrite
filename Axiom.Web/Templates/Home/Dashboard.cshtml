@@ -1,0 +1,207 @@
+﻿<style>
+    .nav-pills.nav-pills-bordered > li > a {
+        border: 1px solid #fff;
+        background-color: white;
+        color: #000000;
+        opacity: 1;
+    }
+
+        .nav-pills.nav-pills-bordered > li > a:hover {
+            background-color: #8993ed;
+            border-color: #8892e7;
+            color: #fff;
+            opacity: 1;
+        }
+
+    .nav-pills.nav-pills-bordered > .active > a {
+        color: #fff;
+        background-color: #878fd6;
+        border-color: #878fd6;
+    }
+
+        .nav-pills.nav-pills-bordered > .active > a:hover, .nav-pills.nav-pills-bordered > .active > a:focus {
+            background-color: #8993ed;
+            border-color: #8892e7;
+        }    
+</style>
+
+<div class="page-content" ng-controller="ClientController">
+    <div class="col-md-2 col-md-offset-10 mb-10">
+        <div class="input-group">
+            <input type="text" placeholder="Order No/Patient Name" ng-model="SearchParameter" class="form-control" my-enter="OrderSearch()" />
+            <span class="input-group-addon cursor-pointer" ng-click="OrderSearch()"><i class="icon-search4"></i></span>
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                <div class="panel panel-white dashboardpnl">
+                    <div class="panel-heading">
+                        <h4 class="panel-title text-semibold">AUTHORIZATIONS NEEDED</h4>
+                        <div class="heading-elements tabbable">
+                            <ul class="icons-list mt-0 nav nav-pills nav-pills-bordered">
+                                <li class="mr-5">
+                                    <button type="button" class="btn btn-primary" title="Download Reports as pdf file." ng-click="DownloadRecords('Authorization');" ng-disabled="!(AuthorizationNeeded.length>0)"><i class="icon-file-pdf position-left"></i>Download</button>
+                                </li>
+                                <li class="active"><a href="" data-toggle="tab" aria-expanded="false" ng-click="FilterRecordsByDays(2,0)">All</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(2,30)">30 Days</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(2,60)">60 Days</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(2,90)">90 Days</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body pa-0">
+                        <div class="table-responsive table-grid tblDashboardSetting">
+                            <table class="table table-bordered table-framed cursor-pointer" id="tblAuthorization"></table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <div class="  panel panel-white dashboardpnl">
+                    <div class="panel-heading">
+                        <h4 class="panel-title text-semibold">MORE INFORMATION</h4>
+                        <div class="heading-elements tabbable">
+                            <ul class="icons-list mt-0 nav nav-pills nav-pills-bordered">
+                                <li class="mr-5"><button type="button" class="btn btn-primary" title="Download Reports as pdf file." ng-click="DownloadRecords('MoreInformation');" ng-disabled="!(MoreInformation.length>0)"><i class="icon-file-pdf position-left"></i>Download</button></li>
+                                <li class="active"><a href="" data-toggle="tab" aria-expanded="false" ng-click="FilterRecordsByDays(4,0)">All</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(4,30)">30 Days</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(4,60)">60 Days</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(4,90)">90 Days</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body pa-0">
+                        <div class="table-responsive table-grid tblDashboardSetting">
+                            <table class="table table-bordered table-framed cursor-pointer" id="tblMoreInformation"></table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                <div class="panel panel-white dashboardpnl">
+                    <div class="panel-heading">
+                        <h4 class="panel-title text-semibold">NEW RECORDS</h4>
+                        <div class="heading-elements tabbable">
+                            <ul class="icons-list mt-0 nav nav-pills nav-pills-bordered">
+                                <li class="mr-5"><button type="button" class="btn btn-primary" title="Download Reports as pdf file." ng-click="DownloadRecords('NewRecords');" ng-disabled="!(NewRecords.length>0)"><i class="icon-file-pdf position-left"></i>Download</button></li>
+                                <li class="active"><a href="" data-toggle="tab" aria-expanded="false" ng-click="FilterRecordsByDays(5,0)">All</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(5,30)">30 Days</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(5,60)">60 Days</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(5,90)">90 Days</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body pa-0">
+                        <div class="table-responsive table-grid tblDashboardSetting">
+                            <table class="table table-bordered table-framed cursor-pointer" id="tblNewRecords"></table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-white dashboardpnl">
+                    <div class="panel-heading">
+                        <h4 class="panel-title text-semibold">IN PROGRESS</h4>
+                        <div class="heading-elements tabbable">
+                            <ul class="icons-list mt-0 nav nav-pills nav-pills-bordered">
+                                <li class="mr-5">
+                                    <button type="button" class="btn btn-primary" title="Download Reports as pdf file." ng-click="DownloadRecords('InProgress');" ng-disabled="!(InProgress.length>0)"><i class="icon-file-pdf position-left"></i>Download</button>
+                                </li>
+                                <li class="active"><a href="" data-toggle="tab" aria-expanded="false" ng-click="FilterRecordsByDays(1,0)">All</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(1,30)">30 Days</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(1,60)">60 Days</a></li>
+                                <li class=""><a href="" data-toggle="tab" aria-expanded="true" ng-click="FilterRecordsByDays(1,90)">90 Days</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body pa-0">
+                        <div class="table-responsive table-grid tblDashboardSetting">
+                            <table class="table table-bordered table-framed cursor-pointer" id="tblInProgress"></table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div id="modal_DashboardOrderPartForm" class="modal fade" static-Include="./Templates/Home/OrderPartModal.cshtml" ng-controller="ClientOrderPartController">
+    </div>
+    <!-- Primary modal -->
+    <div id="modal_Announcement" class="modal fade">
+        <form class="form-horizontal" name="Announcementform" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Announcement</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Announcementform.$submitted && !Announcementform.$valid)">
+                                    <ul ng-show="(Announcementform.$submitted && (!Announcementform.$valid))">
+                                        <li ng-show="Announcementform.Announcement.$error.required">Announcement is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary required">Announcement</label>
+                                <div class="col-sm-9">
+                                    <textarea name="Announcement" rows="6" ng-model="strAnnouncement" class="form-control" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" ng-click="AddOrUpdateAnnouncement(Announcementform)" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style type="text/css">
+    .tblDashboardSetting {
+        max-height: 250px;
+        overflow-y: auto;
+    }
+
+    .dashboardpnl {
+        height: 335px;
+    }
+
+    .nav > li > a {
+        padding: 11px 15px !important;
+    }
+
+    .table-framed {
+        /*border:0px;*/
+    }
+
+    .table-bordered > thead > tr > th,
+    .table-bordered > tbody > tr > th,
+    .table-bordered > thead > tr > td,
+    .table-bordered > tbody > tr > td {
+        border-left: 0px;
+        border-right: 0px;
+    }
+
+    .panel-white > .panel-heading {
+        border-bottom-color: #bebebe;
+    }
+</style>

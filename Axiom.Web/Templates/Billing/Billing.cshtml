@@ -1,0 +1,472 @@
+﻿<div class="page-content" ng-controller="BillingController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-stack2 mr-10 fs-19"></i>Billing</h4>
+            <div class="heading-elements">
+
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-bordered p-10 pnl-back-grey">
+
+                        <form class="form-horizontal" id="frmOrderSearch" name="frmOrderSearch" novalidate>
+                            <div class="row mb-10 center-block">
+                                <div id="messages" class="col-md-12 pl-20 pr-20">
+                                    <div class="alert alert-danger alert-dismissible validationErrors" ng-show="((frmOrderSearch.$submitted || EnableGenerteCodeValidation) && !frmOrderSearch.$valid)  ">
+                                        <ul>
+                                            <li ng-show="frmOrderSearch.OrderNo.$error.required && !EnableGenerteCodeValidation">Order Number is required.</li>
+                                            <li ng-show="frmOrderSearch.PartNo.$error.required">Part Number is requried.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row mb-10">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <label class="col-sm-1 control-label lbl-primary">Search</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" name="OrderNo" autofocus="true" value="29018" class="form-control" integer-only placeholder="Order Number" maxlength="8" ng-model="objBilling.OrderNo" required />
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <input type="text" name="PartNo" value="1" class="form-control" placeholder="Part" integer-only maxlength="3" ng-model="objBilling.PartNo" required />
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button type="submit" ng-click="SelectInvoiceDetail(frmOrderSearch)" title="Search" class="btn btn-primary">Search</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-sm-8">&nbsp;</div>
+                                            <div class="col-sm-4">
+                                                <button type="submit" ng-click="GenerateInvoice(frmOrderSearch)" title="Generate Invoice" class="btn btn-primary btn-group-lg">GENERATE INVOICE</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <div class="row mb-10">
+                            <div class="col-md-12">
+                                <div class="col-lg-6 center-block">
+                                    <label class="col-sm-1 control-label lbl-primary valign-middle ">Records Of</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="AreaCode1" class="form-control" readonly="readonly" integer-only maxlength="8" ng-model="objBilling.RecordsOf" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 center-block">
+                                    <label class="col-sm-1 control-label lbl-primary valign-middle ">Location</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" name="AreaCode1" class="form-control" readonly="readonly" integer-only maxlength="8" ng-model="objBilling.LocID" />
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <input type="text" name="AreaCode1" class="form-control" readonly="readonly" integer-only maxlength="8" ng-model="objBilling.LocationName" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="col-md-12 mb-10 p-0">
+                                        <div class="row mb-5">
+                                            <label class="col-sm-1 label bg-blue">Sold To</label>
+                                        </div>
+                                        <label class="col-sm-1 control-label lbl-primary pr-0">Firm</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" name="AreaCode1" class="form-control" maxlength="8" ng-model="objBilling.SoldToFirmID" readonly="readonly" />
+                                        </div>
+                                        <div class="col-sm-7">
+
+                                            <input type="text" name="PhoneNo1" class="form-control" maxlength="3" ng-model="objBilling.SoldToFirmName" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-0">
+                                        <label class="col-sm-1 control-label lbl-primary pr-0">Attorney</label>
+                                        <div class="col-sm-9">
+                                            <select ng-model="objBilling.SoldToAttorney" class="form-control" ng-options="item.AttyId as item.AttorneyName for item in SoldToAttorneyList"></select>
+                                        </div>
+                                        @*<div class="col-sm-2">
+                                            <button type="submit" ng-click="PrintCheck(formPrintCheck)" class="btn btn-primary">Warning</button>
+                                        </div>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12 mb-10 p-0">
+                                        <div class="row mb-5">
+                                            <label class="col-sm-1 label bg-blue">Bill To</label>
+                                        </div>
+                                        <label class="col-sm-1 control-label lbl-primary pr-0">Firm</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" name="AreaCode1" class="form-control" maxlength="8" ng-model="objBilling.BillToFirmID" readonly="readonly" />
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input type="text" name="PhoneNo1" class="form-control" maxlength="3" ng-model="objBilling.BillToFirmName" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 p-0">
+                                        <label class="col-sm-1 control-label lbl-primary pr-0">Attorney</label>
+                                        <div class="col-sm-9">
+                                            <select ng-model="objBilling.BillToAttorney" class="form-control" ng-options="item.AttyId as item.AttorneyName for item in BillToAttorneyList"></select>
+                                        </div>
+                                        @*<div class="col-sm-2">
+                                            <button type="submit" ng-click="PrintCheck(formPrintCheck)" class="btn btn-primary">Warning</button>
+                                        </div>*@
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row mt-10">
+                        <div ng-show="InvoiceDetailList.length>0" class="col-md-12 mb-10"><input type="button" class="btn btn-primary" value="PRINT SELECTED INVOICE" ng-click="PrintSelectedInvoice()" /><br /></div>
+                        <div class="col-md-12">
+                            <div class="table-responsive table-grid">
+                                <table class="table table-bordered table-framed tblInvoiceDeatil">
+                                    <thead>
+                                        <tr role="row" style="width:100%">
+                                            <th ng-show="InvoiceDetailList.length>0"><input type="checkbox" title="Select ALL" ng-model="IsPrintAll" ng-checked="IsPrintAll" class="cursor-pointer" ng-change="ChangePrintAll(IsPrintAll)" /></th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:5%;">InvNo</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:10%;">Inv Date</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:10%;">Sold To Firm</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:10%;">Sold Attorney</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:5%;">Inv Amt</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:10%;">Bill To Firm</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:10%;">Bill Attorney</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:10%;">Paid Amount</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:10%;">Bounce Amount</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:10%;">Status</th>
+                                            <th class="text-center sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:20%;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd" ng-repeat="item in InvoiceDetailList">
+                                            <td ng-show="InvoiceDetailList.length>0"><input type="checkbox" class="cursor-pointer chk-print-invoice" ng-model="item.IsPrint" ng-checked="item.IsPrint" /></td>
+                                            <td>{{item.InvoiceNumber}}</td>
+                                            <td>{{item.InvoiceDate}}</td>
+                                            <td>{{item.SoldToFirmID}}</td>
+                                            <td>{{item.SoldAttyName}}</td>
+                                            <td>${{item.InvoiceAmount}}</td>
+                                            <td>{{item.BillToFirmID}}</td>
+                                            <td>{{item.BillAttyName}}</td>
+                                            <td>{{item.PaidAmount}}</td>
+                                            <td>{{item.FinChg}}</td>
+                                            <td>{{item.StatusDescription}}</td>
+                                            <td class="text-center">
+                                                <a class='ico_btn cursor-pointer' ng-click="EditInvoice(item.InvoiceNumber)" title='Edit'> <i class='icon-pencil3'></i></a>
+                                                <a class='ico_btn cursor-pointer' ng-click="PrintInvoice(item.InvoiceNumber)" title='Print'> <i class='icon-printer'></i></a>
+                                                <a class='ico_btn cursor-pointer' ng-click="SendEmail(item.SoldAtty,item.InvoiceNumber)" title='Mail'> <i class='icon-mail-read'></i></a>
+                                                <a class='ico_btn cursor-pointer' ng-click="ViewARInvoiceChangeLogByInvoiceId(0,item.InvoiceNumber)" title='View Invoice Change Log'> <i class='icon-history'></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="modal_EditInvoice" class="modal fade">
+            <form class="form-horizontal" name="BillingRateForm" novalidate>
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-main">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title">Edit Invoice</h6>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-container">
+                                <div id="messages">
+                                    <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(BillingRateForm.$submitted && !BillingRateForm.$valid)">
+                                        <ul>
+                                            <li ng-show="BillingRateForm.txtOrigRate.$error.required">Please enter Orig Rate.</li>
+                                            <li ng-show="BillingRateForm.txtCopyRate.$error.required">Please enter Copy Rate.</li>
+                                            <li ng-show="BillingRateForm.txtPages.$error.required">Please enter Pages.</li>
+                                            <li ng-show="BillingRateForm.txtCopies.$error.required">Please enter copies.</li>
+                                            <li ng-show="BillingRateForm.txtCustodianFees.$error.required">Please enter Custodians Fees.</li>
+                                            <li ng-show="BillingRateForm.txtShipping.$error.required">Please enter Shipping and Handling Fees.</li>
+                                            <li ng-show="BillingRateForm.txtSubpoena.$error.required">Please enter Subpoena Fees.</li>
+                                            <li ng-show="BillingRateForm.txtBasicFee.$error.required">Please enter Basic Fees.</li>
+                                            <li ng-show="BillingRateForm.txtBinding.$error.required">Please enter Binding and Printing Fees.</li>
+                                            <li ng-show="BillingRateForm.ddlEditInvAttorney.$error.required">Please enter Attroney.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row mb-10">
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Original : </label>
+                                        <span class="col-sm-6">
+                                            <label class="lbl-checkbox bg-white">
+                                                <input type="checkbox" id="chkOrignal" name="chkOrignal" title="Original" ng-checked="objEditInvoice.Original" />
+                                            </label>
+                                        </span>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Member ID</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtMemberID" class="form-control" maxlength="8" ng-model="objEditInvoice.MemberID" readonly="readonly" />
+                                        </span>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Item</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtRcvdDate" class="form-control" maxlength="15" ng-model="objEditInvoice.RcvdDate" />
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-10">
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Pages</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtPages" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="objEditInvoice.Pages" readonly="readonly" />
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Copies</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtCopies" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="objEditInvoice.Copies" required />
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Invoice Header</label>
+                                        <span class="col-sm-6 mt-5">
+                                            @*<input type="text" name="txtInvHeader" class="form-control" maxlength="8" ng-model="objEditInvoice.InvHdr" />*@
+                                            {{objEditInvoice.InvHdrdesc}}
+                                        </span>
+                                        @*<span class="col-sm-3">
+                                        {{"DISC001"}}
+                                            </span>
+                                                <span class="col-sm-4">
+                                                    {{"DISC001"}}
+                                                </span>*@
+                                        @*<span class="col-sm-8">
+                                            <label for="chkOrignal" class="control-label lbl-primary">Record Type&nbsp;:&nbsp;&nbsp;</label>{{objEditInvoice.InvHdr}}
+                                        </span>*@
+                                    </div>
+                                </div>
+
+                                <div class="row mb-10">
+
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Orig Rate</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtOrigRate" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="objEditInvoice.OrigRate" required />
+                                        </span>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Custodian Fes</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtCustodianFees" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="objEditInvoice.CustodianFees" required />
+                                        </span>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Copy Rate</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtCopyRate" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="objEditInvoice.CopyRate" required />
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Shipping / Handling</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtShipping" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="objEditInvoice.Shipping" required />
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Subpoena/Requests</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtSubpoena" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="objEditInvoice.Subpoena" required />
+                                        </span>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Misc Charges</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtMiscCharges" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="objEditInvoice.MiscCharge" />
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Basic Fee</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtBasicFee" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="objEditInvoice.BasicFee" required />
+                                        </span>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <label class="col-sm-6 control-label lbl-primary">Binding and Printing</label>
+                                        <span class="col-sm-6">
+                                            <input type="text" name="txtBinding" decimal-only="decimal 2" class="form-control" maxlength="8" ng-model="objEditInvoice.Binding" required />
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-10">
+                                    <label class="col-sm-2 control-label lbl-primary">Inv Heder</label>
+                                    <div class="col-sm-10">
+                                        <div class="ml-0" name="ddlRecordType" custom-select="item.Descr as item.Descr  for item in  RecordTypeList | filter: $searchTerm" ng-model="objEditInvoice.InvHdr" required="required" ng-change="RecordTypeChange(objEditInvoice.InvHdr)"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-10">
+                                    <div class="col-sm-2 valign-middle">
+                                        <button type="button" ng-click="OpenInvMessagePopup()" class="btn btn-default">Inv Message</button>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="4" id="comment"></textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <label class="col-sm-12 control-label lbl-primary">Firm</label>
+                                    </div>
+                                    <div class="col-sm-10 no-padding">
+                                        <span class="col-sm-3 display-inline-flex">
+                                            <input type="text" name="FirmID" class="form-control" maxlength="10" ng-model="objEditInvoice.FirmID" readonly="readonly" />
+                                            <a class="ico_btn cursor-pointer" ng-click="FirmSearch($event)" title="Search Firm"> <i class="icon-search4"></i></a>
+                                        </span>
+                                        <span class="col-sm-9">
+                                            <input type="text" name="FirmName" class="form-control" maxlength="100" ng-model="objEditInvoice.FirmName" readonly="readonly" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row mb-10 mt-10">
+                                    <div class="col-sm-2">
+                                        <label class="control-label lbl-primary">Attorney</label>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <div class="ml-0" name="ddlEditInvAttorney" custom-select="item.AttyId as item.AttorneyName for item in AttorneyList | filter: $searchTerm" ng-model="objEditInvoice.Attorney" required="required"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="table-responsive table-grid">
+                                        <table class="table table-bordered table-framed" id="tblInvoiceDeatilItem">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:50px;">Item No</th>
+                                                    <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:50px;">InvNo</th>
+                                                    <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:30px;">Inv Date</th>
+                                                    <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:80px;">Sold To</th>
+                                                    <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:70px;">Copy Rate</th>
+                                                    <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:40px;">Pages</th>
+                                                    <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:150px;">Items</th>
+                                                    <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:50px;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="odd" ng-repeat="item in InvoiceDetaiItem">
+                                                    <td>{{item.ItemNo}}</td>
+                                                    <td>{{item.InvoiceNumber}}</td>
+                                                    <td>{{item.InvDate}}</td>
+                                                    <td>{{item.SoldAttyName}}</td>
+                                                    <td>${{item.CopyRate}}</td>
+                                                    <td>{{item.Pages}}</td>
+                                                    <td>{{item.InvHdr}}</td>
+                                                    <td>
+                                                        <a class='ico_btn cursor-pointer' ng-click="EditInvoiceByItemNumber(item.ItemNo)" title='View'> <i class='icon-eye'></i></a>
+                                                        <a class='ico_btn cursor-pointer' ng-click="DeleteInvoice(item.InvoiceNumber,item.ItemNo)" title='Delete'> <i class='icon-trash'></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" ng-click="UpdateInvoice(BillingRateForm)" class="btn btn-primary">Save</button>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="model_ChangeLogOfInvoices" class="modal fade" data-backdrop="static" data-keyboard="false">
+            <form class="form-horizontal" name="ChangeLogOfInvoices" novalidate>
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-main">
+                            @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                            <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                            <i class="icon-history pull-left mr-10 mt-5"></i> <h6 class="modal-title">Change Log Of Invoice</h6>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-container">
+                                <div class="row mb-10">
+                                    <div class="table-responsive table-grid">
+                                        <table class="table table-bordered table-framed no-footer dataTable" id="tblChangeLogOfInvoices" role="grid"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="modal_FirmSearch" class="modal fade" static-Include="./Templates/Settings/Partial/FirmSearch.cshtml" ng-controller="FirmSearchController">
+        </div>
+
+    </div>
+    <div id="invMsgModel" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h6 class="modal-title"><i class="icon-merge mr-5"></i>Invoice Message</h6>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <table class="table table-responsive table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    @*<th>Message Id</th>*@
+                                    <th>Message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in InvMsgList">
+                                    @*<td ng-bind="item.MsgID"></td>*@
+                                    <td ng-bind="item.MsgID+'- '+ item.Message"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

@@ -1,0 +1,142 @@
+﻿<style>
+    .divFileUpload {
+        position: relative;
+        border: 1px solid red;
+        line-height: 30px;
+        text-align: center;
+        position: relative;
+        height: 200px;
+        border: 2px dashed #b3b3b3;
+        border-radius: 4px;
+        background-color: #f3f3f3;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        min-height: 250px;
+        width: 250px;
+    }
+
+    .file_upload {
+        opacity: 0.0;
+        /* IE 8 */
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        /* IE 5-7 */
+        filter: alpha(opacity=0);
+        /* Netscape or and older firefox browsers */
+        -moz-opacity: 0.0;
+        /* older Safari browsers */
+        -khtml-opacity: 0.0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-main">
+            <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+            <h6 class="modal-title"><i class="icon-user mr-5"></i>User Profile</h6>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" name="UserProfileForm" novalidate>
+                <div class="modal-container">
+                    <div class="table-bordered p-10 pnl-back-grey">
+
+
+                        <div id="messages">
+                            <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(UserProfileForm.$submitted && !UserProfileForm.$valid)">
+                                <ul ng-show="(UserProfileForm.$submitted && (!UserProfileForm.$valid))">
+                                    <li ng-show="UserProfileForm.FirstName.$error.required">Please enter First Name.</li>
+                                    <li ng-show="UserProfileForm.LastName.$error.required">Please enter Last Name.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="col-md-12 mb-10 mt-10">
+                                    <label class="col-sm-3 control-label lbl-primary">Username</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="UserName" ng-disabled="true" class="form-control" maxlength="50" ng-model="objUserProfile.UserName" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-10">
+                                    <label class="col-sm-3 control-label lbl-primary required">First Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="FirstName" class="form-control" maxlength="50" ng-model="objUserProfile.FirstName" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-10">
+                                    <label class="col-sm-3 control-label lbl-primary required">Last Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="LastName" class="form-control" maxlength="50" ng-model="objUserProfile.LastName" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    @*<label class="col-sm-3 control-label lbl-secondary required">Upload Image</label>*@
+                                    <div class="divFileUpload">
+                                        <input type='file' id="UserImage" name="UserImage" class="file_upload" title="Select Image" onchange="readURL(this);" accept="image/x-png,image/gif,image/jpeg"  />
+                                        <img src="" ng-src="data:image/png;base64,{{objUserProfile.Photo}}" id="imgUserPhoto" alt="" width="250" height="200" />
+                                    </div>
+                                    @*<div img-upload method="POST" url="webfreaks.in/dummyService"></div>*@
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer mt-10">
+                    <button type="button" class="btn btn-default"  title="Close" data-dismiss="modal">Close</button>
+                    <button type="submit" ng-click="UpdateUserProfile(UserProfileForm)" title="Save" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</div>
+
+@*<div ng-controller="UserProfileController">
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title text-semibold"><i class="icon-user mr-10 fs-19"></i>User Profile</h4>
+            </div>
+
+
+        </div>
+    </div>*@
+
+<script>
+    function readURL(input) {
+        
+        if (input.files && input.files[0]) {
+
+            var array = input.files[0].name.split(".")
+            var ext = array[array.length - 1];
+            var type = ["jpg", "png", "jpeg", "bmp"];
+            if (type.indexOf(ext.toLowerCase()) > -1) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgUserPhoto')
+                        .attr('src', e.target.result)
+                        .width(250)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                alert("Please select image file only.")
+                return false;
+            }
+            
+        }
+    }
+</script>

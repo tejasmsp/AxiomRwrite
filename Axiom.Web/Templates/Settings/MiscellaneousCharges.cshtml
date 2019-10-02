@@ -1,0 +1,129 @@
+﻿<div class="page-content" ng-controller="MiscellaneousChargesController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-spreadsheet mr-10 fs-19"></i>Miscellaneous Charges</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li><a ng-click="AddMiscellaneousCharges(0)" href="#" class="blue_link">[ + Add Misc Charges ]</a></li>
+                    <li><a ng-click="GetMiscPopUp()" href="#" class="blue_link">[ + Add Misc Description ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblMiscChargesList"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal_MiscDesc" class="modal fade">
+        <form class="form-horizontal" name="MiscDescForm" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Add Misc Description</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages1">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(MiscDescForm.$submitted && !MiscDescForm.$valid)">
+                                    <ul>
+                                        <li ng-show="MiscDescForm.MemberIDDesc.$error.required">Please enter Misc Description.</li>                                     
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row mb-10">
+                                <label class="col-sm-4 control-label required">Member :</label>
+                                <div class="col-sm-8">
+                                    @*<label class="control-label">{{MemberID}}</label>*@
+                                    <select name="MemberID"  ng-model="MemberID" class="form-control " ng-options="item.MemberID as item.MemberID  for item in  MemberList" required></select>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-4 control-label required">Misc Description :</label>
+                                <div class="col-sm-8">
+                                  <input type="text" class="form-control" name="MemberIDDesc" ng-model="MiscDesc" required/>
+                                </div>
+                            </div>                          
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button title="Close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button title="Save" type="submit" ng-click="AddMiscDesc(MiscDescForm)" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="modal_MiscCharges" class="modal fade">
+        <form class="form-horizontal" name="MiscChargesForm" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close"  ng-click="closeMiscChargesForm()" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title" ng-bind="Model_MiscTitle"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages1">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(MiscChargesForm.$submitted && !MiscChargesForm.$valid)">
+                                    <ul>
+                                        <li ng-show="MiscChargesForm.MemberID.$error.required">Please select Member.</li>
+                                        <li ng-show="MiscChargesForm.MiscDesc.$error.required">Please select Misc Description.</li>
+                                        <li ng-show="MiscChargesForm.RegularFeeMisc.$error.required">Please enter Regular Fees.</li>
+                                        <li ng-show="MiscChargesForm.DiscountFeeMisc.$error.required">Please enter Discount Fee.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row mb-10">
+                                <label class="col-sm-4 control-label required">Member :</label>
+                                <div class="col-sm-8">
+                                    <select name="MemberID" ng-model="objMiscCharges.MemberID" ng-change="GetMiscDescById(objMiscCharges.MemberID)" class="form-control " ng-options="item.MemberID as item.MemberID  for item in  MemberList" required></select>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-4 control-label required">Misc Description :</label>
+                                <div class="col-sm-8">
+                                    <select name="MiscDesc" ng-model="objMiscCharges.MiscDesc" class="form-control memberid" ng-options="item.MiscDesc as item.MiscDesc  for item in  MiscDescList" required>
+                                        <option value="">-- Select Misc Description --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-4 control-label required">Regular Fees :</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="RegularFeeMisc" class="form-control" ng-model="objMiscCharges.RegularFee" decimal-only="decimal 2" maxlength="20" required />
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-4 control-label required">Discount Fees :</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="DiscountFeeMisc" class="form-control" ng-model="objMiscCharges.DiscountFee" decimal-only="decimal 2" maxlength="20" required />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button title="Close" type="button" class="btn btn-default" ng-click="closeMiscChargesForm()">Close</button>
+                        <button title="Save" type="submit" ng-click="InsertOrUpdateMiscCharges(MiscChargesForm)" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

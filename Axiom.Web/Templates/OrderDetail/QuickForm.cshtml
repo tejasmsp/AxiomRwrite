@@ -1,0 +1,429 @@
+﻿<div class="modal-dialog modal-lg" data-backdrop="static" >
+    <div class="modal-content">
+        <div class="modal-header bg-main">
+            <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+            <h6 class="modal-title"><i class="icon-printer mr-5"></i>{{isshowDocumentSection || isshowDocumentAttachmentSection ? 'Print Forms Wizard':'Quick Form'}}</h6>
+        </div>
+        <div class="modal-body minheight">
+            <div ng-show="isshowPartSection">
+                <div class="row">
+                    <div class="col-lg-12 ml-20">
+                        <label class="control-label">Select Locations (Parts)</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 ml-5">
+                        <div class="col-lg-1 pt-10 pr-0 text-right">
+                            <b>Order No.</b>
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" ng-disabled="true" ng-model="quickform.OrderNo" />
+                        </div>
+                        <div class="col-lg-3">
+                            <button class="btn btn-primary pull-left" ng-hide="true" ng-click="findData()">Find</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-body pnl-back-grey">
+                    <table class="table table-bordered tblPartDetailQuickForm">
+                        <tr>
+                            <th class="tbldocHeader" width="5%"></th>
+                            <th class="tbldocHeader" width="12%">Part No</th>
+                            <th class="tbldocHeader" width="55%">Location</th>
+                            <th class="tbldocHeader">Record Type</th>
+                        </tr>
+                        <tr ng-click="selectedtableRow(item)" ng-repeat="item in partDetailList">
+                            <td><input type="checkbox" id="chk-{{item.PartNo}}" ng-click="selectedOrder(item.PartNo,$event)"></td>
+                            <td>{{ item.PartNo }}</td>
+                            <td>{{ item.LocationName }}</td>
+                            <td>{{ item.RecordType }}</td>
+                        </tr>
+                    </table>
+                    <div class="dataTables_info" ng-show="partDetailList.length>0">
+                        Showing 1 to {{partDetailList.length}} of {{partDetailList.length}} entries
+                    </div>
+                </div>
+            </div>
+            <div ng-show="isshowDocumentSection">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <span ng-hide="showAttorneyForm">
+                            Select a type of Document you want to print.
+                        </span>
+                    </div>
+                </div>
+                <div class="row pt-10" ng-hide="showAttorneyForm">
+                    <div class="col-lg-12">
+                        <div class="col-lg-3"><b>Choose a form</b></div>
+                        <div class="col-lg-9">
+                            <select class="form-control" ng-model="quickform.SelectedFormItem" ng-change="selectFormItemChange(quickform.SelectedFormItem)">
+                                <option value=""> --Select Form-- </option>
+                                <option ng-repeat="item in fromList" value="{{item}}">{{item}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pt-10" ng-hide="showAttorneyForm">
+                    <div class="col-lg-12">
+                        <div class="col-lg-3"><b>File Type</b></div>
+                        <div class="col-lg-9">
+                            <select class="form-control" ng-model="quickform.FileTypeID">
+                                <option value=""> --Select File Type-- </option>
+                                <option ng-repeat="item in fileTypeList" value="{{item.FileTypeId}}">{{item.FileType}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pt-10" ng-hide="quickform.SelectedFormItem">
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <b>Document Type</b>
+                        </div>
+                        <div class="col-lg-4">
+                            <b>Display SSN</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-hide="quickform.SelectedFormItem">
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <label for="chknotice" ng-click="checkedDocumentType('Notices',chkNoticeStatus)">
+                                <input type="checkbox" id="chknotice" name="chknotice" ng-model="chkNoticeStatus" ng-click="checkedDocumentType('Notices',chkNoticeStatus)">&nbsp;Notices
+                            </label>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="radioYesNotice">
+                                <input type="radio" id="radioYesNotice" name="radioNotice" ng-value="true" ng-model="noticeradioStatus">&nbsp;Yes &nbsp;
+                            </label>
+                            <label for="radioNoNotice">
+                                <input type="radio" id="radioNoNotice" name="radioNotice" ng-value="false" ng-model="noticeradioStatus">&nbsp;No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <label for="chkCWC" ng-click="checkedDocumentType('CWC',chkCWCStatus)">
+                                <input type="checkbox" id="chkCWC" name="check" ng-model="chkCWCStatus" ng-click="checkedDocumentType('CWC',chkCWCStatus)">&nbsp;CWC
+                            </label>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="radioYesCWC">
+                                <input type="radio" id="radioYesCWC" name="radioCWC" ng-value="true" ng-model="radioCWCStatus">&nbsp;Yes &nbsp;
+                            </label>
+                            <label for="radioNoCWC">
+                                <input type="radio" id="radioNoCWC" name="radioCWC" ng-value="false" ng-model="radioCWCStatus">&nbsp;No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <label for="chkConfirm">
+                                <input type="checkbox" id="chkConfirm" name="chkConfirm" ng-model="chkConfirmStatus" ng-click="checkedDocumentType('Confirmations',chkConfirmStatus)">&nbsp;Confirmations
+                            </label>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="radioYesConfirm">
+                                <input type="radio" id="radioYesConfirm" name="radioConfirm" ng-value="true" ng-model="radioConfirmStatus">&nbsp;Yes &nbsp;
+                            </label>
+                            <label for="radioNoConfirm">
+                                <input type="radio" id="radioNoConfirm" name="radioConfirm" ng-value="false" ng-model="radioConfirmStatus">&nbsp;No
+                            </label>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <label for="chkFaceSheet" ng-click="checkedDocumentType('Facesheets',chkFaceSheetStatus)">
+                                <input type="checkbox" id="chkFaceSheet" name="chkFaceSheet" ng-model="chkFaceSheetStatus" ng-click="checkedDocumentType('Facesheets',chkFaceSheetStatus)">&nbsp;Facesheets
+                            </label>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="radioYesFaceSheets">
+                                <input type="radio" id="radioYesFaceSheets" name="radioFaceSheets" ng-value="true" ng-model="radioFaceSheetStatus">&nbsp;Yes &nbsp;
+                            </label>
+                            <label for="radioNoFaceSheets">
+                                <input type="radio" id="radioNoFaceSheets" name="radioFaceSheets" ng-value="false" ng-model="radioFaceSheetStatus">&nbsp;No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <label for="chkRequest">
+                                <input type="checkbox" id="chkRequest" name="check" ng-model="chkRequestStatus" ng-click="checkedDocumentType('Requests',chkRequestStatus)">&nbsp;Requests
+                            </label>
+
+                        </div>
+                        <div class="col-lg-2">
+                            <label for="radioYesRequest">
+                                <input type="radio" id="radioYesRequest" name="radioRequest" ng-value="true" ng-model="radioRequestStatus">&nbsp;Yes &nbsp;
+                            </label>
+                            <label for="radioNoRequest">
+                                <input type="radio" id="radioNoRequest" name="radioRequest" ng-value="false" ng-model="radioRequestStatus">&nbsp;No
+                            </label>
+                        </div>
+                        <div class="col-lg-2" ng-show="chkRequestStatus">
+                            <select class="form-control" ng-model="requestOption">
+                                <option value="">-Select-</option>
+                                <option value="Revised">Revised</option>
+                                <option value="Duplicate">Duplicate</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <label for="chkAuthorization">
+                                <input type="checkbox" id="chkAuthorization" name="chkAuthorization" ng-model="chkAuthorizationStatus" ng-click="checkedDocumentType('Authorizations',chkAuthorizationStatus)">&nbsp;Authorizations
+                            </label>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="radioYesAuthorization">
+                                <input type="radio" id="radioYesAuthorization" name="radioAuthorization" ng-value="true" ng-model="radioAuthorizationStatus">&nbsp;Yes &nbsp;
+                            </label>
+                            <label for="radioNoAuthorization">
+                                <input type="radio" id="radioNoAuthorization" name="radioAuthorization" ng-value="false" ng-model="radioAuthorizationStatus">&nbsp;No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <label for="chkFaxCoverSheet">
+                                <input type="checkbox" id="chkFaxCoverSheet" name="chkFaxCoverSheet" ng-model="chkFaxCoverStatus" ng-click="checkedDocumentType('FaxCoverSheet',chkFaxCoverStatus)">&nbsp;FaxCoverSheet
+                            </label>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="radioYesFaxCoverSheet">
+                                <input type="radio" id="radioYesFaxCoverSheet" name="radioFaxCoverSheet" ng-value="true" ng-model="radioFaxCoverSheetStatus">&nbsp;Yes &nbsp;
+                            </label>
+                            <label for="radioNoFaxCoverSheet">
+                                <input type="radio" id="radioNoFaxCoverSheet" name="radioFaxCoverSheet" ng-value="false" ng-model="radioFaxCoverSheetStatus">&nbsp;No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pt-10" ng-show="showPrintDocQueue && !quickform.SelectedFormItem">
+                    <div class="col-lg-12">
+                        <b>Print Documents Queue</b>
+                    </div>
+                    <table class="table table-bordered tblPartDetailQuickFormPrint">
+                        <tr>
+                            <th class="tbldocHeader" width="55%">Document Path</th>
+                            <th class="tbldocHeader" width="44%">Document Name</th>
+                            <th class="tbldocHeader">Action</th>
+                        </tr>
+                        <tr ng-repeat="item in documentQueueList">
+                            <td>{{ item.DocumentPath }}</td>
+                            <td>{{ item.DocumentName }}</td>
+                            <td class="text-center"><a href="javascript:void(0)" data-toggle='tooltip' data-placement='left' tooltip  title="Delete" class="ico_btn cursor-pointer"><i class="icon-trash cursor-pointer" ng-click="deleteDocumentQueueClick(item.DocumentType,item.DocumentName,'documentList')"></i></a></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+            <div ng-show="isshowDocumentAttachmentSection">
+                <div class="col-lg-12">
+                    <b>Print Documents Queue</b>
+                </div>
+                <table class="table table-bordered ">
+                    <thead>
+                        <tr>
+                            <th class="tbldocHeader"></th>
+                            <th class="tbldocHeader">Document Name</th>
+                            <th class="tbldocHeader">Print</th>
+                            <th class="tbldocHeader">Fax</th>
+                            <th class="tbldocHeader">Email</th>
+                            <th class="tbldocHeader">Attachment</th>
+                            <th class="tbldocHeader"></th>
+                            <th class="tbldocHeader">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat-start="item in documentQueueAttachmentList">
+                            <td>
+                                <button ng-if="item.expanded" ng-click="item.expanded = false">-</button>
+                                <button ng-if="!item.expanded" ng-click="showAllDocument(item.DocumentName);item.expanded = true">+</button>
+                            </td>
+                            <td>{{ item.DocumentName }}</td>
+                            <td class="text-center"><input type="checkbox" ng-model="isPrintStatus" ng-click="chkprintStatusClick(isPrintStatus,item.DocumentName)" /> </td>
+                            <td class="text-center" ng-show="item.DocumentType=='Requests'"><input type="checkbox" ng-model="faxStatus" ng-checked="item.SendRequest=='0'?true:false" ng-click="selectDocAttachmentClick(item.DocumentType,'Fax',faxStatus,item.DocumentName)" /></td>
+                            <td class="text-center" ng-hide="item.DocumentType=='Requests'"><input type="checkbox" ng-model="faxStatus" ng-click="selectDocAttachmentClick(item.DocumentType,'Fax',faxStatus,item.DocumentName)" /></td>
+
+                            <td class="text-center" ng-show="item.DocumentType=='Requests'"><input type="checkbox" ng-model="emailStatus" ng-checked="item.SendRequest=='2'?true:false" ng-click="selectDocAttachmentClick(item.DocumentType,'Email',emailStatus,item.DocumentName)" /></td>
+                            <td class="text-center" ng-hide="item.DocumentType=='Requests'"><input type="checkbox" ng-model="emailStatus" ng-click="selectDocAttachmentClick(item.DocumentType,'Email',emailStatus,item.DocumentName)" /></td>
+                            <td class="text-center"><a href="javascript:void(0)" data-toggle='tooltip' data-placement='left' tooltip title="Attachment" ng-click="attachmentClick(item.DocumentName)"><i class="glyphicon glyphicon-file "></i></a></td>
+                            <td class="text-center"><a href="javascript:void(0)" data-toggle='tooltip' data-placement='left' tooltip title="Open Document" ng-click="PrintOpenDocument(item)">Open Document</a></td>
+                            <td class="text-center"><a href="javascript:void(0)" data-toggle='tooltip' data-placement='left' tooltip title="Delete" class="ico_btn cursor-pointer"><i class="icon-trash cursor-pointer" ng-click="deleteDocumentQueueClick(item.DocumentType,item.DocumentName,'documentAttachList')"></i></a></td>
+                        </tr>
+                        <tr ng-if="item.expanded" ng-repeat-end="">
+                            <td colspan="8">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="tbldocHeader">Document Name</th>
+                                            <th class="tbldocHeader text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="data in  item.docAttachList">
+                                            <td>{{data.FileName}}</td>
+                                            <td class="text-center"><a href="javascript:void(0)" data-toggle='tooltip' data-placement='left' tooltip title="Delete" class="ico_btn cursor-pointer"><i class="icon-trash cursor-pointer" ng-click="deleteAttachedDocuments(data.FileName,$index)"></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div ng-show="isshowDocumentTreeSection && !showAttorneyForm">
+                <div class="row">
+                    <div class="col-lg-6 table-bordered p-10 pnl-back-grey datatable-scroll mb-10 treetbl ">
+                        <h6 class="h6 heading-divided">Select a Document</h6>
+                        <div id="treeDoc" data-angular-treeview="false" style="max-height:200px; overflow-y:auto; padding:0px;"
+                             data-tree-id="mytree"
+                             data-tree-model="FormsAndDirectoryList"
+                             data-node-id="title"
+                             data-node-label="title"
+                             data-node-expanded="isExpanded"
+                             data-node-children="children"
+                             data-ng-model="selectedData"
+                             data-ng-click="selectNode(mytree.currentNode)"
+                             class="panel-body">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 table-bordered p-10 pnl-back-grey datatable-scroll mb-10 treetbl ">
+                        <h6 class="h6 heading-divided">Select a File</h6>
+                        <select class="form-control" ng-model="quickform.selectedDocFile" multiple="multiple">
+                            <option ng-repeat="item in selectedTreeFileList" value="{{item.Title}}">{{item.Title}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label for="chktreegenerateDoc">
+                            <input type="checkbox" id="chktreegenerateDoc" name="chktreegenerateDoc" ng-model="chkGenerateDoc">&nbsp;Generate documents in separate pages
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label for="chktreedontuploadDoc">
+                            <input type="checkbox" id="chktreedontuploadDoc" name="chktreedontuploadDoc" ng-model="chkdontuploadDoc">&nbsp;Do not upload document to document store
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-show="showAttorneyForm">
+                <div class="row  pt-10">
+                    <div class="col-lg-12">
+                        <b>Select Attorneys</b>
+                    </div>
+
+                </div>
+                <div class="row pt-10  pnl-back-grey" style="padding:10px;">
+                    <div class="table-responsive table-grid">
+                        <table class="table table-bordered ">
+                            <tr>
+                                <th class="tbldocHeader"></th>
+                                <th class="tbldocHeader">First Name</th>
+                                <th class="tbldocHeader">Last Name</th>
+                                <th class="tbldocHeader">Attorney Type</th>
+                                <th class="tbldocHeader">Represents</th>
+
+                            </tr>
+                            <tr ng-click="selectedAttorneyFormRowDocument($index)" ng-repeat="item in attorneyFormList">
+                                <td class="text-center"><input type="checkbox" id="chkatty-{{item.attIdwithoutSpace}}" ng-click="selectedAttorneyFormData($index,$event)"></td>
+                                <td>{{ item.FirstName }}</td>
+                                <td>{{ item.LastName }}</td>
+                                <td>{{ item.AttorneyType }}</td>
+                                <td>{{ item.Represent }}</td>
+                            </tr>
+                        </table>
+                        <div class="dataTables_info" ng-show="attorneyFormList.length>0">
+                            Showing 1 to {{attorneyFormList.length}} of {{attorneyFormList.length}} entries
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-lg-12">
+                <button type="button" class="btn btn-primary" ng-if="isshowDocumentSection && !showAttorneyForm" ng-click="backToPartClick()">Back</button>
+                <button type="button" class="btn btn-primary" ng-if="(isshowDocumentAttachmentSection || isshowDocumentTreeSection) &&!showAttorneyForm && !nextviaAtty" ng-click="backToDocumentClick()">Back</button>
+                <button type="button" class="btn btn-primary" ng-if="isshowDocumentTreeSection && !showAttorneyForm && nextviaAtty" ng-click="backtoAttyFormSelectionClick()">Back</button>
+                <button type="button" class="btn btn-primary" ng-if="showAttorneyForm" ng-click="backtoFormSelectionClick()">Back</button>
+                <button type="button" class="btn btn-primary" ng-show="isshowPartSection" ng-click="nextClick()">Next </button>
+                <button type="button" class="btn btn-primary" ng-disabled="documentQueueList.length==0" ng-show="isshowDocumentSection && !quickform.SelectedFormItem" ng-click="nexttoAttachment()">Next</button>
+                <button type="button" class="btn btn-primary" ng-show="showAttorneyFormListSection && !showAttorneyForm && !isshowDocumentTreeSection && !isshowPartSection" ng-click="nextToAttorneyForm()">Next</button>
+                <button type="button" class="btn btn-primary" ng-show="showDocumentTreeNext" ng-click="nextToDocumentTree()">Next</button>
+                <button type="button" class="btn btn-primary" ng-show="isshowDocumentAttachmentSection" ng-click="finishClick()">Finish</button>
+                <button type="button" class="btn btn-primary" ng-show="isshowDocumentTreeSection  && !showAttorneyForm" ng-click="finishTreeClick()">Finish</button>
+
+            </div>
+            <div class="col-lg-12">
+                <hr />
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeClick()">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div id="modal_QuickdocumentForm" class="modal fade" static-Include="./Templates/OrderDetail/QuickFormDocument.cshtml" ng-controller="QuickFormDocumentController">
+</div>
+
+
+<div id="modal_QuickdocumentAttachmentForm" class="modal fade" static-Include="./Templates/OrderDetail/QuickFormDocumentAttachment.cshtml" ng-controller="QuickFormDocumentAttachmentController">
+</div>
+
+<div id="modal_QuickAttorneyForm" class="modal fade" static-Include="./Templates/OrderDetail/QuickFormAttorneyList.cshtml" ng-controller="QuickFormAttorneyListController">
+</div>
+
+<style type="text/css">
+    .minheight {
+        min-height: 400px;
+    }
+
+
+    .tbldocHeader {
+        background-color: #f2f2f2
+    }
+
+    .treetbl {
+        height: 300px;
+        overflow: auto;
+    }
+
+    .tblPartDetailQuickForm {
+        max-height: 450px;
+        overflow-y: auto;
+        display: block;
+    }
+
+    .tblPartDetailQuickFormPrint {
+        max-height: 200px;
+        overflow-y: auto;
+        display: block;
+    }
+</style>

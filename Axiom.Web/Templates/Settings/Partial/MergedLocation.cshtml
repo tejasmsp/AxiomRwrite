@@ -1,0 +1,84 @@
+﻿<div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header bg-main">
+                <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                <h6 class="modal-title"><i class="icon-merge mr-5"></i>Merge Locations</h6>
+            </div>
+            <div class="modal-body">
+                <div class="modal-container">
+                    <div class="table-bordered p-10 pnl-back-grey">
+                        <div class="row mt-10 mb-10">
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">ID</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="LocID" class="form-control" maxlength="8" ng-model="MergedLocationSearchObj.LocID" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary pr-0">Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="Name" class="form-control" maxlength="300" ng-model="MergedLocationSearchObj.Name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">Phone No</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="PhoneNo" class="form-control" maxlength="12" ng-model="MergedLocationSearchObj.PhoneNo" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary pr-0">Department</label>
+                                <div class="col-sm-9">
+                                    <select name="Department" ng-model="MergedLocationSearchObj.Department" class="form-control" ng-options="item.Department as item.Department for item in Departmentlist">
+                                        <option value="">--Select--</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">Address</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="Address" class="form-control" maxlength="100" ng-model="MergedLocationSearchObj.Address" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary pr-0">City</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="City" class="form-control" maxlength="50" ng-model="MergedLocationSearchObj.City">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">State</label>
+                                <div class="col-sm-9">
+                                    <select ng-model="MergedLocationSearchObj.State" class="form-control" ng-options="item.StateId as item.StateName for item in Statelist">
+                                        <option value="">--Select--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-sm-9 col-sm-offset-3 text-right">
+                                    <button class="btn btn-primary mr-5" ng-click="MergedLocationSearch_Click()">Search</button>
+                                    <button class="btn btn-default" ng-click="ClearMergedLocationSearch_Click()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-20 mb-10">
+                        <b>Merge Location</b>(Code: {{parentLocationObj.LocID}} | Name:{{parentLocationObj.Name}} | Department: {{parentLocationObj.Department}})
+                    </div>
+                    <div class="table-responsive table-grid">
+                        <table class="table table-bordered table-framed" id="tblMergedLocation"></table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+</div>
+ 

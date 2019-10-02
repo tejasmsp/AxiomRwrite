@@ -1,0 +1,204 @@
+"!TRNS","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT","DOCNUM","TOPRINT","ADDR1","ADDR2","ADDR3"
+"!SPL","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT"
+"!ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","HNCP PC Michael M Cohen MD","-41.2800","157375","N","1 Belmont Avenue, GSB Building, Ste 620","","Bala Cynwyd, PA 19004-0000",
+"SPL","CHECK","08/02/2018","5060","HNCP PC Michael M Cohen MD","41.2800",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Stanley Chiropractic a/k/a Novi Spine Care Institute","-66.5100","157364","N","39915 Grand River Avenue","Suite 750","Novi, MI 48375-____",
+"SPL","CHECK","08/02/2018","5060","Stanley Chiropractic a/k/a Novi Spine Care Institute","66.5100",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Priority Health Managed Benefits","-136.7600","157362","N","Attn: Jaime Mosqueda","1231 East Beltline NE, MS 1340","Grand Rapids, MI 49525     ",
+"SPL","CHECK","08/02/2018","5060","Priority Health Managed Benefits","136.7600",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Michigan Orthopedic Institute, P.C.","-75.5900","157363","N","26025 Lahser Road","2nd Floor","Southfield, MI 48033-____",
+"SPL","CHECK","08/02/2018","5060","Michigan Orthopedic Institute, P.C.","75.5900",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Spectrum Health Systems, Radiology","-20.0000","157373","N","100 Michigan NE","Mail Code MC238, ATTN: Theresa or Jan","Grand Rapids, MI 49503-2560",
+"SPL","CHECK","08/02/2018","5060","Spectrum Health Systems, Radiology","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Comprehensive Pain Specialists","-119.4000","157365","N","4 Columbus Avenue","Suite 320","Bay City, MI 48708-0000",
+"SPL","CHECK","08/02/2018","5060","Comprehensive Pain Specialists","119.4000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Healthcare Technologies of Mid-Michigan, Inc.","-100.6200","157368","N","PO Box 315","","Swartz Creek, MI 48473     ",
+"SPL","CHECK","08/02/2018","5060","Healthcare Technologies of Mid-Michigan, Inc.","100.6200",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Horizon Physical Therapy & Rehabilitation","-73.5100","157372","N","3600 Miller Rd.","","Flint, MI 48503-____",
+"SPL","CHECK","08/02/2018","5060","Horizon Physical Therapy & Rehabilitation","73.5100",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Michigan Eye Institute","-61.0800","157371","N","4499 Town Center Parkway","","Flint, MI 48532-0000",
+"SPL","CHECK","08/02/2018","5060","Michigan Eye Institute","61.0800",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Social Security Administration","-136.0000","157367","N","611 East Genesee Avenue","","Saginaw, MI 48607     ",
+"SPL","CHECK","08/02/2018","5060","Social Security Administration","136.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Healthcare Technologies of Mid-Michigan, Inc.","-68.7000","157366","N","PO Box 315","","Swartz Creek, MI 48473     ",
+"SPL","CHECK","08/02/2018","5060","Healthcare Technologies of Mid-Michigan, Inc.","68.7000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","US Lab","-15.0000","157369","N","3194-A Airport Loop Drive","","Costa Mesa, CA 92626     ",
+"SPL","CHECK","08/02/2018","5060","US Lab","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Core Healing Bodyworks","-108.7500","157370","N","G-3277 Beecher Rd","","Flint, MI 48532-____",
+"SPL","CHECK","08/02/2018","5060","Core Healing Bodyworks","108.7500",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Community Healthcare System","-91.2400","157378","N","Health Information Management","4321 Fir St.","East Chicago, IN 46312-0000",
+"SPL","CHECK","08/02/2018","5060","Community Healthcare System","91.2400",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","McLaren Oakland","-10.0000","157374","N","Radiology Department","50 North Perry","Pontiac, MI 48342     ",
+"SPL","CHECK","08/02/2018","5060","McLaren Oakland","10.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Walgreens Company","-6.6800","157377","N","P.O. Box 4039","","Danville, IL 61834     ",
+"SPL","CHECK","08/02/2018","5060","Walgreens Company","6.6800",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Abelardo G. Contreras, M.D.","-30.0000","157317","N","PO Box 252375","","West Bloomfield, MI 48325-____",
+"SPL","CHECK","08/02/2018","5060","Abelardo G. Contreras, M.D.","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Russell Maggio","-33.7500","157350","N","Lattimore Primary Care Medicine, PLLC","560 White Spruce Blvd.","Rochester, NY 14623     ",
+"SPL","CHECK","08/02/2018","5060","Russell Maggio","33.7500",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Constellation Home Care","-486.0000","157349","N","6851 Jericho Turnpike","Suite 150","Syosset, NY 11791     ",
+"SPL","CHECK","08/02/2018","5060","Constellation Home Care","486.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Social Security Administration","-32.0000","157346","N","36630 Adair Road","","Dade City, FL 33525     ",
+"SPL","CHECK","08/02/2018","5060","Social Security Administration","32.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Social Security Administration","-32.0000","157345","N","36630 Adair Road","","Dade City, FL 33525     ",
+"SPL","CHECK","08/02/2018","5060","Social Security Administration","32.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Hamilton County EMS","-20.0000","157327","N","Attn: Andrea Brooks","317 Oak Street, Suite 316","Chattanooga, TN 37403-0000",
+"SPL","CHECK","08/02/2018","5060","Hamilton County EMS","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","David Gilboe & Associates","-41.5600","157330","N","23161 Greater Mack Avenue","","St. Clair Shores, MI 48080-000",
+"SPL","CHECK","08/02/2018","5060","David Gilboe & Associates","41.5600",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Oklahoma Department of Corrections","-9.3000","157321","N","PO Box 11400","","Oklahoma City, OK 73136     ",
+"SPL","CHECK","08/02/2018","5060","Oklahoma Department of Corrections","9.3000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","ClaimFox, Inc.","-156.2400","157322","N","Attn: Accounts Receivable","905 Marconi Avenue","Ronkonkoma, NY 11779     ",
+"SPL","CHECK","08/02/2018","5060","ClaimFox, Inc.","156.2400",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Eastern Suffolk BOCES","-11.7500","157328","N","201 Sunrise Highway","","Patchoque, NY 11772-____",
+"SPL","CHECK","08/02/2018","5060","Eastern Suffolk BOCES","11.7500",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Oklahoma Department of Corrections","-48.3000","157329","N","P.O. Box 11400","","Oklahoma City, OK 73136-____",
+"SPL","CHECK","08/02/2018","5060","Oklahoma Department of Corrections","48.3000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Kingsbrook Jewish Medical Center","-15.0000","157331","N","585 Schenectady Avenue","","Brooklyn, NY 11203-1822",
+"SPL","CHECK","08/02/2018","5060","Kingsbrook Jewish Medical Center","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Empire Blue Cross Blue Shield","-10.0000","157358","N","9 Pine Street 14th Floor","","New York, NY 10005     ",
+"SPL","CHECK","08/02/2018","5060","Empire Blue Cross Blue Shield","10.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Joseph Pharmacy ","-75.0000","157333","N","216 W 72nd St.","","New York, NY 10023-____",
+"SPL","CHECK","08/02/2018","5060","Joseph Pharmacy ","75.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Social Security Administration","-136.0000","157357","N","6100 Wabash Avenue","","Baltimore, MD 21215-____",
+"SPL","CHECK","08/02/2018","5060","Social Security Administration","136.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Troy Orthopedic Associates d/b/a Kirts Medical as Custodian of Records for","-23.0000","157356","N","1350 Kirts Blvd","Suite 160","Troy, MI 48084     ",
+"SPL","CHECK","08/02/2018","5060","Troy Orthopedic Associates d/b/a Kirts Medical as Custodian of Records for","23.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Advocate Medical Group","-27.9100","157360","N","900 Commerce Dr.","Suite 206","Oak Brook, IL 60523-0000",
+"SPL","CHECK","08/02/2018","5060","Advocate Medical Group","27.9100",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Neurosurgical Professionals, Ltd","-30.0000","157359","N","25 E. Washington Street","Suite 1122","Chicago, IL 60602-____",
+"SPL","CHECK","08/02/2018","5060","Neurosurgical Professionals, Ltd","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Auglaize Family Practice Center, LLC","-45.9500","157334","N","PO Box 359","1007 W. Auglaize St.","Wapakoneta, OH 45895     ",
+"SPL","CHECK","08/02/2018","5060","Auglaize Family Practice Center, LLC","45.9500",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Premier Physical Medicine & Rehabilitation, P.C.","-111.7500","157312","N","54 West Merrick Road","","Valley Stream, NY 11580-5719",
+"SPL","CHECK","08/02/2018","5060","Premier Physical Medicine & Rehabilitation, P.C.","111.7500",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Maria Baltarowich, DDS, PC","-50.0000","157313","N","4265 E. 10 Mile Rd.","","Warren, MI 48091-0000",
+"SPL","CHECK","08/02/2018","5060","Maria Baltarowich, DDS, PC","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Tel Ten Chiro","-83.1900","157352","N","24371 W 10 Mile Road","Ste. B","Southfield, MI 48033-2929",
+"SPL","CHECK","08/02/2018","5060","Tel Ten Chiro","83.1900",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Elmhurst Hospital Center","-20.0000","157318","N","79-01 Broadway","","Elmhurst, NY 11373-____",
+"SPL","CHECK","08/02/2018","5060","Elmhurst Hospital Center","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","MRI of Southfield","-25.0000","157323","N","29877 Telegraph Road","Suite L-11","Southfield, MI 48034-7657",
+"SPL","CHECK","08/02/2018","5060","MRI of Southfield","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Berkley Medical Center","-116.6200","157339","N","3345 Coolidge Hwy","","Berkley, MI 48072-____",
+"SPL","CHECK","08/02/2018","5060","Berkley Medical Center","116.6200",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","ENT Administrative Services","-50.0000","157341","N","17177 Laurel Park Dr., Suite 253","","Livonia, MI 48152-0000",
+"SPL","CHECK","08/02/2018","5060","ENT Administrative Services","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","BMO Cherryhill Internal Medicine","-85.0000","157355","N","2050 Haggerty","Suite 100","Canton, MI 48187     ",
+"SPL","CHECK","08/02/2018","5060","BMO Cherryhill Internal Medicine","85.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Henry Ford Hospital, Radiology IMC","-30.0000","157353","N","Henry Ford Health System","2799 West Grand Blvd.","Detroit, MI 48202-____",
+"SPL","CHECK","08/02/2018","5060","Henry Ford Hospital, Radiology IMC","30.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Henry Ford Hospital, Radiology IMC","-15.0000","157344","N","Henry Ford Health System","2799 West Grand Blvd.","Detroit, MI 48202-____",
+"SPL","CHECK","08/02/2018","5060","Henry Ford Hospital, Radiology IMC","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","McLaren-Macomb","-20.0000","157347","N","Attn:Mary Swartz-Diagnostic Imaging Dept","1000 Harrington Boulevard","Mount Clemens, MI 48043-0000",
+"SPL","CHECK","08/02/2018","5060","McLaren-Macomb","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","St. Francis Medical Center","-87.0000","157348","N","Attn: Radiology Dept. Patricia Di Pietro","601 Hamilton Ave.","Trenton, NJ 08629     ",
+"SPL","CHECK","08/02/2018","5060","St. Francis Medical Center","87.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Michigan Neurosurgical Institute","-52.3100","157335","N","4620 Genesys Parkway","","Grand Blanc , MI 48439-____",
+"SPL","CHECK","08/02/2018","5060","Michigan Neurosurgical Institute","52.3100",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Social Security Administration","-136.0000","157354","N","15250 E. 12 Mile Road","","Roseville, MI 48066-____",
+"SPL","CHECK","08/02/2018","5060","Social Security Administration","136.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Social Security Administration","-75.0000","157351","N","5210 Perry Robinson Circle","","Lansing, MI 48911-3878",
+"SPL","CHECK","08/02/2018","5060","Social Security Administration","75.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Social Security Administration","-75.0000","157343","N","19853 Outer Dr.","Suite 200","Dearborn, MI 48124-0000",
+"SPL","CHECK","08/02/2018","5060","Social Security Administration","75.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Social Security Administration","-32.0000","157342","N","19853 Outer Dr.","Suite 200","Dearborn, MI 48124-0000",
+"SPL","CHECK","08/02/2018","5060","Social Security Administration","32.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Social Security Administration","-75.0000","157361","N","1040 South Winter Street","Suite 2401","Adrian, MI 49221-____",
+"SPL","CHECK","08/02/2018","5060","Social Security Administration","75.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Raritan Bay Medical Center","-25.0000","157319","N","Diagnostic Imaging Dept.","530 New Brunswick Ave.","Perth Amboy, NJ 08861     ",
+"SPL","CHECK","08/02/2018","5060","Raritan Bay Medical Center","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Sparrow Hospital","-72.0000","157340","N","Radiology Department/Karen","1215 E. Michigan Ave.","Lansing, MI 48909     ",
+"SPL","CHECK","08/02/2018","5060","Sparrow Hospital","72.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","B. Rao Yadlapalli, M.D.","-50.0000","157314","N","520 Franklin Ave.","Suite 111","Garden City, NY 11530     ",
+"SPL","CHECK","08/02/2018","5060","B. Rao Yadlapalli, M.D.","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Providence Park Hospital Novi","-70.0000","157315","N","Diagnostic Imaging Dept/Film Room","47601 Grand River Ave","Novi, MI 48374-____",
+"SPL","CHECK","08/02/2018","5060","Providence Park Hospital Novi","70.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Howes Pharmacy","-15.0000","157316","N","39 Main st","","Goffstown, NH 03045-____",
+"SPL","CHECK","08/02/2018","5060","Howes Pharmacy","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","William Beaumont Hospital-Troy","-28.1600","157320","N","Attn: Radiology Release","44201 Dequindre Rd","Troy, MI 48085     ",
+"SPL","CHECK","08/02/2018","5060","William Beaumont Hospital-Troy","28.1600",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","William Beaumont Hospital-Troy","-32.5600","157324","N","Attn: Radiology Release","44201 Dequindre Rd","Troy, MI 48085     ",
+"SPL","CHECK","08/02/2018","5060","William Beaumont Hospital-Troy","32.5600",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Imaging Healthcare Specialists","-90.0000","157325","N","Attn: Kim Arnold","150 W. Washington St.","San Diego, CA 92103     ",
+"SPL","CHECK","08/02/2018","5060","Imaging Healthcare Specialists","90.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Radnet Film Library","-15.0000","157326","N","12619 Daphne Avenue","","Hawthorne, CA 90250-0000",
+"SPL","CHECK","08/02/2018","5060","Radnet Film Library","15.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Mount Sinai West","-75.0000","157332","N","1000 10th Ave.","Department of Radiology","New York, NY 10019-0000",
+"SPL","CHECK","08/02/2018","5060","Mount Sinai West","75.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","MidMichigan Medical Center-Midland","-16.7000","157336","N","HIM Dept. Attn: Tammy","PO Box 2129","Midland, MI 48641     ",
+"SPL","CHECK","08/02/2018","5060","MidMichigan Medical Center-Midland","16.7000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","MidMichigan Medical Center-Midland","-16.7000","157337","N","HIM Dept. Attn: Tammy","PO Box 2129","Midland, MI 48641     ",
+"SPL","CHECK","08/02/2018","5060","MidMichigan Medical Center-Midland","16.7000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Munson Healthcare Cadillac Hospital","-20.0000","157338","N","Pell Imaging Center","400 Hobart St","Cadillac, MI 49601-0000",
+"SPL","CHECK","08/02/2018","5060","Munson Healthcare Cadillac Hospital","20.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/02/2018","1011","Axiom Legal Logic","-221.5000","157376","N","PO Box 22127","","Lansing, MI 48909-9702",
+"SPL","CHECK","08/02/2018","5060","Axiom Legal Logic","221.5000",
+"ENDTRNS"

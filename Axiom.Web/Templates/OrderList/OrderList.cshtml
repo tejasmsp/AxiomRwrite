@@ -1,0 +1,142 @@
+﻿<style>
+    /*.navbar-nav > li > .dropdown-menu {
+        background-color:#e3e3e3 !important;
+        border-color:#e3e3e3 !important;
+    }*/
+</style>
+<div class="page-content" ng-controller="OrderListController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-bookmark mr-10 fs-19"></i>Orders</h4>
+            <div class="heading-elements">
+                <ul class="icons-list mt-0">
+                    <li ng-if="isSubModuleAccessibleToUser('Order', 'Orders', 'Add Order')"> <button ui-sref="EditOrder({OrderId:0,Step:1})" title="Add New Order" class="btn btn-primary pull-right"> <i class="icon-plus3 mr-5 font-10 mt-1"></i> Add Order </button></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-group panel-group-control panel-group-control-right">
+                        <div class="panel panel-white">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">
+                                    <a class="wd-full" data-toggle="collapse" href="#SearchPanel">
+                                        <i class="icon-search4 position-left"></i> <b class="text-bold pt-0" style="text-transform:uppercase;">Search</b>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="SearchPanel" class="panel-collapse in pnl-back-grey">
+                                <div class="panel-body form-horizontal">
+
+                                    <div class="row mb-10">
+                                        <div class="col-md-3">
+                                            <label class="control-label col-sm-3">Order# :</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="OrderID" ng-model="OrderSearchObj.OrderID" my-Enter="bindOrderList()" placeholder="Order No" class="form-control" maxlength="100">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label col-sm-3">Records Of:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="RecordsOf" ng-model="OrderSearchObj.RecordsOf" my-Enter="bindOrderList()" placeholder="Records Of" class="form-control" maxlength="300">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label col-sm-3">Attorney:</label>
+                                            <div class="col-sm-9">
+                                                @*<div class="ml-0" custom-select="item.AttyID as item.AttorneyName for item in Attorneylist | filter: $searchTerm" ng-model="OrderSearchObj.AttorneyID" ng-change="bindOrderList()" ></div>*@
+                                                <select name="Attorney" ng-model="OrderSearchObj.AttorneyID" class="form-control" ng-change="bindOrderList()" ng-options="item.AttyID as item.AttorneyName for item in Attorneylist | orderBy: 'AttorneyName'">
+                                                    <option value="">-- Select --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label col-sm-3">Caption:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" ng-model="OrderSearchObj.Caption" name="experience-position" placeholder="Caption" my-Enter="bindOrderList()" class="form-control" maxlength="300">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label col-sm-3">Cause #:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="Cause" ng-model="OrderSearchObj.Cause" placeholder="Cause No" my-Enter="bindOrderList()" class="form-control" maxlength="300">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label col-sm-3">Claim #:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="Cause" ng-model="OrderSearchObj.Claim" placeholder="Claim" my-Enter="bindOrderList()" class="form-control" maxlength="200">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label col-sm-3">Matter #:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="ClaimMatterNo" ng-model="OrderSearchObj.ClaimMatterNo" placeholder="Client Matter" my-Enter="bindOrderList()" class="form-control" maxlength="200">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="col-md-6 pl-0 pt-10">
+                                                <label class="control-label col-sm-7 pt-0">Hide Archived:</label>
+                                                <div class="col-sm-3">
+                                                    <input type="checkbox" data-ng-model="OrderSearchObj.HideArchived" data-ng-value="true" name="HideArchived" placeholder="HideArchived">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button class="btn btn-default pull-right " ng-click="clearSearchClick()" data-toggle='tooltip' data-placement='left' tooltip title="Clear Search Text">Clear</button>
+                                                <button class="btn btn-primary pull-right mr-5 " ng-click="bindOrderList()" data-toggle='tooltip' data-placement='left' tooltip title="Search">Search</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0" >
+                        <div class="table-responsive table-grid" >
+                            <table class="table table-bordered table-framed" id="tblOrder"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal_Part" class="modal fade" data-backdrop="static" data-keyboard="false" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" ng-controller="OrderPartController">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                    <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Part Detail</h6>
+                </div>
+                <div class="modal-body">
+                    <div static-include="./Templates/OrderDetail/OrderPart.cshtml"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                    <button type="button" class="btn btn-primary" ng-show="OrderPartList.length>0" ng-click="CancelPartSendEmail()" title="Cancel Order/Parts">Cancel Order/Parts</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="IsFromClientOrderList">
+        <div static-include="./Templates/OrderDetail/OrderDocument.cshtml" ng-controller="OrderDocumentController"></div>
+    </div>
+</div>
+<div ng-controller="Step6Controller">
+    <div id="modal_Add_Location" class="modal fade" data-backdrop="static" data-keyboard="false" static-include="./Templates/Order/AddLocationSteps.cshtml"></div>
+    <div id="modal_Location_Search" class="modal fade" data-backdrop="static" data-keyboard="false" static-include="./Templates/Order/SearchLocation.cshtml"></div>
+    <div id="modal_New_Location" class="modal fade" data-backdrop="static" data-keyboard="false" static-include="./Templates/Order/AddNewLocation.cshtml"></div>
+</div>
+

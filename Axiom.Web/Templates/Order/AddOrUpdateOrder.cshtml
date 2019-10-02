@@ -1,0 +1,342 @@
+﻿<script src="~/Scripts/forms/Wizard/stepy.min.js"></script>
+<script src="~/Scripts/forms/Wizard/select2.min.js"></script>
+<script src="~/Scripts/forms/Wizard/wizard_stepy.js"></script>
+@*<script src="~/scripts/forms/styling/switchery.min.js"></script>
+    <script src="~/scripts/forms/styling/switch.min.js"></script>
+    <script src="~/scripts/forms/styling/form_checkboxes_radios.js"></script>*@
+<script src="~/Scripts/forms/styling/components_modals.js"></script>
+@*<script src="~/Scripts/forms/Wizard/uploader_bootstrap.js"></script>*@
+@*<div class="page-title" style="padding: 2px 36px 25px 0!important">
+        <h4>
+            <i class="icon-arrow-left52 position-left"></i>
+            <span class="text-semibold">Order</span> - New Order
+
+        </h4>
+    </div>*@
+<!-- Wizard with validation -->
+<div class="panel panel-white panel-custom">
+    <div class="panel-heading" ng-controller="OrderMainController">
+        <h4 class="panel-title text-bold">
+            <i class="icon-bookmark  fs-19"></i>
+            New Order
+        </h4>
+        <div class="heading-elements">
+            <h6 class="panel-title text-bold right">
+                <button type="button" value="Download Form" title="Download Blank Forms" data-toggle='tooltip' data-placement='top' tooltip class="btn btn-primary pull-right" ng-click="DownloadForm()">
+                    <i class="icon-download7"></i>
+                    Download Form
+                </button>
+            </h6>
+            <ul class="icons-list"></ul>
+        </div>
+
+        <div id="modal_DownloadForms" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-download7 pull-left mr-10 fs-19" style="margin-top:2px;"></i><h6 class="modal-title">Download Blank Forms</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div class="row mb-5">
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-1.pdf" title="Academic Release Authorization Form">Academic Release Authorization Form</a>
+                                </label>
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-2.pdf" title="BCBSM Medical Release">BCBSM Medical Release</a>
+                                </label>
+                            </div>
+                            <div class="row mb-5">
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-3.pdf" title="BCBSM Psychotherapy Release">BCBSM Psychotherapy Release</a>
+                                </label>
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-4.pdf" title="Cleveland Clinic Foundation Release">Cleveland Clinic Foundation Release</a>
+                                </label>
+                            </div>
+                            <div class="row mb-5">
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-5.pdf" title="Detroit Medical Center Release">Detroit Medical Center Release</a>
+                                </label>
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-6.pdf" title="Employment Release Authorization Form">Employment Release Authorization Form</a>
+                                </label>
+                            </div>
+                            <div class="row mb-5">
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-7.pdf" title="Henry Ford Health System Authorization Form">Henry Ford Health System Authorization Form</a>
+                                </label>
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-8.pdf" title="IRS Tax Form Release Authorization">IRS Tax Form Release Authorization</a>
+                                </label>
+                            </div>
+                            <div class="row mb-5">
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-9.pdf" title="Medical Release Authorization Form">Medical Release Authorization Form</a>
+                                </label>
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-10.pdf" title="Medical Release Allowing Oral Communication">Medical Release Allowing Oral Communication</a>
+                                </label>
+                            </div>
+
+                            <div class="row mb-5">
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-11.pdf" title="MI Tax Form Release Authorization Form">MI Tax Form Release Authorization Form</a>
+                                </label>
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-12.pdf" title="Oakwood Health System Release">Oakwood Health System Release</a>
+                                </label>
+                            </div>
+
+                            <div class="row mb-5">
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-13.pdf" title="St Joseph Mercy Behavioral Services Release">St Joseph Mercy Behavioral Services Release</a>
+                                </label>
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-14.pdf" title="St Mary’s Mercy Medical Center Release">St Mary’s Mercy Medical Center Release</a>
+                                </label>
+                            </div>
+                            <div class="row mb-5">
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/Form-15.pdf" title="Social Security Records Release Form">Social Security Records Release Form</a>
+                                </label>
+                                <label class="col-sm-6 control-label lbl-secondary text-size-large">
+                                    <a target="_blank" href="https://axiomcopy.com//wp-content/uploads/2019/02/form-16.pdf" title="Walgreens Authorization">Walgreens Authorization</a>
+                                </label>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer mt-10">
+                            <button type="button" class="btn btn-primary" title="Close" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div ng-controller="Step1Controller" class="stepy-validation" >
+        <fieldset title="1" class="OrderStepDiv">
+            <legend class="text-semibold">Ordering Attorney</legend>
+            <div static-include="./Templates/Order/Step1.cshtml" ng-if="CurrentStep==Enum.OrderWizardStep.Step1" ng-init="InitMethodsForStep1()">  </div>
+        </fieldset>
+
+        <fieldset title="2" class="OrderStepDiv">
+            <legend class="text-semibold">Billing</legend>
+            <div static-include="./Templates/Order/Step2.cshtml" ng-controller="Step2Controller" ng-if="CurrentStep==Enum.OrderWizardStep.Step2"></div>
+        </fieldset>
+
+        <fieldset title="3" class="OrderStepDiv">
+            <legend class="text-semibold">Records Of</legend>
+            <div static-include="./Templates/Order/Step3.cshtml" ng-controller="Step3Controller" ng-if="CurrentStep==Enum.OrderWizardStep.Step3"> </div>
+        </fieldset>
+
+        <fieldset title="4" class="OrderStepDiv">
+            <legend class="text-semibold">Case</legend>
+            <div static-include="./Templates/Order/Step4.cshtml" ng-controller="Step4Controller" ng-if="CurrentStep==Enum.OrderWizardStep.Step4"> </div>
+        </fieldset>
+
+        <fieldset title="5" class="OrderStepDiv">
+            <legend class="text-semibold">Attorney Of Record</legend>
+            <div static-include="./Templates/Order/Step5.cshtml" ng-controller="Step5Controller" ng-if="CurrentStep==Enum.OrderWizardStep.Step5"></div>
+        </fieldset>
+
+        <fieldset title="6" class="OrderStepDiv">
+            <legend class="text-semibold">Locations</legend>
+            <div static-include="./Templates/Order/Step6.cshtml" ng-controller="Step6Controller" ng-if="CurrentStep==Enum.OrderWizardStep.Step6"></div>
+        </fieldset>
+
+        <fieldset title="7" class="OrderStepDiv">
+            <legend class="text-semibold">Documents</legend>
+            <div static-include="./Templates/Order/Step7.cshtml" ng-controller="Step7Controller" ng-if="CurrentStep==Enum.OrderWizardStep.Step7"></div>
+
+        </fieldset>
+
+        <fieldset title="8" class="OrderStepDiv">
+            <legend class="text-semibold">Summary</legend>
+            <div class="panel panel-flat " ng-if="PageMode!=Enum.PageMode.ViewOnly">
+                <div class="panel-heading">
+                    <p class="text-center"> To submit your order for processing please click the Submit button.</p>
+                    <p class="text-center">If you would like to view a printable summary of this order, please click below. Clicking this link will open a new window and not affect this order.</p>
+                    <p class="text-center"> Summary</p>
+                    <p class="text-center">Once submitted, your order will be processed and an email will be sent upon completion.</p>
+                    <p class="text-center">You will not be able to see this order in your search results until after it has been processed.</p>
+                    <p class="text-center text-bold"> ** Your order will not be completed until you click the Submit button & It remains as the draft mode. Once you submit the order, later on, you can't change it.</p>
+                </div>
+                <div class="panel-body orderStep8pnlHeight">
+
+                </div>
+                <button type="button" value="Submit To Review" class="btn btn-primary pull-right mt-10" ng-click="SubmitOrder()">Submit To Review</button>
+            </div>
+            <div class="panel panel-flat" ng-if="PageMode==Enum.PageMode.ViewOnly">
+                <div class="panel-heading">
+                    <p class="text-center text-bold">This order has been submitted.</p>
+                    <p class="text-center">If you would like to modify any detail, kindly contact adminstatror(xxxx).</p>
+                </div>
+                <div class="panel-body">
+                    <button type="button" value="Back" class="btn btn-primary pull-right" ng-click="Back()">Back</button>
+                </div>
+            </div>
+        </fieldset>
+
+    </div>
+</div>
+
+
+<div id="modal_Add_Canvass" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-main">
+                <h5 class="modal-title">Medical Records Canvass Request</h5>
+            </div>
+            <form action="#" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="col-md-9">
+                                        <label>
+                                            <input type="radio" name="experience-position" placeholder="Company name" class="control-success">
+                                            Select Basic Package (50 mile radius with a maximum of 15 results per canvass) - $135
+                                        </label>
+
+                                    </div>
+                                    <div class="col-md-9">
+                                        <label class="col-md-3">Choose only one:</label>
+                                        <div class="col-md-9">
+                                            <select name="position" data-placeholder="Select" class="select">
+                                                <option></option>
+                                                <optgroup label="Developer Relations">
+                                                    <option value="1">Sales Engineer</option>
+                                                    <option value="2">Ads Solutions Consultant</option>
+                                                    <option value="3">Technical Solutions Consultant</option>
+                                                    <option value="4">Business Intern</option>
+                                                </optgroup>
+                                                <optgroup label="Engineering &amp; Design">
+                                                    <option value="5">Interaction Designer</option>
+                                                    <option value="6">Technical Program Manager</option>
+                                                    <option value="7">Software Engineer</option>
+                                                    <option value="8">Information Security Engineer</option>
+                                                    <option value="9">Security Engineer</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="col-md-9">
+                                        <label>
+                                            <input type="radio" name="experience-position" placeholder="Company name" class="control-success">
+                                            Select Basic Package (50 mile radius with a maximum of 15 results per canvass) - $135
+                                        </label>
+
+                                    </div>
+                                    <div class="col-md-9">
+                                        <label class="col-md-3">Choose any three:</label>
+                                        <div class="col-md-9">
+                                            <select name="position" data-placeholder="Select" class="select">
+                                                <option></option>
+                                                <optgroup label="Developer Relations">
+                                                    <option value="1">Sales Engineer</option>
+                                                    <option value="2">Ads Solutions Consultant</option>
+                                                    <option value="3">Technical Solutions Consultant</option>
+                                                    <option value="4">Business Intern</option>
+                                                </optgroup>
+                                                <optgroup label="Engineering &amp; Design">
+                                                    <option value="5">Interaction Designer</option>
+                                                    <option value="6">Technical Program Manager</option>
+                                                    <option value="7">Software Engineer</option>
+                                                    <option value="8">Information Security Engineer</option>
+                                                    <option value="9">Security Engineer</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="col-md-9">
+                                        <label>
+                                            <input type="radio" name="experience-position" placeholder="Company name" class="control-success">
+                                            Select Basic Package (50 mile radius with a maximum of 15 results per canvass) - $135
+                                        </label>
+
+                                    </div>
+                                    <div class="col-md-9">
+                                        <label class="col-md-3">Choose only five:</label>
+                                        <div class="col-md-9">
+                                            <select name="position" data-placeholder="Select" class="select">
+                                                <option></option>
+                                                <optgroup label="Developer Relations">
+                                                    <option value="1">Sales Engineer</option>
+                                                    <option value="2">Ads Solutions Consultant</option>
+                                                    <option value="3">Technical Solutions Consultant</option>
+                                                    <option value="4">Business Intern</option>
+                                                </optgroup>
+                                                <optgroup label="Engineering &amp; Design">
+                                                    <option value="5">Interaction Designer</option>
+                                                    <option value="6">Technical Program Manager</option>
+                                                    <option value="7">Software Engineer</option>
+                                                    <option value="8">Information Security Engineer</option>
+                                                    <option value="9">Security Engineer</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <h5>
+                                        Canvass is best performed with a signed general HIPAA authorization form provided by claimant. Axiom requires claimant legal name, DOB, address of current residence, any known aliases.
+                                    </h5>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+
+                                    <label class="control-label col-md-2">Zip Code:</label>
+                                    <div class="col-md-4">
+                                        <input type="text" name="experience-position" placeholder="Company name" class="form-control">
+                                    </div>
+
+                                    <label class="control-label col-md-5">
+                                        Upload Authorization:
+                                        <button type="button" class="btn btn-primary">Add File</button>
+                                    </label>
+                                    @*<div class="col-md-3">*@
+
+                                    @*<input type="file" class="file-input-extensions" title="Add File">*@
+                                    @*</div>*@
+
+                                    @*<div class="col-md-6">
+                                        <label class="control-label col-sm-3">Firm:</label>
+                                        <div class="col-sm-3">
+                                        <input type="text" name="experience-position" placeholder="Company name" class="form-control">
+                                        </div>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit form</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- /wizard with validation -->

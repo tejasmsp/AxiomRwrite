@@ -1,0 +1,167 @@
+﻿<a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
+
+<div class="page-content" ng-controller="HomeController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-home4 mr-10 fs-19"></i>Daily Announcements</h4>
+            <div class="heading-elements mt-27" ng-if="isSubModuleAccessibleToUser('Dashboard', 'Daily Announcements', 'Add Announcements')">
+                <h6 class="panel-title text-bold right">
+                    <button type="button" value="Download Form" title="Add Announcements" class="btn btn-primary pull-right" ng-click="GetAnnouncementDetail()">
+                        <i class="icon-plus2"></i>
+                        Add Announcements
+                    </button>
+                </h6>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12 no-padding pb-10">
+                <div class="panel panel-default" ng-show="announcement!='' && announcement!=null && announcement!=undefined">
+                    <div class="panel-body pl-20 pb-5 pt-5">
+                        <h4 ng-bind="announcement"></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding">
+                <div class="table-responsive table-grid">
+                    <table class="table table-bordered table-framed" id="tblActionStatus"></table>
+                    <div class="panel-group panel-group-control" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div ng-repeat="item in DataList | unique:'Department':true">
+                            <div class="panel panel-default mb-10">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h5 class="panel-title cursor-pointer" >
+                                        <a role="button" class="collapsed" data-parent="#accordion" data-toggle="collapse" data-target="#collapseOne{{$index}}"  aria-controls="collapseOne{{$index}}">
+                                            {{item.Department | uppercase}}
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseOne{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <table class="table table-bordered table-framed text-center tblDailyAnnouncement">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="1" style="width:16% !important;">{{item.Department | uppercase}}</th>
+                                                    <th colspan="2" style="width:14% !important;" class="text-center">Oldest</th>
+                                                    <th colspan="2" style="width:14% !important;" class="text-center">Two Weeks +</th>
+                                                    <th colspan="2" style="width:14% !important;" class="text-center">One Week +</th>
+                                                    <th colspan="2" style="width:14% !important;" class="text-center">Two Days +</th>
+                                                    <th colspan="2" style="width:14% !important;" class="text-center">Current</th>
+                                                    <th colspan="2" style="width:14% !important;" class="text-center">Total</th>
+
+                                                </tr>
+                                            </thead>
+
+                                            <tr ng-repeat="Department in DataList |  filter:{ Department: item.Department }" ng-init="twoweekrush=0;twoweek=0;oneweekrush=0;oneweek=0;twodayrush=0;twoday=0;currentrush=0;current=0;totalrush=0;total = 0">
+                                                <td style="width:16% !important;"><a ng-click="SearchOrder(Enum.DailyDashboardSearch.AccountExecutive,Department.LastName +', '+ Department.FirstName,null,Department)" ng-bind="Department.LastName +' '+ Department.FirstName"></a></td>
+                                                <td style="width:7% !important;"><a ng-click="SearchOrder(Enum.DailyDashboardSearch.Date,(Department.OldestDateRush | date:GlobalDateFormat),1,Department)" ng-bind="Department.OldestDateRush | date:GlobalDateFormat"></a></td>
+                                                <td style="width:7% !important;"><a ng-click="SearchOrder(Enum.DailyDashboardSearch.Date,(Department.OldestDate | date:GlobalDateFormat),0,Department)" ng-bind="Department.OldestDate | date:GlobalDateFormat"></a></td>
+                                                <td style="width:7% !important;" ng-init="$parent.twoweekrush = $parent.twoweekrush + Department.TwoWeeksRush">
+                                                    <a ng-click="SearchOrder(Enum.DailyDashboardSearch.Week,2,1,Department)" ng-bind="Department.TwoWeeksRush"></a>
+                                                </td>
+                                                <td style="width:7% !important;"  ng-init="$parent.twoweek = $parent.twoweek + Department.TwoWeeks">
+                                                    <a ng-click="SearchOrder(Enum.DailyDashboardSearch.Week,2,0,Department)" ng-bind="Department.TwoWeeks"></a>
+                                                </td>
+                                                <td style="width:7% !important;"  ng-init="$parent.oneweekrush = $parent.oneweekrush + Department.OneWeekRush">
+                                                    <a ng-click="SearchOrder(Enum.DailyDashboardSearch.Week,1,1,Department)" ng-bind="Department.OneWeekRush"></a>
+                                                </td>
+                                                <td style="width:7% !important;"  ng-init="$parent.oneweek = $parent.oneweek + Department.OneWeek">
+                                                    <a ng-click="SearchOrder(Enum.DailyDashboardSearch.Week,1,0,Department)" ng-bind="Department.OneWeek"></a>
+                                                </td>
+                                                <td style="width:7% !important;"  ng-init="$parent.twodayrush = $parent.twodayrush + Department.TwoDaysRush">
+                                                    <a ng-click="SearchOrder(Enum.DailyDashboardSearch.Day,2,1,Department)" ng-bind="Department.TwoDaysRush"></a>
+                                                </td>
+                                                <td style="width:7% !important;"  ng-init="$parent.twoday = $parent.twoday + Department.TwoDays">
+                                                    <a ng-click="SearchOrder(Enum.DailyDashboardSearch.Day,2,0,Department)" ng-bind="Department.TwoDays"></a>
+                                                </td>
+                                                <td style="width:7% !important;"  ng-init="$parent.currentrush = $parent.currentrush + Department.CurrentRush">
+                                                    <a ng-click="SearchOrder(Enum.DailyDashboardSearch.Day,0,1,Department)" ng-bind="Department.CurrentRush"></a>
+                                                </td>
+                                                <td style="width:7% !important;"  ng-init="$parent.current = $parent.current + Department.Current">
+                                                    <a ng-click="SearchOrder(Enum.DailyDashboardSearch.Day,0,0,Department)" ng-bind="Department.Current"></a>
+                                                </td>
+                                                <td style="width:7% !important;"  ng-init="$parent.totalrush = $parent.totalrush + Department.TotalRush">
+                                                    <a ng-click="SearchOrder(Enum.DailyDashboardSearch.Total,0,1,Department)" ng-bind="Department.TotalRush"></a>
+                                                </td>
+                                                <td style="width:7% !important;"  ng-init="$parent.total = $parent.total + Department.Total">
+                                                    <a ng-click="SearchOrder(Enum.DailyDashboardSearch.Total,0,0,Department)" ng-bind="Department.Total"></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:16% !important;">Total</td>
+                                                <td style="width:7% !important;"></td>
+                                                <td style="width:7% !important;"></td>
+                                                <td style="width:7% !important;">{{twoweekrush}}</td>
+                                                <td style="width:7% !important;">{{twoweek}}</td>
+                                                <td style="width:7% !important;">{{oneweekrush}}</td>
+                                                <td style="width:7% !important;">{{oneweek}}</td>
+                                                <td style="width:7% !important;">{{twodayrush}}</td>
+                                                <td style="width:7% !important;">{{twoday}}</td>
+                                                <td style="width:7% !important;">{{currentrush}}</td>
+                                                <td style="width:7% !important;">{{current}}</td>
+                                                <td style="width:7% !important;">{{totalrush}}</td>
+                                                <td style="width:7% !important;">{{total}} </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Primary modal -->
+    <div id="modal_Announcement" class="modal fade">
+        <form class="form-horizontal" name="Announcementform" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Announcement</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Announcementform.$submitted && !Announcementform.$valid)">
+                                    <ul ng-show="(Announcementform.$submitted && (!Announcementform.$valid))">
+                                        <li ng-show="Announcementform.Announcement.$error.required">Announcement is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary required">Announcement</label>
+                                <div class="col-sm-9">
+                                    <textarea name="Announcement" rows="6" ng-model="strAnnouncement" class="form-control" required="required"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrUpdateAnnouncement(Announcementform)" class="btn btn-primary" title="Save">Save</button>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(window).scroll(function () {
+        if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
+            $('#return-to-top').fadeIn(200);    // Fade in the arrow
+        } else {
+            $('#return-to-top').fadeOut(200);   // Else fade out the arrow
+        }
+    });
+    $('#return-to-top').click(function () {      // When arrow is clicked
+        $('body,html').animate({
+            scrollTop: 0                       // Scroll to top of body
+        }, 500);
+    });
+</script>
+

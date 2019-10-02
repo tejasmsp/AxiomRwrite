@@ -1,0 +1,636 @@
+﻿<div class="page-content cls-base" ng-controller="FirmAddUpdateController" ng-init="createDatePicker()">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold">
+                <i class="icon-file-text2 mr-10 fs-19"></i>
+                {{isEdit? 'Edit Firm': 'Add Firm'  }}
+            </h4>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" name="Firmform" novalidate>
+                <div class="row">
+                    <div id="messages">
+                        <div class="alert alert-danger alert-dismissible validationErrors" ng-show="((Firmform.$submitted || EnableGenerteCodeValidation) && !Firmform.$valid)  ">
+                            <ul>
+                                <li ng-show="Firmform.FirmId.$error.required && !EnableGenerteCodeValidation">Firm ID is required.</li>
+                                <li ng-show="Firmform.FirmName.$error.required">Firm Name is required.</li>
+                                <li ng-show="Firmform.City.$error.required">City is required.</li>
+                                <li ng-show="Firmform.Email.$error.email">Invalid Email.</li>
+                                @*<li ng-show="Firmform.Email.$valid">Please enter valid email.</li>*@
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary required pr-0">Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="FirmName" class="form-control" maxlength="80" ng-model="FirmObj.FirmName" ng-change="FirmNameChange()" required />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary required pr-0">Firm ID</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="FirmId" class="form-control" maxlength="8" ng-model="FirmObj.FirmID" readonly required="required">
+                        </div>
+                        <div class="col-sm-5" ng-if="!isEdit">
+                            <input class="btn btn-group-sm" type="button" ng-click="GenerateNewFirmCode(Firmform)" value="Generate" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Street 1</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="Street1" class="form-control" maxlength="40" ng-model="FirmObj.Street1">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Street 2</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="Street2" class="form-control" maxlength="40" ng-model="FirmObj.Street2" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary required">City</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="City" class="form-control" maxlength="24" ng-model="FirmObj.City" required="required" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">State</label>
+                        <div class="col-sm-9">
+                            <select name="State" ng-model="FirmObj.State" class="form-control" ng-options="item.StateId as item.StateName for item in Statelist">
+                                <option value="">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Zip</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="Zip" class="form-control" maxlength="10" ng-model="FirmObj.Zip" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" name="Email" class="form-control" maxlength="200" ng-model="FirmObj.Email" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Phone No.</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="AreaCode1" class="form-control" integer-Only="" maxlength="4" ng-model="FirmObj.AreaCode1" />
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" name="PhoneNo" class="form-control" integer-Only="" maxlength="12" ng-model="FirmObj.PhoneNo" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Fax No.</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="AreaCode2" class="form-control" integer-Only="" maxlength="4" ng-model="FirmObj.AreaCode2" />
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" name="FaxNo" class="form-control" integer-Only="" maxlength="12" ng-model="FirmObj.FaxNo" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Firm Type</label>
+                        <div class="col-sm-9">
+                            <select name="Dept" ng-model="FirmObj.FirmType" class="form-control" ng-options="item.Code as item.Descr for item in FirmTypelist">
+                                <option value="">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-5 pt-0">Assistant / Contact</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" ng-model="FirmObj.AssitantContact" integer-Only="" maxlength="8">
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    @*<div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-5 pt-0">Member Of</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" ng-model="FirmObj.MemberOf" name="MemberOf" maxlength="8">
+                        </div>
+                    </div>*@
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-5 pt-0">Company</label>
+                        <div class="col-sm-9">
+                            <select name="CompanyID" ng-model="FirmObj.CompanyID" class="form-control" ng-options="item.CompID as item.CompName for item in Companylist">
+                                <option value="">--Select--</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10" ng-if="isEdit">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-5 pt-0">Member Of ID</label>
+                        <div class="col-sm-9">
+                            <button class="btn btn-lg" style="padding-right:30px;" type="button" ng-click="ManageMember()" title="Add Member Of ID"><i class="icon-merge"></i>Member Of ID</button>
+                        </div>
+                        @*<div class="col-sm-9">
+                <input type="text" class="form-control" name="MemberOfID" maxlength="8">
+            </div>*@
+                        @*<select name="CompanyID" ng-model="FirmObj.MemberOf" class="form-control" ng-options="item.CompID as item.CompName for item in MemberOflist">
+                <option value="">--Select--</option>
+            </select>*@
+
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Doc Cap for Records</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="DocCapForRecords" class="form-control" integer-Only="" maxlength="10" ng-model="FirmObj.DocCapForRecords" />
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="row  mb-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pt-0">Associated Firm</label>
+                        <div class="col-sm-9">
+                            <button class="btn btn-lg" type="button" ng-click="OpenAssociatedFirmPopup()" title="Add Associated Firm"><i class="icon-merge"></i>Associated Firm</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Doc Cap for Films</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="DocCapForFilms" class="form-control" maxlength="10" integer-Only="" ng-model="FirmObj.DocCapForFilms" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10 mt-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Document Production Preference</label>
+                        <div class="col-sm-9">
+                            <div class="bx-grey pb-5 pr-5 col-sm-12" style="min-height:175px;">
+                                <ul class="borderless pt-0 pl-0">
+                                    <li class="li-checkbox col-sm-4 pl-0" ng-repeat="item in DocumentProdctionOptions">
+                                        <label class="lbl-checkbox bg-white">
+                                            <input name="documentProdctionOptionsgrp" type="radio" ng-click="RadioCheckChange(item, DocumentProdctionOptions)" data-ng-model="item.IsChecked" data-ng-value="true">{{item.Title}}
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            @*<ul class="borderless pl-0">
+                                    <li class="list-group-item displayInline pl-0" ng-repeat="item in DocumentProdctionOptions"><input name="documentProdctionOptionsgrp" type="radio" ng-click="RadioCheckChange(item, DocumentProdctionOptions)" data-ng-model="item.IsChecked" data-ng-value="true"> {{item.Titile}}</li>
+                                </ul>*@
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row no-margin mb-20">
+                            <label class="col-sm-3 control-label lbl-primary pr-5 pt-0"></label>
+                            <div class="col-sm-9">
+                                <div class="bx-grey pb-5 pr-5 col-sm-12">
+                                    <label class="col-sm-6 pl-0 pr-0 pb-0 mb-0">
+                                        <label class="lbl-checkbox bg-white">
+                                            <input name="OwnOrganization" type="checkbox" ng-click="OpenAddForms($event,1)" data-ng-model="FirmObj.OwnOrganization" data-ng-value="true">Have Own Authorization
+                                        </label>
+                                    </label>
+                                    <label class="col-sm-6 mb-0 pb-0">
+                                        <label class="lbl-checkbox bg-white">
+                                            <input name="OwnFacesheet" type="checkbox" ng-click="OpenAddForms($event,2)" data-ng-model="FirmObj.OwnFacesheet" data-ng-value="true"> Have Own Face Sheet
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row no-margin mb-20">
+                            <label class="col-sm-3 control-label lbl-primary pr-5 pt-0"></label>
+                            <div class="col-sm-9">
+                                <div class="bx-grey pb-5 pr-5 col-sm-12">
+                                    <label class="col-sm-6 pl-0 pr-0 pb-0 mb-0">
+                                        <label class="lbl-checkbox bg-white">
+                                            <input name="LinqRequest" type="checkbox" data-ng-model="FirmObj.LinqRequest" data-ng-value="true">Location Specific Requests
+                                        </label>
+                                    </label>
+                                    <label class="col-sm-6 mb-0 pb-0">
+                                        <label class="lbl-checkbox bg-white">
+                                            <input name="MonthlyBilling" ng-change="MonthlyBilling()" type="checkbox" data-ng-model="FirmObj.MonthlyBilling" data-ng-value="true">Monthly Billing
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row no-margin mb-20">
+                                <label class="col-sm-3 control-label lbl-primary pr-5 pt-0">Request Sent</label>
+                                <div class="col-sm-9">
+                                    <div class="bx-grey pb-5 pr-5 col-sm-12">
+                                        <ul class="borderless pt-0 pl-0">
+                                            <li class="li-checkbox col-sm-4 pl-0" ng-repeat="item in RequestSentOptions">
+                                                <label class="lbl-checkbox bg-white"><input name="RequestSentgrp" type="radio" data-ng-model="item.IsChecked" ng-click="RadioCheckChange(item, RequestSentOptions)" data-ng-value="true"> {{item.Titile}}</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row no-margin">
+                                <label class="col-sm-3 control-label lbl-primary pr-5 pt-0">Location Options</label>
+                                <div class="col-sm-9">
+                                    <div class="bx-grey pb-5 pr-5 col-sm-12">
+                                        <label class="col-sm-6 pl-0 pr-0 pb-0 mb-0"><label class="lbl-checkbox bg-white"> <input ng-model="LocationObj.IsDisable" name="IsDisable" type="checkbox"> Disable This Location</label></label>
+                                        <label class="col-sm-6 mb-0 pb-0"><label class="lbl-checkbox bg-white"><input ng-model="LocationObj.isCommonLocation" name="isCommonLocation" type="checkbox"> Common Location</label></label>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                    </div>
+                </div>
+                @*<div class="row  mb-10">
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">Have Own Authorization</label>
+                            <div class="col-sm-9">
+                                <input name="OwnOrganization" type="checkbox" data-ng-model="FirmObj.OwnOrganization" data-ng-value="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">Have Own Face Sheet</label>
+                            <div class="col-sm-9">
+                                <input name="OwnFacesheet" type="checkbox" data-ng-model="FirmObj.OwnFacesheet" data-ng-value="true">
+                            </div>
+                        </div>
+                    </div>*@
+                @*<div class="row  mb-10">
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">Location Specific Requests</label>
+                            <div class="col-sm-9">
+                                <input name="LinqRequest" type="checkbox" data-ng-model="FirmObj.LinqRequest" data-ng-value="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">Monthly Billing</label>
+                            <div class="col-sm-9">
+                                <input name="MonthlyBilling" type="checkbox" data-ng-model="FirmObj.MonthlyBilling" data-ng-value="true">
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="row">
+                    @*<div class="col-sm-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-5 pt-0">Preferred Contact</label>
+                            <div class="col-sm-9">
+                                <div class="bx-grey pb-5 pr-5 col-sm-12">
+                                    <label class="col-sm-6 pl-0 pr-0 pb-0 mb-0"><label class="lbl-checkbox bg-white"> <input id="chkAttorney" name="checkedContact" value="0" type="checkbox">Attorney</label></label>
+                                    <label class="col-sm-6 mb-0 pb-0"><label class="lbl-checkbox bg-white"><input id="chkContacts" name="checkedContact" value="1" type="checkbox">Contact</label></label>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pt-0">Preferred Contact</label>
+                        <div class="col-sm-9 pr-0">
+                            <ul class="borderless pt-0 pl-0">
+                                <li class="li-checkbox col-sm-6 pl-0">
+                                    <label class="lbl-checkbox">
+                                        <input id="chkAttorney" name="checkedContact" value="0" type="checkbox">Attorney
+                                    </label>
+                                </li>
+                                <li class="li-checkbox col-sm-6 pl-0">
+                                    <label class="lbl-checkbox">
+                                        <input id="chkContacts" name="checkedContact" value="1" type="checkbox">Contact
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">Preferred Contact</label>
+                            <div class="col-sm-9">
+                                <span class="fieldBoxXL"> <input id="chkAttorney" name="checkedContact" value="0" type="checkbox">Attorney</span>
+                                <span class="fieldBoxXL"><input id="chkContacts" name="checkedContact" value="1" type="checkbox">Contact</span>
+                            </div>
+                        </div>*@
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Client Of</label>
+                        <div class="col-sm-2 display-inline-flex">
+                            <input name="ClientOf" type="text" class="form-control" data-ng-model="FirmObj.ClientOf" readonly="readonly">
+                            <a class="ico_btn cursor-pointer" ng-click="ShowEmployeePopup('client')" title="Search Employee"> <i class="icon-search4"></i></a>
+                        </div>
+                        <div class="col-sm-4 display-inline-flex">
+                            <input name="SalesRep" type="text" class="form-control" data-ng-model="FirmObj.ClientOfFirstName" readonly="readonly">
+                        </div>
+                        <div class="col-sm-3 display-inline-flex">
+                            <input name="SalesRep" type="text" class="form-control" data-ng-model="FirmObj.ClientOfLastName" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10 mt-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Sales Rep</label>
+                        <div class="col-sm-2 display-inline-flex">
+                            <input name="SalesRep" type="text" class="form-control" data-ng-model="FirmObj.SalesRep" readonly="readonly">
+                            <a class="ico_btn cursor-pointer" ng-click="ShowEmployeePopup('sales')" title="Search Employee"> <i class="icon-search4"></i></a>
+                        </div>
+                        <div class="col-sm-4 display-inline-flex">
+                            <input name="SalesRep" type="text" class="form-control" data-ng-model="FirmObj.SalesRepFirstName" readonly="readonly">
+                        </div>
+                        <div class="col-sm-3 display-inline-flex">
+                            <input name="SalesRep" type="text" class="form-control" data-ng-model="FirmObj.SalesRepLastName" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">LEDES Billing Code</label>
+                        <div class="col-sm-9">
+                            <input name="LEDESBillingCode" type="text" class="form-control" maxlength="50" data-ng-model="FirmObj.LEDESBillingCode">
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10 mt-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Last Sales Call</label>
+                        <div class="col-sm-9">
+                            <div class="input-group myDatePicker date">
+                                <input type="text" class="form-control"
+                                       name="BillingDateOfLoss" placeholder="Date Of Loss" ng-model="FirmObj.LastSalesCall">
+                                <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pt-0">Request Sent:</label>
+                        <div class="col-sm-9">
+                            <div class="bx-grey pb-5 pr-5 col-sm-12">
+                                <ul class="borderless pt-0 pl-0">
+                                    <li class="li-checkbox col-sm-4 pl-0" ng-repeat="item in RequestSentOptions">
+                                        <label class="lbl-checkbox bg-white"><input name="RequestSentgrp" type="radio" data-ng-model="item.IsChecked" ng-click="RadioCheckChange(item, RequestSentOptions)" data-ng-value="true"> {{item.Title}}</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row  mb-10">
+                    <div class="col-md-6">
+                        <label class="col-sm-3 control-label lbl-primary pr-0">Warning</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" ng-model="FirmObj.Warning" name="Warning" rows="4" maxlength="256" style="resize:none"> </textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-sm-3">
+                            <div class="col-sm-6">
+                                <label class="col-sm-3 control-label lbl-primary pr-0">Notes</label>
+                            </div>
+                            <div class="col-sm-6 text-right pt-30 pr-0">
+                                <i class="icon-clipboard3 position-left cursor-pointer" title="Click here to view notes" ng-click="openFirmNoteClick();"></i>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-9">
+                            <textarea class="form-control" id="Notes" name="Notes" rows="4" maxlength="1000" style="resize:none"> </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right pr-20">
+                        <button type="button" ui-sref="Firm" class="btn btn-default" title="Cancel">Cancel</button>
+                        <button type="submit" ng-if="(IsUserCanEditFirm && isEdit) || (IsUserCanAddFirm && isEdit==false)" ng-click="SaveFirm(Firmform)" class="btn btn-primary" title="Save">Save</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Primary modal -->
+
+    <div id="modal_MemberManage" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <form class="form-horizontal" name="formMemberOfID" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" title="Close" class="close" data-dismiss="modal">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Member Of ID</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages1">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(formMemberOfID.$submitted && !formMemberOfID.$valid)">
+                                    <ul>
+                                        <li ng-show="formMemberOfID.Company.$error.required">Please select Company.</li>
+                                        <li ng-show="formMemberOfID.Member.$error.required">Please select Member.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row mb-10">
+                                <label class="col-sm-4 control-label lbl-primary required">Company</label>
+                                <div class="col-sm-8">
+                                    <select name="Company" ng-model="objMember.CompanyID" class="form-control" ng-options="item.CompID as item.CompName for item in companyList" required>
+                                        <option value="">--Select--</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-10">
+                                <label class="col-sm-4 control-label lbl-primary required">Member</label>
+                                <div class="col-sm-8">
+                                    <select name="Member" ng-model="objMember.MemberID" class="form-control" ng-options="item.MemberID as item.MemberID for item in memberList" required>
+                                        <option value="">--Select--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-4 control-label lbl-primary"></label>
+                                <div class="col-sm-8">
+                                    <button type="submit" ng-click="InsertMemberOfID(formMemberOfID)" class="btn btn-primary">Add</button>
+                                </div>
+                            </div>
+                            <div class="table-responsive table-grid">
+                                <table class="table table-bordered table-framed" id="tblCompanyMember">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:150px;">Company</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:150px;">Member</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:50px;">Actiom</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd" ng-repeat="item in memberOfIDList">
+                                            <td>{{item.CompName}}</td>
+                                            <td>{{item.MemberOf}}</td>
+                                            <td><a class='ico_btn cursor-pointer' ng-click='DeleteMemberOfID(item.FirmBillingRateID)' title='Delete'>  <i class='icon-trash cursor-pointer'></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal_AssociatedFirm" class="modal fade" data-backdrop="static" data-keyboard="false" static-Include="./Templates/Settings/Partial/AssociatedFirm.cshtml" ng-controller="AssociatedFirmController">
+    </div>
+
+    <div id="modal_Employee" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <form class="form-horizontal" name="frmEmployee" novalidate>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close"    title="Close" data-dismiss="modal">&times;</button>
+                        <i class="icon-user pull-left mr-10 mt-5"></i> <h6 class="modal-title" ng-bind="EmployeeTitle"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div class="table-responsive table-grid">
+                                <table class="table table-bordered table-framed" id="tblEmployee"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" title="Close" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal_AdditionalContacts" class="modal fade" data-keyboard="false" data-backdrop="static">
+        <form class="form-horizontal" name="frmAdditionalContacts" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Add Additional Contacts</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages1">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(frmAdditionalContacts.$submitted && !frmAdditionalContacts.$valid)">
+                                    <ul>
+                                        <li ng-show="frmAdditionalContacts.FirstName.$error.required">Please enter First Name.</li>
+                                        <li ng-show="frmAdditionalContacts.LastName.$error.required">Please enter Last Name.</li>
+                                        <li ng-show="frmAdditionalContacts.Email.$error.required">Please enter Email.</li>
+                                        <li ng-show="frmAdditionalContacts.Email.$error.email">Please enter valid Email.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row mb-10">
+                                <label class="col-sm-2 control-label lbl-primary">First Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="FirstName" class="form-control" name="FirstName" ng-model="objAdditionalContacts.FirstName" maxlength="50" required />
+                                </div>
+                            </div>
+
+                            <div class="row mb-10">
+                                <label class="col-sm-2 control-label lbl-primary">Last Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="LastName" ng-model="objAdditionalContacts.LastName" maxlength="50" required />
+                                </div>
+                            </div>
+                            <div class="row mb-10">
+                                <label class="col-sm-2 control-label lbl-primary">Email</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" name="Email" ng-model="objAdditionalContacts.Email" maxlength="200" required />
+                                </div>
+                            </div>
+                            <div class="table-responsive table-grid">
+                                <table class="table table-bordered table-framed" id="tblAdditiionalContacts">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:100px;">First Name</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:100px;">Last Name</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Email</th>
+                                            <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" style="width:50px;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd" ng-repeat="item in AdditionalContactsList">
+                                            <td>{{item.FirstName}}</td>
+                                            <td>{{item.LastName}}</td>
+                                            <td>{{item.Email}}</td>
+                                            <td><a class='ico_btn cursor-pointer' ng-click='DeleteAdditionalContact(item.ContactID)' title='Delete'>  <i class='icon-trash cursor-pointer'></i></a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" title="Save" ng-click="SaveAdditionalContacs(frmAdditionalContacts)" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal_MonthyBillingContact" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <form class="form-horizontal" name="frmMonthlyContact" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h6 class="modal-title" ng-bind="modal_Title"></h6>*@
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i> <h6 class="modal-title">Monthly Billing Contacts</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages1">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(frmMonthlyContact.$submitted && !frmMonthlyContact.$valid)">
+                                    <ul>
+                                        <li ng-show="frmMonthlyContact.Name.$error.required">Please enter Contact Name.</li>
+                                        <li ng-show="frmMonthlyContact.Email.$error.required">Please enter Contact Email.</li>
+                                        <li ng-show="frmMonthlyContact.Email.$error.email">Please enter valid Email.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary required">Contact Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="Name" class="form-control" name="Name" ng-model="FirmObj.ContactName" maxlength="20" required />
+                                </div>
+                            </div>
+
+                            <div class="row mb-10">
+                                <label class="col-sm-3 control-label lbl-primary required">Contact Email</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" name="Email" ng-model="FirmObj.ContactEmail" maxlength="50" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" title="Close" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" title="Save" ng-click="SaveMonthlyBillingContact(frmMonthlyContact)" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- /primary modal -->
+    <div id="modal_NotesForm" data-backdrop="static" data-keyboard="false"  class="modal fade" static-Include="./Templates/Settings/Partial/Notes.cshtml">
+    </div>
+    <div id="modal_LocationFormList" data-backdrop="static" data-keyboard="false" class="modal fade" static-Include="./Templates/Settings/Partial/ManageFormAndRequestedForm.cshtml" ng-controller="ManageFormAndRequestedFormController">
+    </div>
+</div>

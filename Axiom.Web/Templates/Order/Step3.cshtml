@@ -1,0 +1,119 @@
+﻿<script src="~/Scripts/jquery.maskedinput.js"></script>
+<form name="step3form" id="step3form" novalidate ng-init="createDatePicker()">
+    <div class="panel panel-white panel-custom-color">
+        <div class="panel-body OrderWizardPnl" ng-class="PageMode==Enum.PageMode.ViewOnly?'disabledbutton':''">
+            <div id="messages">
+                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(step3form.$submitted && !step3form.$valid)">
+                    <ul ng-show="(step3form.$submitted && (!step3form.$valid))">
+                        <li ng-show="step3form.PatientName.$error.required">Patient Name is required.</li>
+                        <li ng-show="step3form.DateOfBirth.$error.required">Date Of Birth is required.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary required">Patient Name:</label>
+                        <input type="text" name="PatientName" placeholder="Patient Name" class="form-control" maxlength="100" ng-model="OrderStep3Obj.RecordsOf" required="required">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary required">Date Of Birth:</label>
+                        <div class="input-group myDatePicker date">
+                            <input type="text" class="form-control" name="DateOfBirth" ng-model="OrderStep3Obj.DateOfBirth" placeholder="DOB" required />
+                            <span class="input-group-addon cursor-pointer">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Date Of Death:</label>
+                        <div class="input-group myDatePicker date">
+                            <input type="text" class="form-control" name="DateOfDeath" ng-model="OrderStep3Obj.DateOfDeath" placeholder="DOD" />
+                            <span class="input-group-addon cursor-pointer">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">SSN:</label>
+                        <input type="text" name="SSN" id="SSN" placeholder="SSN" ng-model="OrderStep3Obj.SSN"  class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Address 1:</label>
+                        <input type="text" name="Address1" placeholder="Address 1" class="form-control" maxlength="40" ng-model="OrderStep3Obj.Address1">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Address 2:</label>
+                        <input type="text" name="Address2" placeholder="Address 2" class="form-control" maxlength="40" ng-model="OrderStep3Obj.Address2">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">City:</label>
+                        <input type="text" name="City" placeholder="City" class="form-control" maxlength="24" ng-model="OrderStep3Obj.City">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">State: </label>
+                        @*<select name="State" class="form-control" ng-model="OrderStep3Obj.State"
+                                ng-options="item.StateId as item.StateName for item in StateList">
+                            <option value="">-- Select --</option>
+                        </select>*@
+                        <div name="State" class="ml-0" custom-select="item.StateId as item.StateName for item in StateList | filter: $searchTerm" ng-model="OrderStep3Obj.State" ></div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Zip:</label>
+                        <input type="text" name="ZipCode"  placeholder="Zip Code" class="form-control zipcode" maxlength="5" ng-model="OrderStep3Obj.ZipCode">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+               
+                <div class="col-md-4" ng-hide="true">
+                    <div class="form-group">
+                        <label class="control-label lbl-primary">Patient Type:</label>
+                        <select class="form-control" ng-model="OrderStep3Obj.PatientTypeId" name="PatientType" ng-options="PatientType.Code as PatientType.Descr for PatientType in PatientTypeList">
+                            <option value="">--Select--</option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode!=Enum.PageMode.ViewOnly">
+            <input type="submit" class="btn btn-primary pull-right" value="Next" ng-click="SubmitStep3(step3form)" />
+            <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+        </div>
+        <div class="col-sm-12 mt-10 pr-0" ng-if="PageMode==Enum.PageMode.ViewOnly">
+            <input type="button" class="btn btn-primary pull-right" value="Next" ng-click="MoveNext()" />
+            <input type="button" class="btn btn-default pull-right mr-15" value="Back" ng-click="Back()" />
+        </div>
+    </div>
+</form>
+
+<script>
+    $('#SSN').mask("999-99-9999");
+    $('.zipcode').mask("99999");
+</script>

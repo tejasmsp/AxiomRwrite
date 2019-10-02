@@ -1,0 +1,126 @@
+"!TRNS","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT","DOCNUM","TOPRINT","ADDR1","ADDR2","ADDR3"
+"!SPL","TRNSTYPE","DATE","ACCNT","NAME","AMOUNT"
+"!ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Walgreen Company","-12.0100","157308","N","16797 Collections Center Drive","","Chicago, IL 60693-0000",
+"SPL","CHECK","08/01/2018","5060","Walgreen Company","12.0100",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Reading Dermatology","-42.1100","157310","N","3317 Penn Ave","","West Lawn, PA 19609-____",
+"SPL","CHECK","08/01/2018","5060","Reading Dermatology","42.1100",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Blue Cross Blue Shield of Michigan","-34.0000","157311","N","600 East Lafayette","Mail Code: 1920","Detroit, MI 48226-2998",
+"SPL","CHECK","08/01/2018","5060","Blue Cross Blue Shield of Michigan","34.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Advocate Christ Medical Center","-26.7700","157307","N","4440 West 95th Street","","Oak Lawn, IL 60453     ",
+"SPL","CHECK","08/01/2018","5060","Advocate Christ Medical Center","26.7700",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","United States Treasury","-250.0000","157306","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-0000",
+"SPL","CHECK","08/01/2018","5060","United States Treasury","250.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Majic City Process Service, LLC","-80.0000","157293","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","08/01/2018","5060","Majic City Process Service, LLC","80.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","United States Treasury","-350.0000","157294","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-0000",
+"SPL","CHECK","08/01/2018","5060","United States Treasury","350.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Loyola University Medical Center","-25.0000","157305","N","2 Westbrook Corporate Center","Suite 600","West Chester, IL 60154-0000",
+"SPL","CHECK","08/01/2018","5060","Loyola University Medical Center","25.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Loyola University Medical Center","-26.7700","157304","N","2160 South First Building 105, Room 0856","","Maywood, IL 60153     ",
+"SPL","CHECK","08/01/2018","5060","Loyola University Medical Center","26.7700",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Walgreen Company","-1.7700","157271","N","16797 Collections Center Drive","","Chicago, IL 60693-0000",
+"SPL","CHECK","08/01/2018","5060","Walgreen Company","1.7700",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","United States Treasury","-350.0000","157292","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-0000",
+"SPL","CHECK","08/01/2018","5060","United States Treasury","350.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","United States Treasury","-150.0000","157291","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-0000",
+"SPL","CHECK","08/01/2018","5060","United States Treasury","150.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Michigan Department of Treasury","-23.0000","157290","N","430 W. Allegan Street","","Lansing, MI 48922-0000",
+"SPL","CHECK","08/01/2018","5060","Michigan Department of Treasury","23.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Metro South Medical Center f/k/a St. Francis Hospital","-26.7700","157301","N","12935 South Gregory","","Blue Island, IL 60406-0000",
+"SPL","CHECK","08/01/2018","5060","Metro South Medical Center f/k/a St. Francis Hospital","26.7700",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","United States Treasury","-350.0000","157299","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-0000",
+"SPL","CHECK","08/01/2018","5060","United States Treasury","350.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","United States Treasury","-250.0000","157296","N","RAIVS Team / P.O.Box 145500","Stop 2800F","Cincinnati, OH 45250-0000",
+"SPL","CHECK","08/01/2018","5060","United States Treasury","250.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","LHR- Lenox Hill Radiology ATTENTION: Radiology Department","-155.7500","157295","N","1184 Broadway","","Hewlett, NY 11557-2322",
+"SPL","CHECK","08/01/2018","5060","LHR- Lenox Hill Radiology ATTENTION: Radiology Department","155.7500",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Bureau of Workers' Disability Compensation","-6.0000","157297","N","P.O. Box 30016","","Lansing, MI 48909     ",
+"SPL","CHECK","08/01/2018","5060","Bureau of Workers' Disability Compensation","6.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Michigan Department of Treasury","-23.0000","157298","N","430 W. Allegan Street","","Lansing, MI 48922-0000",
+"SPL","CHECK","08/01/2018","5060","Michigan Department of Treasury","23.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Garden City Medical Center, P.C.","-50.0000","157278","N","2020 Middlebelt Road","","Garden City, MI 48135-0000",
+"SPL","CHECK","08/01/2018","5060","Garden City Medical Center, P.C.","50.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Walgreen Company","-4.0100","157279","N","16797 Collections Center Drive","","Chicago, IL 60693-0000",
+"SPL","CHECK","08/01/2018","5060","Walgreen Company","4.0100",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Mount Carmel Release of Information","-55.0000","157282","N","Radiology","793 West State St.","Columbus, OH 43222     ",
+"SPL","CHECK","08/01/2018","5060","Mount Carmel Release of Information","55.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","UnitedHealthcare Services","-160.0000","157284","N","P.O. Box 860068","","Minneapolis, MN 55486-____",
+"SPL","CHECK","08/01/2018","5060","UnitedHealthcare Services","160.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","OAA Orthopaedic Specialists","-129.2700","157285","N","250 Cetronia Road","Suite 100","Allentown, PA 18104     ",
+"SPL","CHECK","08/01/2018","5060","OAA Orthopaedic Specialists","129.2700",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Stuart B. Krost, M.D.","-78.6700","157286","N","2290 10th Ave North","Suite 201","Lake Worth, FL 33461     ",
+"SPL","CHECK","08/01/2018","5060","Stuart B. Krost, M.D.","78.6700",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Hereford Insurance Company","-661.7500","157283","N","36-01 43rd Avenue","","Long Island City, NY 11101-___",
+"SPL","CHECK","08/01/2018","5060","Hereford Insurance Company","661.7500",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Priority Health Managed Benefits","-52.0000","157277","N","1231 E. Beltline NE","MS 1340","Grand Rapids, MI 49525-____",
+"SPL","CHECK","08/01/2018","5060","Priority Health Managed Benefits","52.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Mary Free Bed Rehabilitation Hospital","-65.7400","157280","N","Health Information Management","235 Wealthy SE","Grand Rapids, MI 49503-0000",
+"SPL","CHECK","08/01/2018","5060","Mary Free Bed Rehabilitation Hospital","65.7400",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","First Choice Copy Service fka JMS Scanning & Copy Services","-910.8000","157275","N","1490 William Floyd Parkway","Suite 105","Shirley, NY 11967     ",
+"SPL","CHECK","08/01/2018","5060","First Choice Copy Service fka JMS Scanning & Copy Services","910.8000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","UnitedHealthcare Services","-35.0000","157274","N","P.O. Box 860068","","Minneapolis, MN 55486-____",
+"SPL","CHECK","08/01/2018","5060","UnitedHealthcare Services","35.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Michigan Medicine","-33.0000","157273","N","Radiology Litigation UHB1D240-F","1500 E Medical Center Drive","Ann Arbor, MI 48109-0030",
+"SPL","CHECK","08/01/2018","5060","Michigan Medicine","33.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Majic City Process Service, LLC","-81.0000","157300","N","1825 Ponce Deleon Blvd.","Suite 283","Coral Gables, FL 33134     ",
+"SPL","CHECK","08/01/2018","5060","Majic City Process Service, LLC","81.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","S.P.O.R.T. Physicians, P.C.","-33.5000","157289","N","1950 East Wattles Road","Suite 110","Troy, MI 48085-____",
+"SPL","CHECK","08/01/2018","5060","S.P.O.R.T. Physicians, P.C.","33.5000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Mendelson Kornblum Orthopedic Surgeons & Spine Specialists- Livonia","-111.3900","157288","N","36622 5 Mile Rd","Suite 101","Livonia, MI 48154-____",
+"SPL","CHECK","08/01/2018","5060","Mendelson Kornblum Orthopedic Surgeons & Spine Specialists- Livonia","111.3900",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Dr. Ronni Seltzer","-168.0000","157287","N","15 Engle Street","Suite 101","Englewood, NJ 07631-____",
+"SPL","CHECK","08/01/2018","5060","Dr. Ronni Seltzer","168.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","MMRA","-27.9100","157281","N","Attn: Health Information/MMRA","3815 Highland Ave. Ground Floor","Downers Grove, IL 60515-0000",
+"SPL","CHECK","08/01/2018","5060","MMRA","27.9100",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Center for Advanced Orthopedics & Sports Medicine f/k/a Rochester Knee and Sport","-71.4000","157272","N","3100 Cross Creek Pkwy","Suite 200","Auburn Hills, MI 48326-2776",
+"SPL","CHECK","08/01/2018","5060","Center for Advanced Orthopedics & Sports Medicine f/k/a Rochester Knee and Sport","71.4000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Michigan Department of Treasury","-23.0000","157303","N","430 W. Allegan Street","","Lansing, MI 48922-0000",
+"SPL","CHECK","08/01/2018","5060","Michigan Department of Treasury","23.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Wayne County Community College District","-6.0000","157302","N","801 W. Fort Street","5th floor","Detroit, MI 48226-____",
+"SPL","CHECK","08/01/2018","5060","Wayne County Community College District","6.0000",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","City Medical, PC","-55.2800","157309","N","30581 Stephenson Hwy.","","Madison Heights, MI 48071-____",
+"SPL","CHECK","08/01/2018","5060","City Medical, PC","55.2800",
+"ENDTRNS"
+"TRNS","CHECK","08/01/2018","1011","Raritan Bay Medical Center","-25.0000","157276","N","Diagnostic Imaging Dept.","One Hospital Plaza","Old Bridge, NJ 08857     ",
+"SPL","CHECK","08/01/2018","5060","Raritan Bay Medical Center","25.0000",
+"ENDTRNS"

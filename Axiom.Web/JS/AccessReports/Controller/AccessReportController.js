@@ -1,0 +1,170 @@
+﻿app.controller('AccessReportController', function ($scope, $rootScope, $stateParams, notificationFactory, AccessReportService, configurationService, CommonServices, $compile, $filter) {
+
+    decodeParams($stateParams);
+    $scope.ReportName;
+    // $scope.showFromToDate = false;
+
+    $scope.showFromToDate = ($stateParams.type == 'PartsByDate' || $stateParams.type == 'InvoiceByDate' || $stateParams.type == 'ChecksByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
+    $scope.showCompany = ($stateParams.type == 'PartsByDate' || $stateParams.type == 'InvoiceByDate' || $stateParams.type == 'ChecksByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'OrderBySSN' || $stateParams.type == 'NonInvoicedParts' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
+    $scope.showCheckNumber = $stateParams.type == 'ChecksByNumber';
+    $scope.showSSN = $stateParams.type == 'OrderBySSN';
+    $scope.showReportList;
+    $scope.showDownloadButton = false;
+    $scope.TotalParts = 0;
+    $scope.BillAmount = 0;
+    $scope.BillBalance = 0;
+    $scope.showPartCount = false; $stateParams.type == 'PartsByDate';
+    $scope.ShowFirm = false;
+    $scope.UserGuid = $rootScope.LoggedInUserDetail.UserId;
+    
+
+    $scope.ShowFirm = ($stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
+
+    function showReport() {
+
+        $scope.TotalParts = 0;
+        $scope.BillAmount = 0;
+        $scope.BillBalance = 0;
+        $scope.showPartCount = $stateParams.type == 'PartsByDate';
+        $scope.showAmount = ($stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
+        $scope.showBalance = ($stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
+
+
+
+        if ($.fn.DataTable.isDataTable("#tblReports")) {
+            // $('#tblReports').DataTable().fndestroy();
+        }
+
+
+        var columns = []; //["Date", "CountOfPartNo", "CompanyNo", "CompName"];
+
+        if ($stateParams.type == 'PartsByDate') {
+            angular.forEach($scope.showReportList, function (value, key) {
+                $scope.TotalParts += value.CountOfPartNo;
+            });
+        }
+
+        if ($stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling') {
+            angular.forEach($scope.showReportList, function (value, key) {
+                $scope.BillBalance += value.Balance;
+            });
+        }
+        if ($stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling'); {
+            angular.forEach($scope.showReportList, function (value, key) {
+                $scope.BillAmount += value.InvoiceAmount;
+            });
+        }
+
+
+
+        var datamodel = new Object();
+        if ($scope.showReportList != null && $scope.showReportList.length > 0) {
+            datamodel = $scope.showReportList[0];
+            Object.keys(datamodel).forEach(function (item, i) {
+                columns.push({
+                    "title": AddSpace(item),
+                    "className": "dt-left",
+                    "data": item
+                });
+            });
+        }
+
+        if ($scope.showReportList != null && $scope.showReportList.length > 0) {
+            // $('#tblReports').DataTable().destroy();
+        }
+
+        $('#tblReports tbody').empty();
+        if ($scope.showReportList != null && $scope.showReportList.length > 0) {
+            var table = $('#tblReports').DataTable({
+
+                data: $scope.showReportList,
+                "bDestroy": true,
+                "dom": '<"top pull-left "f><"table"rt><"bottom"lip<"clear">>',
+                "aLengthMenu": [10, 20, 50, 100, 200],
+                "pageLength": 10,
+                "stateSave": false,
+                "columns": columns,
+                "aaSorting": [[0, 'desc']],
+                "initComplete": function () {
+                    var dataTable = $('#tblReports').DataTable();
+                },
+                "fnDrawCallback": function () {
+                },
+                "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                    $compile(angular.element(nRow).contents())($scope);
+                }
+            });
+        }
+
+    };
+
+
+
+    function BindCompanyDetail() {
+
+        var companydropdownlist = CommonServices.GetCompanyDropDown();
+        companydropdownlist.success(function (response) {
+            debugger;
+            $scope.companydropdownlist = response.Data;
+        });
+
+        companydropdownlist.error(function (response) {
+            toastr.error(response.Message[0]);
+        });
+    };
+
+    $scope.BindFirmDropDown = function BindFirmDetail() {
+
+        // var firmDropdownList = CommonServices.FirmForDropdown("");
+        var firmDropdownList = CommonServices.GetFirmByUserId($scope.UserGuid);
+        firmDropdownList.success(function (response) {
+            debugger;
+            $scope.firmList = response.Data;
+        });
+
+        firmDropdownList.error(function (response) {
+            toastr.error(response.Message[0]);
+        });
+
+        setTimeout(function () {
+            $('.cls-firm1').selectpicker();
+            $('.cls-firm1').selectpicker('refresh');
+        }, 1000);
+
+        
+    };
+
+    $scope.DisplayReport = function () {
+        var showReportList = AccessReportService.DisplayAccessReportPartsByDate($stateParams.type, $scope.AccessReport.StartDate, $scope.AccessReport.EndDate, $scope.AccessReport.CompanyNo, $scope.AccessReport.CheckNumber, $scope.AccessReport.SSNNumber, $scope.AccessReport.FirmID);
+        showReportList.success(function (response) {
+            $scope.showReportList = response.Data;
+            $scope.showDownloadButton = true;
+            showReport();
+        });
+        showReportList.error(function (response) {
+            toastr.error(response.Message[0]);
+        });
+    }
+
+    $scope.DownloadReport = function () {
+        var reportFile = AccessReportService.DownloadAccessReport($stateParams.type, $scope.AccessReport.StartDate, $scope.AccessReport.EndDate, $scope.AccessReport.CompanyNo, $scope.AccessReport.CheckNumber, $scope.AccessReport.SSNNumber, $scope.AccessReport.FirmID);
+    };
+    function init() {
+
+        $scope.AccessReport = new Object();
+        var date = new Date();
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+        $scope.ReportName = "-" + AddSpace($stateParams.type);
+        createDatePicker();
+        BindCompanyDetail();
+
+        if ($scope.ShowFirm)
+            $scope.BindFirmDropDown();
+
+        $scope.AccessReport.StartDate = $filter('date')(firstDay, 'MM/dd/yyyy');
+        $scope.AccessReport.EndDate = $filter('date')(lastDay, 'MM/dd/yyyy');
+    }
+    init();
+});

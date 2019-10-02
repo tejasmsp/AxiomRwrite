@@ -1,0 +1,53 @@
+﻿<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-main">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h6 class="modal-title"><i class="icon-user mr-5"></i>New Records</h6>
+        </div>
+        <div class="modal-body">
+            <div class="modal-container">
+                <div class="row">
+                    <div class="col-md-12 pl-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" width="80">OrderNo</th>
+                                        <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" width="120">Matter#</th>
+                                        <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" width="300">Records Of</th>
+                                        <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1" width="200">Location</th>
+                                        <th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1">Type</th>
+                                        @*<th class="dt-left sorting_disabled" tabindex="0" rowspan="1" colspan="1">Recent Note</th>*@
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table-responsive table-grid" style="max-height:250px;overflow-y:scroll;">
+                            <table class="table table-bordered table-framed" id="tblUploadFileList">
+                                <tbody>
+                                    <tr class="odd" ng-repeat="item in AuthorizationNeeded" ng-class="item.ClassName">
+                                        <td width="80">{{item.OrderNo}}-{{item.PartNo}}</td>
+                                        <td width="125">{{item.CliMatNo}}</td>
+                                        <td width="310">{{item.RecordsOf}}</td>
+                                        <td width="200">{{item.Location}}</td>
+                                        <td>{{item.Type}}</td>
+                                        @*<td>{{item.RecentNote}}</td>*@
+                                        @*<td class="text-center"><a href="javascript:void(0)" title="Delete" class="ico_btn cursor-pointer"><i class="icon-trash cursor-pointer" ng-click="deleteUploadedDocument($index,item.BatchId,item.FileName)"></i></a></td>*@
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="modal-footer mt-10">                    
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+</div>
+
+
+

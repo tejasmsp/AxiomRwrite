@@ -1,0 +1,64 @@
+﻿<div class="page-content" ng-controller="DepartmentController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-user mr-10 fs-19"></i>Manage Department</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Department', 'Add Department')"> <a ng-click="GetDepartmentDetail(0)" href="#"  class="blue_link">[ + Add Department ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblDepartment"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_Department" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <form class="form-horizontal" name="Departmentform" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                        <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title" ng-bind="modal_Title"></h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div role="tabpanel" class="form-horizontal" id="messages">
+                                <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Departmentform.$submitted && !Departmentform.$valid)">
+                                    <ul>
+                                        <li ng-show="Departmentform.Department.$error.required">Department Name is required.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label mandatoryField">Department Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="Department" class="form-control" maxlength="50" ng-model="objDepartment.Department" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Active</label>
+                                <div class="col-sm-1">
+                                    <input type="checkbox" name="IsActive" class="cursor-pointer" ng-checked="objDepartment.isActive" ng-model="objDepartment.isActive">
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                        <button type="submit" ng-click="AddOrUpdateDepartment(Departmentform)" class="btn btn-primary" title="Save">Save</button>
+                    </div>
+                    </div>
+            </div>
+        </form>
+    </div>
+</div>
+

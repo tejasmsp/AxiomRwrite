@@ -1,0 +1,290 @@
+﻿<form name="LocationFeesForm" id="LocationFeesForm" novalidate>
+    <div class="panel panel-white cls-box" ng-init="createDatePicker()">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h4 class="panel-title text-semibold"><i class="icon-cog3 position-left"></i>Location Fees</h4>
+                </div>
+                <div class="col-lg-9">
+                    <div class="heading-elements width100">
+                        <ul class="icons-list width100">
+                            <li ng-hide="true">
+                                <div class="input-group myDatePicker date " style="width:144px">
+                                    <input type="text" class="form-control" ng-model="LocFromDate" name="Callback">
+                                    <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </li>
+                            <li ng-hide="true">
+                                <div class="input-group myDatePicker date" style="width:144px">
+                                    <input type="text" class="form-control ng-pristine ng-valid ng-touched" name="Callback" ng-model="LocToDate">
+                                    <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </li>
+                            <li ng-hide="true">
+                                <button type="button" class="btn btn-primary pull-right" ng-click="FilterBySelectedDate()">Select</button>
+                            </li>
+                            <li>
+                                <button type="button" class="btn btn-primary pull-right" ng-click="NewLocationFeeCreateClick()"><i class="icon-plus-circle2 mr-5 font-10 mt-1"></i>New   </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="panel-body pnl-back-grey pa-10 overflow-auto cls-boxscroll cls-box-custom-height">
+            <div class="table-responsive table-grid">
+                <table class="table table-bordered table-framed">
+                    <thead>
+                        <tr>
+                            <th>To</th>
+                            <th>Issued</th>
+                            <th class="text-center">Check #</th>
+                            <th class="text-center">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in LocationFeesList">
+                            <td>
+                                {{item.LocationName}}<br />
+                                {{item.LocAddress}}<br />
+                                Memo:{{item.Memo}}<br />
+                                <span ng-if="item.VoidDate">Void Date:{{item.VoidDate | date:GlobalDateFormat}}</span>
+                            </td>
+                            <td>
+                                {{item.IssueDate | date:GlobalDateFormat}}<br />
+                                Excluded: {{item.Waived}}
+                            </td>
+                            <td class="text-center">
+                                {{item.ChkNo}}<br />
+
+                                <a href="#" class="blue_link" data-toggle='tooltip' data-placement='left' tooltip title="Void Check" ng-if="item.ChkNo && item.ChkNo.trim().length>0" ng-click="UpdateLocationFeesVoidChecks(item.ChkID)"><i class="glyphicon glyphicon-ban-circle fontsize11"></i> Void</a>
+                                <a href="#" class="blue_link" data-toggle='tooltip' data-placement='left' tooltip title="Edit Check" ng-if="!item.ChkNo || item.ChkNo.trim().length==0" ng-click="EditLocationFees(item.ChkID)"><i class="icon-pencil3 cursor-pointer fontsize11"></i> Edit</a>
+                            </td>
+                            <td class="text-center">
+                                ${{item.Amount}}
+                                <br />
+                                <a href="#" class="blue_link" data-toggle='tooltip' data-placement='left' tooltip title="Delete Check" ng-if="!item.ChkNo || item.ChkNo.trim().length==0" ng-click="DeleteLocationFee(item.ChkID)"><i class="icon-trash cursor-pointer fontsize11"></i> Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div id="modal_LocationFees_Select" class="modal fade">
+    <form class="form-horizontal" name="LocationFeesSelectForm" novalidate>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+                    <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title">Select</h6>
+                </div>
+                <div class="modal-body">
+
+                    <div class="panel panel-white">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-lg-6 pl-0">
+                                    <div class="col-lg-5 text-right pt-10">
+                                        <span class="panel-title text-semibold">DisplaySelected Check:</span>
+                                    </div>
+                                    <div class="col-lg-7 pl-0">
+                                        <input type="text" class="form-control" ng-model="checkNumber" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <button class="btn btn-primary" ng-click="PrintCheckClick();">Print Check</button>
+                                    <button class="btn btn-primary" ng-click="GenerateCheckClick()">Generate</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="panel-body pnl-back-grey">
+                            <div class="table-responsive table-grid">
+                                <table class="table table-bordered table-framed">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>To</th>
+                                            <th>Issued</th>
+                                            <th class="text-center">Check #</th>
+                                            <th class="text-center">Amount</th>
+                                            <th>OrderNo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in filterSelectedLocFeesList">
+                                            <td class="text-center"><input type="checkbox" ng-model="item.ChkStatus" ng-click="SelectedLocCheck(item.ChkStatus,item.ChkID)" /></td>
+                                            <td>
+                                                {{item.LocationName}}<br />
+                                                Memo:{{item.Memo}}
+                                            </td>
+                                            <td>
+                                                {{item.IssueDate | date:GlobalDateFormat}}<br />
+                                            </td>
+                                            <td class="text-center">
+                                                {{item.ChkNo}}
+                                            </td>
+                                            <td class="text-center">${{item.Amount}}</td>
+                                            <td>{{item.OrderNo}}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_info" ng-show="filterSelectedLocFeesList.length==0">
+                                    No Checks Found
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" title="Close" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="modal_LocationFees_CreateUpdate" class="modal fade">
+    <form class="form-horizontal" name="LocationFeesCreateForm" novalidate>
+        <div class="modal-dialog modal-lg" ng-init="createDatePicker()">
+            <div class="modal-content">
+                <div class="modal-header bg-main">
+                    <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                    <i class="icon-file-plus pull-left mr-10 mt-5"></i><h6 class="modal-title">Create Check</h6>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="col-lg-4">
+                                </div>
+                                <div class="col-lg-8 pl-0 pt-10">
+                                    <label><input type="checkbox" ng-model="objLocFeesModal.PayToLocation"> Pay To Location</label>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="col-lg-4 text-right pt-15">
+                                    <span>
+                                        Check Number:
+                                    </span>
+                                </div>
+                                <div class="col-lg-8 pl-0 pt-10"><input type="text" class="form-control" ng-model="objLocFeesModal.ChkNo" /></div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="!objLocFeesModal.PayToLocation">
+                            <div class="col-lg-5">
+                                <div class="col-lg-4 text-right pt-15">
+                                    <span>
+                                        Firm ID:
+                                    </span>
+                                </div>
+                                <div class="col-lg-8 pl-0 pt-10">
+                                    <input type="text" class="form-control" ng-model="objLocFeesModal.FirmID" ng-disabled="true" />
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="col-lg-4 text-right pt-15 ">
+                                    <span>
+                                        Firm Name:
+                                    </span>
+                                </div>
+                                <div class="col-lg-8 pl-0 pt-10">
+                                    <input type="text" class="form-control" ng-model="objLocFeesModal.FirmName" ng-disabled="true" />
+                                </div>
+
+                            </div>
+                            <div class="col-lg-1 pl-0 pt-10">
+                                <button class="btn btn-primary" ng-click="OpenFirmModalClick()"><i class="glyphicon glyphicon-search fontsize11"></i>&nbsp;Find</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="col-lg-4 text-right pt-15">
+                                    <span>
+                                        Memo:
+                                    </span>
+                                </div>
+                                <div class="col-lg-8 pl-0 pt-10"><input type="text" class="form-control" ng-model="objLocFeesModal.Memo" /></div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="col-lg-4 text-right pt-15">
+                                    <span>
+                                        Amount:
+                                    </span>
+                                </div>
+                                <div class="col-lg-8 pl-0 pt-10"><input type="number" class="form-control" ng-model="objLocFeesModal.Amount" /></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="col-lg-4 text-right pt-15">
+                                    <span>
+                                        Check Date:
+                                    </span>
+                                </div>
+                                <div class="col-lg-8 pl-0 pt-10">
+                                    <div class="input-group myDatePicker date">
+                                        <input type="text" class="form-control" ng-model="objLocFeesModal.IssueDate" name="Callback">
+                                        <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="col-lg-4">
+
+                                </div>
+                                <div class="col-lg-8 pl-0 pt-10">
+                                    <label><input type="checkbox" ng-model="objLocFeesModal.ExcludeInInvoice"> Exclude In Invoice</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="col-lg-4 text-right pt-15"></div>
+                                <div class="col-lg-8 pl-0 pt-10">
+                                    <label><input type="checkbox" ng-model="objLocFeesModal.ToBePrint">To Be Print</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" title="Close" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" title="Save" ng-click="SaveUpdateLocationFee()">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="modal_FirmSearch" class="modal fade" static-Include="./Templates/Settings/Partial/FirmSearch.cshtml" ng-controller="FirmSearchController">
+    </div>
+</div>
+
+<style type="text/css">
+    .width100 {
+        width: 100% !important;
+    }
+
+    .bottom15 {
+        bottom: 15px;
+    }
+
+    .fontsize11 {
+        font-size: 11px;
+    }
+</style>

@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title></title></head>
+<body>
+<img src = "https://www.axiomcopyonline.com/Assets/images/logo-axiom.png" /><br /><br />
+<div style = "border-top:3px solid #9B272A">&nbsp;</div>
+<span style = "font-family:Arial;font-size:12pt">
+Hello <b>{UserName}</b>,<br /><br />
+    <div >
+        We are in receipt of records from the below mentioned facility,<br/>
+        which were ordered by <strong>{Attorney}</strong> of <strong>{Firm}</strong> for the<br/>
+        <strong>{caption}</strong> case.<br/> <br/>        
+    </div>
+Please find below billing proposal.<br /><br />
+    <div style="padding-left:50px;">
+        <table border="0" style="border:none;font-family:Arial;font-size:12pt;">
+            <tr><td style="text-align:right;">Order No  :</td><td><b>{ORDERNO}</b></td></tr>
+            <tr><td style="text-align:right;">Patient/Records Of  :</td><td><b>{RECORDSOF}</b></td></tr>
+            <tr><td style="text-align:right;">Location : </td><td><b>{LOCATION}</b></td></tr>
+            <tr><td style="text-align:right">Record Type : </td><td><b>{RecordType}</b></td></tr>
+            <tr><td style="text-align:right;">Page Count : </td><td><b>{PAGES}</b></td></tr>
+            <tr><td style="text-align:right;">Cost : </td><td><b>${COST}</b></td></tr>
+        </table>
+    </div>
+<br />   
+    <div  style ="font-family:Arial;font-size:12pt;">
+        IF YOU CLICK <b>"Yes"</b> BELOW A DIGITAL COPY WILL BE ORDERED FOR YOU.
+    </div>
+    <br/>
+    <div style="padding-left:50px;">
+        <table cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="center" width="120" height="40" bgcolor="#9B272A" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff;">
+                    <a href="{YESLINK}" target="_blank" style="text-decoration:none!important;font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block"><span style="color: #FFFFFF">Yes</span></a>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td align="center" width="120" height="40" bgcolor="#9B272A" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff;">
+                    <a href="{NOLINK}" target="_blank" style="text-decoration:none!important;font-size:16px; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block"><span style="color: #FFFFFF">No</span></a>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            </tr>
+        </table>
+        </div>
+        <br /><br />
+        Thank you for using Axiom Requisition<br />
+</span>
+</body>
+</html>

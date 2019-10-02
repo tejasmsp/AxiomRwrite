@@ -1,0 +1,136 @@
+﻿<div class="modal-dialog modal-lg">
+    <form name="newLocationform" class="form-horizontal" novalidate>
+        <div class="modal-content">
+            <div class="modal-header bg-main">
+                <button type="button" class="close" data-dismiss="modal" title="Close">&times;</button>
+                <h5 class="modal-title">New Location</h5>
+            </div>
+            <div class="modal-body">
+                <div class="modal-container">
+                    <div id="messages">
+                        <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(newLocationform.$submitted && !newLocationform.$valid)">
+                            <ul ng-show="(newLocationform.$submitted && (!newLocationform.$valid))">
+                                <li ng-show="newLocationform.Name1.$error.required">Name1 is required.</li>
+                                <li ng-show="newLocationform.City.$error.required">City Name is required.</li>
+                                @*<li ng-show="newLocationform.DepartmentId.$error.required">Department is required.</li>*@
+                                <li ng-show="newLocationform.StateId.$error.required">State is required. </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3 required">Name 1:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="Name1" ng-model="NewLocationObj.Name1" maxlength="100" placeholder="Name 1" class="form-control " required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Name 2:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="Name2" ng-model="NewLocationObj.Name2" maxlength="100" placeholder="Name 2" class="form-control">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Address 1:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="Street1" ng-model="NewLocationObj.Street1" maxlength="150" placeholder="Address 1" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Address 2:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="Street1" ng-model="NewLocationObj.Street2" maxlength="150" placeholder="Address 2" class="form-control">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3 required">City:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="City" ng-model="NewLocationObj.City" maxlength="80" placeholder="City" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3 required">State:</label>
+                                <div class="col-sm-9">
+                                    <select name="StateId" ng-model="NewLocationObj.State" class="form-control" ng-options="item.StateId as item.StateName for item in StateList" required>
+                                        <option value="">--Select--</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label  col-sm-3">Zip:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="Zip" ng-model="NewLocationObj.Zip" maxlength="10" placeholder="Zip" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Phone:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="AreaCode1" ng-model="NewLocationObj.AreaCode1" integer-Only="" maxlength="4" placeholder="Code" class="form-control">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" name="PhoneNo1" ng-model="NewLocationObj.PhoneNo1" integer-Only="" maxlength="12" placeholder="Phone No" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Fax:</label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="AreaCode3" ng-model="NewLocationObj.AreaCode3" integer-Only="" maxlength="4" placeholder="Code" class="form-control">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" name="FaxNo" ng-model="NewLocationObj.FaxNo" integer-Only="" maxlength="12" placeholder="FaxNo" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Department:</label>
+                                <div class="col-sm-9">
+                                    <select name="DepartmentId" ng-model="NewLocationObj.Dept" class="form-control" 
+                                            ng-options="item.Descr as item.Descr for item in departmentlist" >
+                                        <option value="">--Select--</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" title="Close">Close</button>
+                <button type="submit" class="btn btn-primary" ng-click="SaveNewLocation(newLocationform)" title="Save & Continue">Save & Continue</button>
+            </div>
+        </div>
+
+    </form>
+</div>

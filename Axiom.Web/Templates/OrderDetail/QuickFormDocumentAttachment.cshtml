@@ -1,0 +1,85 @@
+﻿<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-main">
+            <button type="button" class="close" ng-click="closeClick()">&times;</button>
+            <h6 class="modal-title"><i class="icon-printer mr-5"></i>Attachment Document</h6>
+        </div>
+        <div class="modal-body ">
+            <div class="modal-container">
+                <b>Upload Documents</b>
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <table class="table table-bordered tblDocAttachment" id="tblDocAttach">
+                            <thead style="display:table;width:100% !important;">
+                                <tr>
+                                    <th class="tbldocHeader" style="width:53px;"></th>
+                                    <th class="tbldocHeader">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody style="height: 200px !important;overflow: scroll;display: block;max-width: 100% !important;">
+                                <tr ng-click="selectedtableRowDocument(item)" ng-repeat="item in docAttachList" style="width: 100%;table-layout: fixed;">
+                                    <td><input type="checkbox" id="chk-{{item.FileId}}" ng-click="selectedDocument(item.FileId,$event)" /></td>
+                                    <td style="width:100%">{{ item.FileName }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="row pt-15">
+                    <div class="col-sm-3">
+                        <button type="button" class="btn btn-primary" ng-click="UploadFile();">Upload File</button>
+                        <input style="display:none;" type="file" class="form-control cursor-pointer" id="OrderDocumentQuickForm" name="OrderDocumentQuickForm"
+                               title="Select file" onchange="angular.element(this).scope().FileUploadChange(this.files)"
+                               multiple="multiple" required accept="image/png, image/jpeg,  image/tif,  image/tiff,image/jpg,application/pdf " />
+                    </div>
+                </div>
+                <div class="row pt-10">
+                    <div class="col-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>Title</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in uploadedFileList">
+                                    <td>{{$index+1}}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td class="text-center"><a href="javascript:void(0)" data-toggle='tooltip' data-placement='left' tooltip title="Delete" class="ico_btn cursor-pointer"><i class="icon-trash cursor-pointer" ng-click="deleteUploadedDocument($index,item.batchId,item.name)"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+
+            <button type="button" class="btn btn-default" ng-click="closeClick()">Cancel</button>
+            <button type="button" class="btn btn-primary" ng-click="saveDocumentAttachment();">Save</button>
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+    .minheight {
+        min-height: 450px;
+    }
+
+
+    .tbldocHeader {
+        background-color: #C0C0C0
+    }
+
+    /*.tblDocAttachment tbody {
+        display: block;
+        height: 200px;
+        overflow: auto;
+    }*/
+</style>

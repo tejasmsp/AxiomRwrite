@@ -1,0 +1,15 @@
+SELECT *  INTO MR_Staging.dbo.CustomMessageView FROM Axiom.dbo.CustomMessageView
+SELECT *  INTO MR_Staging.dbo.OrderCanvasRequest FROM Axiom.dbo.OrderCanvasRequest
+SELECT *  INTO MR_Staging.dbo.OrderCanvasRequest FROM Axiom.dbo.OrderCanvasRequest
+SELECT *  INTO MR_Staging.dbo.OrderDetail FROM Axiom.dbo.OrderDetail
+SELECT *  INTO MR_Staging.dbo.OrderDocument FROM Axiom.dbo.OrderDocument
+SELECT *  INTO MR_Staging.dbo.OrderFirmAttorney FROM Axiom.dbo.OrderFirmAttorney
+SELECT *  INTO MR_Staging.dbo.OrderLocation FROM Axiom.dbo.OrderLocation
+SELECT *  INTO MR_Staging.dbo.OrderPatient FROM Axiom.dbo.OrderPatient
+SELECT *  INTO MR_Staging.dbo.RightsMaster FROM Axiom.dbo.RightsMaster
+SELECT *  INTO MR_Staging.dbo.RoleRights FROM Axiom.dbo.RoleRights
+SELECT *  INTO MR_Staging.dbo.RolesMaster FROM Axiom.dbo.RolesMaster
+SELECT *  INTO MR_Staging.dbo.UserMaster FROM Axiom.dbo.UserMaster
+SELECT *  INTO MR_Staging.dbo.UserPhoto FROM Axiom.dbo.UserPhoto
+SELECT *  INTO MR_Staging.dbo.UserRoles FROM Axiom.dbo.UserRoles
+SELECT *  INTO MR_Staging.dbo.OrderCase FROM Axiom.dbo.OrderCase

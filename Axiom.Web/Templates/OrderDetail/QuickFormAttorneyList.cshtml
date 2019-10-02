@@ -1,0 +1,33 @@
+﻿<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-main">
+            <button type="button" class="close" ng-click="closeClick()">&times;</button>
+            <h6 class="modal-title"><i class="icon-printer mr-5"></i>Attorney</h6>
+        </div>
+        <div class="modal-body">
+            <div class="modal-container">
+                <b>Select Attorney</b>
+                <div class="row">
+                    <div class="col-lg-12" ng-if="lblchecked=='Email'">
+                        <select class="form-control" multiple="multiple" ng-model="attorney.selectedAttorneyEmail">
+                            <option ng-repeat="item in attorneyDataList" value="{{item.Email}}">{{item.FirstName+''+item.LastName}}</option>
+                        </select>
+
+                    </div>
+                    <div class="col-lg-12" ng-if="lblchecked=='Fax'">
+                        <select class="form-control" ng-model="attorney.selectedAttorneyFaxNo">
+                            <option ng-repeat="item in attorneyDataList" value="{{item.Email}}">{{item.FirstName+''+item.LastName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click="addAttorneyClick()">Add</button>
+            <button type="button" class="btn btn-default" ng-click="closeClick()">close</button>
+        </div>
+    </div>
+</div>
+
+
+

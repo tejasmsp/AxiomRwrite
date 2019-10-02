@@ -1,0 +1,97 @@
+﻿
+<div class="page-content" ng-controller="FirmsController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-text2 mr-10 fs-19"></i>Firm</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li> <a ng-href="ManageFirm" class="blue_link">[ + Add Firm ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12 no-padding">
+                    <div class="panel-group panel-group-control panel-group-control-right">
+                        <div class="panel panel-white">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">
+                                    <a class="wd-full collapsed" data-toggle="collapse" href="#SearchPanel">
+                                        <i class="icon-search4 position-left"></i> <b class="text-bold pt-0" style="text-transform:uppercase;">Advanced Search</b>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="SearchPanel" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="row" style="padding:20px 0px;">
+                                       
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">ID:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="ID" placeholder="ID" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Name:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="Name" placeholder="Name" class="form-control">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">City:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="City" placeholder="City" class="form-control">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">State:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="experience-position" placeholder="State" class="form-control">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                       
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3">Address:</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" name="Address" placeholder="Address" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                     
+                                    </div>
+                                    <div class="row pull-right mt-10">
+                                        <button class="btn btn-primary mr-5">Clear</button>
+                                        <button class="btn btn-primary">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblFirm"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+</div>

@@ -1,0 +1,210 @@
+﻿<div class="page-content" ng-controller="AccountReceivableController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-book3 mr-10 fs-19"></i>Check</h4>
+            <div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Admin', 'Attorneys', 'Add Attorney')"> <a ui-sref="ManageCheck({ArID:0})" class="blue_link">[ + Add Check ]</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-group panel-group-control panel-group-control-right form-horizontal">
+                        <div class="panel panel-white">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">
+                                    <a class="wd-full" data-toggle="collapse" href="#SearchPanel">
+                                        <i class="icon-search4 position-left"></i> <b class="text-bold pt-0" style="text-transform:uppercase;">Search</b>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="SearchPanel" class="panel-collapse in pnl-back-grey">
+                                <div class="panel-body">
+                                    <div class="row" style="padding-bottom:10px">
+                                        <div class="col-md-4">
+                                            <label class="control-label col-sm-3">Firm Name:</label>
+                                            <div class="col-sm-8">
+                                               
+                                                <input type="text" name="FirmName"   ng-model="objAttorney.FirmName" ng-keydown="($event.keyCode === 13) && SearchCheck()" maxlength="50" placeholder="Firm Name" class="form-control">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label col-sm-3">Invoice #:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="AttorneyLastName" ng-model="objAttorney.InvoiceNo" ng-keydown="($event.keyCode === 13) && SearchCheck()" maxlength="50" placeholder="Invoice Number" class="form-control">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row mb-12">
+                                        <div class="col-md-4">
+                                            <label class="control-label col-sm-3">Check Type:</label>
+                                            <div class="col-sm-8">
+                                                <select name="state" data-placeholder="Select" class="form-control" ng-model="objAttorney.CheckType">
+                                                    <option value="">Select Check/Note Type</option>
+                                                    <option value="N">Payment By Regular Check</option>
+                                                    <option value="C">Credit Note</option>
+                                                    <option value="D">Debit Note</option>
+                                                    <option value="B">Bounce Check</option>
+                                                    <option value="L">Cancel Check</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label col-sm-3">Check #:</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="AttorneyLastName" ng-model="objAttorney.CheckNo" ng-keydown="($event.keyCode === 13) && SearchCheck()" maxlength="50" placeholder="Check Number" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 text-center">
+                                            <button class="btn btn-primary mr-5" ng-click="SearchCheck()" title="Search">Search</button>
+                                            <button class="btn btn-default" ng-click="ClearSearch()" title="Clear Search Text">Clear</button>
+                                        </div>
+                                    </div>
+                                  
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed no-footer dataTable" id="tblAccountReceivable" role="grid"
+                                   aria-describedby="tblAccountReceivable_info" style="width: 1826px;">
+                                @*<thead>
+                                        <tr role="row">
+                                            <th class="dt-left sorting" tabindex="0" aria-controls="tblAccountReceivable" rowspan="1" colspan="1" aria-label="Attorney ID: activate to sort column ascending" style="width: 225px;">
+                                                Firm ID
+                                            </th>
+                                            <th class="dt-left sorting_asc" tabindex="0" aria-controls="tblAttorney" rowspan="1" colspan="1"
+                                                aria-label="Attorney Name: activate to sort column descending" style="width: 442px;"
+                                                aria-sort="ascending">Firm Name</th>
+                                            <th class="dt-left sorting" tabindex="0" aria-controls="tblAttorney"
+                                                rowspan="1" colspan="1" aria-label="FirmID: activate to sort column ascending" style="width: 226px;">Check Type</th>
+                                            <th class="dt-left sorting" tabindex="0" aria-controls="tblAttorney" rowspan="1" colspan="1"
+                                                aria-label="Firm Name: activate to sort column ascending"  style="width: 226px;" >Check Number</th>
+                                            <th class="dt-left sorting" rowspan="1" colspan="1" style="width: 226px;">Check Amount</th>
+                                            <th class="dt-left sorting" rowspan="1" colspan="1" aria-label="Action" style="width: 598px;">Invoice Number</th>
+                                            <th class="dt-left sorting" rowspan="1" colspan="1" aria-label="Action" style="width: 100px;">EDIT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr role="row" class="odd">
+                                            <td class="dt-left ng-scope">FirmID</td>
+                                            <td class="dt-left ng-scope sorting_1">FirmName </td>
+                                            <td class="dt-left ng-scope">C</td>
+                                            <td class="dt-left ng-scope">1234-5678</td>
+                                            <td class="dt-left ng-scope">$1000</td>
+                                            <td class="dt-left ng-scope">123456 ($100 / $100),	798456 ($100 / $100),		8456164 ($100 / $100) </td>
+                                            <td class="action dt-center ng-scope"><a class="ico_btn cursor-pointer" title="Edit"> <i class="icon-pencil3"></i></a></td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class="dt-left ng-scope">FirmID</td>
+                                            <td class="dt-left ng-scope sorting_1">FirmName </td>
+                                            <td class="dt-left ng-scope">C</td>
+                                            <td class="dt-left ng-scope">1234-5678</td>
+                                            <td class="dt-left ng-scope">$1000</td>
+                                            <td class="dt-left ng-scope">123456 ($100 / $100),	798456 ($100 / $100),		8456164 ($100 / $100) </td>
+                                            <td class="action dt-center ng-scope"><a class="ico_btn cursor-pointer" title="Edit"> <i class="icon-pencil3"></i></a></td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class="dt-left ng-scope">FirmID</td>
+                                            <td class="dt-left ng-scope sorting_1">FirmName </td>
+                                            <td class="dt-left ng-scope">C</td>
+                                            <td class="dt-left ng-scope">1234-5678</td>
+                                            <td class="dt-left ng-scope">$1000</td>
+                                            <td class="dt-left ng-scope">123456 ($100 / $100),	798456 ($100 / $100),		8456164 ($100 / $100) </td>
+                                            <td class="action dt-center ng-scope"><a class="ico_btn cursor-pointer" title="Edit"> <i class="icon-pencil3"></i></a></td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class="dt-left ng-scope">FirmID</td>
+                                            <td class="dt-left ng-scope sorting_1">FirmName </td>
+                                            <td class="dt-left ng-scope">C</td>
+                                            <td class="dt-left ng-scope">1234-5678</td>
+                                            <td class="dt-left ng-scope">$1000</td>
+                                            <td class="dt-left ng-scope">123456 ($100 / $100),	798456 ($100 / $100),		8456164 ($100 / $100) </td>
+                                            <td class="action dt-center ng-scope"><a class="ico_btn cursor-pointer" title="Edit"> <i class="icon-pencil3"></i></a></td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class="dt-left ng-scope">FirmID</td>
+                                            <td class="dt-left ng-scope sorting_1">FirmName </td>
+                                            <td class="dt-left ng-scope">C</td>
+                                            <td class="dt-left ng-scope">1234-5678</td>
+                                            <td class="dt-left ng-scope">$1000</td>
+                                            <td class="dt-left ng-scope">123456 ($100 / $100),	798456 ($100 / $100),		8456164 ($100 / $100) </td>
+                                            <td class="action dt-center ng-scope"><a class="ico_btn cursor-pointer" title="Edit"> <i class="icon-pencil3"></i></a></td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class="dt-left ng-scope">FirmID</td>
+                                            <td class="dt-left ng-scope sorting_1">FirmName </td>
+                                            <td class="dt-left ng-scope">C</td>
+                                            <td class="dt-left ng-scope">1234-5678</td>
+                                            <td class="dt-left ng-scope">$1000</td>
+                                            <td class="dt-left ng-scope">43534 ($500 / $500),	543453 ($500 / $500) </td>
+                                            <td class="action dt-center ng-scope"><a class="ico_btn cursor-pointer" title="Edit"> <i class="icon-pencil3"></i></a></td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class="dt-left ng-scope">FirmID</td>
+                                            <td class="dt-left ng-scope sorting_1">FirmName </td>
+                                            <td class="dt-left ng-scope">C</td>
+                                            <td class="dt-left ng-scope">1234-5678</td>
+                                            <td class="dt-left ng-scope">$1000</td>
+                                            <td class="dt-left ng-scope">43erwe534 ($500 / $500),	54rewr3453 ($500 / $500) </td>
+                                            <td class="action dt-center ng-scope"><a class="ico_btn cursor-pointer" title="Edit"> <i class="icon-pencil3"></i></a></td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class="dt-left ng-scope">FirmID</td>
+                                            <td class="dt-left ng-scope sorting_1">FirmName </td>
+                                            <td class="dt-left ng-scope">C</td>
+                                            <td class="dt-left ng-scope">1234-5678</td>
+                                            <td class="dt-left ng-scope">$1000</td>
+                                            <td class="dt-left ng-scope">43r24534 ($500 / $500),	543453453 ($500 / $500) </td>
+                                            <td class="action dt-center ng-scope"><a class="ico_btn cursor-pointer" title="Edit"> <i class="icon-pencil3"></i></a></td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class="dt-left ng-scope">FirmID</td>
+                                            <td class="dt-left ng-scope sorting_1">FirmName </td>
+                                            <td class="dt-left ng-scope">C</td>
+                                            <td class="dt-left ng-scope">1234-5678</td>
+                                            <td class="dt-left ng-scope">$1000</td>
+                                            <td class="dt-left ng-scope">123456 ($100 / $100),	798456 ($100 / $100),		8456164 ($100 / $100) </td>
+                                            <td class="action dt-center ng-scope"><a class="ico_btn cursor-pointer" title="Edit"> <i class="icon-pencil3"></i></a></td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class="dt-left ng-scope">FirmID</td>
+                                            <td class="dt-left ng-scope sorting_1">FirmName </td>
+                                            <td class="dt-left ng-scope">C</td>
+                                            <td class="dt-left ng-scope">1234-5678</td>
+                                            <td class="dt-left ng-scope">$1000</td>
+                                            <td class="dt-left ng-scope">123456 ($100 / $100),	798456 ($100 / $100),		8456164 ($100 / $100) </td>
+                                            <td class="action dt-center ng-scope"><a class="ico_btn cursor-pointer" title="Edit"> <i class="icon-pencil3"></i></a></td>
+                                        </tr>
+                                    </tbody>*@
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modal_FirmSearch" class="modal fade" static-Include="./Templates/Settings/Partial/FirmSearch.cshtml" ng-controller="FirmSearchController">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

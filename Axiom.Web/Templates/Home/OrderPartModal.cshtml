@@ -1,0 +1,42 @@
+﻿<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-main">
+            <button type="button" class="close" ng-click="CloseModal()">&times;</button>
+            <h6 class="modal-title"><i class="glyphicon glyphicon-list-alt mr-5"></i>{{SelectedOrder}}  -  Location Detail</h6>
+        </div>
+        <div class="modal-body">
+            <div class="modal-container">
+                <div class="table-responsive table-grid tblDashboardSetting" id="tblAuthorization">
+                    <table class="table table-bordered table-framed">
+                        <thead>
+                            <tr role="row">
+                                <th class="dt-left sorting_disabled text-center" ng-if="SelectedPartGroup==2 || SelectedPartGroup==5"><input type="checkbox" ng-model="OrderPart.allItemsSelected" ng-change="selectAllPart(OrderPart.allItemsSelected)"></th>
+                                <th class="dt-left sorting_disabled">Location</th>
+                                <th class="dt-left sorting_disabled">Type</th>
+                                <th class="dt-left sorting_disabled">Note</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="odd cursor-pointer" title="Click to open Part Detail Page" ng-repeat="item in PartList" ng-class="item.ClassName">
+                                <td class="text-center" ng-if="SelectedPartGroup==2 || SelectedPartGroup==5"><input type="checkbox" ng-model="item.isChecked" ng-click="SelectedOrderPart(item.isChecked,item.PartNo)"></td>
+                                <td ng-click="OpenPartDetailPage(item.OrderNo,item.PartNo)">{{item.Location}}</td>
+                                <td ng-click="OpenPartDetailPage(item.OrderNo,item.PartNo)">{{item.Type}}</td>
+                                <td title="{{item.Note}}">{{item.Note?item.Note.substring(0,30):''}}</td>
+                                <td title="Remove Part From the List"><i ng-click="ClientDashboardRemovePartFromList(item.PartNo)" class="glyphicon glyphicon-remove position-left"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-if="SelectedPartGroup==2" title="Download Authorization" ng-click="DownloadDocuments(1)">Download Authorization</button>
+            <button type="button" class="btn btn-primary" ng-if="SelectedPartGroup==5" title="Download Records" ng-click="DownloadDocuments(11)">Download Records</button>
+            <button type="button" class="btn btn-primary" title="Close" ng-click="CloseModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+
+

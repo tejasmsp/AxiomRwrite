@@ -1,0 +1,49 @@
+﻿<form name="AssistantContactform" id="AssistantContactform" novalidate>
+    <div class="panel panel-white cls-box">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-cog3 position-left"></i>Assistant Contact Notification Information</h4>
+            <div class="heading-elements">
+                <ul class="icons-list mt-0">
+                    <li ng-if="isSubModuleAccessibleToUser('Order', 'Order Detail', 'Save Assistant Contact Notification Information')">
+                        <button class="btn btn-primary pull-right" ng-click="SaveDetail(AssistantContactform)"><i class="icon-floppy-disk mr-5 font-10"></i>Save </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body pnl-back-grey pa-10 cls-boxscroll cls-box-sm-height">
+            <div class="table-responsive table-grid">
+                <table class="table table-bordered table-framed" id="tblAssistantContact">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th class="text-center" width="15%">Order Confirmation</th>
+                            <th class="text-center" width="15%">Fee Approval</th>
+                            <th class="text-center" width="15%">Auth Notice</th>
+                            <th class="text-center" width="15%">New Records Available</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="Notification in AssistantContactNotificationInfoList">
+                            <td ng-bind="Notification.AssistantName"></td>
+                            <td ng-bind="Notification.AssistantEmail"></td>
+                            <td align="center">
+                                <input type="checkbox" name="OrderConfirmation" checked="checked" class="cursor-pointer" ng-checked="Notification.OrderConfirmation" ng-model="Notification.OrderConfirmation">
+                            </td>
+                            <td align="center">
+                                <input type="checkbox" name="FeeApproval" checked="checked" class="cursor-pointer" ng-checked="Notification.FeeApproval" ng-model="Notification.FeeApproval">
+                            </td>
+
+                            <td align="center">
+                                <input type="checkbox" name="AuthNotice" checked="checked" class="cursor-pointer" ng-checked="Notification.AuthNotice" ng-model="Notification.AuthNotice">
+                            </td>
+                            <td align="center">
+                                <input type="checkbox" name="NewRecordAvailable" checked="checked" class="cursor-pointer" ng-checked="Notification.NewRecordAvailable" ng-model="Notification.NewRecordAvailable">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
