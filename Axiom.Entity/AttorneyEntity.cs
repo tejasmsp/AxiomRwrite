@@ -22,6 +22,7 @@ namespace Axiom.Entity
         public string StateBarNo { get; set; }
         public string Warning { get; set; }
         public string CreatedBy { get; set; }
+        public int? CompanyNo { get; set; }
     }
     public class AttorneySearchEntity
     {

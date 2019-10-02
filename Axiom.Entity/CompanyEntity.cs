@@ -41,7 +41,7 @@ namespace Axiom.Entity
         public string Term { get; set; }
         public string Notes { get; set; }
         public int CreatedBy { get; set; }
-
+        public string SiteURL { get; set; }
     }
 
 }

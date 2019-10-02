@@ -149,6 +149,7 @@
         });
     };
     $scope.SaveFirm = function (form) {
+        debugger;
         if (form.$valid) {
             $scope.FirmObj.DocProductionPreference = GetCSVForCheckBoxs($scope.DocumentProdctionOptions);
             angular.forEach($filter('filter')($scope.RequestSentOptions, { 'IsChecked': true }), function (item, key) {
