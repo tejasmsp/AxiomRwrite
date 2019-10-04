@@ -117,7 +117,7 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetAttorneyListWithSearch")]
-        public ApiResponse<AttorneyUsersEntity> GetAttorneyListWithSearch(string SearchCriteria, int SearchCondition = 1, string SearchText = "", int OrderId = 0)
+        public ApiResponse<AttorneyUsersEntity> GetAttorneyListWithSearch(string SearchCriteria, int CompNo, int SearchCondition = 1, string SearchText = "", int OrderId = 0)
         {
             var response = new ApiResponse<AttorneyUsersEntity>();
 
@@ -126,7 +126,8 @@ namespace Axiom.Web.API
                 SqlParameter[] param = { new SqlParameter("SearchCriteria", (object)SearchCriteria ?? (object)DBNull.Value),
                                          new SqlParameter("SearchCondition", (object)SearchCondition ?? (object)DBNull.Value),
                                          new SqlParameter("SearchText", (object)SearchText ?? (object)DBNull.Value),
-                                         new SqlParameter("OrderId", (object)OrderId ?? (object)DBNull.Value)
+                                         new SqlParameter("OrderId", (object)OrderId ?? (object)DBNull.Value),
+                                          new SqlParameter("CompanyNo", (object)CompNo ?? (object)DBNull.Value)
                 };
                 var result = _repository.ExecuteSQL<AttorneyUsersEntity>("GetAttorneyListWithSearch", param).ToList();
 

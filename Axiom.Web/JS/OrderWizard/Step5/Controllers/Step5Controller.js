@@ -175,7 +175,7 @@
 
     $scope.BindAttorneyList = function () {
         if (!isNullOrUndefinedOrEmpty($scope.searchText)) {
-            var promise = Step5Service.GetAttorneyListWithSearch($scope.searchCriteria, $scope.searchCondition, $scope.searchText, $scope.OrderId);
+            var promise = Step5Service.GetAttorneyListWithSearch($scope.searchCriteria, $scope.searchCondition, $scope.searchText, $scope.OrderId, $rootScope.CompanyNo);
             promise.success(function (response) {
                 $scope.AttorneyList = response.Data;
                 binAttorney();

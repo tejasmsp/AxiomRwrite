@@ -28,6 +28,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label lbl-primary required">Ordering Attorney:</label>
+                        @*ng-options="OrderingAttorney.AttyID as OrderingAttorney.AttorneyName for OrderingAttorney in OrderingAttorneyList"*@
                         <select class="form-control cls-attorney" ng-model="OrderStep1Obj.OrderingAttorney" data-live-search="true" name="OrderingAttorney" ng-change="RefreshNotificationList()" required="required" ng-options="OrderingAttorney.AttyID as OrderingAttorney.AttorneyName for OrderingAttorney in OrderingAttorneyList">
                             <option value="">--Select--</option>
                         </select>

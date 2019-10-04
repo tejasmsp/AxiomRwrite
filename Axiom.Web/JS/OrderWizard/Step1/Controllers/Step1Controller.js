@@ -3,14 +3,13 @@
     $scope.PageMode = $stateParams.PageMode;
     $scope.isEdit = false;
     $scope.IsFromClient = 1;  // Temporary
-    $rootScope.CompanyNo = 1;
     $scope.UserAccessId = $rootScope.LoggedInUserDetail.UserAccessId;
     $scope.IsEditMode = false;
     $scope.userGuid = $rootScope.LoggedInUserDetail.UserId;
     $scope.EmpId = $rootScope.LoggedInUserDetail.EmpId;
     $scope.RoleName = $rootScope.LoggedInUserDetail.RoleName ? $rootScope.LoggedInUserDetail.RoleName[0] : '';
     $scope.onFirmChange = function () {
-          BindAttorneyByFirmDropdown($scope.OrderStep1Obj.OrderingFirmID);
+        BindAttorneyByFirmDropdown($scope.OrderStep1Obj.OrderingFirmID);
     };
 
     //#region Event
@@ -30,21 +29,25 @@
 
 
     function BindAttorneyByFirmDropdown(FirmID) {
+        debugger;
         if (FirmID) {
-            var attry = CommonServices.GetAttorneyByFirmIDForclientAndAdmin(FirmID, $scope.userGuid, false);
+            if (FirmID == undefined) {
+                FirmID = "";
+            }
+
+            var attry = CommonServices.GetAttorneyByFirmIDForclientAndAdmin(FirmID, $scope.userGuid, false, $rootScope.CompanyNo);
             attry.success(function (response) {
                 $scope.OrderingAttorneyList = response.Data;
                 setTimeout(function () {
                     $('.cls-attorney').selectpicker('refresh');
                     $('.cls-attorney').selectpicker();
                 }, 500);
-
-
             });
+
         }
         else {
             if ($scope.RoleName == 'Administrator') {
-                var attry = CommonServices.GetAttorneyByFirmIDForclientAndAdmin(FirmID, $scope.userGuid, true);
+                var attry = CommonServices.GetAttorneyByFirmIDForclientAndAdmin(FirmID, $scope.userGuid, true, $rootScope.CompanyNo);
                 attry.success(function (response) {
                     $scope.OrderingAttorneyList = response.Data;
                     setTimeout(function () {
@@ -266,8 +269,7 @@
     //};
 
     $scope.BindOrderingFirmDropDown = function () {
-        
-        var _firm = CommonServices.GetFirmByUserId($rootScope.LoggedInUserDetail.UserId);
+        var _firm = CommonServices.GetFirmByUserId($rootScope.LoggedInUserDetail.UserId, $rootScope.CompanyNo);
         _firm.success(function (response) {
             $rootScope.OrderFirmList = angular.copy(response.Data);
             setTimeout(function () {

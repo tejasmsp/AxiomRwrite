@@ -33,7 +33,6 @@
     }
 
     $scope.BindAttorneyByFirmDropdown = function () {
-
         var isShowMore = false;
         $scope.firmobj = $filter('filter')($scope.Firmlist, { FirmID: $scope.OrderStep2Obj.BillingFirmId }, true);
         if (!isNullOrUndefinedOrEmpty($scope.firmobj) && $scope.firmobj.length == 1) {
@@ -42,7 +41,7 @@
         else {
             isShowMore = true;
         }
-        var attry = CommonServices.GetAttorneyByFirmIDForclient($scope.OrderStep2Obj.BillingFirmId, $scope.userGuid, isShowMore);
+        var attry = CommonServices.GetAttorneyByFirmIDForclient($scope.OrderStep2Obj.BillingFirmId, $scope.userGuid, isShowMore, $rootScope.CompanyNo);
         attry.success(function (response) {
             $scope.AttorneyListByFirm = response.Data;
             if ($scope.OrderStep2Obj.BillingAttorneyId) {
@@ -191,8 +190,7 @@
         });
     }
 
-    function bindStateFarmTable()
-    {
+    function bindStateFarmTable() {
         if ($.fn.DataTable.isDataTable("#tblStateFarm")) {
             $('#tblStateFarm').DataTable().destroy();
         }

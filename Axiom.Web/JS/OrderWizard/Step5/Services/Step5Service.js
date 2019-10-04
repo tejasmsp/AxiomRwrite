@@ -18,8 +18,8 @@
         return $http.post(configurationService.basePath + "InsertOrUpdateOrderWizardStep5", AttorneyObj);
     };
 
-    Step5Service.GetAttorneyListWithSearch = function (SearchCriteria, SearchCondition, SearchText, OrderId) {
-        return $http.get(configurationService.basePath + "GetAttorneyListWithSearch?SearchCriteria=" + SearchCriteria + '&SearchCondition=' + SearchCondition + '&SearchText=' + SearchText + "&OrderId=" + OrderId);
+    Step5Service.GetAttorneyListWithSearch = function (SearchCriteria, SearchCondition, SearchText, OrderId, CompnayNo) {
+        return $http.get(configurationService.basePath + "GetAttorneyListWithSearch?SearchCriteria=" + SearchCriteria + '&SearchCondition=' + SearchCondition + '&SearchText=' + SearchText + "&OrderId=" + OrderId + "&CompNo=" + CompnayNo);
     };
 
     Step5Service.InsertNewFirmFromStep5 = function (modal) {
