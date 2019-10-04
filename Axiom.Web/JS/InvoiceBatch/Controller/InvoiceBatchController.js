@@ -1,6 +1,6 @@
-﻿app.controller('InvoiceBatchController', function ($scope, $rootScope, $stateParams, notificationFactory, InvoiceBatchService, configurationService, CommonServices, $compile, $filter) {    
+﻿app.controller('InvoiceBatchController', function ($scope, $rootScope, $stateParams, notificationFactory, InvoiceBatchService, configurationService, CommonServices, $compile, $filter) {
 
-    decodeParams($stateParams);    
+    decodeParams($stateParams);
     $scope.UserAccessId = $rootScope.LoggedInUserDetail.UserAccessId;
     $scope.UserGuid = $rootScope.LoggedInUserDetail.UserId;
     $scope.showLEDButton = false;
@@ -8,39 +8,39 @@
     // $scope.InvoiceBatch = new Object()
 
     //Page Rights//
-    $rootScope.CheckIsPageAccessible("Settings", "Invoice Batch", "View");    
+    $rootScope.CheckIsPageAccessible("Settings", "Invoice Batch", "View");
     //-----
- 
+
     function init() {
-        
+
         $scope.InvoiceBatch = new Object();
-        
+
         // $('.cls-firm').selectpicker();
         $scope.BindFirmDropDown();
         // $('.cls-firm').selectpicker('refresh');
 
 
-        
+
 
         //$scope.BindDropDownSoldAttorney('');
         $scope.InvoiceBatch.Invoice = false;
         $scope.InvoiceBatch.Statement = true;
         $scope.InvoiceBatch.OpenInvoiceOnly = false;
         $scope.InvoiceBatch.IsFirmID = false;
-        $scope.InvoiceBatch.IsAttyID = false;        
-        $scope.InvoiceBatch.FromDate=$filter('date')(new Date(), $rootScope.GlobalDateFormat);
+        $scope.InvoiceBatch.IsAttyID = false;
+        $scope.InvoiceBatch.FromDate = $filter('date')(new Date(), $rootScope.GlobalDateFormat);
         $scope.InvoiceBatch.ToDate = $filter('date')(new Date(), $rootScope.GlobalDateFormat);
-        
-        
+
+
     }
 
 
-    $scope.BindAttorneyByFirmDropdown = function (FirmID) {        
-        
+    $scope.BindAttorneyByFirmDropdown = function (FirmID) {
+
         $('.cls-attorney1').selectpicker();
         if (FirmID != 'undefined') {
             var attry = CommonServices.GetAttorneyByFirmID(FirmID);
-            attry.success(function (response) {                           
+            attry.success(function (response) {
                 $scope.AttorneyList = response.Data;
             });
         }
@@ -49,7 +49,7 @@
     };
 
     $("#txtSoldAttorney").keyup(function () {
-        if($(this).val().length>2) {
+        if ($(this).val().length > 2) {
             $scope.BindDropDownSoldAttorney($(this).val());
         }
     });
@@ -64,12 +64,11 @@
 
 
     $scope.BindFirmDropDown = function () {
-        
-        var _firm = CommonServices.GetFirmByUserId($scope.UserGuid);
+
+        var _firm = CommonServices.GetFirmByUserId($scope.UserGuid, $rootScope.CompanyNo);
         _firm.success(function (response) {
-            debugger;
             $scope.FirmList = response.Data;
-            angular.forEach($scope.FirmList, function (value, key) {                
+            angular.forEach($scope.FirmList, function (value, key) {
                 value.FirmName = value.FirmName + " (" + value.FirmID + ")";
             });
 
@@ -80,7 +79,7 @@
         });
         _firm.error(function (data, statusCode) {
         });
-        
+
     };
 
     $scope.Search = function () {
@@ -106,8 +105,8 @@
         $scope.AttorneyList = null;
         $scope.FirmList = null;
     };
-    
-    $scope.IsFirmIDChange = function () {        
+
+    $scope.IsFirmIDChange = function () {
         $scope.InvoiceBatchCheckLED();
     }
 
@@ -175,7 +174,7 @@
 
         debugger;
         // TO DOWNLOAD CSF FILE
-        var _led = InvoiceBatchService.GenerateLEDESFile($scope.InvoiceBatch.FirmID, $scope.InvoiceBatch.Caption, $scope.InvoiceBatch.ClaimNo, $scope.InvoiceBatch.AttyID, $scope.InvoiceBatch.FromDate, $scope.InvoiceBatch.ToDate, $scope.InvoiceBatch.InvoiceNO, $scope.InvoiceBatch.SoldAttyName);        
+        var _led = InvoiceBatchService.GenerateLEDESFile($scope.InvoiceBatch.FirmID, $scope.InvoiceBatch.Caption, $scope.InvoiceBatch.ClaimNo, $scope.InvoiceBatch.AttyID, $scope.InvoiceBatch.FromDate, $scope.InvoiceBatch.ToDate, $scope.InvoiceBatch.InvoiceNO, $scope.InvoiceBatch.SoldAttyName);
         _led.success(function (response) {
             debugger;
             var file = new Blob([response], { type: 'text/plain' });
@@ -212,7 +211,7 @@
     };
 
 
-    function BindInvoiceBatchReportViewer() {        
+    function BindInvoiceBatchReportViewer() {
         debugger;
         if ($scope.InvoiceBatch.IsFirmID) {
             $scope.InvoiceBatch.FirmID = $scope.InvoiceBatch.FirmID;
@@ -220,7 +219,7 @@
         if ($scope.InvoiceBatch.IsAttyID) {
             $scope.InvoiceBatch.AttyID = $scope.InvoiceBatch.AttyID;
         }
-             
+
         $scope.InvoiceBatch.SoldAttyName = $scope.soldAttorney;
 
         if (isNullOrUndefinedOrEmpty($scope.soldAttorney)) {
@@ -260,10 +259,10 @@
         if (isNullOrUndefinedOrEmpty($scope.InvoiceBatch.OpenInvoiceOnly)) {
             $scope.InvoiceBatch.OpenInvoiceOnly = false;
         }
-       
-        
-        
-        var src = '/Reports/InvoiceBatchReport.aspx';        
+
+
+
+        var src = '/Reports/InvoiceBatchReport.aspx';
         src = src + "?FirmID=" + $scope.InvoiceBatch.FirmID;
         src = src + "&Caption=" + $scope.InvoiceBatch.Caption;
         src = src + "&ClaimNo=" + $scope.InvoiceBatch.ClaimNo;
@@ -274,17 +273,17 @@
         src = src + "&ToDate=" + $scope.InvoiceBatch.ToDate;
         src = src + "&Invoice=" + $scope.InvoiceBatch.Invoice;
         src = src + "&Statement=" + $scope.InvoiceBatch.Statement;
-        src = src + "&OpenInvoiceOnly=" + $scope.InvoiceBatch.OpenInvoiceOnly;    
+        src = src + "&OpenInvoiceOnly=" + $scope.InvoiceBatch.OpenInvoiceOnly;
         var iframeheight = "880px";
         if ($scope.InvoiceBatch.Invoice && $scope.InvoiceBatch.Statement) {
             iframeheight = "880px";
-        }  
+        }
 
         $('.loader').show();
 
-        var iframe = '<iframe id="reportFrame" width="100%" onload="InvoiceBatchIframeLoaded()" height="' + iframeheight+'" scrolling="no" frameborder="0" src="' + src + '" allowfullscreen></iframe>';        
+        var iframe = '<iframe id="reportFrame" width="100%" onload="InvoiceBatchIframeLoaded()" height="' + iframeheight + '" scrolling="no" frameborder="0" src="' + src + '" allowfullscreen></iframe>';
         $("#divInvoiceBatchReport").html(iframe);
-    } 
+    }
 
     init();
 });

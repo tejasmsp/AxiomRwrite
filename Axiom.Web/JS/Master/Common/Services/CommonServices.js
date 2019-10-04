@@ -52,11 +52,12 @@
     commonService.GetAttorneyByFirmID = function (firmId) {
         return $http.get(configurationService.basePath + "GetAttorneyByFirmID?FirmId=" + firmId);
     };
-    commonService.GetAttorneyByFirmIDForclient = function (firmId, UserId, isShowMore) {
-        return $http.get(configurationService.basePath + "GetAttorneyByFirmIDForclient?FirmId=" + firmId + "&UserId=" + UserId + "&isShowMore=" + isShowMore);
+    commonService.GetAttorneyByFirmIDForclient = function (firmId, UserId, isShowMore, CompanyNo) {
+       
+        return $http.get(configurationService.basePath + "GetAttorneyByFirmIDForclient?FirmId=" + firmId + "&UserId=" + UserId + "&isShowMore=" + isShowMore + "&CompNo=" + CompanyNo);
     };
-    commonService.GetAttorneyByFirmIDForclientAndAdmin = function (firmId, UserId, isShowMore) {
-        return $http.get(configurationService.basePath + "GetAttorneyByFirmIDForclientAndAdmin?FirmId=" + firmId + "&UserId=" + UserId + "&isShowMore=" + isShowMore);
+    commonService.GetAttorneyByFirmIDForclientAndAdmin = function (firmId, UserId, isShowMore, CompanyNo) {
+        return $http.get(configurationService.basePath + "GetAttorneyByFirmIDForclientAndAdmin?FirmId=" + firmId + "&UserId=" + UserId + "&isShowMore=" + isShowMore + "&CompNo=" + CompanyNo);
     };
     commonService.LocationDepartmentDropDown = function () {
         return $http.get(configurationService.basePath + "LocationDepartmentDropDown");
@@ -73,10 +74,10 @@
     commonService.GetFileTypeDropdown = function () {
         return $http.get(configurationService.basePath + "GetFileTypeDropdown");
     };
-    commonService.GetFirmByUserId = function (UserID) {
-        return $http.get(configurationService.basePath + "GetFirmByUserId?UserID=" + UserID);
+    commonService.GetFirmByUserId = function (UserID, CompanyNo) {
+        return $http.get(configurationService.basePath + "GetFirmByUserId?UserID=" + UserID + "&CompNo=" + CompanyNo);
     };
-    commonService.GetAssociatedFirm = function (UserID,OrderID) {
+    commonService.GetAssociatedFirm = function (UserID, OrderID) {
         return $http.get(configurationService.basePath + "GetAssociatedFirm?UserID=" + UserID + "&OrderID=" + OrderID);
     };
     commonService.GetFirmDetailByFirmID = function (FirmID) {

@@ -372,6 +372,8 @@
         app.controller('SessionController', function ($scope, $state, localStorageService, $stateParams, $rootScope, MessageServices, notificationFactory, configurationService, $compile, $filter) {
             var aaa = $state;
             $rootScope.LoggedInUserDetail =@Html.Raw(Json.Encode(@ProjectSession.LoggedInUserDetail));
+            $rootScope.CompanyUserDetail =@Html.Raw(Json.Encode(@ProjectSession.CompanyUserDetail));
+            $rootScope.CompanyNo = @ProjectSession.CompanyUserDetail.CompNo;
             $rootScope.NotificationCount;
             if(!isNullOrUndefinedOrEmpty($rootScope.LoggedInUserDetail) && !isNullOrUndefinedOrEmpty($rootScope.LoggedInUserDetail.Permissions)){
                 $rootScope.UserPermissionList = $rootScope.LoggedInUserDetail.Permissions;

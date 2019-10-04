@@ -223,17 +223,18 @@ namespace Axiom.Web.API
             return response;
         }
 
-        
+
         [HttpGet]
         [Route("GetAttorneyByFirmIDForclient")]
-        public ApiResponse<AttorneyEntity> GetAttorneyByFirmIDForclient(string FirmId, string UserId, bool isShowMore = false)
+        public ApiResponse<AttorneyEntity> GetAttorneyByFirmIDForclient(string FirmId, string UserId, int CompNo, bool isShowMore = false)
         {
             var response = new ApiResponse<AttorneyEntity>();
             try
             {
                 SqlParameter[] param = { new SqlParameter("FirmId", (object)FirmId ?? (object)DBNull.Value)
                                         ,new SqlParameter("UserId", (object)UserId ?? (object)DBNull.Value)
-                ,new SqlParameter("isShowMore", (object)isShowMore ?? (object)DBNull.Value)};
+                                        ,new SqlParameter("isShowMore", (object)isShowMore ?? (object)DBNull.Value)
+                                        ,new SqlParameter("CompanyNo", (object)CompNo ?? (object)DBNull.Value)};
                 var result = _repository.ExecuteSQL<AttorneyEntity>("GetAttorneyByFirmIDForclient", param).ToList();
                 if (result == null)
                 {
@@ -251,14 +252,15 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetAttorneyByFirmIDForclientAndAdmin")]
-        public ApiResponse<AttorneyEntity> GetAttorneyByFirmIDForclientAndAdmin(string FirmId, string UserId, bool isShowMore = false)
+        public ApiResponse<AttorneyEntity> GetAttorneyByFirmIDForclientAndAdmin(string FirmId, string UserId, string CompNo, bool isShowMore = false)
         {
             var response = new ApiResponse<AttorneyEntity>();
             try
             {
                 SqlParameter[] param = { new SqlParameter("FirmId", (object)FirmId ?? (object)DBNull.Value)
                                         ,new SqlParameter("UserId", (object)UserId ?? (object)DBNull.Value)
-                                        ,new SqlParameter("isShowMore", (object)isShowMore ?? (object)DBNull.Value)};
+                                        ,new SqlParameter("isShowMore", (object)isShowMore ?? (object)DBNull.Value)
+                                        ,new SqlParameter("CompanyNo", (object)CompNo ?? (object)DBNull.Value)};
                 var result = _repository.ExecuteSQL<AttorneyEntity>("GetAttorneyByFirmIDForclientAndAdmin", param).ToList();
                 if (result == null)
                 {
@@ -457,7 +459,8 @@ namespace Axiom.Web.API
             var response = new ApiResponse<AttorneyScopeEntity>();
             try
             {
-                SqlParameter[] param = { new SqlParameter("search", (object)search ?? (object)DBNull.Value) };
+                SqlParameter[] param = { new SqlParameter("search", (object)search ?? (object)DBNull.Value)
+                };
                 var result = _repository.ExecuteSQL<AttorneyScopeEntity>("AttorneyForDropdown", param).ToList();
                 if (result == null)
                 {
@@ -627,14 +630,13 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetFirmByUserId")]
-        public ApiResponse<FirmScopeEntity> GetFirmByUserId(string UserID)
+        public ApiResponse<FirmScopeEntity> GetFirmByUserId(string UserID, string CompNo)
         {
             var response = new ApiResponse<FirmScopeEntity>();
             try
             {
                 Guid Gid = new Guid(UserID);
-                SqlParameter[] param = { new SqlParameter("UserId", (object)Gid ?? (object)DBNull.Value)
-                                        ,new SqlParameter("CompanyNo", (object)ProjectSession.CompanyUserDetail.CompNo ?? (object)DBNull.Value)
+                SqlParameter[] param = { new SqlParameter("UserId", (object)Gid ?? (object)DBNull.Value)                                        
                                         };
                 var result = _repository.ExecuteSQL<FirmScopeEntity>("GetFirmByUserId", param).ToList();
                 if (result == null)
@@ -653,7 +655,7 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetAssociatedFirm")]
-        public ApiResponse<FirmScopeEntity> GetAssociatedFirm(string UserID,string OrderID)
+        public ApiResponse<FirmScopeEntity> GetAssociatedFirm(string UserID, string OrderID)
         {
             var response = new ApiResponse<FirmScopeEntity>();
             try
@@ -973,7 +975,7 @@ namespace Axiom.Web.API
             return response;
         }
 
-       
+
 
     }
 }
