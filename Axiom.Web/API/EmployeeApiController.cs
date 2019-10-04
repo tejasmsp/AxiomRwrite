@@ -68,7 +68,6 @@ namespace Axiom.Web.API
             return response;
         }
 
-
         [HttpPost]
         [Route("InsertEmployee")]
         public BaseApiResponse InsertEmployee(EmployeeEntity model)
@@ -88,8 +87,7 @@ namespace Axiom.Web.API
                                         , new SqlParameter("isApproved", (object)model.IsApproved ?? (object)DBNull.Value)
                                         , new SqlParameter("SelectedRoles", (object)model.SelectedRoles ?? (object)DBNull.Value)
                                         , new SqlParameter("createdBy", (object)model.CreatedBy ?? (object)DBNull.Value)
-                                        , new SqlParameter("CompanyNo", (object)model.CompanyNo ?? (object)DBNull.Value)
-
+                                        , new SqlParameter("CompanyNo", (object)ProjectSession.CompanyUserDetail.CompNo ?? (object)DBNull.Value)
                                         };
                 var result = _repository.ExecuteSQL<string>("InsertEmployee", param).FirstOrDefault();
                 if (result != string.Empty)
@@ -158,9 +156,6 @@ namespace Axiom.Web.API
 
             return response;
         }
-
-
-
 
         #endregion
     }

@@ -32,7 +32,6 @@
         $scope.AttorneyAssistantContactList.push(AssistantContactObj);
     };
 
-    
     $scope.RemoveAssistantContact = function (AssistantContactObj) {        
         var index = $scope.AttorneyAssistantContactList.indexOf(AssistantContactObj);
         if (index > -1) {
@@ -138,6 +137,7 @@
             $scope.isEdit = false;
         }
     };
+
     function getUserDetails() {
         var promise = CommonServices.GetUserDetails();
         promise.success(function (response) {
@@ -149,7 +149,6 @@
         });
     }
   
-
     function SetCheckBoxStatus(csvValue, optionsList) {        
         if (csvValue != null && csvValue != '') {
             csvValue = csvValue.toString().split('');
@@ -262,8 +261,13 @@
                 , { Value: '5', Title: '3 Hole Unbound', IsChecked: false }
                 , { Value: '6', Title: 'No Hole No Bound', IsChecked: false }
             ];
-    }
 
+        var _companylist = CommonServices.GetCompanyDropDown();
+        _companylist.success(function (response) {
+            $scope.Companylist = response.Data;
+        });
+        _companylist.error(function (data, statusCode) { });
+    }
 
     $scope.SaveAttorney = function (form) {
         
@@ -348,7 +352,6 @@
         $scope.frmAdditionalContacts.$setPristine();
         $scope.ClearAdditionalContact();
     };
-
 
     $scope.DeleteAdditionalContact = function (ContactID) {
 

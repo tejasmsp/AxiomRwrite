@@ -45,6 +45,30 @@ namespace Axiom.Web.API
 
         }
 
+        [HttpGet]
+        [Route("GetCompanyNoBySiteUrl")]
+        public ApiResponse<int> GetCompanyNoBySiteUrl(string SiteUrl)
+        {
+            var response = new ApiResponse<int>();
+            try
+            {
+                SqlParameter[] param = { new SqlParameter("SiteUrl", (object)SiteUrl ?? (object)DBNull.Value) };
+                var result = _repository.ExecuteSQL<int>("GetCompanyNoBySiteUrl", param).ToList();
+                if (result == null)
+                {
+                    result = new List<int>();
+                }
+                response.Success = true;
+                response.Data = result;
+            }
+            catch (Exception ex)
+            {
+                response.Message.Add(ex.Message);
+            }
+
+            return response;
+        }
+
         #endregion
     }
 }

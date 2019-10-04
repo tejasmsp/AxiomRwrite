@@ -54,6 +54,25 @@ public class LoggedInUserDetail
     public bool? IsAdmin { get; set; }
 }
 
+public class CompanyUserDetail
+{
+    public int CompNo { get; set; }
+    public string CompID { get; set; }
+    public string CompName { get; set; }
+    public string Street1 { get; set; }
+    public string Street2 { get; set; }
+    public string City { get; set; }
+    public string State { get; set; }
+    public string Zip { get; set; }
+    public string AreaCode1 { get; set; }
+    public string PhoneNo { get; set; }
+    public string AreaCode2 { get; set; }
+    public string FaxNo { get; set; }
+    public string Email { get; set; }
+    public string SiteUrl { get; set; }
+    public string Style { get; set; }
+    public string ImagePath { get; set; }
+}
 
 /// <summary>
 /// Class ProjectSession.
@@ -85,7 +104,25 @@ public class ProjectSession
         }
     }
 
-    
+    public static CompanyUserDetail CompanyUserDetail
+    {
+        get
+        {
+            if (HttpContext.Current.Session["CompanyUserDetail"] == null)
+            {
+                return null;
+            }
+
+            return HttpContext.Current.Session["CompanyUserDetail"] as CompanyUserDetail;
+        }
+
+        set
+        {
+            HttpContext.Current.Session["CompanyUserDetail"] = value;
+        }
+    }
+
+
 
     /// <summary>
     /// Gets or sets the exception.

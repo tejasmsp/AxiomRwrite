@@ -15,16 +15,19 @@ namespace Axiom.Web.Controllers
     {
         #region Initialization
         LoginApiController loginApi = new LoginApiController();
+        public HomeApiController homeApiController = new HomeApiController();
+        public CompanyApicontroller companyApiController = new CompanyApicontroller();
         #endregion
 
         #region Methods
 
         #endregion
-       
+
 
         // GET: Login
         public ActionResult Index()
         {
+            GetCompanyNoBySiteUrl();
             if (ProjectSession.LoggedInUserDetail != null && !String.IsNullOrEmpty(ProjectSession.LoggedInUserDetail.UserId))
             {
                 if (ProjectSession.LoggedInUserDetail.RoleName.Contains("Administrator") || ProjectSession.LoggedInUserDetail.RoleName.Contains("DocumentAdmin"))
@@ -39,18 +42,41 @@ namespace Axiom.Web.Controllers
             else
             {
                 //var RequestUrl = Request.Url;            
-                
-               
                 LoginUserEntity model = new LoginUserEntity();
                 return View(model);
             }
         }
 
+        public void GetCompanyNoBySiteUrl()
+        {
+            string CurrentUrl = Request.Url.AbsoluteUri;
+            var response = homeApiController.GetCompanyNoBySiteUrl(CurrentUrl);
+
+            var result = companyApiController.GetCompanyDetailById(response.Data[0]);
+
+            ProjectSession.CompanyUserDetail = new CompanyUserDetail();
+            ProjectSession.CompanyUserDetail.CompNo = result.Data[0].CompNo;
+            ProjectSession.CompanyUserDetail.CompID = result.Data[0].CompID;
+            ProjectSession.CompanyUserDetail.CompName = result.Data[0].CompName;
+            ProjectSession.CompanyUserDetail.Street1 = result.Data[0].Street1;
+            ProjectSession.CompanyUserDetail.Street2 = result.Data[0].Street2;
+            ProjectSession.CompanyUserDetail.City = result.Data[0].City;
+            ProjectSession.CompanyUserDetail.State = result.Data[0].State;
+            ProjectSession.CompanyUserDetail.Zip = result.Data[0].Zip;
+            ProjectSession.CompanyUserDetail.AreaCode1 = result.Data[0].AreaCode1;
+            ProjectSession.CompanyUserDetail.PhoneNo = result.Data[0].PhoneNo;
+            ProjectSession.CompanyUserDetail.AreaCode2 = result.Data[0].AreaCode2;
+            ProjectSession.CompanyUserDetail.FaxNo = result.Data[0].FaxNo;
+            ProjectSession.CompanyUserDetail.Email = result.Data[0].Email;
+            ProjectSession.CompanyUserDetail.SiteUrl = result.Data[0].SiteURL;
+            ProjectSession.CompanyUserDetail.Style = result.Data[0].Style;
+            ProjectSession.CompanyUserDetail.ImagePath = "/assets/images/logo-axiom_" + result.Data[0].CompNo + ".png";
+        }
+
         // Post: Login
         [HttpPost]
         public ActionResult Index(LoginUserEntity model)
-        {
-
+            {
             var Result = loginApi.LoginUser(model);
             if (Result.Data != null && !String.IsNullOrEmpty(Result.Data[0].UserId))
             {

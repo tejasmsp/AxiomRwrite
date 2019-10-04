@@ -628,7 +628,8 @@
     <Content Include="assets\images\loader4.gif" />
     <Content Include="assets\images\Loading.gif" />
     <Content Include="assets\images\login_cover.jpg" />
-    <Content Include="assets\images\logo-axiom.png" />
+    <Content Include="assets\images\logo-axiom-new.png" />
+    <Content Include="assets\images\logo-axiom_4.png" />
     <Content Include="assets\images\LogoSmall.png" />
     <Content Include="assets\images\LogoSmall_Blue.png" />
     <Content Include="assets\images\logo_dark.png" />
@@ -658,6 +659,8 @@
     <Content Include="Content\Axiom.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\1\style.css" />
+    <Content Include="Content\4\style.css" />
     <Content Include="css\icons\glyphicons\opensans-semibold-demo.html" />
     <Content Include="css\icons\icomoon\styles.css" />
     <Content Include="DBScript\FirmDefaultScope.sql" />

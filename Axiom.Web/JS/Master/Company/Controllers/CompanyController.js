@@ -106,6 +106,12 @@
                     "data": "Email"
                 },
                 {
+                    "title": "Site URL",
+                    "className": "dt-left",
+                    "sorting": "true",
+                    "data": "SiteURL"
+                },
+                {
                     "title": 'Action',
                     "data": null,
                     "className": "action dt-center",
@@ -133,10 +139,5 @@
             }
         });
     }
-
-
-    
-
     //#endregion 
-
 });

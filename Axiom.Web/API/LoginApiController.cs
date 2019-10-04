@@ -33,7 +33,8 @@ namespace Axiom.Web.API
             {
                 SqlParameter[] param = { new SqlParameter("Email", (object)model.Email ?? (object)DBNull.Value)
                                         ,new SqlParameter("Password", (object)Security.Encrypt(model.Password) ?? (object)DBNull.Value)
-                                       };
+                                        ,new SqlParameter("CompNo", (object)ProjectSession.CompanyUserDetail.CompNo ?? (object)DBNull.Value)
+                };
                 var result = _repository.ExecuteSQL<LoginUserEntity>("LoginUser", param).ToList();
                 if (result == null)
                 {
@@ -59,7 +60,7 @@ namespace Axiom.Web.API
 
             try
             {
-                SqlParameter[] param = { new SqlParameter("UserID", (object)UserID ?? (object)DBNull.Value)};
+                SqlParameter[] param = { new SqlParameter("UserID", (object)UserID ?? (object)DBNull.Value) };
                 var result = _repository.ExecuteSQL<string>("GetUserType", param).ToList();
                 if (result == null)
                 {
