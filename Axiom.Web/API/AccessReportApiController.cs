@@ -9,12 +9,15 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Data.SqlClient;
 using System.ComponentModel;
-using System.Reflection;
 using System.Net.Http.Headers;
 using System.Web;
 using System.IO;
 using System.Text;
 using System.Data;
+using Aspose.Words;
+using Aspose.Words.Tables;
+using System.Drawing;
+
 
 namespace Axiom.Web.API
 {
@@ -161,7 +164,7 @@ namespace Axiom.Web.API
                     SqlParameter[] param5 = { new SqlParameter("CompanyNo", (object)CompanyID ?? (object)DBNull.Value) };
                     var result5 = _repository.ExecuteSQL<NonInvoicedPartsEntity>("AccessNonInvoicedParts", param5).ToList();
 
-                    
+
 
                     if (result5 == null)
                     {
@@ -219,7 +222,6 @@ namespace Axiom.Web.API
                     break;
 
                 case "GroverBilling":
-                    // GroverBillingEntity
 
                     SqlParameter[] param9 = {new SqlParameter("StartDate", (object)StartDate ?? (object)DBNull.Value)
                                             ,new SqlParameter("EndDate", (object)EndDate ?? (object)DBNull.Value)
@@ -545,6 +547,7 @@ namespace Axiom.Web.API
             response.Data = result;
             return response;
         }
+
         [HttpGet]
         [Route("DisplayAccessReportNonInvoicedParts")]
         public ApiResponse<NonInvoicedPartsEntity> DisplayAccessReportNonInvoicedParts(string reportName, string StartDate, string EndDate, string CompanyID, string CheckNumber, string ssnNumber, string FirmID)
@@ -567,6 +570,7 @@ namespace Axiom.Web.API
             return response;
 
         }
+
         [HttpGet]
         [Route("DisplayAccessReportHanoverBilling")]
         public ApiResponse<HanoverBillingEntity> DisplayAccessReportHanoverBilling(string reportName, string StartDate, string EndDate, string CompanyID, string CheckNumber, string ssnNumber, string FirmID)
@@ -675,6 +679,33 @@ namespace Axiom.Web.API
             return response;
         }
 
+        [HttpGet]
+        [Route("DisplayAccessReportAgedAR")]
+        public ApiResponse<AgedAR> DisplayAccessReportAgedAR(string reportName, string StartDate, string EndDate, string CompanyID, string CheckNumber, string ssnNumber, string FirmID)
+        {
+            if (FirmID.ToLower() == "undefined" || FirmID.ToLower() == "null")
+                FirmID = string.Empty;
+
+            if (CompanyID.ToLower() == "undefined" || CompanyID.ToLower() == "null")
+                CompanyID = "0";
+
+            var response = new ApiResponse<AgedAR>();
+
+
+            SqlParameter[] param = {new SqlParameter("StartDate", (object)StartDate ?? (object)DBNull.Value)
+                                            ,new SqlParameter("EndDate", (object)EndDate ?? (object)DBNull.Value)
+                                            ,new SqlParameter("CompanyNo", (object)CompanyID ?? (object)DBNull.Value)
+                                            ,new SqlParameter("FirmID", (object)FirmID ?? (object)DBNull.Value)};
+
+            var result = _repository.ExecuteSQL<AgedAR>("AccessAgedAR", param).ToList();
+
+            if (result == null)
+                result = new List<AgedAR>();
+
+            response.Data = result;
+            return response;
+        }
+
         public static string FormatCSV(string input)
         {
             try
@@ -706,6 +737,266 @@ namespace Axiom.Web.API
             {
                 throw;
             }
+        }
+
+        [HttpGet]
+        [Route("DownloadAgedAR")]
+        public HttpResponseMessage DownloadAgedAR(string StartDate, string EndDate, string CompanyID, string FirmID)
+        {
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            string fileNames = "ClientRecords";
+            string strLiveURL = System.Configuration.ConfigurationManager.AppSettings["LiveSiteURL"].ToString();
+            string DocumentPath = System.Configuration.ConfigurationManager.AppSettings["AgedARReportDocumentPath"].ToString();
+            try
+            {
+                if (FirmID.ToLower() == "undefined" || FirmID.ToLower() == "null")
+                    FirmID = string.Empty;
+
+                if (CompanyID.ToLower() == "undefined" || CompanyID.ToLower() == "null")
+                    CompanyID = "0";
+
+                SqlParameter[] param = {new SqlParameter("StartDate", (object)StartDate ?? (object)DBNull.Value)
+                                            ,new SqlParameter("EndDate", (object)EndDate ?? (object)DBNull.Value)
+                                            ,new SqlParameter("CompanyNo", (object)CompanyID ?? (object)DBNull.Value)
+                                            ,new SqlParameter("FirmID", (object)FirmID ?? (object)DBNull.Value)};
+
+                var result = _repository.ExecuteSQL<AgedAR>("AccessAgedAR", param).ToList();
+
+                // dt = Common.CommonHelper.ToDataTable(result10);
+
+                fileNames = "AgedAR-Report_" + DateTime.Now.ToString("MMddyyyyhhmm");
+                if (!string.IsNullOrEmpty(FirmID))
+                {
+                    fileNames += "_" + FirmID;
+                }
+
+
+                List<AgedAR> resultThirty;
+                List<AgedAR> resultSixty;
+                List<AgedAR> resultNinty;
+                List<AgedAR> resultNintyPlus;
+
+                decimal thirtyTotalInv = 0;
+                decimal thirtyTotalBalance = 0;
+
+                decimal sixtyTotalInv = 0;
+                decimal sixtyTotalBalance = 0;
+
+                decimal nintyTotalInv = 0;
+                decimal nintyTotalBalance = 0;
+
+                decimal nintyPlusTotalInv = 0;
+                decimal nintyPlusTotalBalance = 0;
+
+
+
+                resultThirty = result.Where(x => x.Days <= 30).OrderByDescending(x => x.Days).ToList<AgedAR>();
+                resultSixty = result.Where(x => x.Days > 30 && x.Days <= 60).OrderByDescending(x => x.Days).ToList<AgedAR>();
+                resultNinty = result.Where(x => x.Days > 60 && x.Days <= 90).OrderByDescending(x => x.Days).ToList<AgedAR>();
+                resultNintyPlus = result.Where(x => x.Days > 90).OrderBy(x => x.OrderNo).OrderByDescending(x => x.Days).ToList<AgedAR>();
+
+                thirtyTotalInv = resultThirty.Where(x => x.Days <= 30).Sum(x => x.InvoiceAmount);
+                thirtyTotalBalance = resultThirty.Where(x => x.Days <= 30).Sum(x => x.Balance);
+
+                sixtyTotalInv = resultSixty.Where(x => x.Days > 30 && x.Days <= 60).Sum(x => x.InvoiceAmount);
+                sixtyTotalBalance = resultSixty.Where(x => x.Days > 30 && x.Days <= 60).Sum(x => x.Balance);
+
+                nintyTotalInv = resultNinty.Where(x => x.Days > 60 && x.Days <= 90).Sum(x => x.InvoiceAmount);
+                nintyTotalBalance = resultNinty.Where(x => x.Days > 60 && x.Days <= 90).Sum(x => x.Balance);
+
+                nintyPlusTotalInv = resultNintyPlus.Where(x => x.Days > 90).Sum(x => x.InvoiceAmount);
+                nintyPlusTotalBalance = resultNintyPlus.Where(x => x.Days > 90).Sum(x => x.Balance);
+
+                string[] ColName = { "Invoice No", "OrderNo", "Invoice Amount", "Paid Amount", "Balance", "Invoice Date", "Firm", "Location", "Days" };
+                //Get dummy datasource (data table with random number of rows)
+
+                Aspose.Words.License license = new Aspose.Words.License();
+                license.SetLicense("Aspose.Words.lic");
+                //Open or create document and create DocumentBuilder
+                Aspose.Words.Document doc = new Aspose.Words.Document(DocumentPath);
+
+                //Document builder will be needed to build table in the document
+                Aspose.Words.DocumentBuilder builder = new DocumentBuilder(doc);
+
+
+                //move documentBuilder cursor to the bookmark inside table
+
+                if (resultThirty.Count > 0)
+                {
+                    builder.MoveToBookmark("Count30");
+                    builder.Writeln("(" + resultThirty.Count.ToString() + ")");
+                    builder.Writeln("Invoice Amount :" + thirtyTotalInv.ToString("C"));
+                    builder.Write("Balance Amount :" + thirtyTotalBalance.ToString("C"));
+                }
+
+                builder.MoveToBookmark("TableThirty");
+                Aspose.Words.Tables.Table myTable = (Aspose.Words.Tables.Table)builder.CurrentNode.GetAncestor(NodeType.Table);
+                BuildHeaderRow(ColName, myTable, builder);
+                InsertData(resultThirty, myTable, builder);
+
+                if (resultSixty.Count > 0)
+                {
+                    builder.MoveToBookmark("Count60");
+                    builder.Writeln("(" + resultSixty.Count.ToString() + ")");
+                    builder.Writeln("Invoice Amount :" + sixtyTotalInv.ToString("C"));
+                    builder.Write("Balance Amount :" + sixtyTotalBalance.ToString("C"));
+                }
+                // builder.InsertBreak(BreakType.SectionBreakNewPage);
+                builder.MoveToBookmark("TableSixty");
+                myTable = (Aspose.Words.Tables.Table)builder.CurrentNode.GetAncestor(NodeType.Table);
+                BuildHeaderRow(ColName, myTable, builder);
+                InsertData(resultSixty, myTable, builder);
+
+                if (resultNinty.Count > 0)
+                {
+                    builder.MoveToBookmark("Count90");
+                    builder.Writeln("(" + resultNinty.Count.ToString() + ")");
+                    builder.Writeln("Invoice Amount :" + nintyTotalInv.ToString("C"));
+                    builder.Write("Balance Amount :" + nintyTotalBalance.ToString("C"));
+                }
+                // builder.InsertBreak(BreakType.SectionBreakNewPage);
+                builder.MoveToBookmark("TableNinty");
+                myTable = (Aspose.Words.Tables.Table)builder.CurrentNode.GetAncestor(NodeType.Table);
+                BuildHeaderRow(ColName, myTable, builder);
+                InsertData(resultNinty, myTable, builder);
+
+                if (resultNintyPlus.Count > 0)
+                {
+                    builder.MoveToBookmark("Count90Plus");
+                    builder.Writeln("(" + resultNintyPlus.Count.ToString() + ")");
+                    builder.Writeln("Invoice Amount :" + nintyPlusTotalInv.ToString("C"));
+                    builder.Write("Balance Amount :" + nintyPlusTotalBalance.ToString("C"));
+                }
+                builder.MoveToBookmark("TableNintyPlus");
+                myTable = (Aspose.Words.Tables.Table)builder.CurrentNode.GetAncestor(NodeType.Table);
+                BuildHeaderRow(ColName, myTable, builder);
+                InsertData(resultNintyPlus, myTable, builder);
+
+
+                MemoryStream ms = new MemoryStream();
+                ms.Flush();
+                doc.Save(ms, Aspose.Words.SaveFormat.Pdf);
+
+
+                response.Content = new ByteArrayContent(ms.ToArray());
+                response.Content.Headers.Clear();
+                response.Content.Headers.TryAddWithoutValidation("Content-Disposition", "attachment; filename=" + fileNames + ".pdf");
+                response.Content.Headers.Add("Content-Length", ms.ToArray().Length.ToString());
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue(MimeMapping.GetMimeMapping("application/pdf"));
+
+
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                // response.Message.Add(ex.Message);
+            }
+            return response;
+        }
+
+        public void BuildHeaderRow(string[] ColName, Aspose.Words.Tables.Table myTable, Aspose.Words.DocumentBuilder builder)
+        {
+            foreach (string col in ColName)
+            {
+                //Clone first cell of first row to build header of the table
+                Cell hCell = (Cell)myTable.FirstRow.FirstCell.Clone(true);
+
+                //Insert cell into the first row
+                myTable.FirstRow.AppendChild(hCell);
+
+                // myTable.LastRow.AppendChild(hCell);
+
+                //Move document builder cursor to the cell
+                builder.MoveTo(hCell.FirstParagraph);
+
+                //Insert text
+                builder.Write(col);
+            }
+            //string[] ColName = { "Invoice No", "OrderNo", "Invoice Amount", "Paid Amount", "Balance", "Invoice Date", "Firm","Patient","Location","Days" };
+            myTable.Rows[0].Cells[0].Remove();
+            myTable.Rows[1].Cells[0].Remove();
+
+            myTable.Rows[0].Cells[0].CellFormat.Width = 50; //Invoice No
+            myTable.Rows[0].Cells[1].CellFormat.Width = 60; // OrderNo
+            myTable.Rows[0].Cells[2].CellFormat.Width = 80; // Invoice Amount
+            myTable.Rows[0].Cells[3].CellFormat.Width = 80; // Paid Amount
+            myTable.Rows[0].Cells[4].CellFormat.Width = 50; // Balance
+            myTable.Rows[0].Cells[5].CellFormat.Width = 70; // Invoice Date
+            myTable.Rows[0].Cells[6].CellFormat.Width = 150; // Firm            
+            myTable.Rows[0].Cells[7].CellFormat.Width = 150; // Location
+            myTable.Rows[0].Cells[8].CellFormat.Width = 35; // Days
+            
+        }
+
+        public void InsertData(List<AgedAR> result, Aspose.Words.Tables.Table myTable, Aspose.Words.DocumentBuilder builder)
+        {
+            string partLink = string.Empty;
+            string invoiceLink = string.Empty;
+            string strLiveURL = System.Configuration.ConfigurationManager.AppSettings["LiveSiteURL"].ToString();
+            // string[] ColName = { "Part No", "Day", "Records Of","Location", "Client Matter", "Claim No", "Note" };
+            foreach (AgedAR item in result)
+            {
+                Row clonedRow = (Row)myTable.FirstRow.Clone(true);
+                // https://www.axiomcopyonline.com/PrintInvoice?InvoiceID=622265&OrderId=61795&PartNo=15
+                // clonedRow.Cells[0].CellFormat.Width = 100;
+                partLink = strLiveURL + "/" + "PartDetail?OrderId=" + item.OrderNo.Split('-')[0] + "&PartNo=" + item.OrderNo.Split('-')[1];
+                invoiceLink = strLiveURL + "/" + "PrintInvoice?InvoiceID=" + item.InvoiceNo + "&OrderId=" + item.OrderNo.Split('-')[0] + "&PartNo=" + item.OrderNo.Split('-')[1];
+                
+                clonedRow.Cells[0].FirstParagraph.ChildNodes.Clear();
+                builder.MoveTo(clonedRow.Cells[0].FirstParagraph);
+                builder.Font.Color = Color.OrangeRed;
+                // builder.Font.Underline = Underline.Single;
+
+                builder.InsertHyperlink(item.InvoiceNo.ToString(), invoiceLink, false);
+                // builder.InsertField(@"HYPERLINK " +  partLink + "\t_blank", item.OrderPart);
+
+                builder.Font.ClearFormatting();
+
+                // clonedRow.Cells[1].CellFormat.Width = 50;
+                clonedRow.Cells[1].FirstParagraph.ChildNodes.Clear();
+                builder.MoveTo(clonedRow.Cells[1].FirstParagraph);
+                builder.Font.Color = Color.OrangeRed;
+                builder.InsertHyperlink(item.OrderNo.ToString(), partLink, false);
+                builder.Font.ClearFormatting();
+
+
+                clonedRow.Cells[2].FirstParagraph.ChildNodes.Clear();
+                builder.MoveTo(clonedRow.Cells[2].FirstParagraph);
+                builder.Write(item.InvoiceAmount.ToString());
+
+                clonedRow.Cells[3].FirstParagraph.ChildNodes.Clear();
+                builder.MoveTo(clonedRow.Cells[3].FirstParagraph);
+                builder.Write(item.PaidAmount.ToString());
+
+                clonedRow.Cells[4].FirstParagraph.ChildNodes.Clear();
+                builder.MoveTo(clonedRow.Cells[4].FirstParagraph);
+                builder.Write(item.Balance.ToString());
+
+                clonedRow.Cells[5].FirstParagraph.ChildNodes.Clear();
+                builder.MoveTo(clonedRow.Cells[5].FirstParagraph);
+                builder.Write(item.InvoiceDate);
+
+                clonedRow.Cells[6].FirstParagraph.ChildNodes.Clear();
+                builder.MoveTo(clonedRow.Cells[6].FirstParagraph);
+                builder.Write(item.FirmName);
+
+                //clonedRow.Cells[7].FirstParagraph.ChildNodes.Clear();
+                //builder.MoveTo(clonedRow.Cells[7].FirstParagraph);
+                //builder.Write(item.Patient);
+
+                clonedRow.Cells[7].FirstParagraph.ChildNodes.Clear();
+                builder.MoveTo(clonedRow.Cells[7].FirstParagraph);
+                builder.Write(item.Location);
+
+                clonedRow.Cells[8].FirstParagraph.ChildNodes.Clear();
+                builder.MoveTo(clonedRow.Cells[8].FirstParagraph);
+                builder.Write(item.Days.ToString());
+
+
+                myTable.AppendChild(clonedRow);
+            }
+            builder.InsertBreak(BreakType.PageBreak);
         }
 
     }

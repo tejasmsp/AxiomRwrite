@@ -117,6 +117,7 @@ namespace Axiom.Entity
         public string OrderBy { get; set; }
         public string OrderDate { get; set; }
     }
+
     public class GroverBillingEntity
     {
         public string InvoiceDate { get; set; }
@@ -128,7 +129,19 @@ namespace Axiom.Entity
         public string OrderingAttorney { get; set; }
         public string Location { get; set; }
         public string FirmName { get; set; }
-
+    }
+    public class AgedAR
+    {
+        public int InvoiceNo { get; set; }
+        public string OrderNo { get; set; }
+        public decimal InvoiceAmount { get; set; }
+        public decimal PaidAmount { get; set; }
+        public decimal Balance { get; set; }
+        public string InvoiceDate { get; set; }
+        public string FirmName { get; set; }
+        public string Patient { get; set; }
+        public string Location { get; set; }
+        public int Days { get; set; }
 
     }
 

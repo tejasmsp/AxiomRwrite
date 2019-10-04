@@ -1122,7 +1122,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIF(Fields!DiffDate.Value&lt;30, Fields!TotalDue.Value,"0.00")</Value>
+                              <Value>=IIF(Fields!DiffDate.Value&lt;30, Fields!Current_Bal.Value,"0.00")</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <FontSize>11pt</FontSize>

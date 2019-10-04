@@ -233,6 +233,9 @@
                         <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'GroverBilling') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
                             <a class="navlink" ui-sref="AccessReports({ type:'GroverBilling'})"><i class="icon-file-stats position-left"></i>Hackney/Grover</a>
                         </li>
+                        <li ng-class="{ active: $state.includes('AccessReports') && ($stateParams.type == 'AgedAR') }" ng-if="isSubModuleAccessibleToUser('AccessReports', 'AccessReports', 'View')">
+                            <a class="navlink" ui-sref="AccessReports({ type:'AgedAR'})"><i class="icon-file-stats position-left"></i>Aged AR</a>
+                        </li>
                     </ul>
                     @*<a href="AccessReports"><i class="icon-books position-left"></i>Reports</a>*@
                 </li>

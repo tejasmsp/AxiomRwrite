@@ -40,8 +40,8 @@
                             <option value="">-- All --</option>
                         </select>
                         @*<select name="FirmID" class="form-control" ng-model="AccessReport.FirmID" ng-options="item.FirmID as item.FirmName for item in firmList">
-                                <option value="">-- All --</option>
-                            </select>*@
+                        <option value="">-- All --</option>
+                    </select>*@
                     </div>
                 </div>
                 <div class="col-md-2" ng-show="showCheckNumber">
@@ -80,7 +80,15 @@
                     <label class="control-label lbl-primary">Invoice Balance&nbsp;&nbsp;{{BillBalance| number:2}}</label>
                 </div>
             </div>
-
+            <div class="row mb-10" ng-show="true">
+                <div class="col-md-6">
+                    <button ng-click="FilterRecord(30)" ng-show="ShowFilterButton" class="btn btn-primary mr-10" title="0 to 30 Days">30</button>
+                    <button ng-click="FilterRecord(60)" ng-show="ShowFilterButton" class="btn btn-primary mr-10" title="31 to 60 Days">60</button>
+                    <button ng-click="FilterRecord(90)" ng-show="ShowFilterButton" class="btn btn-primary mr-10" title="61 to 90 Days">90</button>
+                    <button ng-click="FilterRecord(0)" ng-show="ShowFilterButton" class="btn btn-primary mr-10" title="90 Plus Days">90 Plus</button>
+                    <button ng-click="FilterRecord(-1)" ng-show="ShowFilterButton" class="btn btn-primary mr-10" title="Clear Filter">Clear</button>
+                </div>                
+            </div>
             <div class="row">
                 <div class="col-md-12 no-padding">
                     <div class="table-responsive table-grid">

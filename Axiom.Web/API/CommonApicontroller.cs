@@ -633,7 +633,7 @@ namespace Axiom.Web.API
             try
             {
                 Guid Gid = new Guid(UserID);
-                SqlParameter[] param = { new SqlParameter("UserId", (object)Gid ?? (object)DBNull.Value)
+                SqlParameter[] param = { new SqlParameter("UserId", (object)Gid ?? (object)DBNull.Value)                                        
                                         };
                 var result = _repository.ExecuteSQL<FirmScopeEntity>("GetFirmByUserId", param).ToList();
                 if (result == null)

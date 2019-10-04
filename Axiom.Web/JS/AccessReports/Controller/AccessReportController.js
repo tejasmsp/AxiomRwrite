@@ -3,22 +3,26 @@
     decodeParams($stateParams);
     $scope.ReportName;
     // $scope.showFromToDate = false;
-
-    $scope.showFromToDate = ($stateParams.type == 'PartsByDate' || $stateParams.type == 'InvoiceByDate' || $stateParams.type == 'ChecksByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
-    $scope.showCompany = ($stateParams.type == 'PartsByDate' || $stateParams.type == 'InvoiceByDate' || $stateParams.type == 'ChecksByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'OrderBySSN' || $stateParams.type == 'NonInvoicedParts' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
+    $scope.ShowFirm = false;
+    $scope.showFromToDate = ($stateParams.type == 'PartsByDate' || $stateParams.type == 'InvoiceByDate' || $stateParams.type == 'ChecksByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling' || $stateParams.type == 'AgedAR');
+    $scope.showCompany = ($stateParams.type == 'PartsByDate' || $stateParams.type == 'InvoiceByDate' || $stateParams.type == 'ChecksByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'OrderBySSN' || $stateParams.type == 'NonInvoicedParts' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling' || $stateParams.type == 'AgedAR');
+    $scope.ShowFirm = ($stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling' || $stateParams.type == 'AgedAR');
     $scope.showCheckNumber = $stateParams.type == 'ChecksByNumber';
     $scope.showSSN = $stateParams.type == 'OrderBySSN';
-    $scope.showReportList;
+    $scope.showReportList = [];
+    $scope.showReportListAll = [];
     $scope.showDownloadButton = false;
     $scope.TotalParts = 0;
     $scope.BillAmount = 0;
     $scope.BillBalance = 0;
     $scope.showPartCount = false; $stateParams.type == 'PartsByDate';
-    $scope.ShowFirm = false;
+    $scope.showSpecial = $stateParams.type == 'AgedAR';
     $scope.UserGuid = $rootScope.LoggedInUserDetail.UserId;
-    
+    $scope.Days = -1;
+    $scope.ShowFilterButton = false;
 
-    $scope.ShowFirm = ($stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
+
+
 
     function showReport() {
 
@@ -29,7 +33,7 @@
         $scope.showAmount = ($stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
         $scope.showBalance = ($stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
 
-
+        $scope.ShowFilterButton = $stateParams.type == 'AgedAR';
 
         if ($.fn.DataTable.isDataTable("#tblReports")) {
             // $('#tblReports').DataTable().fndestroy();
@@ -55,6 +59,23 @@
             });
         }
 
+        if ($stateParams.type == 'AgedAR') {
+            if ($scope.Days == 30) {
+                $scope.showReportList = $scope.showReportListAll.filter(s => s.Days <= 30);
+            }
+            else if ($scope.Days == 60) {
+                $scope.showReportList = $scope.showReportListAll.filter(s => s.Days > 30 && s.Days <= 60);
+            }
+            else if ($scope.Days == 90) {
+                $scope.showReportList = $scope.showReportListAll.filter(s => s.Days > 60 && s.Days <= 90);
+            }
+            else if ($scope.Days == 0) {
+                $scope.showReportList = $scope.showReportListAll.filter(s => s.Days > 90);
+            }
+            else if ($scope.Days == -1) {
+                $scope.showReportList = $scope.showReportListAll;
+            }
+        };
 
 
         var datamodel = new Object();
@@ -76,7 +97,6 @@
         $('#tblReports tbody').empty();
         if ($scope.showReportList != null && $scope.showReportList.length > 0) {
             var table = $('#tblReports').DataTable({
-
                 data: $scope.showReportList,
                 "bDestroy": true,
                 "dom": '<"top pull-left "f><"table"rt><"bottom"lip<"clear">>',
@@ -113,31 +133,32 @@
         });
     };
 
-    $scope.BindFirmDropDown = function BindFirmDetail() {
+    $scope.BindFirmDropDown = function () {
 
         // var firmDropdownList = CommonServices.FirmForDropdown("");
         var firmDropdownList = CommonServices.GetFirmByUserId($scope.UserGuid);
         firmDropdownList.success(function (response) {
-            debugger;
+
             $scope.firmList = response.Data;
+            $('.cls-firm1').selectpicker();
+            $('.cls-firm1').selectpicker('refresh');
         });
 
         firmDropdownList.error(function (response) {
             toastr.error(response.Message[0]);
         });
-
-        setTimeout(function () {
-            $('.cls-firm1').selectpicker();
-            $('.cls-firm1').selectpicker('refresh');
-        }, 1000);
-
-        
     };
+
+    $scope.FilterRecord = function (days) {
+        $scope.Days = days;
+        showReport();
+    }
 
     $scope.DisplayReport = function () {
         var showReportList = AccessReportService.DisplayAccessReportPartsByDate($stateParams.type, $scope.AccessReport.StartDate, $scope.AccessReport.EndDate, $scope.AccessReport.CompanyNo, $scope.AccessReport.CheckNumber, $scope.AccessReport.SSNNumber, $scope.AccessReport.FirmID);
         showReportList.success(function (response) {
             $scope.showReportList = response.Data;
+            $scope.showReportListAll = response.Data;
             $scope.showDownloadButton = true;
             showReport();
         });
@@ -147,7 +168,12 @@
     }
 
     $scope.DownloadReport = function () {
-        var reportFile = AccessReportService.DownloadAccessReport($stateParams.type, $scope.AccessReport.StartDate, $scope.AccessReport.EndDate, $scope.AccessReport.CompanyNo, $scope.AccessReport.CheckNumber, $scope.AccessReport.SSNNumber, $scope.AccessReport.FirmID);
+        if ($stateParams.type == 'AgedAR') {
+            var reportFile = AccessReportService.DownloadAccessReportAgedAR($scope.AccessReport.StartDate, $scope.AccessReport.EndDate, $scope.AccessReport.CompanyNo, $scope.AccessReport.FirmID);
+        }
+        else {
+            var reportFile = AccessReportService.DownloadAccessReport($stateParams.type, $scope.AccessReport.StartDate, $scope.AccessReport.EndDate, $scope.AccessReport.CompanyNo, $scope.AccessReport.CheckNumber, $scope.AccessReport.SSNNumber, $scope.AccessReport.FirmID);
+        }
     };
     function init() {
 
