@@ -16,7 +16,7 @@ namespace Axiom.Web
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
-            
+
             //--Global stylesheets-- 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/googlefonts.css",
@@ -44,17 +44,22 @@ namespace Axiom.Web
                       "~/Content/colors.css",
                       "~/Content/Notification.css",
                       "~/Scripts/switch/angular-ui-switch.css",
-                      "~/Content/Site.css", "~/Content/Axiom.css"));
-            // --End global stylesheets
+                      "~/Content/Site.css",
+                      "~/Content/Axiom.css"));
 
+            bundles.Add(new StyleBundle("~/Content/1").Include(
+                      "~/Content/1/style.css"));
+
+            bundles.Add(new StyleBundle("~/Content/4").Include(
+                      "~/Content/4/style.css"));
+            // --End global stylesheets
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
 
-
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
-            bundles.Add(new ScriptBundle("~/bundles/switch").Include(                        
+            bundles.Add(new ScriptBundle("~/bundles/switch").Include(
                         "~/Scripts/switch/angular-ui-switch.js"
                         // "~/Scripts/switch/app.js"
                         ));
@@ -88,7 +93,7 @@ namespace Axiom.Web
                       // "~/Scripts/pages/dashboard.js"
                       ));
             //< !-- End core JS files -->
-     
+
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                    "~/Scripts/angular.js",
@@ -99,7 +104,7 @@ namespace Axiom.Web
                    "~/Scripts/angular-sanitize.js",
                    "~/Scripts/angucomplete-alt.min.js",
                    "~/Scripts/loadash.min.js",
-                   "~/Scripts/switch/angular-ui-switch.js"                   
+                   "~/Scripts/switch/angular-ui-switch.js"
                    )
                    );
 

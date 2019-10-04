@@ -12,21 +12,21 @@
     <title>Axiom | Login</title>
     <!-- Global stylesheets -->
     @Styles.Render("~/Content/css")
-    <!-- /global stylesheets -->  
+    <!-- /global stylesheets -->
     @Scripts.Render("~/bundles/Common")
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/JS/Enums.js"></script>
     <style>
         body {
-            background-color:#fff;
+            background-color: #fff;
         }
+
         .panel {
             background-color: #fdfdff;
         }
     </style>
 </head>
 <body class="login-container">
-
     <!-- Page container -->
     <div class="page-container">
         <!-- Page content -->
@@ -40,7 +40,7 @@
                     <div class="panel panel-body login-form">
                         <div class="text-center">
                             <div class="border-slate-300 text-slate-300">
-                                <img src="~/assets/images/logo-axiom.png" />
+                                <img src="@ProjectSession.CompanyUserDetail.ImagePath" />
                             </div>
                             <h5 class="content-group">Login to your account <small class="display-block">Enter your credentials below</small></h5>
                         </div>
@@ -50,6 +50,7 @@
                                 <label class="text-danger" id="InvalidLoginMsg">Invalid Email or Password</label>
                             </div>
                         }
+
                         @if (!string.IsNullOrEmpty(Model.Msg))
                         {
                             <div class="form-group has-feedback has-feedback-left text-center">
@@ -180,7 +181,7 @@
                 var errormsg = "";
                 if('@Model.InvalidLogin'==5)
                 {
-                    $('#modal_ResetFirstTimePassword').modal('toggle');                    
+                    $('#modal_ResetFirstTimePassword').modal('toggle');
                 }
                 else if ('@Model.InvalidLogin' == enums.LoginErrorMsg.EmailNotMatch) {
                     errormsg = "Email address does not match.";

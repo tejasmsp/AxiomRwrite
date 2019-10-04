@@ -42,6 +42,7 @@ namespace Axiom.Entity
         public string Notes { get; set; }
         public int CreatedBy { get; set; }
         public string SiteURL { get; set; }
+        public string Style { get; set; }
     }
 
 }

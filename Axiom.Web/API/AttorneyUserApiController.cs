@@ -82,8 +82,6 @@ namespace Axiom.Web.API
 
         }
 
-
-
         [HttpGet]
         [Route("DeleteAttorneyUser")]
         public BaseApiResponse DeleteAttorneyUser(string attorneyUserId)
@@ -138,8 +136,6 @@ namespace Axiom.Web.API
 
         }
 
-        
-
         [HttpPost]
         [Route("InsertAttorneyUser")]
         public BaseApiResponse InsertAttorneyUser(AttorneyUsersEntity model)
@@ -155,7 +151,7 @@ namespace Axiom.Web.API
                                         , new SqlParameter("AttorneyEmployeeTypeId", (object)model.AttorneyEmployeeTypeId ?? (object)DBNull.Value)
                                         , new SqlParameter("Password", (object)Security.Encrypt(RandomPassword) ?? (object)DBNull.Value)
                                         , new SqlParameter("CreatedBy", (object)model.CreatedBy ?? (object)DBNull.Value)
-                                        , new SqlParameter("CompanyNo", (object)model.CompanyNo ?? (object)DBNull.Value)
+                                        , new SqlParameter("CompanyNo", (object)ProjectSession.CompanyUserDetail.CompNo ?? (object)DBNull.Value)
                                         };
                 var result = _repository.ExecuteSQL<string>("InsertAttorneyUser", param).FirstOrDefault();
                 if (result != string.Empty)
@@ -223,9 +219,6 @@ namespace Axiom.Web.API
 
             return response;
         }
-
-
-
 
         #endregion
     }

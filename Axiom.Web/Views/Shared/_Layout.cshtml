@@ -6,17 +6,23 @@
     @*<title>Axiom | @ViewBag.Title</title>*@
     <title ng-cloak ng-bind="'Axiom | '+pageTitle"></title>
     <base href="/" />
+
     @Styles.Render("~/Content/css")
+
+    @Styles.Render("~/Content/" + ProjectSession.CompanyUserDetail.CompNo)
+    <style type="text/css">
+           @ProjectSession.CompanyUserDetail.Style
+    </style>
 </head>
 <body ng-cloak>
     <!-- Main navbar -->
     <div class="navbar navbar-inverse fixed" ng-controller="SessionController">
         <div class="navbar-header">
             <div ng-if="(LoggedInUserDetail.RoleName.indexOf('Administrator') == -1)">
-                <a class="navbar-brand" href="" ui-sref="Dashboard"><img src="~/assets/images/logo-axiom.png" alt=""></a>
+                <a class="navbar-brand" href="" ui-sref="Dashboard"><img src="@ProjectSession.CompanyUserDetail.ImagePath" alt=""></a>
             </div>
             <div ng-if="(LoggedInUserDetail.RoleName.indexOf('Administrator')!=-1)">
-                <a class="navbar-brand" href="" ui-sref="Home"><img src="~/assets/images/logo-axiom.png" alt=""></a>
+                <a class="navbar-brand" href="" ui-sref="Home"><img src="@ProjectSession.CompanyUserDetail.ImagePath" alt=""></a>
             </div>
             <ul class="nav navbar-nav pull-right visible-xs-block">
                 <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
