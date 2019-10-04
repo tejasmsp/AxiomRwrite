@@ -128,6 +128,8 @@ namespace Axiom.Web.Controllers
         {
             try
             {
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(1);
+
                 var Result = loginApi.GetUserDetailByEmail(model);
                 if (Result.Data != null && Result.Data.Count > 0)
                 {
@@ -138,7 +140,13 @@ namespace Axiom.Web.Controllers
                     bodyTemplate = bodyTemplate.Replace("##Email##", Result.Data[0].Email);
                     bodyTemplate = bodyTemplate.Replace("##UserName##", Result.Data[0].UserName);
                     bodyTemplate = bodyTemplate.Replace("##Password##", Security.Decrypt(Result.Data[0].Password));
-                    Email.Send(MailTo, bodyTemplate, "[Axiom] - Login Details", "", "");
+                    bodyTemplate = bodyTemplate.Replace("##LogoURL##", objCompany.Logopath);
+                    bodyTemplate = bodyTemplate.Replace("##ThankYou##",objCompany.ThankYouMessage);
+                    bodyTemplate = bodyTemplate.Replace("##CompanyName##", objCompany.CompName);
+                    bodyTemplate = bodyTemplate.Replace("##Link##", objCompany.SiteURL);
+
+
+                    Email.Send(MailTo, bodyTemplate, "Login Details", "", "");
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 else

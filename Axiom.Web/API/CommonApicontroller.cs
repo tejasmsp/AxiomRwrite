@@ -258,7 +258,7 @@ namespace Axiom.Web.API
             {
                 SqlParameter[] param = { new SqlParameter("FirmId", (object)FirmId ?? (object)DBNull.Value)
                                         ,new SqlParameter("UserId", (object)UserId ?? (object)DBNull.Value)
-                ,new SqlParameter("isShowMore", (object)isShowMore ?? (object)DBNull.Value)};
+                                        ,new SqlParameter("isShowMore", (object)isShowMore ?? (object)DBNull.Value)};
                 var result = _repository.ExecuteSQL<AttorneyEntity>("GetAttorneyByFirmIDForclientAndAdmin", param).ToList();
                 if (result == null)
                 {
@@ -633,7 +633,8 @@ namespace Axiom.Web.API
             try
             {
                 Guid Gid = new Guid(UserID);
-                SqlParameter[] param = { new SqlParameter("UserId", (object)Gid ?? (object)DBNull.Value)                                        
+                SqlParameter[] param = { new SqlParameter("UserId", (object)Gid ?? (object)DBNull.Value)
+                                        ,new SqlParameter("CompanyNo", (object)ProjectSession.CompanyUserDetail.CompNo ?? (object)DBNull.Value)
                                         };
                 var result = _repository.ExecuteSQL<FirmScopeEntity>("GetFirmByUserId", param).ToList();
                 if (result == null)
