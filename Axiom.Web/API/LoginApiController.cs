@@ -87,7 +87,9 @@ namespace Axiom.Web.API
 
             try
             {
-                SqlParameter[] param = { new SqlParameter("Email", (object)model.Email ?? (object)DBNull.Value) };
+                SqlParameter[] param = { new SqlParameter("Email", (object)model.Email ?? (object)DBNull.Value)
+                                        ,new SqlParameter("CompanyNo", (object)model.CompanyNo ?? (object)DBNull.Value)
+                };
 
                 var result = _repository.ExecuteSQL<LoginUserEntity>("GetUserDetailByEmail", param).ToList();
                 if (result == null)

@@ -127,8 +127,9 @@ namespace Axiom.Web.Controllers
         [Route("ForgetPassword")]
         public ActionResult ForgetPassword(LoginUserEntity model)
         {
-            string url = Request.Url.AbsoluteUri;
-            
+            string currentUrl = Request.Url.AbsoluteUri;
+            var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
+            model.CompanyNo = response.Data[0];
 
             try
             {
@@ -145,7 +146,7 @@ namespace Axiom.Web.Controllers
                     bodyTemplate = bodyTemplate.Replace("##UserName##", Result.Data[0].UserName);
                     bodyTemplate = bodyTemplate.Replace("##Password##", Security.Decrypt(Result.Data[0].Password));
                     bodyTemplate = bodyTemplate.Replace("##LogoURL##", objCompany.Logopath);
-                    bodyTemplate = bodyTemplate.Replace("##ThankYou##",objCompany.ThankYouMessage);
+                    bodyTemplate = bodyTemplate.Replace("##ThankYou##", objCompany.ThankYouMessage);
                     bodyTemplate = bodyTemplate.Replace("##CompanyName##", objCompany.CompName);
                     bodyTemplate = bodyTemplate.Replace("##Link##", objCompany.SiteURL);
 
@@ -213,6 +214,10 @@ namespace Axiom.Web.Controllers
         [Route("ResetPassword")]
         public ActionResult ResetPassword(LoginUserEntity model)
         {
+            string currentUrl = Request.Url.AbsoluteUri;
+            var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
+            model.CompanyNo = response.Data[0];
+
             var Result = loginApi.GetUserDetailByEmail(model);
             if (Result.Data != null && Result.Data.Count > 0)
             {
