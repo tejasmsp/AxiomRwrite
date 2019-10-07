@@ -94,8 +94,8 @@
 
     };
     $scope.AddLocation = function ($event) {
-        
-        
+
+
         var table = $('#tblOrder').DataTable();
         var row = table.row($($event.target).parents('tr')).data();
         $rootScope.$broadcast('AddLocationFromOrderList', row);
@@ -149,6 +149,7 @@
                     "type": "POST",
                     "url": sSource + "?SearchValue=" + $scope.SearchValue + "&PageIndex=" + (parseInt($('#tblOrder').DataTable().page.info().page) + 1)
                         + "&UserAccessId=" + $scope.UserAccessId
+                        + "&CompanyNo=" + $rootScope.CompanyNo
                         + "&UserId=" + $scope.UserId
                         + "&OrderID=" + $scope.OrderSearchObj.OrderID
                         + "&AttorneyID=" + ($scope.OrderSearchObj.AttorneyID == null ? "" : $scope.OrderSearchObj.AttorneyID)
@@ -162,8 +163,6 @@
                     "success": fnCallback,
                     "error": function (data, statusCode) { }
                 });
-
-
             },
             "columns": [
                 {
@@ -224,21 +223,21 @@
                     "className": "action dt-center",
                     "bSortable": false,
                     "width": "7%",
-                    "render": function (data, type, row,meta) {                        
+                    "render": function (data, type, row, meta) {
                         var upClass = "";
                         if (meta.row > 4)
                             upClass = "dropup";
-                        var strAction = '<div class="dropdown ' + upClass +' "><a class="dropdown-toggle" data-toggle="dropdown"><i class="icon-three-bars cursor-pointer"></i></a > <ul class="dropdown-menu dropdown-menu-right">';
+                        var strAction = '<div class="dropdown ' + upClass + ' "><a class="dropdown-toggle" data-toggle="dropdown"><i class="icon-three-bars cursor-pointer"></i></a > <ul class="dropdown-menu dropdown-menu-right">';
                         if ($scope.IsUserCanEditOrder) {
                             if (!row.SubmitStatus) {
                                 strAction += "<li><a  ng-click='EditOrder($event)' title='Edit' data-toggle='tooltip' data-placement='top' tooltip> <i  class=' icon-pencil4' ></i>Edit Order</a></li> ";
                             }
                             else {
-                                if ($scope.RoleName != 'Attorney') { 
+                                if ($scope.RoleName != 'Attorney') {
                                     strAction += "<li><a  ng-click='EditOrder($event)' title='View' data-toggle='tooltip' data-placement='top' tooltip> <i  class='icon-zoomin3' > </i>View Order</a></li> ";
                                 }
                             }
-                            
+
                         }
                         if ($scope.IsUserCanViewPart) {
                             strAction += "<li><a ng-click='ShowPartDetail($event)'  title='View Parts' data-toggle='tooltip' data-placement='top' tooltip>  <i  class=' icon-files-empty cursor-pointer'></i> View Parts </a></li>";
@@ -246,11 +245,11 @@
                         if ($scope.IsUserCanAddDocument) {
                             strAction += "<li><a ng-click='AddOrderDocuments($event)'  title='Upload Order Documents' data-toggle='tooltip' data-placement='top' tooltip>  <i  class='icon-file-upload cursor-pointer'></i> Upload Documents</a></li>";
                         }
-                        if ($scope.IsUserCanAddLocation && row.CanAddPart) {                            
+                        if ($scope.IsUserCanAddLocation && row.CanAddPart) {
                             // strAction += "<li><a  ng-click='AddLocation($event)'  title='Add Location' data-toggle='tooltip' data-placement='top' tooltip>  <i  class=' icon-plus2 cursor-pointer'></i> Add Location</a></li>";
-                            strAction += "<li><a href='EditOrder?OrderId=" + row.OrderId + "&Step=6&AddPart=true' target='_blank'   title='Add Location' data-toggle='tooltip' data-placement='top' tooltip>  <i  class=' icon-plus2 cursor-pointer'></i> Add Location</a></li>";                            
+                            strAction += "<li><a href='EditOrder?OrderId=" + row.OrderId + "&Step=6&AddPart=true' target='_blank'   title='Add Location' data-toggle='tooltip' data-placement='top' tooltip>  <i  class=' icon-plus2 cursor-pointer'></i> Add Location</a></li>";
                             // strAction += "<li><a href='EditOrder?OrderId=" + row.OrderId + "&Step=6&AddPart=true' target='_blank'   title='Add Location' data-toggle='tooltip' data-placement='top' tooltip>  <i  class=' icon-plus2 cursor-pointer'></i> Add Location</a></li>";                            
-                            
+
                         }
                         if ($scope.IsUserCanArchiveOrder) {
                             if (!row.IsArchive) {
@@ -271,18 +270,17 @@
                 var dataTable = $('#tblOrder').DataTable();
                 BindCustomerSearchBar($scope, $compile, dataTable);
             },
-            "fnDrawCallback": function () {                
+            "fnDrawCallback": function () {
                 //BindToolTip();
                 setTimeout(function () { SetAnchorLinks(); }, 500);
             },
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
                 if (aData.SubmitStatus == false)
                     $(nRow).attr("title", "This is draft order which is not submitted yet, if you want to delete this order please click on Draft button.");
-                if (aData.IsArchive)
-                {
+                if (aData.IsArchive) {
                     $(nRow).addClass("archived");
                 }
-                
+
                 $compile(angular.element(nRow).contents())($scope);
             }
         });
