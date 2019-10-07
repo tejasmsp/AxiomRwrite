@@ -127,9 +127,12 @@ namespace Axiom.Web.Controllers
         [Route("ForgetPassword")]
         public ActionResult ForgetPassword(LoginUserEntity model)
         {
+            string url = Request.Url.AbsoluteUri;
+            
+
             try
             {
-                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(1);
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(model.CompanyNo);
 
                 var Result = loginApi.GetUserDetailByEmail(model);
                 if (Result.Data != null && Result.Data.Count > 0)

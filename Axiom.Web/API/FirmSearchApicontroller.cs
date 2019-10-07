@@ -25,7 +25,8 @@ namespace Axiom.Web.API
                 string Address = "",
                 string City = "",
                 string State = "",
-                string ParentFirm = "")
+                string ParentFirm = "",
+                string CompanyNo = "")
         {
 
             tableParameter.PageIndex = PageIndex;         
@@ -63,7 +64,8 @@ namespace Axiom.Web.API
                 new SqlParameter{ParameterName = "Address",DbType = DbType.String,Value = (object)Address ?? (object)DBNull.Value  },
                 new SqlParameter{ParameterName = "City",DbType = DbType.String,Value =  (object)City ?? (object)DBNull.Value },
                 new SqlParameter{ParameterName = "State",DbType = DbType.String,Value = (object)State ?? (object)DBNull.Value  },
-                new SqlParameter{ParameterName = "AssociatedFirm",DbType = DbType.String,Value = (object)ParentFirm ?? (object)DBNull.Value  }
+                new SqlParameter{ParameterName = "AssociatedFirm",DbType = DbType.String,Value = (object)ParentFirm ?? (object)DBNull.Value  },
+                new SqlParameter{ParameterName = "CompanyNo",DbType = DbType.String,Value = (object)CompanyNo ?? (object)DBNull.Value  }
                 };
 
                 var result = _repository.ExecuteSQL<FirmList>("GetFirmList", param).ToList();

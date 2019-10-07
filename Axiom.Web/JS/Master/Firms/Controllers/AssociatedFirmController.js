@@ -178,7 +178,8 @@
                         + "&Address=" + $scope.FirmSearchObj.Address
                         + "&City=" + $scope.FirmSearchObj.City
                         + "&State=" + $scope.FirmSearchObj.State
-                        + "&ParentFirm=" + $scope.ParentFirmID,
+                        + "&ParentFirm=" + $scope.ParentFirmID
+                        + "&CompanyNo=" + $rootScope.CompanyNo,
                     "data": aoData,
                     "success": fnCallback,
                     "error": function (data, statusCode) { }
