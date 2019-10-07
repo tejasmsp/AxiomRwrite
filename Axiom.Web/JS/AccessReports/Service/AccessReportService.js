@@ -2,11 +2,10 @@
     var accessReportService = [];
 
 
-    accessReportService.DisplayAccessReportPartsByDate = function (reportName, StartDate, EndDate, CompanyID, CheckNumber, SSNNumber, FirmID) {
-        debugger;
+    accessReportService.DisplayAccessReportPartsByDate = function (reportName, StartDate, EndDate, CompanyID, CheckNumber, SSNNumber, FirmID, CompanyNo) {
         var reportURL = "DisplayAccessReport" + reportName + "?reportName=";
         // return $http.get(configurationService.basePath + "DisplayAccessReportPartsByDate?reportName=" + reportName + "&StartDate=" + StartDate + "&EndDate=" + EndDate + "&CompanyID=" + CompanyID + "&CheckNumber=" + CheckNumber + "&ssnNumber=" + SSNNumber);
-        return $http.get(configurationService.basePath + reportURL + reportName + "&StartDate=" + StartDate + "&EndDate=" + EndDate + "&CompanyID=" + CompanyID + "&CheckNumber=" + CheckNumber + "&ssnNumber=" + SSNNumber + "&FirmID=" + FirmID);
+        return $http.get(configurationService.basePath + reportURL + reportName + "&StartDate=" + StartDate + "&EndDate=" + EndDate + "&CompanyID=" + CompanyID + "&CheckNumber=" + CheckNumber + "&ssnNumber=" + SSNNumber + "&FirmID=" + FirmID + "&CompanyNo=" + CompanyNo);
     };
 
     accessReportService.DownloadAccessReport = function (reportName, StartDate, EndDate, CompanyID, CheckNumber, SSNNumber, FirmID) {

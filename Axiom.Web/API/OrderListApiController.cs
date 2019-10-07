@@ -54,13 +54,18 @@ namespace Axiom.Web.API
 
         [HttpPost]
         [Route("GetOrderListForClient")]
-        public TableParameter<OrderListEntity> GetOrderListForClient(TableParameter<OrderListEntity> tableParameter, int PageIndex,int UserAccessId, string UserId, string SearchValue = "", string OrderID = "",
+        public TableParameter<OrderListEntity> GetOrderListForClient(TableParameter<OrderListEntity> tableParameter,
+              int PageIndex, int UserAccessId, int CompanyNo,
+              string UserId,
+              string SearchValue = "",
+              string OrderID = "",
               string AttorneyID = "",
               string RecordsOf = "",
               string Caption = "",
               string Cause = "",
               string Claim = "",
-              string ClaimMatterNo = "", bool HideArchived = true)
+              string ClaimMatterNo = "",
+              bool HideArchived = true)
         {
 
             tableParameter.PageIndex = PageIndex;
@@ -82,9 +87,10 @@ namespace Axiom.Web.API
                                          new SqlParameter("ClaimMatterNo", (object)ClaimMatterNo ?? (object)DBNull.Value),
                                          new SqlParameter("HideArchived", (object)HideArchived ?? (object)DBNull.Value),
                                          new SqlParameter("UserId", (object)UserId ?? (object)DBNull.Value),
-                                         new SqlParameter("UserAccessId", (object)UserAccessId ?? (object)DBNull.Value)
+                                         new SqlParameter("UserAccessId", (object)UserAccessId ?? (object)DBNull.Value),
+                                         new SqlParameter("CompanyNo", (object)CompanyNo ?? (object)DBNull.Value)
                                        };
-                            
+
                 var result = _repository.ExecuteSQL<OrderListEntity>("GetOrderListForClient", param).ToList();
                 response.Success = true;
                 response.Data = result;
@@ -157,7 +163,7 @@ namespace Axiom.Web.API
 
                     Directory.Delete(serverPath, true);
                 }
-                SqlParameter[] param = { new SqlParameter("OrderId", (object)OrderId?? (object)DBNull.Value)};
+                SqlParameter[] param = { new SqlParameter("OrderId", (object)OrderId ?? (object)DBNull.Value) };
                 var result = _repository.ExecuteSQL<int>("DeleteDraftOrder", param).FirstOrDefault();
 
                 if (result > 0)

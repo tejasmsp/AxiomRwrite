@@ -1,5 +1,4 @@
 ﻿app.controller('AccessReportController', function ($scope, $rootScope, $stateParams, notificationFactory, AccessReportService, configurationService, CommonServices, $compile, $filter) {
-
     decodeParams($stateParams);
     $scope.ReportName;
     // $scope.showFromToDate = false;
@@ -21,11 +20,8 @@
     $scope.Days = -1;
     $scope.ShowFilterButton = false;
 
-
-
-
     function showReport() {
-
+        debugger;
         $scope.TotalParts = 0;
         $scope.BillAmount = 0;
         $scope.BillBalance = 0;
@@ -118,13 +114,9 @@
 
     };
 
-
-
     function BindCompanyDetail() {
-
         var companydropdownlist = CommonServices.GetCompanyDropDown();
         companydropdownlist.success(function (response) {
-            debugger;
             $scope.companydropdownlist = response.Data;
         });
 
@@ -150,12 +142,14 @@
     };
 
     $scope.FilterRecord = function (days) {
+        debugger;
         $scope.Days = days;
         showReport();
     }
 
     $scope.DisplayReport = function () {
-        var showReportList = AccessReportService.DisplayAccessReportPartsByDate($stateParams.type, $scope.AccessReport.StartDate, $scope.AccessReport.EndDate, $scope.AccessReport.CompanyNo, $scope.AccessReport.CheckNumber, $scope.AccessReport.SSNNumber, $scope.AccessReport.FirmID);
+        debugger;
+        var showReportList = AccessReportService.DisplayAccessReportPartsByDate($stateParams.type, $scope.AccessReport.StartDate, $scope.AccessReport.EndDate, $rootScope.CompanyNo, $scope.AccessReport.CheckNumber, $scope.AccessReport.SSNNumber, $scope.AccessReport.FirmID);
         showReportList.success(function (response) {
             $scope.showReportList = response.Data;
             $scope.showReportListAll = response.Data;
@@ -176,7 +170,7 @@
         }
     };
     function init() {
-
+        debugger
         $scope.AccessReport = new Object();
         var date = new Date();
         var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
