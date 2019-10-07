@@ -53,7 +53,7 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetAttorneyListWithSearchCriteria")]
-        public ApiResponse<AttorneyUsersEntity> GetAttorneyListWithSearchCriteria(string SearchCriteria, string SearchCondition, string SearchText ="")
+        public ApiResponse<AttorneyUsersEntity> GetAttorneyListWithSearchCriteria(string SearchCriteria, string SearchCondition, string SearchText = "")
         {
             var response = new ApiResponse<AttorneyUsersEntity>();
 
@@ -79,7 +79,6 @@ namespace Axiom.Web.API
             }
 
             return response;
-
         }
 
         [HttpGet]
@@ -144,14 +143,13 @@ namespace Axiom.Web.API
             string RandomPassword = Axiom.Common.CommonHelper.CreateRandomPassword(8);
             try
             {
-                
                 SqlParameter[] param = { new SqlParameter("Email", (object)model.Email ?? (object)DBNull.Value)
                                         , new SqlParameter("FirstName", (object)model.FirstName ?? (object)DBNull.Value)
                                         , new SqlParameter("LastName", (object)model.LastName ?? (object)DBNull.Value)
                                         , new SqlParameter("AttorneyEmployeeTypeId", (object)model.AttorneyEmployeeTypeId ?? (object)DBNull.Value)
                                         , new SqlParameter("Password", (object)Security.Encrypt(RandomPassword) ?? (object)DBNull.Value)
                                         , new SqlParameter("CreatedBy", (object)model.CreatedBy ?? (object)DBNull.Value)
-                                        , new SqlParameter("CompanyNo", (object)ProjectSession.CompanyUserDetail.CompNo ?? (object)DBNull.Value)
+                                        , new SqlParameter("CompanyNo", (object)model.CompanyNo ?? (object)DBNull.Value)
                                         };
                 var result = _repository.ExecuteSQL<string>("InsertAttorneyUser", param).FirstOrDefault();
                 if (result != string.Empty)
@@ -160,7 +158,7 @@ namespace Axiom.Web.API
                     // SEND WELCOME EMAIL TO USER ATTORNEY
 
 
-                    
+
 
                     StringBuilder body = new StringBuilder();
                     string htmlfilePath = AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/WelcomeNewUser.html";

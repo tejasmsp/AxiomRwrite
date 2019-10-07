@@ -10,7 +10,7 @@
     $scope.IsUserCanEditAttorneyUser = $rootScope.isSubModuleAccessibleToUser('Settings', 'Attorney Users', 'Edit Attorney User');
     $scope.IsUserCanDeleteAttorneyAccess = $rootScope.isSubModuleAccessibleToUser('Settings', 'Attorney Users', 'Delete Attorney Acess');
     //------------
-    
+
     function bindAttorneyUserList() {
 
         if ($.fn.DataTable.isDataTable("#tblAttorneyUser")) {
@@ -93,7 +93,7 @@
     };
 
     function bindAccessAttorneyList() {
-        
+
         if ($.fn.DataTable.isDataTable("#tblAttorneyWhoCanAccessUser")) {
             $('#tblAttorneyWhoCanAccessUser').DataTable().destroy();
         }
@@ -110,12 +110,12 @@
                 {
                     "title": "Attorney Id",
                     "className": "dt-left",
-                    "width":"15%",
+                    "width": "15%",
                     "data": "Attyid"
                 },
                 {
                     "title": "Attorney Name",
-                    "className": "dt-left",                   
+                    "className": "dt-left",
                     "data": "Name"
                 },
                 {
@@ -154,7 +154,7 @@
             "aaSorting": false,
             "aLengthMenu": [10],
             "pageLength": 10,
-            "autoWidth":false,
+            "autoWidth": false,
             "stateSave": false,
             "columns": [
                 {
@@ -201,6 +201,7 @@
         }
         if (form.$valid) {
             $scope.AttorneyUserObj.CreatedBy = $scope.UserAccessId;
+            $scope.AttorneyUserObj.CompanyNo = $rootScope.CompanyNo;
             if (!$scope.IsEditMode) {  // add mode  
                 $scope.AttorneyUserObj.Password = "cem@123";
                 var promise = AttorneyUserService.InsertAttorneyUser($scope.AttorneyUserObj);
@@ -229,7 +230,6 @@
 
             }
             else {  //edit mode
-                debugger;
                 $scope.AttorneyUserObj.AttorneyEmployeeTypeId = $scope.AttorneyUserObj.AttorneyEmployeeTypeId;
                 var promise = AttorneyUserService.UpdateAttorneyUser($scope.AttorneyUserObj);
                 promise.success(function (response) {
@@ -363,7 +363,7 @@
 
 
     $scope.InsertAttorneyUserMapping = function ($event) {
-       
+
         tblAttorneyWhoCanAccessUser = $('#tblAttorneyWhoNeedToAccessUser').DataTable();
         var data = tblAttorneyWhoCanAccessUser.row($($event.target).parents('tr')).data();
         tblAttorneyWhoCanAccessUser.row($($event.target).parents('tr')).remove();
@@ -419,7 +419,7 @@
     function init() {
 
 
-      
+
         $scope.GetAttorneyUsersList();
         $scope.GetAttorneyEmployeeType();
     };

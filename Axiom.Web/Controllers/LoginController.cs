@@ -76,7 +76,8 @@ namespace Axiom.Web.Controllers
         // Post: Login
         [HttpPost]
         public ActionResult Index(LoginUserEntity model)
-            {
+        {
+            model.CompanyNo = ProjectSession.CompanyUserDetail.CompNo;
             var Result = loginApi.LoginUser(model);
             if (Result.Data != null && !String.IsNullOrEmpty(Result.Data[0].UserId))
             {
@@ -97,10 +98,10 @@ namespace Axiom.Web.Controllers
                     }
                 }
                 if (ProjectSession.LoggedInUserDetail.RoleName.Contains("Administrator") || ProjectSession.LoggedInUserDetail.RoleName.Contains("DocumentAdmin"))
-                {                    
+                {
                     return RedirectToAction("Index", "Home");
                 }
-                else if(ProjectSession.LoggedInUserDetail.RoleName.Contains("Attorney"))
+                else if (ProjectSession.LoggedInUserDetail.RoleName.Contains("Attorney"))
                 {
                     return RedirectToAction("Dashboard", "Home");
                 }
@@ -118,7 +119,7 @@ namespace Axiom.Web.Controllers
         [Route("Logout")]
         public ActionResult Logout()
         {
-            ProjectSession.LoggedInUserDetail = null;            
+            ProjectSession.LoggedInUserDetail = null;
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
@@ -206,7 +207,7 @@ namespace Axiom.Web.Controllers
             {
                 LoginUserEntity modelResetPassword = new LoginUserEntity();
                 modelResetPassword.UserAccessId = Result.Data[0].UserAccessId;
-                modelResetPassword.Password =Security.Encrypt(CreateRandomPassword(8));
+                modelResetPassword.Password = Security.Encrypt(CreateRandomPassword(8));
                 var ResetPassword = loginApi.UpdateNewGereatedPassword(modelResetPassword);
                 if (ResetPassword.Success)
                 {
@@ -218,7 +219,7 @@ namespace Axiom.Web.Controllers
                     bodyTemplate = bodyTemplate.Replace("{Link}", ConfigurationManager.AppSettings["ResetEmailLink"].ToString());
                     bodyTemplate = bodyTemplate.Replace("{Password}", Security.Decrypt(modelResetPassword.Password));
                     Email.Send(MailTo, bodyTemplate, "Axiom - Login Details", "", "");
-                    model.Msg= "Password has send successfully in your mail.";
+                    model.Msg = "Password has send successfully in your mail.";
                     return View("~/Views/Login/Index.cshtml", model);
                 }
                 else
@@ -232,7 +233,7 @@ namespace Axiom.Web.Controllers
                 model.Msg = "Email not register with Axiom.";
                 return View("ResetPassword", model);
             }
-            
+
 
         }
 

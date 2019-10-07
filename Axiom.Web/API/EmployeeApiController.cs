@@ -30,7 +30,7 @@ namespace Axiom.Web.API
             var response = new ApiResponse<EmployeeEntity>();
             try
             {
-                var result = _repository.ExecuteSQL<EmployeeEntity>("GetEmployeeList").ToList();          
+                var result = _repository.ExecuteSQL<EmployeeEntity>("GetEmployeeList").ToList();
                 if (result == null)
                 {
                     result = new List<EmployeeEntity>();
@@ -53,8 +53,8 @@ namespace Axiom.Web.API
             try
             {
                 SqlParameter[] param = { new SqlParameter("userId", (object)UserId ?? (object)DBNull.Value) };
-                var result = _repository.ExecuteSQL<EmployeeEntity>("GetEmployeeById",param).ToList();
-                if (result==null)
+                var result = _repository.ExecuteSQL<EmployeeEntity>("GetEmployeeById", param).ToList();
+                if (result == null)
                 {
                     result = new List<EmployeeEntity>();
                 }
@@ -87,12 +87,11 @@ namespace Axiom.Web.API
                                         , new SqlParameter("isApproved", (object)model.IsApproved ?? (object)DBNull.Value)
                                         , new SqlParameter("SelectedRoles", (object)model.SelectedRoles ?? (object)DBNull.Value)
                                         , new SqlParameter("createdBy", (object)model.CreatedBy ?? (object)DBNull.Value)
-                                        , new SqlParameter("CompanyNo", (object)ProjectSession.CompanyUserDetail.CompNo ?? (object)DBNull.Value)
+                                        , new SqlParameter("CompanyNo", (object)model.CompanyNo ?? (object)DBNull.Value)
                                         };
                 var result = _repository.ExecuteSQL<string>("InsertEmployee", param).FirstOrDefault();
                 if (result != string.Empty)
                 {
-
                     System.Text.StringBuilder body = new StringBuilder();
                     string htmlfilePath = AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/WelcomeNewUserInternal.html";
                     using (System.IO.StreamReader reader = new StreamReader((htmlfilePath)))
@@ -139,7 +138,7 @@ namespace Axiom.Web.API
                                         , new SqlParameter("SelectedRoles", (object)model.SelectedRoles ?? (object)DBNull.Value)
                                         , new SqlParameter("createdBy", (object)model.CreatedBy ?? (object)DBNull.Value)
                                         , new SqlParameter("CompanyNo", (object)model.CompanyNo ?? (object)DBNull.Value)
-                                        
+
 
                                         };
                 var result = _repository.ExecuteSQL<string>("UpdateEmployee", param).FirstOrDefault();

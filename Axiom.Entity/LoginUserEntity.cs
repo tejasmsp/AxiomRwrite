@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Axiom.Entity
 {
-   public class LoginUserEntity
+    public class LoginUserEntity
     {
         public int? UserAccessId { get; set; }
 
         public string EmpId { get; set; }
 
-        [Required(ErrorMessage ="Email Address is required.")]
+        [Required(ErrorMessage = "Email Address is required.")]
         public string Email { get; set; }
 
         public string UserId { get; set; }
@@ -43,7 +43,7 @@ namespace Axiom.Entity
 
         public bool? IsAdmin { get; set; }
         public string Msg { get; set; }
-
+        public int CompanyNo { get; set; }
     }
 
 }

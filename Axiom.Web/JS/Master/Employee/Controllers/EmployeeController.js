@@ -11,7 +11,7 @@
     function bindEmployeeList() {
         if ($.fn.DataTable.isDataTable("#tblEmployee")) {
             $('#tblEmployee').DataTable().destroy();
-        }        
+        }
         var table = $('#tblEmployee').DataTable({
             data: $scope.Employeelist,
             "bDestroy": true,
@@ -203,6 +203,7 @@
             $scope.EmployeeObj.CreatedBy = $scope.UserAccessId;
             if (!$scope.isEdit) {  // add mode
                 $scope.EmployeeObj.Password = "cem@123";
+                $scope.EmployeeObj.CompanyNo = $rootScope.CompanyNo;
                 var promise = EmployeeServices.InsertEmployee($scope.EmployeeObj);
                 promise.success(function (response) {
                     if (response.Success) {
