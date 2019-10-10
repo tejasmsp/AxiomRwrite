@@ -16,11 +16,13 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Mail;
 using Axiom.Web.EmailHelper;
+using System.Web;
 
 namespace Axiom.Web.API
 {
     public class OrderProcess
     {
+        public HomeApiController homeApiController = new HomeApiController();
         private readonly GenericRepository<AttorneyEntity> _repository = new GenericRepository<AttorneyEntity>();
 
         public async Task ESignature(int OrderNo, int CompanyNo, string partCSVID = "")
@@ -129,6 +131,12 @@ namespace Axiom.Web.API
             {
                 SqlParameter[] param = { new SqlParameter("OrderID", (object)OrderId ?? (object)DBNull.Value) };
                 var result = _repository.ExecuteSQL<OrderDetailEntity>("GetOrderDetails", param).ToList();
+
+                string currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
+                var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
+                int CompanyNo = response.Data[0];
+
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
 
                 if (result != null && result.Count > 0)
                 {
@@ -438,13 +446,14 @@ namespace Axiom.Web.API
                             strBody.Append("Thank you for submitting order with us.");
                         }
                         strBody.Append("<br/>");
-                        strBody.Append("<br/>");
-                        strBody.Append("Attached is your order summary.");
-                        strBody.Append("<br/>");
-                        strBody.Append("<br/>");
-                        strBody.Append("Best Regards,");
-                        strBody.Append("<br/>");
-                        strBody.Append("Axiom Requisition Copy Service");
+                        strBody.Append(objCompany.ThankYouMessage);
+                        //strBody.Append("<br/>");
+                        //strBody.Append("Attached is your order summary.");
+                        //strBody.Append("<br/>");
+                        //strBody.Append("<br/>");
+                        //strBody.Append("Best Regards,");
+                        //strBody.Append("<br/>");
+                        //strBody.Append("Axiom Requisition Copy Service");
 
                         List<System.Net.Mail.Attachment> attachmentList = new List<System.Net.Mail.Attachment>();
                         System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(FilePathDoc);

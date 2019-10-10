@@ -183,7 +183,7 @@
         debugger;
         $scope.Days = days;
         showReport();
-    }
+    };
 
     $scope.DisplayReport = function () {
         debugger;

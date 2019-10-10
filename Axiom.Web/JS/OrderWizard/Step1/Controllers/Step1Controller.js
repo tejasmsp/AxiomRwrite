@@ -155,6 +155,7 @@
     };
 
     $scope.SubmitOrder = function () {
+        debugger;
         $scope.OrderStep1Obj.EmpId = $scope.EmpId;
         $scope.OrderStep1Obj.UserAccessId = $scope.UserAccessId;
         $scope.OrderStep1Obj.IsFromClient = $scope.IsFromClient;
