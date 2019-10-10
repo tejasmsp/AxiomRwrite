@@ -32,7 +32,7 @@
         var url = $state.href('OrderDetail', { 'OrderId': row.OrderNo });
         window.open(url, '_blank');
     };
-    $scope.ViewPartDetail = function ($event) {        
+    $scope.ViewPartDetail = function ($event) {
         var table = $('#tblOrder').DataTable();
         var row = table.row($($event.target).parents('tr')).data();
         //$state.transitionTo('PartDetail', ({ 'OrderId': row.OrderNo, 'PartNo': row.PartNo }));
@@ -358,15 +358,15 @@
     };
     $scope.GenerateInvoice = function () {
         console.log($scope.SelectedOrdersWithPart);
-        var generateInvoiceMultiple = SearchOrderListService.GenerateInvoiceMultiple($scope.SelectedOrdersWithPart);
+        var generateInvoiceMultiple = SearchOrderListService.GenerateInvoiceMultiple($scope.SelectedOrdersWithPart, $rootScope.CompanyNo);
         generateInvoiceMultiple.success(function (response) {
-            
+
             toastr.success('Invoice generate process executed successfully.');
         });
         generateInvoiceMultiple.error(function (data, statusCode) {
 
         });
-        
+
     };
 
     function clearSearch() {
@@ -466,9 +466,9 @@
         } else {
             clearSearch();
 
-        }   
+        }
         $scope.bindOrderList();
-        
+
         bindDropDown();
 
 

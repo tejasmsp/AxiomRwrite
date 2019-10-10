@@ -24,7 +24,7 @@ namespace Axiom.Entity
         public List<NotificationEmailEntity> NotificationEmail { get; set; }
         public string UserEmail { get; set; }
         public int? SubmitStatus { get; set; }
-        public int? CompanyNo { get; set; }
+        public int CompanyNo { get; set; }
         public List<OrderWizardStep6Document> LocDocumentList { get; set; }
     }
 

@@ -115,7 +115,7 @@ namespace Axiom.Web.API
                         htmlBody.Replace("##MESSAGE##", accExecutiveName + ", <br />Client has added new note.<br /><br />");
                         htmlBody.Replace("##ORDERNO##", modal.OrderId + "-" + modal.PartNo);
                         htmlBody.Replace("##NOTE##", modal.NotesClient);
-                        EmailHelper.Email.Send("j.alspaugh@axiomcopy.com", htmlBody.ToString(), subject, "tejaspadia@gmail.com", "");
+                        EmailHelper.Email.Send(accExecutiveEmail, htmlBody.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
                     }
                     response.Success = true;
@@ -184,7 +184,7 @@ namespace Axiom.Web.API
                         htmlBody.Replace("##ORDERNO##", modal.OrderId + "-" + modal.PartNo);
                         htmlBody.Replace("##NOTE##", modal.NotesClient);
                         //  EmailHelper.Email.Send("j.alspaugh@axiomcopy.com", htmlBody.ToString(), subject, "tejaspadia@gmail.com", "");
-                        EmailHelper.Email.Send(accExecutiveEmail, htmlBody.ToString(), subject, "j.alspaugh@axiomcopy.com", "");
+                        EmailHelper.Email.Send(accExecutiveEmail, htmlBody.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                     }
                     response.Success = true;
                     response.InsertedId = result;

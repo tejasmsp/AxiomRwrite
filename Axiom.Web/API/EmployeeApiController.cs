@@ -89,9 +89,11 @@ namespace Axiom.Web.API
                                         , new SqlParameter("createdBy", (object)model.CreatedBy ?? (object)DBNull.Value)
                                         , new SqlParameter("CompanyNo", (object)model.CompanyNo ?? (object)DBNull.Value)
                                         };
+
                 var result = _repository.ExecuteSQL<string>("InsertEmployee", param).FirstOrDefault();
                 if (result != string.Empty)
                 {
+                    CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(model.CompanyNo);
                     System.Text.StringBuilder body = new StringBuilder();
                     string htmlfilePath = AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/WelcomeNewUserInternal.html";
                     using (System.IO.StreamReader reader = new StreamReader((htmlfilePath)))
@@ -104,7 +106,12 @@ namespace Axiom.Web.API
                     body = body.Replace("{Email}", model.Email);
                     body = body.Replace("{Password}", RandomPassword);
                     body = body.Replace("{Link}", ConfigurationManager.AppSettings["LiveSiteURL"].ToString());
-                    string subject = "Welcome To Axiom Requisition";
+                    body = body.Replace("{LogoURL}", objCompany.Logopath);
+                    body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                    body = body.Replace("{CompanyName}", objCompany.CompName);
+                    body = body.Replace("{Link}", objCompany.SiteURL);
+
+                    string subject = "Welcome To " + objCompany.CompName + " Requisition";
                     EmailHelper.Email.Send(model.Email, body.ToString(), subject, "", "tejaspadia@gmail.com,j.alspaugh@axiomcopy.com");
 
                     response.str_ResponseData = result;

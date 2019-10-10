@@ -38,12 +38,12 @@
         return $http.get(configurationService.basePath + "DeleteInvoice?invoiceNumber=" + invoiceNumber + "&itemNumber=" + itemNumber);
     };
 
-    billingService.GenerateInvoice = function (OrderNo, PartNo, BillToAttorney, SoldAtty) {
-        return $http.post(configurationService.basePath + "GenerateInvoice?OrderNo=" + OrderNo + "&PartNo=" + PartNo + "&BillToAttorney=" + BillToAttorney, SoldAtty);
+    billingService.GenerateInvoice = function (OrderNo, PartNo, BillToAttorney, SoldAtty,CompanyNo) {
+        return $http.post(configurationService.basePath + "GenerateInvoice?OrderNo=" + OrderNo + "&PartNo=" + PartNo + "&BillToAttorney=" + BillToAttorney + "&CompanyNo=" + CompanyNo, SoldAtty);
     };
 
-    billingService.SendEmailForBill = function (AttyID, InvoiceNumber, OrderNumber,PartNumber, Location, Locationname, Patient,UserGuid) {
-        return $http.get(configurationService.basePath + "SendEmailForBill?AttyID=" + AttyID + "&InvoiceNumber=" + InvoiceNumber + "&OrderNumber=" + OrderNumber + "&PartNumber=" + PartNumber + "&Location=" + Location + "&LocationName=" + Locationname + "&Patient=" + Patient + "&UserGuid=" + UserGuid);
+    billingService.SendEmailForBill = function (AttyID, InvoiceNumber, OrderNumber, PartNumber, Location, Locationname, Patient, UserGuid, CompanyNo) {
+        return $http.get(configurationService.basePath + "SendEmailForBill?AttyID=" + AttyID + "&InvoiceNumber=" + InvoiceNumber + "&OrderNumber=" + OrderNumber + "&PartNumber=" + PartNumber + "&Location=" + Location + "&LocationName=" + Locationname + "&Patient=" + Patient + "&UserGuid=" + UserGuid + "&CompanyNo=" + CompanyNo);
     };
 
     billingService.GetInvMsg = function () {

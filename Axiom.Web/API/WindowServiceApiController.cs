@@ -26,10 +26,9 @@ namespace Axiom.Web.API
         private readonly GenericRepository<SSNSettings> _repository = new GenericRepository<SSNSettings>();
         #endregion
 
-
         [HttpGet]
         [Route("SendEmailForBill")]
-        public ApiResponse<SendEmailForInvoice> SendEmailForBill(string AttyID, string InvoiceNumber, string OrderNumber, string PartNumber, string Location, string LocationName, string Patient,string UserGuid)
+        public ApiResponse<SendEmailForInvoice> SendEmailForBill(string AttyID, string InvoiceNumber, string OrderNumber, string PartNumber, string Location, string LocationName, string Patient, string UserGuid, int CompanyNo)
         {
             var response = new ApiResponse<SendEmailForInvoice>();
             // var OrderDetail = new ApiResponse<PrintInvoiceEmailBillOrderDetail>
@@ -67,6 +66,7 @@ namespace Axiom.Web.API
                     result = new List<SendEmailForInvoice>();
                 }
 
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
                 foreach (SendEmailForInvoice item in result)
                 {
                     string subject = "Billing Proposal";
@@ -94,9 +94,10 @@ namespace Axiom.Web.API
                     body = body.Replace("{RecordType}", Convert.ToString(item.InvHdr));//INVHdr OF Item TABLE
                     body = body.Replace("{PAGES}", Convert.ToString(item.Pages));
                     body = body.Replace("{COST}", strAmount);
-
-
-                    
+                    body = body.Replace("{LogoURL}", objCompany.Logopath);
+                    body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                    body = body.Replace("{CompanyName}", objCompany.CompName);
+                    body = body.Replace("{Link}", objCompany.SiteURL);
 
                     string AttorneyNm = item.AttorneyName + " (" + Convert.ToString(item.AttorneyEmail).Trim() + ")";
                     //Guid value = new Guid(Membership.GetUser().ProviderUserKey.ToString());
@@ -118,8 +119,8 @@ namespace Axiom.Web.API
 
                     string orderNo = item.OrderNo.ToString();
                     string strPages = item.Pages.ToString();
-                    
-                    
+
+
                     string WaiverID = string.Empty;
 
 
@@ -503,7 +504,6 @@ namespace Axiom.Web.API
             return response;
         }
 
-
         public string GetAttorneyEmailListByOrderId(Int64 OrderNo)
         {
             SqlParameter[] param = {
@@ -515,7 +515,7 @@ namespace Axiom.Web.API
 
         [HttpPost]
         [Route("GenerateInvoiceMultiple")]
-        public ApiResponse<GenerateInvoiceEntity> GenerateInvoiceMultiple(List<GenerateInvoiceMultiple> OrderPartList)
+        public ApiResponse<GenerateInvoiceEntity> GenerateInvoiceMultiple(List<GenerateInvoiceMultiple> OrderPartList, int CompanyNo)
         {
             var response = new ApiResponse<GenerateInvoiceEntity>();
 
@@ -549,21 +549,19 @@ namespace Axiom.Web.API
                     soldAttorneyList.Add(new SoldAttorneyEntity { AttyId = itemAttorney.AttyId, AttyType = "Ordering" });
                 }
 
-                bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, soldAttorneyList);
+                bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList);
             }
 
             return response;
         }
 
-
         [HttpPost]
         [Route("GenerateInvoice")]
-        public ApiResponse<GenerateInvoiceEntity> GenerateInvoice(Int64 OrderNo, int PartNo, string BillToAttorney, List<SoldAttorneyEntity> SoldAtty)
+        public ApiResponse<GenerateInvoiceEntity> GenerateInvoice(Int64 OrderNo, int PartNo, string BillToAttorney, int CompanyNo, List<SoldAttorneyEntity> SoldAtty)
         {
-
             var response = new ApiResponse<GenerateInvoiceEntity>();
-
             string xmlData = ConvertToXml<SoldAttorneyEntity>.GetXMLString(SoldAtty);
+            CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
 
             try
             {
@@ -601,7 +599,10 @@ namespace Axiom.Web.API
                         body = body.Replace("{RecordType}", Convert.ToString(item.Descr));//INVHdr OF Item TABLE
                         body = body.Replace("{PAGES}", Convert.ToString(item.Pages));
                         body = body.Replace("{COST}", Convert.ToString(item.TotalAmountForPatientAtty.ToString("F")));
-
+                        body = body.Replace("{LogoURL}", objCompany.Logopath);
+                        body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                        body = body.Replace("{CompanyName}", objCompany.CompName);
+                        body = body.Replace("{Link}", objCompany.SiteURL);
 
                         string accExecutiveName = "Admin";
                         string accExecutiveEmail = "nrrpf@axiomcopy.com";
@@ -629,13 +630,11 @@ namespace Axiom.Web.API
                         string strAmount = item.TotalAmountForPatientAtty.ToString();
                         string WaiverID = string.Empty;
 
-
                         string strApproveLink, strNotApprovedLink, strEditScopeLink, strQueryString;
                         strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + item.LocationName.Replace(',', ' ') + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + PartNo.ToString() + "," + AttorneyNm;
                         strApproveLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                         strNotApprovedLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                         strEditScopeLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
-
 
                         // FOR LOCAL MACHINE
                         //body = body.Replace("{YESLINK}", "http://localhost:51617/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
@@ -648,8 +647,13 @@ namespace Axiom.Web.API
 
 
                         // FOR LIVE SITE
-                        body = body.Replace("{YESLINK}", "https://www.axiomcopyonline.com/Clients/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
-                        body = body.Replace("{NOLINK}", "https://www.axiomcopyonline.com/Clients/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
+                        //body = body.Replace("{YESLINK}", "https://www.axiomcopyonline.com/Clients/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
+                        //body = body.Replace("{NOLINK}", "https://www.axiomcopyonline.com/Clients/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
+
+                        string BaseLink = "https://axiomcopyonline.com/BillingProposal?type=";
+
+                        body = body.Replace("{YESLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
+                        body = body.Replace("{NOLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
 
                         //Add Attorney Email
                         var OrderFirmAttrorneyEmailIds = GetAttorneyEmailListByOrderId(OrderNo);
@@ -659,7 +663,7 @@ namespace Axiom.Web.API
                         }
                         item.Email = item.Email.Trim(',');
 
-                        // EmailHelper.Email.Send(item.Email, body, subject, "j.alspaugh@axiomcopy.com", "tejas.p@cementdigital.com");
+                        EmailHelper.Email.Send(item.Email, body, subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com.com");
 
                         //AxiomEmail.SendMailBilling(subject, body, "sejal.k@shaligraminfotech.com", true, "AxiomSupport@axiomcopy.com", null, "");
                         // AxiomEmail.SendMailBilling(subject, body, waiver.Email.ToString(), true, "AxiomSupport@axiomcopy.com", null, "tejaspadia@gmail.com,autoemail@axiomcopy.com");
@@ -676,6 +680,7 @@ namespace Axiom.Web.API
             return response;
         }
     }
+
     public class EncryptDecrypt
     {
         //Private strKey As [String] = "1234-13241324-1234-123"

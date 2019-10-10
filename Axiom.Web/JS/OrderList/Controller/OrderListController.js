@@ -112,7 +112,6 @@
         });
     }
 
-
     $scope.bindOrderList = function () {
         //$scope.SearchValue = 'tejas';
         if ($.fn.DataTable.isDataTable("#tblOrder")) {

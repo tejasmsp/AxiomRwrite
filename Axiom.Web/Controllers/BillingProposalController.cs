@@ -5,12 +5,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Axiom.Data.Repository;
+using Axiom.Entity;
 using Axiom.Web.API;
 
 namespace Axiom.Web.Controllers
 {
     public class BillingProposalController : Controller
     {
+        public HomeApiController homeApiController = new HomeApiController();
         private readonly GenericRepository<Entity.BillingProposalReply> _repository = new GenericRepository<Entity.BillingProposalReply>();
 
         // GET: BillingProposal
@@ -19,7 +21,7 @@ namespace Axiom.Web.Controllers
         [Route("BillingProposal")]
         public ActionResult Index(string type, string value)
         {
-            Axiom.Entity.BillingProposalReply obj = new Axiom.Entity.BillingProposalReply();
+            BillingProposalReply obj = new BillingProposalReply();
 
             string BtnType;
             string accExecutiveEmail;
@@ -44,6 +46,12 @@ namespace Axiom.Web.Controllers
 
             if (BtnType.ToLower() == "n")
             {
+                string currentUrl = Request.Url.AbsoluteUri;
+                var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
+                int CompanyNo = response.Data[0];
+
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
+
                 string subject = "Billing Proposal Reply - Reject";
                 string body = string.Empty;
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/WaiverBillingReplyRejected.html"))
@@ -58,6 +66,11 @@ namespace Axiom.Web.Controllers
                 body = body.Replace("{COST}", amount);
                 body = body.Replace("{ATTYINFO}", AttorneyNm); //23052016
                 body = body.Replace("{PARTNO}", partno);
+
+                body = body.Replace("{LogoURL}", objCompany.Logopath);
+                body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                body = body.Replace("{CompanyName}", objCompany.CompName);
+                body = body.Replace("{Link}", objCompany.SiteURL);
 
                 EmailHelper.Email.Send(accExecutiveEmail, body, subject, "", "tejaspadia@gmail.com,j.alspaugh@axiomcopy.com");
                 UpdateWaiver(orderno, partno, true);
@@ -79,9 +92,15 @@ namespace Axiom.Web.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("UpdateBillingProposal")]
-        public ActionResult UpdateBillingProposal(Axiom.Entity.BillingProposalReply obj)
+        public ActionResult UpdateBillingProposal(BillingProposalReply obj)
         {
-            Axiom.Entity.BillingProposalReply objView = new Axiom.Entity.BillingProposalReply();
+            BillingProposalReply objView = new BillingProposalReply();
+
+            string currentUrl = Request.Url.AbsoluteUri;
+            var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
+            int CompanyNo = response.Data[0];
+
+            CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
 
             string subject = "Billing Proposal Reply - Approved";
             string body = string.Empty;
@@ -99,20 +118,22 @@ namespace Axiom.Web.Controllers
                 body = body.Replace("{COST}", obj.Amount);
                 body = body.Replace("{ATTYINFO}", obj.AttorneyNm); //23052016
                 body = body.Replace("{PARTNO}", obj.PartNo);
-
                 body = body.Replace("{DOCPREF}", obj.DocPreference ? "Digital" : "Hard Copy");
                 body = body.Replace("{COMMENTS}", obj.Comment);
+
+                body = body.Replace("{LogoURL}", objCompany.Logopath);
+                body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                body = body.Replace("{CompanyName}", objCompany.CompName);
+                body = body.Replace("{Link}", objCompany.SiteURL);
+
                 EmailHelper.Email.Send(obj.AccExecutiveEmail, body, subject, "", "j.alspaugh@axiomcopy.com,tejaspadia@gmail.com");
 
                 UpdateWaiver(obj.OrderNo, obj.PartNo, false);
-
-
             }
             catch (Exception ex)
             {
 
             }
-
             return View("Index", objView);
         }
         public void UpdateWaiver(string OrderNo, string PartNo, bool Waiver)
@@ -133,7 +154,5 @@ namespace Axiom.Web.Controllers
 
 
         }
-
-
     }
 }

@@ -441,7 +441,7 @@ namespace Axiom.Web.API
                 sw.Flush();
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 byte[] bytesInStream = memoryStream.ToArray();
-                
+
                 MemoryStream ms = new MemoryStream(bytesInStream);
                 string path = HttpContext.Current.Server.MapPath(@"~/IIFFile");
                 string fileName = DateTime.Now.ToString("yyyy-MM-dd");
@@ -475,7 +475,7 @@ namespace Axiom.Web.API
 
         [HttpPost]
         [Route("CancelPartSendEmail")]
-        public BaseApiResponse CancelPartSendEmail(string OrderID, string csvPartNo, string userGuid)
+        public BaseApiResponse CancelPartSendEmail(string OrderID, string csvPartNo, string userGuid, int companyNo)
         {
             var response = new BaseApiResponse();
 
@@ -489,11 +489,10 @@ namespace Axiom.Web.API
                     new SqlParameter("OrderID", (object)OrderID ?? (object)DBNull.Value)
                     ,new SqlParameter("csvPartNo", (object)csvPartNo ?? (object)DBNull.Value)
                     ,new SqlParameter("UserId", (object)userGuid?? (object)DBNull.Value)
-                      };
+                };
+
                 var locationInfo = _repository.ExecuteSQL<CancelPartSendEmailEntity>("GetCancelPartEmailInfo", param).ToList();
                 //response.str_ResponseData = result.ToString();
-
-
 
                 if (locationInfo != null && locationInfo.Any())
                 {
@@ -508,6 +507,7 @@ namespace Axiom.Web.API
 
                 System.Text.StringBuilder htmlBody = new System.Text.StringBuilder();
 
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(companyNo);
                 string htmlfilePath = AppDomain.CurrentDomain.BaseDirectory + "MailTemplate\\CancelPart.html";
                 using (System.IO.StreamReader reader = new System.IO.StreamReader((htmlfilePath)))
                 {
@@ -525,7 +525,13 @@ namespace Axiom.Web.API
                     sb.Append("<td>" + loc.Name1 + "  (" + loc.LocID + ") </td>");
                     sb.Append(@"<td>&nbsp;&nbsp;<a style='color:#9b272a; text-decoration:none !important;' title='Click here to view part detail' target='_blank' href='" + strLink + "'>View Detail</a>&nbsp;&nbsp;</td></tr>");
                 }
+
                 htmlBody.Replace("{LOCATION}", sb.ToString());
+                htmlBody.Replace("{LogoURL}", objCompany.Logopath);
+                htmlBody.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                htmlBody.Replace("{CompanyName}", objCompany.CompName);
+                htmlBody.Replace("{Link}", objCompany.SiteURL);
+
                 //AxiomEmail.SendMailBilling("Cancel Part Reqeust", htmlBody.ToString(), accExecutiveEmail, true, "axiomsupport@axiomcopy.com", null, "tejaspadia@gmail.com,autoemail");
                 Email.Send(accExecutiveEmail, htmlBody.ToString(), "Cancel Part Reqeust", "axiomsupport@axiomcopy.com", "tejaspadia@gmail.com");
                 response.Success = true;

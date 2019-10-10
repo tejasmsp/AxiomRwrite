@@ -23,6 +23,9 @@
     orderDetailMasterService.UpdateBillToFirm = function (OrderId,FirmID) {
         return $http.get(configurationService.basePath + "UpdateBillToFirm?OrderID=" + OrderId + "&FirmID=" + FirmID);
     };
+    orderDetailMasterService.UpdateBillToAttorney = function (OrderId, AttyID) {
+        return $http.get(configurationService.basePath + "UpdateBillToAttorney?OrderID=" + OrderId + "&AttyID=" + AttyID);
+    };
 
     return orderDetailMasterService;
 });

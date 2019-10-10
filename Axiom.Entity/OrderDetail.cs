@@ -141,7 +141,7 @@ namespace Axiom.Entity
         public string EmpId { get; set; }
         public int? UserAccessId { get; set; }
         public DateTime? BillingDateOfLoss { get; set; }
-
+        public int CompanyNo { get; set; }
     }
 
     public class ClientInformation

@@ -8,7 +8,7 @@ namespace Axiom.Entity
 {
     public class PartDetail
     {
-        public string LocID { get; set; }        
+        public string LocID { get; set; }
         public bool isBatchUpload { get; set; }
         public int PartNo { get; set; }
         public bool? isCreateAuthSup { get; set; }
@@ -29,6 +29,7 @@ namespace Axiom.Entity
         public decimal? DocCap { get; set; }
         public string EntBy { get; set; }
         public byte? FeesStatus { get; set; }
+        public int CompanyNo { get; set; }
     }
 
     public class OrderPartNoteEntity

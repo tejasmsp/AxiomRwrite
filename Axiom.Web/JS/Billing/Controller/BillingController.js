@@ -49,12 +49,10 @@
     };
 
     $scope.SendEmail = function (AttyID, invoiceNumber) {
-        debugger;
-
         // AttyID, InvoiceNumber, OrderNumber, Location, Locationname, Patient
         //AttyID,invoiceNumber,$scope.objBilling.OrderNo,$scope.objBilling.LocID,$scope.objBilling.LocationName,$scope.objBilling.RecordsOf
 
-        var promise = BillingService.SendEmailForBill(AttyID, invoiceNumber, $scope.objBilling.OrderNo, $scope.objBilling.PartNo, $scope.objBilling.LocID, $scope.objBilling.LocationName, $scope.objBilling.RecordsOf, $scope.UserGuid);
+        var promise = BillingService.SendEmailForBill(AttyID, invoiceNumber, $scope.objBilling.OrderNo, $scope.objBilling.PartNo, $scope.objBilling.LocID, $scope.objBilling.LocationName, $scope.objBilling.RecordsOf, $scope.UserGuid, $rootScope.CompanyNo);
 
         promise.success(function (response) {
             if (response.Success) {
@@ -79,7 +77,7 @@
             $scope.objSoldAtty.push({ AttyId: value.AttyId, AttyType: "Ordering" });
         });
 
-        var promise = BillingService.GenerateInvoice($scope.objBilling.OrderNo, $scope.objBilling.PartNo, $scope.objBilling.BillToAttorney, $scope.objSoldAtty);
+        var promise = BillingService.GenerateInvoice($scope.objBilling.OrderNo, $scope.objBilling.PartNo, $scope.objBilling.BillToAttorney, $scope.objSoldAtty,$rootScope.CompanyNo);
         promise.success(function (response) {
             if (response.Success) {
                 $scope.GetInvoiceList();
@@ -165,7 +163,7 @@
             if (response.Success) {
                 promise.success(function (response) {
                     if (response.Data.length > 0) {
-                        
+
                         $scope.objEditInvoice = new Object();
                         $scope.GetRecordTypeListForBilling(response.Data[0].InvHdr);
                         $scope.GetAttorneyListByFirmId(response.Data[0].FirmID, response.Data[0].BillAtty);
@@ -379,7 +377,7 @@
                             $scope.objEditInvoice.Attorney = objAtty[0];
                         }
                     }
-                    
+
                 });
             }
             else {
@@ -437,8 +435,8 @@
             $scope.objEditInvoice.InvHdrdesc = InvHdr;
         }
     }
-    $scope.ViewARInvoiceChangeLogByInvoiceId = function (ArID, InvNo) {           
-        var ViewARInvoiceChangeLog = AccountReceivableService.GetARInvoiceChangeLogByInvoiceId(ArID,InvNo);
+    $scope.ViewARInvoiceChangeLogByInvoiceId = function (ArID, InvNo) {
+        var ViewARInvoiceChangeLog = AccountReceivableService.GetARInvoiceChangeLogByInvoiceId(ArID, InvNo);
         ViewARInvoiceChangeLog.success(function (response) {
             if (response.Success) {
                 $scope.ChangeLogListOfInvoices = response.Data;
@@ -449,7 +447,7 @@
                 toastr.error(response.Message[0]);
             }
         });
-        ViewARInvoiceChangeLog.error(function () { });      
+        ViewARInvoiceChangeLog.error(function () { });
     }
     function bindChangeLoginvoice() {
 

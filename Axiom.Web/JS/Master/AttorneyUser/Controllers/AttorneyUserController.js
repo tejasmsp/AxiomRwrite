@@ -199,11 +199,14 @@
                 return false;
             }
         }
+
         if (form.$valid) {
             $scope.AttorneyUserObj.CreatedBy = $scope.UserAccessId;
             $scope.AttorneyUserObj.CompanyNo = $rootScope.CompanyNo;
-            if (!$scope.IsEditMode) {  // add mode  
+
+            if (!$scope.IsEditMode) {  //add mode  
                 $scope.AttorneyUserObj.Password = "cem@123";
+                $scope.AttorneyUserObj.CompanyNo = $rootScope.CompanyNo
                 var promise = AttorneyUserService.InsertAttorneyUser($scope.AttorneyUserObj);
                 promise.success(function (response) {
                     if (response.Success) {

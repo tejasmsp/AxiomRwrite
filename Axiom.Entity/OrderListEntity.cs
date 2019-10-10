@@ -42,6 +42,7 @@ namespace Axiom.Entity
         public string DateOfDeath { get; set; }
         public string DateOfLoss { get; set; }
         public int CompanyNo { get; set; }
+        public string BillingClaimNo { get; set; }
     }
     public class SearchListEntity
     {

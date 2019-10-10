@@ -204,7 +204,7 @@ namespace Axiom.Web.API
                         httpResponseMessage.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
                         httpResponseMessage.Content.Headers.ContentDisposition.FileName = ZipFileName;
                         httpResponseMessage.StatusCode = HttpStatusCode.OK;
-                        
+
                     }
                 }
                 System.IO.File.Delete(strSavepath);
@@ -240,7 +240,7 @@ namespace Axiom.Web.API
 
         [HttpPost]
         [Route("UploadDocument")]
-        public BaseApiResponse UploadDocument()
+        public BaseApiResponse UploadDocument(int CompanyNo)
         {
             var response = new BaseApiResponse();
             try
@@ -455,7 +455,7 @@ namespace Axiom.Web.API
                             soldAttorneyList.Add(new SoldAttorneyEntity { AttyId = item.AttyId, AttyType = "Ordering" });
                         }
 
-                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, soldAttorneyList);
+                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList);
 
                     }
                     catch (Exception ex)
@@ -500,7 +500,7 @@ namespace Axiom.Web.API
                             soldAttorneyList.Add(new SoldAttorneyEntity { AttyId = item.AttyId, AttyType = "Ordering" });
                         }
 
-                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, soldAttorneyList);
+                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList);
 
                     }
                     catch (Exception ex)
@@ -527,6 +527,7 @@ namespace Axiom.Web.API
                         var result = _repository.ExecuteSQL<AssistContactEmail>("GetAssistContactEmailList", param).ToList();
                         if (result != null && result.Any(x => x.NewRecordAvailable))
                         {
+                            CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
                             string subject = "Your Records Are Available";
                             string LiveSiteURL = ConfigurationManager.AppSettings["LiveSiteURL"].ToString();
 
@@ -546,6 +547,10 @@ namespace Axiom.Web.API
                                 body = body.Replace("{InvHdr}", item.InvHdr);
                                 body = body.Replace("{Pages}", Convert.ToString(data["PageNo"]));
                                 body = body.Replace("{LINK}", LiveSiteURL + "/PartDetail?OrderId=" + data["OrderId"] + "&PartNo=" + data["PartNo"]);
+                                body = body.Replace("{LogoURL}", objCompany.Logopath);
+                                body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                                body = body.Replace("{CompanyName}", objCompany.CompName);
+                                body = body.Replace("{Link}", objCompany.SiteURL);
 
                                 EmailHelper.Email.Send(item.AssistantEmail, body.ToString(), subject, "", "tejaspadia@gmail.com");
 

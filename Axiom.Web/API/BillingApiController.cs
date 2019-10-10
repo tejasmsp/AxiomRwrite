@@ -74,7 +74,7 @@ namespace Axiom.Web.API
                     body = body.Replace("{LINK}", "o=" + OrderNumber + "&p=" + PartNumber);
 
                     // EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "j.alspaugh@axiomcopy.com", "tejas.p@cementdigital.com");
-                    EmailHelper.Email.Send(mailTo:item.Email,body: body.ToString(),subject: subject,ccMail: "j.alspaugh@axiomcopy.com", bccMail: "tejaspadia@gmail.com");
+                    EmailHelper.Email.Send(mailTo:item.Email,body: body.ToString(),subject: subject,ccMail: "", bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                 }
 
                 foreach (var item in result)
@@ -100,7 +100,7 @@ namespace Axiom.Web.API
                     body = body.Replace("{LINK}", "o=" + OrderNumber + "&p=" + PartNumber);
 
                     // EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "j.alspaugh@axiomcopy.com", "tejas.p@cementdigital.com");
-                    EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "tejaspadia@gmail.com");
+                    EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                 }
 
                 response.Success = true;

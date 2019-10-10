@@ -5,9 +5,9 @@
         return $http.get(configurationService.basePath + "GetFile?OrderId=" + OrderId + "&PartNo=" + PartNo);
     };
 
-    OrderDocumentService.UploadDocument = function (formData) {
+    OrderDocumentService.UploadDocument = function (formData, CompanyNo) {
         return $.ajax({
-            url: configurationService.basePath + "UploadDocument",
+            url: configurationService.basePath + "UploadDocument?CompanyNo=" + CompanyNo,
             data: formData,
             cache: false,
             contentType: false,

@@ -74,6 +74,11 @@ namespace Axiom.Web.API
 
             if (CompanyID.ToLower() == "undefined" || CompanyID.ToLower() == "null")
                 CompanyID = "0";
+            if (string.IsNullOrEmpty(StartDate))
+                StartDate = "01/01/1900";
+
+            if (string.IsNullOrEmpty(EndDate))
+                EndDate = DateTime.Now.ToString("MM/dd/yyyy");
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
 
             StringBuilder sb = new StringBuilder();
@@ -105,9 +110,10 @@ namespace Axiom.Web.API
 
                 case "InvoiceByDate":
 
-                    SqlParameter[] param1 = {new SqlParameter("StartDate", (object)StartDate ?? (object)DBNull.Value),
-                                            new SqlParameter("EndDate", (object)EndDate ?? (object)DBNull.Value),
-                                            new SqlParameter("CompanyID", (object)CompanyID ?? (object)DBNull.Value) };
+                    SqlParameter[] param1 = {new SqlParameter("StartDate", (object)StartDate ?? (object)DBNull.Value)
+                                            ,new SqlParameter("EndDate", (object)EndDate ?? (object)DBNull.Value)
+                                            ,new SqlParameter("CompanyID", (object)CompanyID ?? (object)DBNull.Value)
+                                            ,new SqlParameter("FirmID", (object)FirmID ?? (object)DBNull.Value)};
 
                     var result1 = _repository.ExecuteSQL<InvoiceByDateEntity>("AccessGetInvoiceByDate", param1).ToList();
 
@@ -295,6 +301,13 @@ namespace Axiom.Web.API
 
             if (CompanyID.ToLower() == "undefined" || CompanyID.ToLower() == "null")
                 CompanyID = "0";
+
+            if (string.IsNullOrEmpty(StartDate))
+                StartDate = "01/01/1900";
+
+            if (string.IsNullOrEmpty(EndDate))
+                EndDate = DateTime.Now.ToString("MM/dd/yyyy");
+
             // HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
             var response = new ApiResponse<PartsByDateEntity>();
 
@@ -459,12 +472,18 @@ namespace Axiom.Web.API
             if (CompanyID.ToLower() == "undefined" || CompanyID.ToLower() == "null")
                 CompanyID = "0";
 
+            if (string.IsNullOrEmpty(StartDate))
+                StartDate = "01/01/1900";
+
+            if (string.IsNullOrEmpty(EndDate))
+                EndDate = DateTime.Now.ToString("MM/dd/yyyy");
 
             var response = new ApiResponse<InvoiceByDateEntity>();
 
-            SqlParameter[] param = {new SqlParameter("StartDate", (object)StartDate ?? (object)DBNull.Value),
-                                            new SqlParameter("EndDate", (object)EndDate ?? (object)DBNull.Value),
-                                            new SqlParameter("CompanyID", (object)CompanyID ?? (object)DBNull.Value) };
+            SqlParameter[] param = {new SqlParameter("StartDate", (object)StartDate ?? (object)DBNull.Value)
+                                            ,new SqlParameter("EndDate", (object)EndDate ?? (object)DBNull.Value)
+                                            ,new SqlParameter("CompanyID", (object)CompanyID ?? (object)DBNull.Value)
+                                            ,new SqlParameter("FirmID", (object)FirmID ?? (object)DBNull.Value)};
 
             var result = _repository.ExecuteSQL<InvoiceByDateEntity>("AccessGetInvoiceByDate", param).ToList();
 
@@ -484,6 +503,12 @@ namespace Axiom.Web.API
 
             if (CompanyID.ToLower() == "undefined" || CompanyID.ToLower() == "null")
                 CompanyID = "0";
+
+            if (string.IsNullOrEmpty(StartDate))
+                StartDate = "01/01/1900";
+
+            if (string.IsNullOrEmpty(EndDate))
+                EndDate = DateTime.Now.ToString("MM/dd/yyyy");
 
             var response = new ApiResponse<ChecksByDateEntity>();
 
@@ -509,6 +534,12 @@ namespace Axiom.Web.API
 
             if (CompanyID.ToLower() == "undefined" || CompanyID.ToLower() == "null")
                 CompanyID = "0";
+
+            if (string.IsNullOrEmpty(StartDate))
+                StartDate = "01/01/1900";
+
+            if (string.IsNullOrEmpty(EndDate))
+                EndDate = DateTime.Now.ToString("MM/dd/yyyy");
 
             var response = new ApiResponse<ChecksByNumberEntity>();
 
@@ -689,6 +720,12 @@ namespace Axiom.Web.API
             if (CompanyID.ToLower() == "undefined" || CompanyID.ToLower() == "null")
                 CompanyID = "0";
 
+            if (string.IsNullOrEmpty(StartDate))
+                StartDate = "01/01/1900";
+
+            if (string.IsNullOrEmpty(EndDate))
+                EndDate = DateTime.Now.ToString("MM/dd/yyyy");
+
             var response = new ApiResponse<AgedAR>();
 
 
@@ -747,6 +784,13 @@ namespace Axiom.Web.API
             string fileNames = "ClientRecords";
             string strLiveURL = System.Configuration.ConfigurationManager.AppSettings["LiveSiteURL"].ToString();
             string DocumentPath = System.Configuration.ConfigurationManager.AppSettings["AgedARReportDocumentPath"].ToString();
+
+            if (string.IsNullOrEmpty(StartDate))
+                StartDate = "01/01/1900";
+
+            if (string.IsNullOrEmpty(EndDate))
+                EndDate = DateTime.Now.ToString("MM/dd/yyyy");
+
             try
             {
                 if (FirmID.ToLower() == "undefined" || FirmID.ToLower() == "null")

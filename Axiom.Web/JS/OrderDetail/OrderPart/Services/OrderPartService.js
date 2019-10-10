@@ -1,7 +1,7 @@
 ﻿app.service('OrderPartService', function ($http, configurationService) {
     var orderPartService = [];
 
-    orderPartService.GetPartListByOrderId = function (OrderId,PartNo) {
+    orderPartService.GetPartListByOrderId = function (OrderId, PartNo) {
         return $http.get(configurationService.basePath + "GetPartListByOrderId?OrderId=" + OrderId + "&PartNo=" + PartNo);
     };
 
@@ -18,8 +18,8 @@
     orderPartService.AddUpdateChronolgy = function (OrderId, PartNo, userGuid, IsChronology) {
         return $http.post(configurationService.basePath + "AddUpdateChronolgy?OrderId=" + OrderId + "&PartNo=" + PartNo + "&userGuid=" + userGuid + "&IsChronology=" + IsChronology);
     };
-    orderPartService.CancelPartSendEmail = function (OrderID, csvPartNo, userGuid) {
-        return $http.post(configurationService.basePath + "CancelPartSendEmail?OrderID=" + OrderID + "&csvPartNo=" + csvPartNo + "&userGuid=" + userGuid);
+    orderPartService.CancelPartSendEmail = function (OrderID, csvPartNo, userGuid, companyNo) {
+        return $http.post(configurationService.basePath + "CancelPartSendEmail?OrderID=" + OrderID + "&csvPartNo=" + csvPartNo + "&userGuid=" + userGuid + "&companyNo=" + companyNo);
     };
 
     return orderPartService;
