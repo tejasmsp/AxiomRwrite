@@ -99,7 +99,6 @@ namespace Axiom.Web.Controllers
         }
         private void SendEmail(ProposalFeesApprovalModel model, bool status)
         {
-
             string subject = "Proposal Fees Request Status";
             string body = string.Empty;
             using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/ProposalFeesReply.html"))
@@ -118,6 +117,7 @@ namespace Axiom.Web.Controllers
             body = body.Replace("{LOCATION}", model.location);
             body = body.Replace("{PAGES}", model.pages);
             body = body.Replace("{COST}", model.amount);
+
             EmailHelper.Email.Send(model.accExecutiveEmail, body, subject, "", "tejaspadia@gmail.com;autoemail@axiomcopy.com");
             var feeStatus = status ? 1 : 2;
             SqlParameter[] sqlparam = {  new SqlParameter("ProposalFeesID", (object)model.proposalFeesID ?? (object)DBNull.Value),
@@ -151,6 +151,7 @@ namespace Axiom.Web.Controllers
                 body = body.Replace("{EDITEDPAGES}", model.Newpages);
                 body = body.Replace("{EDITEDCOST}", model.Newamount);
                 body = body.Replace("{COMMENTS}", model.comment);
+
                 EmailHelper.Email.Send(model.accExecutiveEmail, body, subject, "", "tejaspadia@gmail.com;autoemail@axiomcopy.com");
 
                 SqlParameter[] saveparam = {  new SqlParameter("ProposalFeesID", (object)model.proposalFeesID ?? (object)DBNull.Value),
@@ -162,7 +163,6 @@ namespace Axiom.Web.Controllers
                 {
                     model.isUpdated = true;
                 }
-
             }
             catch (Exception ex)
             {

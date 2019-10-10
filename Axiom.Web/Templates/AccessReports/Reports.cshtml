@@ -35,7 +35,7 @@
                 <div class="col-md-2" ng-show="ShowFirm">
                     <div class="form-group">
                         <label class="control-label lbl-primary">Firm</label>
-                        <select class="form-control cls-firm1" name="FirmID" data-live-search="true" data-width="100%" data-size="15"
+                        <select class="form-control cls-firm1" id="FirmID" name="FirmID" data-live-search="true" data-width="100%" data-size="15"
                                 ng-model="AccessReport.FirmID" ng-options="item.FirmID as item.FirmName for item in firmList">
                             <option value="">-- All --</option>
                         </select>
@@ -68,6 +68,11 @@
             <div class="row mb-10" ng-show="showPartCount">
                 <div class="col-md-2">
                     <label class="control-label lbl-primary">Total Parts&nbsp;&nbsp;{{TotalParts}}</label>
+                </div>
+            </div>
+            <div class="row mb-10" ng-show="showInvoiceCount">
+                <div class="col-md-2">
+                    <label class="control-label lbl-primary">Total Invoices :&nbsp;&nbsp;{{TotalInvoices}}</label>
                 </div>
             </div>
             <div class="row mb-10" ng-show="showAmount">

@@ -5,11 +5,12 @@
     $scope.ShowFirm = false;
     $scope.showFromToDate = ($stateParams.type == 'PartsByDate' || $stateParams.type == 'InvoiceByDate' || $stateParams.type == 'ChecksByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling' || $stateParams.type == 'AgedAR');
     $scope.showCompany = ($stateParams.type == 'PartsByDate' || $stateParams.type == 'InvoiceByDate' || $stateParams.type == 'ChecksByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'OrderBySSN' || $stateParams.type == 'NonInvoicedParts' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling' || $stateParams.type == 'AgedAR');
-    $scope.ShowFirm = ($stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling' || $stateParams.type == 'AgedAR');
+    $scope.ShowFirm = ($stateParams.type == 'InvoiceByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling' || $stateParams.type == 'AgedAR');
     $scope.showCheckNumber = $stateParams.type == 'ChecksByNumber';
     $scope.showSSN = $stateParams.type == 'OrderBySSN';
     $scope.showReportList = [];
     $scope.showReportListAll = [];
+    $scope.firmDropdownList = [];
     $scope.showDownloadButton = false;
     $scope.TotalParts = 0;
     $scope.BillAmount = 0;
@@ -19,6 +20,8 @@
     $scope.UserGuid = $rootScope.LoggedInUserDetail.UserId;
     $scope.Days = -1;
     $scope.ShowFilterButton = false;
+    $scope.TotalInvoices = 0;
+    $scope.showInvoiceCount = false;
 
     function showReport() {
         debugger;
@@ -26,9 +29,9 @@
         $scope.BillAmount = 0;
         $scope.BillBalance = 0;
         $scope.showPartCount = $stateParams.type == 'PartsByDate';
-        $scope.showAmount = ($stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
-        $scope.showBalance = ($stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
-
+        $scope.showAmount = ($stateParams.type == 'InvoiceByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
+        $scope.showBalance = ($stateParams.type == 'InvoiceByDate' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
+        $scope.showInvoiceCount = $stateParams.type == 'InvoiceByDate';
         $scope.ShowFilterButton = $stateParams.type == 'AgedAR';
 
         if ($.fn.DataTable.isDataTable("#tblReports")) {
@@ -43,13 +46,16 @@
                 $scope.TotalParts += value.CountOfPartNo;
             });
         }
-
-        if ($stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling') {
+        if ($stateParams.type == 'InvoiceByDate') {
+            $scope.TotalInvoices = $scope.showReportList.length;
+        }
+        
+        if ($stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling' || $stateParams.type == 'InvoiceByDate') {
             angular.forEach($scope.showReportList, function (value, key) {
                 $scope.BillBalance += value.Balance;
             });
         }
-        if ($stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling'); {
+        if ($stateParams.type == 'InvoiceByDate' || $stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling'); {
             angular.forEach($scope.showReportList, function (value, key) {
                 $scope.BillAmount += value.InvoiceAmount;
             });
@@ -57,16 +63,35 @@
 
         if ($stateParams.type == 'AgedAR') {
             if ($scope.Days == 30) {
-                $scope.showReportList = $scope.showReportListAll.filter(s => s.Days <= 30);
+                $scope.showReportList = $scope.showReportListAll.filter(function (i, e) {                    
+                    if (i.Days <= 30) {                        
+                        return i.Days;
+                    }
+                });
             }
             else if ($scope.Days == 60) {
-                $scope.showReportList = $scope.showReportListAll.filter(s => s.Days > 30 && s.Days <= 60);
+                //$scope.showReportList = $scope.showReportListAll.filter(s => s.Days > 30 && s.Days <= 60);
+                $scope.showReportList = $scope.showReportListAll.filter(function (i, e) {
+                    if (i.Days > 30 && i.Days <=60) {
+                        return i.Days;
+                    }
+                });
             }
             else if ($scope.Days == 90) {
-                $scope.showReportList = $scope.showReportListAll.filter(s => s.Days > 60 && s.Days <= 90);
+                // $scope.showReportList = $scope.showReportListAll.filter(s => s.Days > 60 && s.Days <= 90);
+                $scope.showReportList = $scope.showReportListAll.filter(function (i, e) {
+                    if (i.Days > 60 && i.Days <= 90) {
+                        return i.Days;
+                    }
+                });
             }
             else if ($scope.Days == 0) {
-                $scope.showReportList = $scope.showReportListAll.filter(s => s.Days > 90);
+                // $scope.showReportList = $scope.showReportListAll.filter(s => s.Days > 90);
+                $scope.showReportList = $scope.showReportListAll.filter(function (i, e) {
+                    if (i.Days > 90) {
+                        return i.Days;
+                    }
+                });
             }
             else if ($scope.Days == -1) {
                 $scope.showReportList = $scope.showReportListAll;
@@ -128,12 +153,25 @@
     $scope.BindFirmDropDown = function () {
 
         // var firmDropdownList = CommonServices.FirmForDropdown("");
-        var firmDropdownList = CommonServices.GetFirmByUserId($scope.UserGuid, $rootScope.CompanyNo);
+        var firmDropdownList = CommonServices.GetFirmByUserId($scope.UserGuid);
         firmDropdownList.success(function (response) {
 
             $scope.firmList = response.Data;
             $('.cls-firm1').selectpicker();
             $('.cls-firm1').selectpicker('refresh');
+
+
+            var hanoverText = $scope.firmList.filter(function (i, e) {
+                if (i.FirmID == 'HANOAA01') {
+                    return i.FirmName;
+                }
+            });
+
+            if ($stateParams.type == 'HanoverBilling' || $stateParams.type == 'HanoverBillingFees') {                
+                $scope.AccessReport.FirmID = 'HANOAA01';
+                $('.filter-option-inner-inner').text(hanoverText[0].FirmName);
+            }
+
         });
 
         firmDropdownList.error(function (response) {

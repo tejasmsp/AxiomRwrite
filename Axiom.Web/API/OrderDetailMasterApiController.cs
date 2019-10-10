@@ -157,6 +157,8 @@ namespace Axiom.Web.API
                     ,new SqlParameter("DateOfDeath", (object)objOrder.DateOfDeath ?? (object)DBNull.Value)
                     ,new SqlParameter("DateOfLoss", (object)objOrder.DateOfLoss ?? (object)DBNull.Value)
                     ,new SqlParameter("CompanyNo", (object)objOrder.CompanyNo ?? (object)DBNull.Value)
+                    ,new SqlParameter("BillingClaimNo", (object)objOrder.BillingClaimNo ?? (object)DBNull.Value)
+                    
                 };
                 var result = _repository.ExecuteSQL<int>("UpdateOrderBasicInformation", param).FirstOrDefault();
                 
@@ -202,7 +204,33 @@ namespace Axiom.Web.API
             }
             return response;
         }
+        [HttpGet]
+        [Route("UpdateBillToAttorney")]
+        public BaseApiResponse UpdateBillToAttorney(int OrderID, string AttyID)
+        {
+            var response = new BaseApiResponse();
+            response.Success = true;
+            try
+            {
+                SqlParameter[] param = {
+                    new SqlParameter("OrderNo", (object)OrderID ?? (object)DBNull.Value)
+                    ,new SqlParameter("AttyID", (object)AttyID ?? (object)DBNull.Value)
+                };
+                var result = _repository.ExecuteSQL<int>("UpdateBillToAttorney", param).FirstOrDefault();
 
+                if (result == null)
+                {
+                    result = 0;
+                    response.Success = false;
+                }
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message.Add(ex.Message);
+            }
+            return response;
+        }
         #endregion
     }
 }

@@ -163,6 +163,8 @@
             $scope.OrderStep1Obj.OrderId = $scope.OrderId;
             $scope.OrderStep1Obj.UserEmail = $rootScope.LoggedInUserDetail.UserName;
             $scope.OrderStep1Obj.LocDocumentList = $scope.LocDocumentList;
+            $scope.OrderStep1Obj.CompanyNo = $rootScope.CompanyNo;
+
             var promise = Step1Service.SubmitOrder($scope.OrderStep1Obj);
             promise.success(function (response) {
                 if (response.Success) {

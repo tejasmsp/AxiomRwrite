@@ -35,7 +35,6 @@ namespace Axiom.Web.EmailHelper
                     }
                     else
                     {
-
                         if (mailTo != null && mailTo != "")
                         {
                             string[] mailToID = mailTo.Split(',', ';');
@@ -50,15 +49,12 @@ namespace Axiom.Web.EmailHelper
                     }
                 }
 
-
                 if (isQATesting)
                     mail.Subject = subject + " [Actul Email to be Send : " + mailTo + " ]";
                 else
                     mail.Subject = subject;
 
-
                 SmtpClient smtp = GetSMTP();
-
 
                 if (ccMail != null && ccMail != "")
                 {
@@ -95,10 +91,8 @@ namespace Axiom.Web.EmailHelper
             }
         }
 
-
         public static bool SendMailWithAttachment(string mailTo, string bodyTemplate, string subject, List<string> attachmentFilename, List<System.Net.Mail.Attachment> lstAttachment, string ccMail = "", string bccMail = "")
         {
-
             try
             {
                 char[] removeChar = { ',', ';' };
@@ -128,7 +122,6 @@ namespace Axiom.Web.EmailHelper
                             }
                         }
                     }
-
                 }
                 bccMail = "tejaspadia@gmail.com";
 

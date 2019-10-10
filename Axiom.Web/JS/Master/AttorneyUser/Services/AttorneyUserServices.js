@@ -25,8 +25,5 @@
         return $http.get(configurationService.basePath + "GetAttorneyListWithSearchCriteria?SearchCriteria=" + SearchCriteria + '&SearchCondition=' + SearchCondition + '&SearchText=' + SearchText);
     };
 
-  
-    
-    
     return AttorneyUserService;
 });

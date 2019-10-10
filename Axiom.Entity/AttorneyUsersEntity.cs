@@ -26,7 +26,7 @@ namespace Axiom.Entity
         public bool? IsApproved { get; set; }
 
         public int? CreatedBy { get; set; }
-        public int? CompanyNo { get; set; }
+        public int CompanyNo { get; set; }
 
     }
 }

@@ -147,6 +147,8 @@ namespace Axiom.Web.API
                             string subject = "Proposal Fees Request";
                             string body = string.Empty;
 
+                            CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(model.CompanyNo);
+
                             using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/ProposalFees.html"))
                             {
                                 body = reader.ReadToEnd();
@@ -158,6 +160,10 @@ namespace Axiom.Web.API
                             body = body.Replace("{PAGES}", Convert.ToString(model.Pages));
                             body = body.Replace("{DESC}", model.Descr);
                             body = body.Replace("{COST}", Convert.ToString(model.Amount));
+                            body = body.Replace("{LogoURL}", objCompany.Logopath);
+                            body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                            body = body.Replace("{CompanyName}", objCompany.CompName);
+                            body = body.Replace("{Link}", objCompany.SiteURL);
 
                             string accExecutiveName = "Admin";
                             string accExecutiveEmail = "Fees@axiomcopy.com";

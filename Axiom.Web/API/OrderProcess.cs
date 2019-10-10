@@ -23,9 +23,10 @@ namespace Axiom.Web.API
     {
         private readonly GenericRepository<AttorneyEntity> _repository = new GenericRepository<AttorneyEntity>();
 
-
-        public async Task ESignature(int OrderNo, string partCSVID = "")
+        public async Task ESignature(int OrderNo, int CompanyNo, string partCSVID = "")
         {
+            CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
+
             SqlParameter[] paramStatus = { new SqlParameter("OrderNo", (object)OrderNo ?? (object)DBNull.Value) };
             bool isPartAddLater = _repository.ExecuteSQL<bool>("GetOrderStatus", paramStatus).FirstOrDefault();
 
@@ -53,6 +54,10 @@ namespace Axiom.Web.API
                                         body.Append(reader.ReadToEnd());
                                     }
                                     body = body.Replace("{AttorneyName}", AttorneyName);
+                                    body = body.Replace("{LogoURL}", objCompany.Logopath);
+                                    body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                                    body = body.Replace("{CompanyName}", objCompany.CompName);
+                                    body = body.Replace("{Link}", objCompany.SiteURL);
 
                                     var fileList = new List<FileEntity>();
 

@@ -3,7 +3,7 @@
 
     decodeParams($stateParams);
     $scope.IsFromClient = 1;  // Temporary
-    $scope.UserAccessId = $rootScope.LoggedInUserDetail.UserAccessId;    
+    $scope.UserAccessId = $rootScope.LoggedInUserDetail.UserAccessId;
     $scope.IsEditMode = false;
     $scope.userGuid = $rootScope.LoggedInUserDetail.UserId;
     $scope.EmpId = $rootScope.LoggedInUserDetail.EmpId;
@@ -15,7 +15,6 @@
     //#region Event
 
     $scope.GetCompanyDetails = function (OrderId) { //Header Detail
-        
         var promise = OrderDetailMasterService.GetOrderCompanyDetail(OrderId);
         promise.success(function (response) {
             if (response && response.Data.length > 0) {
@@ -29,7 +28,7 @@
     $scope.GetCaseInformation = function (OrderId) { //Case Information        
         var promise = Step4Service.GetOrderWizardStep4Details(OrderId);
         promise.success(function (response) {
-            if (response) {                
+            if (response) {
                 $scope.CaseInfoobj = response.Data[0];
             }
         });

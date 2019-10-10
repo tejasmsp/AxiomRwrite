@@ -319,10 +319,11 @@ namespace Axiom.Web.API
                             }
                         }
 
-
                         await new OrderProcess().OrderSummaryEmail(Convert.ToInt32(model.OrderId), model.UserEmail, Convert.ToInt32(model.SubmitStatus));
                         await new OrderProcess().AddQuickformsForNewOrder(Convert.ToInt32(model.OrderId), Convert.ToBoolean(model.SubmitStatus), Convert.ToBoolean(model.SubmitStatus));
-                        await new OrderProcess().ESignature(Convert.ToInt32(model.OrderId));
+
+                        //[TODO: Remove static company no]
+                        await new OrderProcess().ESignature(Convert.ToInt32(model.OrderId), model.CompanyNo);
                         InsertWaiverForNewOrder(Convert.ToInt32(model.OrderId));
 
                         // UPDATE isAddedPart TO 0 OF ALL PART AFTER PROCESSING ORDER
@@ -344,7 +345,7 @@ namespace Axiom.Web.API
         [Route("InsertWaiverForNewOrder")]
         public void InsertWaiverForNewOrder(int OrderNo)
         {
-            
+
             try
             {
                 SqlParameter[] param = { new SqlParameter("OrderNo", (object)OrderNo ?? (object)DBNull.Value) };

@@ -3,27 +3,27 @@
     <title></title>
 </head>
 <body>
-    <img src="https://www.axiomcopyonline.com/Assets/images/logo-axiom.png" /><br /><br />
+    <!-- <img src="https://www.axiomcopyonline.com/Assets/images/logo-axiom.png" /><br /><br /> -->
+	<img src="{LogoURL}" /><br /><br />
     <div style="border-top:3px solid #9B272A">&nbsp;</div>
     <span style="font-family:Arial;font-size:11pt">
         Hello <b>{FirstName} {LastName}</b>,<br /><br />
 		
-		Welcome to Axiom Requisition !<br /><br />
+		Welcome to {CompanyName} !<br /><br />
 		
 		You can Log In with below credentials.<br /><br />
 
         UserID		: <b>{Email}</b><br>
         Password	: <b>{Password}</b><br /><br />
 
-		You are internal employee of Axiom Requisition, to see Orders in the system you may need to add Attorney Access from this page https://www.axiomcopyonline.com/AttorneyUsers
+		You are internal employee of {CompanyName}, to see Orders in the system you may need to add Attorney Access from this page
+		{Link}AttorneyUsers
+		<!-- https://www.axiomcopyonline.com/AttorneyUsers -->
         <br /><br />Please go to {Link} to login.<br /><br />
 
         After Log In Please change your password.<br /><br />
 
-        Thank you,<br />
-        <b>Axiom Requisition Copy Service</b><br />
-        Phone: +1.517.886.5099<br />
-        Toll Free: +1.877.886.5090<br /><br />
+        {ThankYou}
     </span>
 </body>
 </html>

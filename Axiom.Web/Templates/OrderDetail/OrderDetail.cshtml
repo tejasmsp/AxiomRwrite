@@ -10,6 +10,7 @@
         text-decoration:underline;
     }
 </style>
+<link href="~/Content/bootstrap-select.css" rel="stylesheet" />
 <div class="page-content" ng-controller="OrderDetailMasterController">
     <div class="panel panel-white">
         <div class="panel-heading">
@@ -39,6 +40,7 @@
                         <b>|</b>
                     </li>
                     <li ng-if="IsAdmin" class="mr-5 cls-part-header ng-scope">
+                        <i class="icon-square-up-right cursor-pointer" ng-click="ChangBillToAttorney()" style="padding-left:5px;" tooltip title="Click to change Bill To Attorney"></i>&nbsp;
                         Billing Attorney : <b><a class="text-white billingID" href="ManageAttorney?AttyID={{OrderBasicDetail.BillingAttorney}}" title="{{OrderBasicDetail.BillingAttorneyName}}" target="_blank">{{OrderBasicDetail.BillingAttorney}}</a></b>
                     </li>
                     <li ng-if="IsAdmin" class="mr-5 cls-part-header ng-scope">
@@ -415,6 +417,17 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Claim No:</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" ng-model="objEditOrderInfo.BillingClaimNo" placeholder="Claim No" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <label class="control-label col-sm-3 lbl-primary">Company:</label>
                                         <div class="col-sm-9">
                                             @*<div required="required" custom-select="item.FileTypeId as (item.FileType) for item in FileTypeList | filter: $searchTerm" ng-model="DocumentObj.FileTypeId" ng-change="onFileTypeChange(DocumentObj.FileTypeId)"></div>*@
@@ -437,6 +450,39 @@
     <div id="modal_FirmSearch" class="modal fade" static-Include="./Templates/Settings/Partial/FirmSearch.cshtml" ng-controller="FirmSearchController">
     </div>
 
+    <div id="modal_BillToAttorney" class="modal fade" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog ">            
+                <div class="modal-content">
+                    <div class="modal-header bg-main">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h5 class="modal-title">Set Bill to Attorney</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <div id="messages">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 lbl-primary">Attorney :</label>
+                                        <div class="col-sm-9">
+                                            @*<select class="form-control cls-firm1" name="FirmID" data-live-search="true" data-width="100%" data-size="15"*@
+                                            <select name="Attorney" ng-model="objBillTo.AttyID" data-live-search="true" class="form-control cls-firm1" data-width="100%" data-size="10" ng-options="item.AttyID as item.AttorneyName for item in lstAttorneyList"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" title="Close" data-dismiss="modal">Close</button>
+                        <input type="submit" title="Save" value="Save" ng-click="UpdateBillToAttorney(objBillTo.AttyID)" class="btn btn-primary" />
+                    </div>
+                </div>            
+        </div>
+    </div>
+    <script src="~/Scripts/bootstrap-select.js"></script>
 </div>
 
 

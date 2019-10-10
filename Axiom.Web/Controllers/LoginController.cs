@@ -156,7 +156,7 @@ namespace Axiom.Web.Controllers
                 }
                 else
                 {
-                    string msg = "Email not register with Axiom.";
+                    string msg = "Email not register with us.";
                     return Json(new { success = false, message = msg }, JsonRequestBehavior.AllowGet);
                 }
 
@@ -190,7 +190,7 @@ namespace Axiom.Web.Controllers
                 }
                 else
                 {
-                    string msg = "Email not register with Axiom.";
+                    string msg = "Email not register with us.";
                     return Json(new { success = false, message = msg }, JsonRequestBehavior.AllowGet);
                 }
 
@@ -218,6 +218,8 @@ namespace Axiom.Web.Controllers
             var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
             model.CompanyNo = response.Data[0];
 
+            CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(model.CompanyNo);
+
             var Result = loginApi.GetUserDetailByEmail(model);
             if (Result.Data != null && Result.Data.Count > 0)
             {
@@ -234,7 +236,12 @@ namespace Axiom.Web.Controllers
                     bodyTemplate = bodyTemplate.Replace("{Email}", Result.Data[0].Email);
                     bodyTemplate = bodyTemplate.Replace("{Link}", ConfigurationManager.AppSettings["ResetEmailLink"].ToString());
                     bodyTemplate = bodyTemplate.Replace("{Password}", Security.Decrypt(modelResetPassword.Password));
-                    Email.Send(MailTo, bodyTemplate, "Axiom - Login Details", "", "");
+                    bodyTemplate = bodyTemplate.Replace("{LogoURL}", objCompany.Logopath);
+                    bodyTemplate = bodyTemplate.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                    bodyTemplate = bodyTemplate.Replace("{CompanyName}", objCompany.CompName);
+                    bodyTemplate = bodyTemplate.Replace("{Link}", objCompany.SiteURL);
+
+                    Email.Send(MailTo, bodyTemplate, "Login Details", "", "");
                     model.Msg = "Password has send successfully in your mail.";
                     return View("~/Views/Login/Index.cshtml", model);
                 }

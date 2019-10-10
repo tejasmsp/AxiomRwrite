@@ -126,8 +126,11 @@
                             Descr: $scope.ProposalFees.Description,
                             Pages: $scope.ProposalFees.PageNo,
                             Amount: totalFee,
-                            EntBy: $scope.EmpId
+                            EntBy: $scope.EmpId,
+                            CompanyNo : $rootScope.CompanyNo
                         };
+
+                        
                         var promise = ProposalFeesService.SaveProposalFees(objSave);
                         promise.success(function (response) {
                             if (response.Success) {

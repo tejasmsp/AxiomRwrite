@@ -15,7 +15,7 @@
 
     $scope.GetFileList = function () {
         var promise = OrderDocumentService.GetFileList($scope.OrderId, $scope.PartNo);
-        promise.success(function (response) {            
+        promise.success(function (response) {
             if ($scope.RoleName === 'Attorney') {
                 $scope.FileList = $filter('filter')(response.Data, { IsPublic: true }, true);
             }
@@ -78,7 +78,7 @@
         }
 
         if (form.$valid) {
-           
+
             //if ($scope.DocumentObj.PartNo == 0 ) {
             //    if ($scope.files.length == 0) {
             //        toastr.error('Please Select File');
@@ -91,7 +91,7 @@
             //        return false;
             //    }
             //}
-           
+
             if ($scope.DocumentObj.PartNo > 0 && $scope.DocumentObj.FileTypeId == 11) {
                 if (isNullOrUndefinedOrEmpty($scope.DocumentObj.PageNo) && $scope.DocumentObj.PageNo <= 0) {
                     toastr.error('Pages count should be greater than zero.');
@@ -134,7 +134,7 @@
                 formData.append("file" + i, $scope.files[i]);
             }
 
-            var fileupload = OrderDocumentService.UploadDocument(formData);
+            var fileupload = OrderDocumentService.UploadDocument(formData, $rootScope.CompanyNo);
             fileupload.success(function (response) {
                 if (response.Success) {
                     toastr.success("Document Uploaded Successfully");
@@ -190,7 +190,7 @@
             });
         }
 
-        
+
     }
     function DownLoadFile(fileDiskName, fileName, OrderId, PartNo) {
         var promise = OrderDocumentService.DownloadFile(fileDiskName, fileName, OrderId, PartNo);

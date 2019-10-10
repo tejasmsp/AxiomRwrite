@@ -11,7 +11,7 @@
     $scope.RoleName = $rootScope.LoggedInUserDetail.RoleName ? $rootScope.LoggedInUserDetail.RoleName[0] : '';
 
     //#region Event
-    $scope.OpenPart = function (OrderNo, Partno, $event) {        
+    $scope.OpenPart = function (OrderNo, Partno, $event) {
         $window.open("PartDetail?OrderId=" + OrderNo + "&PartNo=" + Partno, '_blank');
     };
 
@@ -22,7 +22,7 @@
         //$timeout(function () {
         //    $rootScope.$broadcast('AddLocationFromOrderDetailPart');
         //}, 1000);
-        
+
         //toastr.error("TODO: Not developed yet");
     };
 
@@ -91,7 +91,7 @@
                 var promise = OrderPartService.InsertOrderPart($scope.OrderPartObj);
                 promise.success(function (response) {
                     if (response.Success) {
-                         
+
                         angular.element("#modal_Add_Part").modal('hide');
                         toastr.success("Save Successfully");
                         $scope.GetPartListByOrderId($scope.OrderId);
@@ -138,7 +138,7 @@
     };
 
     $scope.SaveChronology = function (item, $event) {
-        
+
         $event.stopPropagation();
         var promise = OrderPartService.AddUpdateChronolgy($scope.OrderId, item.PartNo, $rootScope.LoggedInUserDetail.UserId, item.ISChronology);
         promise.success(function (response) {
@@ -158,7 +158,7 @@
     $scope.AddDocumentPopUp = function (dataitem, $event) {
         if (!isNullOrUndefinedOrEmpty($event)) {
             $event.stopPropagation();
-        }        
+        }
         $scope.PartNo = dataitem.PartNo;
         $scope.$parent.OpenUploadDocumentPopUp(dataitem.OrderId, dataitem.PartNo);
         //$rootScope.$broadcast('OpenedFromPartList', null);
@@ -197,7 +197,7 @@
             },
             callback: function (result) {
                 if (result == true) {
-                    var promise = OrderPartService.CancelPartSendEmail($scope.OrderId, arrayPartNo.join(','), $rootScope.LoggedInUserDetail.UserId);
+                    var promise = OrderPartService.CancelPartSendEmail($scope.OrderId, arrayPartNo.join(','), $rootScope.LoggedInUserDetail.UserId, $rootScope.CompanyNo);
                     promise.success(function (response) {
                         if (response.Success) {
                             toastr.success("Email sent successfully");
