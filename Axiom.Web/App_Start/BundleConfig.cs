@@ -48,10 +48,10 @@ namespace Axiom.Web
                       "~/Content/Axiom.css"));
 
             bundles.Add(new StyleBundle("~/Content/1/").Include(
-                      "~/Content/1/style.css"));
+                      "~/Content/style_1.css"));
 
             bundles.Add(new StyleBundle("~/Content/4/").Include(
-                      "~/Content/4/style.css"));
+                      "~/Content/style_4.css"));
             // --End global stylesheets
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
