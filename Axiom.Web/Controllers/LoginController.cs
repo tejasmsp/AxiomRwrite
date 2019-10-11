@@ -234,7 +234,7 @@ namespace Axiom.Web.Controllers
                     bodyTemplate = bodyTemplate.Replace("{FirstName}", Result.Data[0].FirstName).Replace("{LastName}", Result.Data[0].LastName);
                     bodyTemplate = bodyTemplate.Replace("{UserName}", Result.Data[0].UserName);
                     bodyTemplate = bodyTemplate.Replace("{Email}", Result.Data[0].Email);
-                    bodyTemplate = bodyTemplate.Replace("{Link}", ConfigurationManager.AppSettings["ResetEmailLink"].ToString());
+                    //bodyTemplate = bodyTemplate.Replace("{Link}", ConfigurationManager.AppSettings["ResetEmailLink"].ToString());
                     bodyTemplate = bodyTemplate.Replace("{Password}", Security.Decrypt(modelResetPassword.Password));
                     bodyTemplate = bodyTemplate.Replace("{LogoURL}", objCompany.Logopath);
                     bodyTemplate = bodyTemplate.Replace("{ThankYou}", objCompany.ThankYouMessage);
@@ -253,7 +253,7 @@ namespace Axiom.Web.Controllers
             }
             else
             {
-                model.Msg = "Email not register with Axiom.";
+                model.Msg = "Email not register with " + objCompany.CompName;
                 return View("ResetPassword", model);
             }
 

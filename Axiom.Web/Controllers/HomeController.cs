@@ -13,6 +13,7 @@ namespace Axiom.Web.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeApiController homeApiController = new HomeApiController();
         public RoleApiController roleApiController = new RoleApiController();
         private readonly GenericRepository<ProposalFeesApprovalModel> _repository = new GenericRepository<ProposalFeesApprovalModel>();
 
@@ -99,6 +100,12 @@ namespace Axiom.Web.Controllers
         }
         private void SendEmail(ProposalFeesApprovalModel model, bool status)
         {
+            string currentUrl = Request.Url.AbsoluteUri;
+            var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
+            int CompanyNo = response.Data[0];
+
+            CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
+
             string subject = "Proposal Fees Request Status";
             string body = string.Empty;
             using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/ProposalFeesReply.html"))
@@ -117,6 +124,10 @@ namespace Axiom.Web.Controllers
             body = body.Replace("{LOCATION}", model.location);
             body = body.Replace("{PAGES}", model.pages);
             body = body.Replace("{COST}", model.amount);
+            body = body.Replace("{LogoURL}", objCompany.Logopath);
+            body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+            body = body.Replace("{CompanyName}", objCompany.CompName);
+            body = body.Replace("{Link}", objCompany.SiteURL);
 
             EmailHelper.Email.Send(model.accExecutiveEmail, body, subject, "", "tejaspadia@gmail.com;autoemail@axiomcopy.com");
             var feeStatus = status ? 1 : 2;
@@ -135,6 +146,12 @@ namespace Axiom.Web.Controllers
         {
             try
             {
+                string currentUrl = Request.Url.AbsoluteUri;
+                var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
+                int CompanyNo = response.Data[0];
+
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
+
                 string subject = "Proposal Fees Request Status - Edit Scope";
                 string body = string.Empty;
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/ProposalFeesReplyEditScope.html"))
@@ -151,6 +168,10 @@ namespace Axiom.Web.Controllers
                 body = body.Replace("{EDITEDPAGES}", model.Newpages);
                 body = body.Replace("{EDITEDCOST}", model.Newamount);
                 body = body.Replace("{COMMENTS}", model.comment);
+                body = body.Replace("{LogoURL}", objCompany.Logopath);
+                body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                body = body.Replace("{CompanyName}", objCompany.CompName);
+                body = body.Replace("{Link}", objCompany.SiteURL);
 
                 EmailHelper.Email.Send(model.accExecutiveEmail, body, subject, "", "tejaspadia@gmail.com;autoemail@axiomcopy.com");
 
@@ -207,7 +228,7 @@ namespace Axiom.Web.Controllers
 
             return View();
         }
-       
+
 
     }
 }

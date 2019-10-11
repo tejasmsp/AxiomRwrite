@@ -113,7 +113,9 @@ namespace Axiom.Web.API
         public BaseApiResponse SaveProposalFees(ProposalFeesEntity model)
         {
             var response = new BaseApiResponse();
-            string LiveSiteURL = System.Configuration.ConfigurationManager.AppSettings["LiveSiteURL"].ToString();
+
+            //This url will come from company details.
+            //string LiveSiteURL = System.Configuration.ConfigurationManager.AppSettings["LiveSiteURL"].ToString();
             try
             {
                 SqlParameter[] param = { new SqlParameter("OrderNo", (object)model.OrderNo ?? (object)DBNull.Value) };
@@ -175,9 +177,9 @@ namespace Axiom.Web.API
                             strNotApprovedLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                             strEditScopeLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
 
-                            body = body.Replace("{APPROVELINK}", LiveSiteURL + "/ProposalFeeApproval?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("A")) + "&value=" + strApproveLink);
-                            body = body.Replace("{NOTAPPROVELINK}", LiveSiteURL + "/ProposalFeeApproval?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
-                            body = body.Replace("{EDITSCOPELINK}", LiveSiteURL + "/ProposalFeeApproval?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("E")) + "&value=" + strEditScopeLink);
+                            body = body.Replace("{APPROVELINK}", objCompany.SiteURL + "/ProposalFeeApproval?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("A")) + "&value=" + strApproveLink);
+                            body = body.Replace("{NOTAPPROVELINK}", objCompany.SiteURL + "/ProposalFeeApproval?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
+                            body = body.Replace("{EDITSCOPELINK}", objCompany.SiteURL + "/ProposalFeeApproval?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("E")) + "&value=" + strEditScopeLink);
 
 
 

@@ -45,7 +45,9 @@ namespace Axiom.Web.API
                 var result = _repository.ExecuteSQL<PrintInvoiceEmailBill>("InvoiceGetEmailList", param).ToList();
 
                 var OrderDetail = _repository.ExecuteSQL<PrintInvoiceEmailBillOrderDetail>("InvoiceEmailOrderDetail", new SqlParameter("InvoiceNumber", (object)InvoiceNumber ?? (object)DBNull.Value)).ToList();
-                
+
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(OrderDetail.ToList().FirstOrDefault().CompanyNo);
+
                 if (result == null)
                 {
                     result = new List<PrintInvoiceEmailBill>();
@@ -73,6 +75,11 @@ namespace Axiom.Web.API
                     body = body.Replace("{Pages}", Convert.ToString(OrderDetail[0].Pages));
                     body = body.Replace("{LINK}", "o=" + OrderNumber + "&p=" + PartNumber);
 
+                    body = body.Replace("{LogoURL}", objCompany.Logopath);
+                    body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                    body = body.Replace("{CompanyName}", objCompany.CompName);
+                    body = body.Replace("{Link}", objCompany.SiteURL);
+
                     // EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "j.alspaugh@axiomcopy.com", "tejas.p@cementdigital.com");
                     EmailHelper.Email.Send(mailTo:item.Email,body: body.ToString(),subject: subject,ccMail: "", bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                 }
@@ -98,6 +105,11 @@ namespace Axiom.Web.API
                     body = body.Replace("{InvHdr}", Convert.ToString(OrderDetail[0].InvHdr));
                     body = body.Replace("{Pages}", Convert.ToString(OrderDetail[0].Pages));
                     body = body.Replace("{LINK}", "o=" + OrderNumber + "&p=" + PartNumber);
+
+                    body = body.Replace("{LogoURL}", objCompany.Logopath);
+                    body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                    body = body.Replace("{CompanyName}", objCompany.CompName);
+                    body = body.Replace("{Link}", objCompany.SiteURL);
 
                     // EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "j.alspaugh@axiomcopy.com", "tejas.p@cementdigital.com");
                     EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");

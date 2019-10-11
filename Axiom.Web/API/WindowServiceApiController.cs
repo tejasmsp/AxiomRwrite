@@ -89,7 +89,15 @@ namespace Axiom.Web.API
 
                     body = body.Replace("{ORDERNO}", item.OrderNo.ToString());
 
-                    body = body.Replace("{LOCATION}", Convert.ToString(item.LocationName).Replace(',', ' ') + " (" + Convert.ToString(item.LocID) + ")");
+                    if (!string.IsNullOrEmpty(item.LocationName))
+                    {
+                        body = body.Replace("{LOCATION}", Convert.ToString(item.LocationName).Replace(',', ' ') + " (" + Convert.ToString(item.LocID) + ")");
+                    }
+                    else
+                    {
+                        body = body.Replace("{LOCATION}", "");
+                    }
+
                     //  body = body.Replace("{RecordType}", location.Descr.Trim());
                     body = body.Replace("{RecordType}", Convert.ToString(item.InvHdr));//INVHdr OF Item TABLE
                     body = body.Replace("{PAGES}", Convert.ToString(item.Pages));
@@ -125,13 +133,21 @@ namespace Axiom.Web.API
 
 
                     string strApproveLink, strNotApprovedLink, strEditScopeLink, strQueryString;
-                    strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + item.LocationName.Replace(',', ' ') + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + item.PartNo.ToString() + "," + AttorneyNm;
+                    if (!string.IsNullOrEmpty(item.LocationName))
+                    {
+                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + item.LocationName.Replace(',', ' ') + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + item.PartNo.ToString() + "," + AttorneyNm;
+                    }
+                    else
+                    {
+                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + item.PartNo.ToString() + "," + AttorneyNm;
+                    }
+
 
                     strApproveLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                     strNotApprovedLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                     strEditScopeLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
 
-                    string BaseLink = "https://axiomcopyonline.com/BillingProposal?type=";
+                    string BaseLink = objCompany.SiteURL + "BillingProposal?type=";
                     // string BaseLink = "http://localhost:8086/BillingProposal?type=";
 
                     // FOR LOCAL MACHINE
@@ -650,7 +666,7 @@ namespace Axiom.Web.API
                         //body = body.Replace("{YESLINK}", "https://www.axiomcopyonline.com/Clients/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
                         //body = body.Replace("{NOLINK}", "https://www.axiomcopyonline.com/Clients/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
 
-                        string BaseLink = "https://axiomcopyonline.com/BillingProposal?type=";
+                        string BaseLink = objCompany.SiteURL + "BillingProposal?type=";
 
                         body = body.Replace("{YESLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
                         body = body.Replace("{NOLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
