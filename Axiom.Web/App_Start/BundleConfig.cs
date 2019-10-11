@@ -47,10 +47,11 @@ namespace Axiom.Web
                       "~/Content/Site.css",
                       "~/Content/Axiom.css"));
 
-            bundles.Add(new StyleBundle("~/Content/1/").Include(
-                      "~/Content/style_1.css"));
+            //bundles.Add(new StyleBundle("~/Content/").Include(
+            //          "~/Content/style_1.css"));
 
-            bundles.Add(new StyleBundle("~/Content/4/").Include(
+            bundles.Add(new StyleBundle("~/Content/").Include(
+                        "~/Content/style_1.css",
                       "~/Content/style_4.css"));
             // --End global stylesheets
 
