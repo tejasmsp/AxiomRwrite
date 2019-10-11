@@ -71,8 +71,8 @@ namespace Axiom.Web.Controllers
                 body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
                 body = body.Replace("{CompanyName}", objCompany.CompName);
                 body = body.Replace("{Link}", objCompany.SiteURL);
-
-                EmailHelper.Email.Send(accExecutiveEmail, body, subject, "", "tejaspadia@gmail.com,j.alspaugh@axiomcopy.com");
+                
+                EmailHelper.Email.Send(accExecutiveEmail, body, subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                 UpdateWaiver(orderno, partno, true);
             }
 
@@ -126,7 +126,7 @@ namespace Axiom.Web.Controllers
                 body = body.Replace("{CompanyName}", objCompany.CompName);
                 body = body.Replace("{Link}", objCompany.SiteURL);
 
-                EmailHelper.Email.Send(obj.AccExecutiveEmail, body, subject, "", "j.alspaugh@axiomcopy.com,tejaspadia@gmail.com");
+                EmailHelper.Email.Send(obj.AccExecutiveEmail, body, subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
                 UpdateWaiver(obj.OrderNo, obj.PartNo, false);
             }
