@@ -263,7 +263,7 @@
     };
 
     $scope.GetAttorneyUsersList = function () {
-        var promise = AttorneyUserService.GetAttorneyUsers('');
+        var promise = AttorneyUserService.GetAttorneyUsers('', $rootScope.CompanyNo);
         promise.success(function (response) {
             $scope.AttorneyUserList = response.Data;
             bindAttorneyUserList();
