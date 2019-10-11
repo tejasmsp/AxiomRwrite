@@ -122,7 +122,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             $templatecache.removeall();
         });
 
-        $rootScope.isSubModuleAccessibleToUser = function (module, subModule, func) {            
+        $rootScope.isSubModuleAccessibleToUser = function (module, subModule, func) {
             var IsAccessible = false;
             if ($rootScope.LoggedInUserDetail.UserAccessId > 0) {
                 if ($rootScope.UserPermissionList.length > 0) {
@@ -140,9 +140,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             toDate.setDate(toDate.getDate() + 1);
             toDate = $filter('date')(toDate, $rootScope.GlobalDateFormat);
 
-            var promise = SettingServices.GetLogList($rootScope.LoggedInUserDetail.UserId, currentDate, toDate);
+            var promise = SettingServices.GetLogList($rootScope.LoggedInUserDetail.UserId, currentDate, toDate, $rootScope.CompanyNo);
             promise.success(function (response) {
-
                 $rootScope.employeeLogCount = response.Data.length;
             });
             promise.error(function (data, statusCode) {

@@ -384,7 +384,7 @@
         //$scope.AccessAttorneyLength = null;
         $scope.currentattorneyuserId = data.AttorneyUserId;
 
-        var promise = AttorneyUserService.GetAttorneyUsers(data.AttorneyUserId);
+        var promise = AttorneyUserService.GetAttorneyUsers(data.AttorneyUserId, $rootScope.CompanyNo);
 
         promise.success(function (response) {
             $scope.modal_Title = "Edit Attorney User";

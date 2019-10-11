@@ -174,7 +174,7 @@
                     + "&AreaCode=" + $scope.OrderSearchObj.AreaCode
                     + "&FaxNo=" + $scope.OrderSearchObj.FaxNo
                     + "&ShowPartDetailWithOrder=" + ($scope.OrderSearchObj.ShowPartDetailWithOrder == null ? "" : $scope.OrderSearchObj.ShowPartDetailWithOrder)
-
+                    + "&CompanyNo=" + $rootScope.CompanyNo
 
                 oSettings.jqXHR = $.ajax({
                     'dataSrc': 'aaData',

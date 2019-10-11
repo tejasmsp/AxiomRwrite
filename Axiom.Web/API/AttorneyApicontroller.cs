@@ -25,7 +25,7 @@ namespace Axiom.Web.API
 
         [HttpPost]
         [Route("AttorneySearch")]
-        public TableParameter<AttorneySearchEntity> AttorneySearch(TableParameter<AttorneySearchEntity> tableParameter, int PageIndex, string SearchValue = "", string FirmID = "",
+        public TableParameter<AttorneySearchEntity> AttorneySearch(TableParameter<AttorneySearchEntity> tableParameter, int PageIndex, int CompanyNo, string SearchValue = "", string FirmID = "",
                 string FirmName = "",
                 string AttorneyFirstName = "",
                 string AttorneyLastName = "")
@@ -63,10 +63,9 @@ namespace Axiom.Web.API
                 new SqlParameter{ParameterName = "FirmID",DbType = DbType.String,Value = (object)FirmID ?? (object)DBNull.Value  },
                 new SqlParameter{ParameterName = "FirmName",DbType = DbType.String,Value = (object)FirmName ?? (object)DBNull.Value  },
                 new SqlParameter{ParameterName = "AttorneyFirstName",DbType = DbType.String,Value =  (object)AttorneyFirstName ?? (object)DBNull.Value },
-                new SqlParameter{ParameterName = "AttorneyLastName",DbType = DbType.String,Value = (object)AttorneyLastName ?? (object)DBNull.Value }
+                new SqlParameter{ParameterName = "AttorneyLastName",DbType = DbType.String,Value = (object)AttorneyLastName ?? (object)DBNull.Value },
+                new SqlParameter{ParameterName = "CompanyNo",DbType = DbType.String,Value = (object)CompanyNo ?? (object)DBNull.Value  }
                 };
-
-
 
                 var result = _repository.ExecuteSQL<AttorneySearchEntity>("AttorneySearch", param).ToList();
                 response.Success = true;
@@ -163,9 +162,9 @@ namespace Axiom.Web.API
             try
             {
                 string XmlAssistantContact = "";
-                if(model.AttorneyAssistantContactList!=null && model.AttorneyAssistantContactList.Count>0)
+                if (model.AttorneyAssistantContactList != null && model.AttorneyAssistantContactList.Count > 0)
                 {
-                    
+
                     XmlAssistantContact = ConvertToXml<AttorneyAssistantContact>.GetXMLString(model.AttorneyAssistantContactList);
                 }
                 string xmlData = ConvertToXml<AttorneyMasterEntity>.GetXMLString(new List<AttorneyMasterEntity>() { model });
@@ -178,7 +177,7 @@ namespace Axiom.Web.API
                                         };
 
                 var result = _repository.ExecuteSQL<int>("UpdateAttorney", param).FirstOrDefault();
-                if (result >  0)
+                if (result > 0)
                 {
                     // result = new List<AttorneyMasterEntity>();
                     response.Success = true;
@@ -195,7 +194,7 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetAttorneyFormsList")]
-        public ApiResponse<AttorneyFormEntity> GetAttorneyFormsList(string AttyID, string FormType )
+        public ApiResponse<AttorneyFormEntity> GetAttorneyFormsList(string AttyID, string FormType)
         {
             var response = new ApiResponse<AttorneyFormEntity>();
 
@@ -299,7 +298,7 @@ namespace Axiom.Web.API
                 SqlParameter[] param = {    new SqlParameter("AttyID", (object)AttyID ?? (object)DBNull.Value),
                                             new SqlParameter("UserAccessId", (object)UserAccessId ?? (object)DBNull.Value) };
                 var result = _repository.ExecuteSQL<AttorneyAssistantContact>("GetAttorneyAssistantContactList", param).ToList();
-                if (result != null && result.Count>0)
+                if (result != null && result.Count > 0)
                 {
                     response.Data = result;
                 }
@@ -310,7 +309,7 @@ namespace Axiom.Web.API
                     response.Data = result;
                 }
                 response.Success = true;
-               
+
             }
             catch (Exception ex)
             {

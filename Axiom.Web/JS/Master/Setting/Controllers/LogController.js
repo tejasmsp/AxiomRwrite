@@ -130,7 +130,7 @@
         var toDate = new Date($scope.log.toDate);
         toDate.setDate(toDate.getDate() + 1);
         $scope.nextDate = $filter('date')(toDate, $rootScope.GlobalDateFormat);
-        var promise = SettingServices.GetLogList($scope.UserGUID, $scope.log.fromDate, $scope.nextDate);
+        var promise = SettingServices.GetLogList($scope.UserGUID, $scope.log.fromDate, $scope.nextDate, $rootScope.CompanyNo);
         promise.success(function (response) {
             $scope.logList = response.Data;
             bindLogListTotable();

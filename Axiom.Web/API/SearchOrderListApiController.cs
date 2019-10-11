@@ -26,6 +26,7 @@ namespace Axiom.Web.API
         [Route("GetOrderListForAdmin")]
         public TableParameter<SearchListEntity> GetOrderListForAdmin(TableParameter<SearchListEntity> tableParameter
                 , int PageIndex
+                , int CompanyNo
                 , string SearchValue = ""
                 , string OrderNo = ""
                 , string PartNo = ""
@@ -55,7 +56,7 @@ namespace Axiom.Web.API
                 , string CompNo = null
                 , string AreaCode = null
                 , string FaxNo = null
-                , bool ShowPartDetailWithOrder = true 
+                , bool ShowPartDetailWithOrder = true
             )
         {
 
@@ -67,9 +68,9 @@ namespace Axiom.Web.API
             {
                 SqlParameter[] param =
                     {
-
                  new SqlParameter{ ParameterName = "PageIndex",  Value = tableParameter.PageIndex }
                 ,new SqlParameter { ParameterName = "PageSize",  Value = (object)tableParameter != null ? tableParameter.iDisplayLength : 10 }
+                ,new SqlParameter { ParameterName = "CompanyNo",    Value =CompanyNo }
                 ,new SqlParameter { ParameterName = "SortBy",    Value =sortColumn }
                 ,new SqlParameter  { ParameterName = "Keyword", DbType = DbType.String, Value = searchValue },
                 new SqlParameter{ParameterName ="OrderNo"    ,Value = (object)OrderNo ?? (object)DBNull.Value},
@@ -101,7 +102,6 @@ namespace Axiom.Web.API
                 new SqlParameter{ParameterName ="AreaCode"   ,Value = (object)AreaCode    ?? (object)DBNull.Value  },
                 new SqlParameter{ParameterName ="FaxNo"  ,Value = (object)FaxNo   ?? (object)DBNull.Value  },
                 new SqlParameter{ParameterName ="ShowPartDetailWithOrder"  ,Value = (object)ShowPartDetailWithOrder   ?? (object)DBNull.Value  },
-
                 };
 
                 var result = _repository.ExecuteSQL<SearchListEntity>("GetOrderListForAdmin", param).ToList();

@@ -629,7 +629,6 @@
     <Content Include="assets\images\loader4.gif" />
     <Content Include="assets\images\Loading.gif" />
     <Content Include="assets\images\login_cover.jpg" />
-    <Content Include="assets\images\logo-axiom-new.png" />
     <Content Include="assets\images\logo-axiom_4.png" />
     <Content Include="assets\images\LogoSmall.png" />
     <Content Include="assets\images\LogoSmall_Blue.png" />
@@ -1267,7 +1266,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49816</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8086/</IISUrl>
+          <IISUrl>http://localhost:8087/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

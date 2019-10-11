@@ -21,7 +21,7 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetLogList")]
-        public ApiResponse<LogDetailEntity> GetLogList(string userId, string startDate, string endDate)
+        public ApiResponse<LogDetailEntity> GetLogList(string userId, string startDate, string endDate, int CompanyNo)
         {
             var response = new ApiResponse<LogDetailEntity>();
             try
@@ -29,6 +29,7 @@ namespace Axiom.Web.API
                 SqlParameter[] param = {  new SqlParameter("userId", (object)userId?? (object)DBNull.Value)
                                                  ,new SqlParameter("bd",(object)startDate?? (object)DBNull.Value)
                                                  ,new SqlParameter("ed",(object)endDate?? (object)DBNull.Value)
+                                                 ,new SqlParameter("CompanyNo",(object)CompanyNo?? (object)DBNull.Value)
                                          };
                 var result = _repository.ExecuteSQL<LogDetailEntity>("GetEmployeeLogs", param).ToList();
 

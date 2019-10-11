@@ -433,10 +433,14 @@ namespace Axiom.Web.API
                         if (isNewOrder)
                         {
                             strBody.Append("Thank you for submitting a new order with us.");
+                            strBody.Append("<br/>");
+                            strBody.Append("<br/>");
                         }
                         else
                         {
                             strBody.Append("Thank you for submitting order with us.");
+                            strBody.Append("<br/>");
+                            strBody.Append("<br/>");
                         }
                         strBody.Append("<br/>");
                         strBody.Append(objCompany.ThankYouMessage);

@@ -25,13 +25,14 @@ namespace Axiom.Web.API
         #region DatabaseOperations
         [HttpGet]
         [Route("GetAttorneyUsers")]
-        public ApiResponse<AttorneyUsersEntity> GetAttorneyUsers(string attorneyUserId)
+        public ApiResponse<AttorneyUsersEntity> GetAttorneyUsers(string attorneyUserId, int CompanyNo)
         {
             var response = new ApiResponse<AttorneyUsersEntity>();
 
             try
             {
-                SqlParameter[] param = { new SqlParameter("AttorneyUserId", (object)attorneyUserId ?? (object)DBNull.Value) };
+                SqlParameter[] param = { new SqlParameter("AttorneyUserId", (object)attorneyUserId ?? (object)DBNull.Value),
+                new SqlParameter("CompanyNo", (object)CompanyNo ?? (object)DBNull.Value)};
                 var result = _repository.ExecuteSQL<AttorneyUsersEntity>("GetAttorneyUsers", param).ToList();
 
                 if (result == null)
