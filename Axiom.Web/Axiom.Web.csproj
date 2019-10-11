@@ -659,8 +659,8 @@
     <Content Include="Content\Axiom.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
-    <Content Include="Content\1\style.css" />
-    <Content Include="Content\4\style.css" />
+    <Content Include="Content\style_1.css" />
+    <Content Include="Content\style_4.css" />
     <Content Include="css\icons\glyphicons\opensans-semibold-demo.html" />
     <Content Include="css\icons\icomoon\styles.css" />
     <Content Include="DBScript\FirmDefaultScope.sql" />
@@ -1207,6 +1207,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\1\" />
+    <Folder Include="Content\4\" />
     <Folder Include="Views\AttorneyUserApi\" />
     <Folder Include="Views\Client\" />
     <Folder Include="Views\County\" />
