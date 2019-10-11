@@ -1,11 +1,12 @@
 ﻿<div class="page-content" ng-controller="AttorneyUserController">
     <div class="panel panel-white">
         <div class="panel-heading">
-            <h4  class="panel-title text-semibold"><i class="icon-bookmark4 mr-10 fs-19"></i>Manage Attorney User</h4>
+            <h4 class="panel-title text-semibold"><i class="icon-bookmark4 mr-10 fs-19"></i>Manage Attorney User</h4>
             <div class="heading-elements">
                 <ul class="icons-list">
                     <li ng-if="isSubModuleAccessibleToUser('Settings','Attorney Users','Add Attorney User')">
-                        <a href="#" class="blue_link" ng-click='ClearScreenForNewAttorneyUser()' data-target="#modal_form_addattorneyuser" data-toggle="modal">[ + Add Attorney User ]</a>
+                        <a href="#" class="blue_link" ng-click='ClearScreenForNewAttorneyUser()'
+                           data-target="#modal_form_addattorneyuser">[ + Add Attorney User ]</a>
                     </li>
                 </ul>
             </div>
@@ -39,8 +40,11 @@
                                         <li ng-show="addupdateform.AttorneyEmployeeTypeId.$error.required">Attorney EmployeeType is required.</li>
                                         <li ng-show="addupdateform.FirstName.$error.required">First Name is required.</li>
                                         <li ng-show="addupdateform.LastName.$error.required">Last Name is required.</li>
-                                        <li ng-show="addupdateform.CompanyID.$error.required">Company is required.</li>
+
+
+
                                         <li ng-show="AccessAttorneyList.length==0 && IsEditMode==true">Access Attrony is required.</li>
+
                                     </ul>
 
                                 </div>
@@ -77,16 +81,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="row pt-10">
-                                <div class="col-md-6 pl-0">
-                                    <label class="col-sm-4 control-label lbl-primary required">Company</label>
-                                    <div class="col-sm-8">
-                                        <select name="CompanyID" class="form-control" ng-model="AttorneyUserObj.CompanyNo" ng-options="item.CompNo as item.CompName for item in CompanyList" required>
-                                            <option value="">-- Select --</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>*@
                         </div>
                         <div class="panel panel-white mt-20 mb-0" ng-show="IsEditMode==true">
                             <div class="panel-heading">
@@ -141,7 +135,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button"  title="Close" class="btn btn-default" ng-click="CloseAttorneyListPopup()" data-dismiss="modal">Close</button>
+                        <button type="button" title="Close" class="btn btn-default" ng-click="CloseAttorneyListPopup()" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
