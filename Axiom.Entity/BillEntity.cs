@@ -152,6 +152,7 @@ namespace Axiom.Entity
         public string PatientName { get; set; }
         public string InvHdr { get; set; }
         public Int16 Pages { get; set; }
+        public int CompanyNo { get; set; }
     }
     public class SendEmailForInvoice
     {

@@ -319,10 +319,9 @@ namespace Axiom.Web.API
                             }
                         }
 
-                        await new OrderProcess().OrderSummaryEmail(Convert.ToInt32(model.OrderId), model.UserEmail, Convert.ToInt32(model.SubmitStatus));
+                        await new OrderProcess().OrderSummaryEmail(Convert.ToInt32(model.OrderId), model.UserEmail, model.CompanyNo, Convert.ToInt32(model.SubmitStatus));
                         await new OrderProcess().AddQuickformsForNewOrder(Convert.ToInt32(model.OrderId), Convert.ToBoolean(model.SubmitStatus), Convert.ToBoolean(model.SubmitStatus));
 
-                        //[TODO: Remove static company no]
                         await new OrderProcess().ESignature(Convert.ToInt32(model.OrderId), model.CompanyNo);
                         InsertWaiverForNewOrder(Convert.ToInt32(model.OrderId));
 

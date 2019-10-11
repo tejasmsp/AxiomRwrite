@@ -83,9 +83,6 @@ namespace Axiom.Web.API
                                     //    fileList = _repository.ExecuteSQL<FileEntity>("ESignGetFileList", Sqlfileparam).ToList();
                                     //}
 
-
-
-
                                     string Link = "";
                                     if (fileList != null && fileList.Count > 0)
                                     {
@@ -125,16 +122,12 @@ namespace Axiom.Web.API
             });
         }
 
-        public async Task OrderSummaryEmail(int OrderId, string userEmail, int SubmitStatus = 0)
+        public async Task OrderSummaryEmail(int OrderId, string userEmail, int CompanyNo, int SubmitStatus = 0)
         {
             await Task.Run(() =>
             {
                 SqlParameter[] param = { new SqlParameter("OrderID", (object)OrderId ?? (object)DBNull.Value) };
                 var result = _repository.ExecuteSQL<OrderDetailEntity>("GetOrderDetails", param).ToList();
-
-                string currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
-                var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
-                int CompanyNo = response.Data[0];
 
                 CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
 
