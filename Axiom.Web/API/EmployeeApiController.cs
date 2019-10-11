@@ -111,8 +111,8 @@ namespace Axiom.Web.API
                     body = body.Replace("{CompanyName}", objCompany.CompName);
                     body = body.Replace("{Link}", objCompany.SiteURL);
 
-                    string subject = "Welcome To " + objCompany.CompName + " Requisition";
-                    EmailHelper.Email.Send(model.Email, body.ToString(), subject, "", "tejaspadia@gmail.com,j.alspaugh@axiomcopy.com");
+                    string subject = "Welcome To " + objCompany.CompName + " Requisition";                    
+                    EmailHelper.Email.Send(model.Email, body.ToString(), subject, "", "tejaspadia@gmail.com,autharchive@axiomcopy.com");
 
                     response.str_ResponseData = result;
                     response.Success = true;
