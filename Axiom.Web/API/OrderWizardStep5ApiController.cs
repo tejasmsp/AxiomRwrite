@@ -159,6 +159,7 @@ namespace Axiom.Web.API
                 SqlParameter[] param = { new SqlParameter("FirmName", (object)modal.FirmName ?? (object)DBNull.Value),
                                          new SqlParameter("City", (object)modal.City ?? (object)DBNull.Value),
                                          new SqlParameter("CreatedBy", (object) modal.EntBy?? (object)DBNull.Value),
+                                         new SqlParameter("CompanyNo", (object) modal.CompanyNo?? (object)DBNull.Value),
                                                          };
                 var result = _repository.ExecuteSQL<string>("InsertNewFirmFromStep5", param).FirstOrDefault();
 
@@ -194,6 +195,7 @@ namespace Axiom.Web.API
                                          new SqlParameter("Email", (object) modal.Email?? (object)DBNull.Value),
                                          new SqlParameter("StateBarNo", (object) modal.StateBarNo?? (object)DBNull.Value),
                                          new SqlParameter("CreatedBy", (object) modal.CreatedBy?? (object)DBNull.Value),
+                                         new SqlParameter("CompanyNo", (object) modal.CompanyNo?? (object)DBNull.Value),
                                                          };
                 var result = _repository.ExecuteSQL<string>("InsertNewAttorneyFromStep5", param).FirstOrDefault();
 

@@ -263,6 +263,7 @@
     $scope.SaveAttorney = function () {
 
         $scope.AttyObj.CreatedBy = $rootScope.LoggedInUserDetail.EmpId;
+        $scope.AttyObj.CompanyNo = $rootScope.CompanyNo;
         var attorney = Step5Service.InsertNewAttorneyFromStep5($scope.AttyObj);
         attorney.success(function (response) {
             if (response.Success) {
@@ -303,6 +304,7 @@
         if (form.$valid) {
             if ($scope.IsNewFirm) {
                 $scope.AttyObj.EntBy = $rootScope.LoggedInUserDetail.EmpId;
+                $scope.AttyObj.CompanyNo = $rootScope.CompanyNo;
                 var promise = Step5Service.InsertNewFirmFromStep5($scope.AttyObj);
                 promise.success(function (response) {
                     if (response.Success) {

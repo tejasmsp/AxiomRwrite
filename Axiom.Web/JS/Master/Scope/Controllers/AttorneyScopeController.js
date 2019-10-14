@@ -541,7 +541,6 @@
         RecordType.success(function (response) {
             $scope.RecordTypelist = response.Data;
         });
-
     }
 
     $scope.AddSelectedScope = function () {

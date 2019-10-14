@@ -76,7 +76,7 @@ namespace Axiom.Entity
         public string LEDESBillingCode { get; set; }
         public bool isAssociated { get; set; }
         public int? RequestSent { get; set; }
-        public int? CompanyNo { get; set; }
+        public int CompanyNo { get; set; }
     }
 
     public partial class FirmList
