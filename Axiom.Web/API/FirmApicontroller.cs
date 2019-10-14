@@ -20,13 +20,12 @@ namespace Axiom.Web.API
 
         [HttpPost]
         [Route("GetFirmList")]
-        public TableParameter<FirmList> GetFirmList(TableParameter<FirmEntity> tableParameter, int PageIndex, string SearchValue = "", string FirmID = "",
+        public TableParameter<FirmList> GetFirmList(TableParameter<FirmEntity> tableParameter, int PageIndex, string CompanyNo, string SearchValue = "", string FirmID = "",
                 string FirmName = "",
                 string Address = "",
                 string City = "",
                 string State = "",
-                string ParentFirm = "",
-                string CompanyNo = "")
+                string ParentFirm = "")
         {
 
             tableParameter.PageIndex = PageIndex;

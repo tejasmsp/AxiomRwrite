@@ -56,7 +56,7 @@
 
 
     $scope.BindDropDownSoldAttorney = function (SearchKey) {
-        var Attorney = CommonServices.AttorneyForDropdown(SearchKey);
+        var Attorney = CommonServices.AttorneyForDropdown(SearchKey, $rootScope.CompanyNo);
         Attorney.success(function (response) {
             $scope.SoldAttorneylist = response.Data;
         });

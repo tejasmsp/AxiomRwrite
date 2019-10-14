@@ -1,4 +1,4 @@
-﻿app.controller('FirmScopeController', function ($scope, $rootScope,$stateParams, notificationFactory, FirmScopeServices, configurationService, CommonServices, $compile, $filter) {
+﻿app.controller('FirmScopeController', function ($scope, $rootScope, $stateParams, notificationFactory, FirmScopeServices, configurationService, CommonServices, $compile, $filter) {
 
     decodeParams($stateParams);
     $scope.isEdit = false;
@@ -81,7 +81,7 @@
     }
 
     function bindDropDown() {
-        var Firm = CommonServices.FirmForDropdown('');
+        var Firm = CommonServices.FirmForDropdown('', $rootScope.CompanyNo);
         Firm.success(function (response) {
             $scope.Firmlist = response.Data;
         });
@@ -99,7 +99,7 @@
         $scope.btnText = "Add";
         $scope.FirmScopeform.$setPristine();
         angular.element("#modal_FirmScope").modal('show');
-        bindDropDown(); 
+        bindDropDown();
     };
 
     $scope.DeleteFirmScope = function ($event) {
@@ -139,7 +139,7 @@
     $scope.EditFirmScope = function ($event) {
         var table = $('#tblFirmScope').DataTable();
         var row = table.row($($event.target).parents('tr')).data();
-        $scope.GetFirmScopeById(row.MapID); 
+        $scope.GetFirmScopeById(row.MapID);
     };
 
     $scope.GetFirmScopeById = function (mapid) {

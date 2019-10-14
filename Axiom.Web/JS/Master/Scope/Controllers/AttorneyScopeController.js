@@ -125,7 +125,7 @@
     function bindDefaultScopeList() {
         if ($.fn.DataTable.isDataTable("#tblDefaultScope")) {
             $('#tblDefaultScope').DataTable().destroy();
-        }        
+        }
         var table = $('#tblDefaultScope').DataTable({
             data: $scope.DefaultScopelist,
             "bDestroy": true,
@@ -140,21 +140,21 @@
                     "className": "dt-left",
                     "data": "ScopeID",
                     "width": "6%",
-                   
+
 
                 },
                 {
                     "title": "Record Type",
                     "className": "dt-left",
                     "data": "Descr",
-                  
+
                 },
 
                 {
                     "title": "Scope",
                     "className": "dt-left",
                     "data": "ScopeDesc",
-                  
+
 
                 },
                 {
@@ -162,13 +162,12 @@
                     "className": "dt-center",
                     "data": null,
                     "width": "6%",
-                    "render": function (data, type, row) {                        
+                    "render": function (data, type, row) {
                         var strAction = '';
                         if (row.IsDefault == 1) {
                             strAction += "<a class='label  bg-success-400'>Yes</a>";
                         }
-                        if (row.IsDefault == 0 || row.IsDefault==null)
-                        {
+                        if (row.IsDefault == 0 || row.IsDefault == null) {
                             strAction += '<lable class="label bg-danger-400">No</lable>';
                         }
 
@@ -187,7 +186,7 @@
                         if ($scope.IsUserCanEditScope) {
                             strAction = "<a  class='ico_btn cursor-pointer' ng-click='EditDefaultScope($event)' title='Edit'> <i  class='icon-pencil3' ></i></a> ";
                         }
-                       
+
                         return strAction;
                     }
                 }
@@ -197,14 +196,14 @@
             },
             "fnDrawCallback": function () {
             },
-            "fnCreatedRow": function (nRow, aData, iDataIndex) {               
+            "fnCreatedRow": function (nRow, aData, iDataIndex) {
                 $compile(angular.element(nRow).contents())($scope);
             }
         });
 
     }
 
-    $scope.EditDefaultScope = function ($event) {        
+    $scope.EditDefaultScope = function ($event) {
         var table = $('#tblDefaultScope').DataTable();
         var row = table.row($($event.target).parents('tr')).data();
         $scope.GetDefaultScopeById(row.ScopeID);
@@ -228,7 +227,7 @@
     }
     $scope.AddOrEditDefaultScope = function (form) {
         if (form.$valid) {
-          { //Edit Mode
+            { //Edit Mode
                 var promise = AttorneyScopeServices.UpdateDefaultScope($scope.DefaultScopeObj);
                 promise.success(function (response) {
                     if (response.Success) {
@@ -527,13 +526,13 @@
     //#region common
     function bindDropDown() {
         if ($scope.SelectedScope == "1") {
-            var Attorney = CommonServices.AttorneyForDropdown('');
+            var Attorney = CommonServices.AttorneyForDropdown('', $rootScope.CompanyNo);
             Attorney.success(function (response) {
                 $scope.Attorneylist = response.Data;
             });
         }
         else if ($scope.SelectedScope == "2") {
-            var Firm = CommonServices.FirmForDropdown('');
+            var Firm = CommonServices.FirmForDropdown('', $rootScope.CompanyNo);
             Firm.success(function (response) {
                 $scope.Firmlist = response.Data;
             });

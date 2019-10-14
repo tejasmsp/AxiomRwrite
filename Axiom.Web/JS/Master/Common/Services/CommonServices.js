@@ -34,11 +34,11 @@
     commonService.RecordTypeDropDown = function () {
         return $http.get(configurationService.basePath + "RecordTypeDropDown");
     };
-    commonService.FirmForDropdown = function (search) {
-        return $http.get(configurationService.basePath + "FirmForDropdown?search=" + search);
+    commonService.FirmForDropdown = function (search, CompanyNo) {
+        return $http.get(configurationService.basePath + "FirmForDropdown?search=" + search + "&CompanyNo=" + CompanyNo);
     };
-    commonService.AttorneyForDropdown = function (search) {
-        return $http.get(configurationService.basePath + "AttorneyForDropdown?search=" + search);
+    commonService.AttorneyForDropdown = function (search, CompanyNo) {
+        return $http.get(configurationService.basePath + "AttorneyForDropdown?search=" + search + "&CompanyNo=" + CompanyNo);
     };
     commonService.MemberDropdown = function () {
         return $http.get(configurationService.basePath + "MemberDropdown");
@@ -53,7 +53,7 @@
         return $http.get(configurationService.basePath + "GetAttorneyByFirmID?FirmId=" + firmId);
     };
     commonService.GetAttorneyByFirmIDForclient = function (firmId, UserId, isShowMore, CompanyNo) {
-       
+
         return $http.get(configurationService.basePath + "GetAttorneyByFirmIDForclient?FirmId=" + firmId + "&UserId=" + UserId + "&isShowMore=" + isShowMore + "&CompNo=" + CompanyNo);
     };
     commonService.GetAttorneyByFirmIDForclientAndAdmin = function (firmId, UserId, isShowMore, CompanyNo) {

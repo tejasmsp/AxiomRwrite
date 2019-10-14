@@ -138,14 +138,15 @@
                     'dataSrc': 'aaData',
                     "dataType": 'json',
                     "type": "POST",
-                    "url": sSource + "?SearchValue=" + "" + "&PageIndex=" + (parseInt($('#tblFirm').DataTable().page.info().page) + 1)
+                    "url": sSource + "?SearchValue=" + ""
+                        + "&PageIndex=" + (parseInt($('#tblFirm').DataTable().page.info().page) + 1)
+                        + "&CompanyNo=" + $rootScope.CompanyNo
                         + "&FirmID=" + $scope.FirmSearchObj.FirmID
                         + "&FirmName=" + $scope.FirmSearchObj.FirmName 
                         + "&Address=" + $scope.FirmSearchObj.Address
                         + "&City=" + $scope.FirmSearchObj.City
                         + "&State=" + $scope.FirmSearchObj.State
-                        + "&ParentFirm=" 
-                        + "&CompanyNo=" + $rootScope.CompanyNo,
+                        + "&ParentFirm=",
                     "data": aoData,
                     "success": fnCallback,
                     "error": function (data, statusCode) { }

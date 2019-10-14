@@ -29,16 +29,16 @@
         else if ($scope.$parent.$state.current.name.toLowerCase() == "billing") {
             $scope.$parent.objEditInvoice.FirmID = row.FirmID;
             $scope.$parent.objEditInvoice.FirmName = row.FirmName;
-            $scope.$parent.GetAttorneyListByFirmId(row.FirmID,'');
+            $scope.$parent.GetAttorneyListByFirmId(row.FirmID, '');
 
         } else if ($scope.$parent.$state.current.name.toLowerCase() == "managecheck") {
             $scope.$parent.objAccountRec.FirmID = row.FirmID;
             $scope.$parent.objAccountRec.FirmName = row.FirmName;
-          
+
         }
         else if ($scope.$parent.$state.current.name.toLowerCase() == "check") {
-            $scope.$parent.objAttorney.FirmID = row.FirmID;   
-            $scope.$parent.objAttorney.FirmName = row.FirmName; 
+            $scope.$parent.objAttorney.FirmID = row.FirmID;
+            $scope.$parent.objAttorney.FirmName = row.FirmName;
         }
         else if ($scope.$parent.$state.current.name.toLowerCase() == "voidinvoice") {
             $scope.$parent.objVoidInvoice.FirmID = row.FirmID;
@@ -75,7 +75,7 @@
 
     //#region Methods 
 
-    $scope.$parent.$watch('ShowSearchFirm', function (newVal, oldVal) {        
+    $scope.$parent.$watch('ShowSearchFirm', function (newVal, oldVal) {
         if (newVal) {
             $scope.ShowSearchFirm();
         }
@@ -162,7 +162,9 @@
                     'dataSrc': 'aaData',
                     "dataType": 'json',
                     "type": "POST",
-                    "url": sSource + "?SearchValue=" + "" + "&PageIndex=" + (parseInt($('#tblSearchFirm').DataTable().page.info().page) + 1)
+                    "url": sSource + "?SearchValue=" + ""
+                        + "&PageIndex=" + (parseInt($('#tblSearchFirm').DataTable().page.info().page) + 1)
+                        + "&CompanyNo=" + $rootScope.CompanyNo
                         + "&FirmID=" + $scope.objFirmSearch.FirmID
                         + "&FirmName=" + $scope.objFirmSearch.Name
                         + "&Address=" + $scope.objFirmSearch.Address
@@ -211,7 +213,7 @@
     }
     //#endregion
 
-    
+
 
     init();
 });

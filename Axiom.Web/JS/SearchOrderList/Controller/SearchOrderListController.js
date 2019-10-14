@@ -70,7 +70,7 @@
     }
 
     function bindDropDown() {
-        var Attorney = CommonServices.AttorneyForDropdown('');
+        var Attorney = CommonServices.AttorneyForDropdown('', $rootScope.CompanyNo);
         Attorney.success(function (response) {
             $scope.Attorneylist = response.Data;
         });

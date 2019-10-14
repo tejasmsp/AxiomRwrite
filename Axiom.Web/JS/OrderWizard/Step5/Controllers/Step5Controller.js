@@ -5,8 +5,8 @@
     $scope.UserAccessId = $rootScope.LoggedInUserDetail.UserAccessId;
     $scope.userGuid = $rootScope.LoggedInUserDetail.UserId;
     $scope.EmpId = $rootScope.LoggedInUserDetail.EmpId;
-    
-    
+
+
     $scope.OrderOppositeAttorneyList = [];
     $scope.AttorneyList = [];
     $scope.searchText = '';
@@ -37,10 +37,10 @@
         $scope.popupTitle = 'Edit Additional Attorney';
         angular.element("#modal_form_editoppositeattorney").modal('show');
     };
-    $scope.GetOppositeAttorneyForAddModeDirect = function(currentData) {
-        
+    $scope.GetOppositeAttorneyForAddModeDirect = function (currentData) {
+
         $scope.mode = 'add';
-        
+
         $scope.AttorneyObj.OrderID = $scope.OrderId;
         $scope.AttorneyObj.OrderFirmAttorneyId = 0;
         $scope.AttorneyObj.Name = currentData.FirstName + ', ' + currentData.LastName;
@@ -162,16 +162,16 @@
         $scope.step5form.$setPristine();
         $scope.AttorneyList = [];
         // $('tblAddOppositeAttorney').DataTable({ searching: false });
-        
+
         // alert("tt");
         // angular.element("#tblAddOppositeAttorney_filter").hide();        
         binAttorneyBlank();
         $scope.ShowAddNewAttorney = true;
-        
-        angular.element("#modal_form_addoppositeattorney").find("input[type=text],input[type=search]").val('');        
+
+        angular.element("#modal_form_addoppositeattorney").find("input[type=text],input[type=search]").val('');
         angular.element("#modal_form_addoppositeattorney").modal('show');
     };
-    
+
 
     $scope.BindAttorneyList = function () {
         if (!isNullOrUndefinedOrEmpty($scope.searchText)) {
@@ -261,7 +261,7 @@
     };
 
     $scope.SaveAttorney = function () {
-        
+
         $scope.AttyObj.CreatedBy = $rootScope.LoggedInUserDetail.EmpId;
         var attorney = Step5Service.InsertNewAttorneyFromStep5($scope.AttyObj);
         attorney.success(function (response) {
@@ -343,7 +343,7 @@
     //#region Method
 
     function bindFirmDropDown() {
-        var promise = CommonServices.FirmForDropdown('');
+        var promise = CommonServices.FirmForDropdown('', $rootScope.CompanyNo);
         promise.success(function (response) {
             $scope.ddlFirmList = response.Data;
         });
@@ -610,7 +610,7 @@
     //#endregion
 
     angular.element(document).ready(function () {
-        init();        
+        init();
     });
 
 

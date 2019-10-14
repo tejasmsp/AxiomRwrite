@@ -429,12 +429,14 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("FirmForDropdown")]
-        public ApiResponse<FirmEntity> FirmForDropdown(string search)
+        public ApiResponse<FirmEntity> FirmForDropdown(string search, int CompanyNo)
         {
             var response = new ApiResponse<FirmEntity>();
             try
             {
-                SqlParameter[] param = { new SqlParameter("search", (object)search ?? (object)DBNull.Value) };
+                SqlParameter[] param = { new SqlParameter("search", (object)search ?? (object)DBNull.Value),
+                new SqlParameter("CompanyNo", (object)CompanyNo ?? (object)DBNull.Value)};
+
                 var result = _repository.ExecuteSQL<FirmEntity>("FirmForDropdown", param).ToList();
                 if (result == null)
                 {
@@ -454,12 +456,13 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("AttorneyForDropdown")]
-        public ApiResponse<AttorneyScopeEntity> AttorneyForDropdown(string search)
+        public ApiResponse<AttorneyScopeEntity> AttorneyForDropdown(string search, int CompanyNo)
         {
             var response = new ApiResponse<AttorneyScopeEntity>();
             try
             {
-                SqlParameter[] param = { new SqlParameter("search", (object)search ?? (object)DBNull.Value)
+                SqlParameter[] param = { new SqlParameter("search", (object)search ?? (object)DBNull.Value),
+                    new SqlParameter("CompanyNo", (object)CompanyNo ?? (object)DBNull.Value)
                 };
                 var result = _repository.ExecuteSQL<AttorneyScopeEntity>("AttorneyForDropdown", param).ToList();
                 if (result == null)
@@ -638,7 +641,7 @@ namespace Axiom.Web.API
                 Guid Gid = new Guid(UserID);
                 SqlParameter[] param = { new SqlParameter("UserId", (object)Gid ?? (object)DBNull.Value)
                                         ,new SqlParameter("CompanyNo", (object)CompNo ?? (object)DBNull.Value)
-                        
+
 
                                         };
                 var result = _repository.ExecuteSQL<FirmScopeEntity>("GetFirmByUserId", param).ToList();
