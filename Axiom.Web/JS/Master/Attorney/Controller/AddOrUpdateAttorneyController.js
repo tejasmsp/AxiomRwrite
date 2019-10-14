@@ -279,6 +279,7 @@
 
             if (!$scope.isEdit) {
                 $scope.objAttorney.Notes = $('#Notes').val();
+                $scope.objAttorney.CompanyNo = $rootScope.CompanyNo;
                 var promise = AttorneyService.InsertAttorney($scope.UserEmployeeID, $scope.UserAccessId, $scope.objAttorney);
                 promise.success(function (response) {
                     if (response.Success) {

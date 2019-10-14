@@ -20,7 +20,7 @@
                                 <li ng-show="Attorneyform.Email.$error.email">Invalid Email.</li>
                                 <li ng-show="Attorneyform.AssistantContact.$error.email">Invalid Assistant Contact Email.</li>
                                 <li ng-show="Attorneyform.ContactEmail.$error.email">Invalid Contact Email.</li>
-                                <li ng-show="Attorneyform.CompanyNo.$error.required">Invalid Contact Company No.</li>
+                                @*<li ng-show="Attorneyform.CompanyNo.$error.required">Invalid Contact Company No.</li>*@
                             </ul>
                         </div>
                     </div>
@@ -120,14 +120,14 @@
                             <input type="button" name="MakeID" ng-click="GenerateNewAttorneyCode(Attorneyform)" value="Make ID" class="btn btn-group-sm btn-block">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    @*<div class="col-md-6">
                         <label class="col-sm-3 control-label lbl-primary pr-5 pt-0 mandatoryField">Company No</label>
                         <div class="col-sm-9">
                             <select name="CompanyNo" ng-model="objAttorney.CompanyNo" class="form-control" ng-options="item.CompNo as item.CompNo for item in Companylist" ng-required="true">
                                 <option value="">--Select--</option>
                             </select>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
 
                 <div class="row mb-10">

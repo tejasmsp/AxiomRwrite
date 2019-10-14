@@ -78,7 +78,9 @@
                     'dataSrc': 'aaData',
                     "dataType": 'json',
                     "type": "POST",
-                    "url": sSource + "?SearchValue=" + "" + "&PageIndex=" + (parseInt($('#tblAttorney').DataTable().page.info().page) + 1)
+                    "url": sSource + "?SearchValue=" + ""
+                        + "&PageIndex=" + (parseInt($('#tblAttorney').DataTable().page.info().page) + 1)
+                        + "&CompanyNo=" + $rootScope.CompanyNo
                         + "&FirmID=" + ($scope.objAttorney.FirmID == null ? "" : $scope.objAttorney.FirmID)
                         + "&FirmName=" + ($scope.objAttorney.FirmName == null ? "" : $scope.objAttorney.FirmName)
                         + "&AttorneyFirstName=" + ($scope.objAttorney.AttorneyFirstName == null ? "" : $scope.objAttorney.AttorneyFirstName)

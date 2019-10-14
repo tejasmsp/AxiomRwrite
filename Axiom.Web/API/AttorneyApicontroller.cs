@@ -48,7 +48,10 @@ namespace Axiom.Web.API
                      ParameterName = "PageIndex",
                      DbType = DbType.Int32,
                      Value = tableParameter.PageIndex
-                 }, new SqlParameter
+                 },
+                  new SqlParameter{ParameterName = "CompanyNo",DbType = DbType.String,Value = (object)CompanyNo ?? (object)DBNull.Value
+                  },
+                    new SqlParameter
                  {
                      ParameterName = "PageSize",
                      DbType = DbType.Int32,
@@ -64,7 +67,7 @@ namespace Axiom.Web.API
                 new SqlParameter{ParameterName = "FirmName",DbType = DbType.String,Value = (object)FirmName ?? (object)DBNull.Value  },
                 new SqlParameter{ParameterName = "AttorneyFirstName",DbType = DbType.String,Value =  (object)AttorneyFirstName ?? (object)DBNull.Value },
                 new SqlParameter{ParameterName = "AttorneyLastName",DbType = DbType.String,Value = (object)AttorneyLastName ?? (object)DBNull.Value },
-                new SqlParameter{ParameterName = "CompanyNo",DbType = DbType.String,Value = (object)CompanyNo ?? (object)DBNull.Value  }
+
                 };
 
                 var result = _repository.ExecuteSQL<AttorneySearchEntity>("AttorneySearch", param).ToList();
