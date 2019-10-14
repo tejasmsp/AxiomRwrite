@@ -13,7 +13,7 @@ namespace QuickFormService
         /// The main entry point for the application.
         /// </summary>
         /// 
-        static bool isDebug = true;
+        static bool isDebug = false;
         static void Main()
         {
 
