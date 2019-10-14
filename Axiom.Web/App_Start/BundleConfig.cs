@@ -30,7 +30,10 @@ namespace Axiom.Web
                       "~/Content/colors.css",
                       "~/Content/Notification.css",
                       "~/Scripts/switch/angular-ui-switch.css",
-                      "~/Content/Site.css", "~/Content/Axiom.css"));
+                      //"~/Content/style_1.css",
+                      //"~/Content/style_4.css",
+                      "~/Content/Site.css",
+                      "~/Content/Axiom.css"));
 
             bundles.Add(new StyleBundle("~/Content/cssLeagalEagle").Include(
                       "~/Content/googlefonts.css",
@@ -50,9 +53,11 @@ namespace Axiom.Web
             //bundles.Add(new StyleBundle("~/Content/").Include(
             //          "~/Content/style_1.css"));
 
-            bundles.Add(new StyleBundle("~/Content/").Include(
-                        "~/Content/style_1.css",
-                      "~/Content/style_4.css"));
+            bundles.Add(new StyleBundle("~/Content/theamcss_1").Include(
+                                        "~/Content/style_1.css"));
+
+            bundles.Add(new StyleBundle("~/Content/theamcss_4").Include(
+                                        "~/Content/style_4.css"));
             // --End global stylesheets
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're

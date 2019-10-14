@@ -9,11 +9,11 @@
     $scope.IsUserCanEditAttorney = $rootScope.isSubModuleAccessibleToUser('Admin', 'Attorneys', 'Edit Attorney');
     //-----
 
-    $rootScope.pageTitle = $stateParams.AttyID ? "Edit Attorney" :"Add Attorney";
+    $rootScope.pageTitle = $stateParams.AttyID ? "Edit Attorney" : "Add Attorney";
     function init() {
         $scope.EnableGenerteCodeValidation = false;
         $scope.objAttorney = new Object();
-        CreateObjects();      
+        CreateObjects();
         $scope.UserAccessId = $rootScope.LoggedInUserDetail.UserAccessId;
         $scope.UserEmployeeID = $rootScope.LoggedInUserDetail.EmpId;
         AttorneyById($stateParams.AttyID);
@@ -32,22 +32,21 @@
         $scope.AttorneyAssistantContactList.push(AssistantContactObj);
     };
 
-    $scope.RemoveAssistantContact = function (AssistantContactObj) {        
+    $scope.RemoveAssistantContact = function (AssistantContactObj) {
         var index = $scope.AttorneyAssistantContactList.indexOf(AssistantContactObj);
         if (index > -1) {
             $scope.AttorneyAssistantContactList.splice(index, 1);
         }
     };
-  
+
     $scope.OpenAddForms = function ($event, Type) {
         // Type
         // 1 Have Own Authorization
         // 2 Have Own Facesheet
         // 3 Have Own Notice
         // 4 Location Specific Request
-        if ($event.target.checked)
-        {
-            $scope.AttorneyFormobj = { AttyID: $scope.objAttorney.AttyID, Name: ($scope.objAttorney.FirstName + $scope.objAttorney.LastName), IsRequestForm: true,FormType : Type };
+        if ($event.target.checked) {
+            $scope.AttorneyFormobj = { AttyID: $scope.objAttorney.AttyID, Name: ($scope.objAttorney.FirstName + $scope.objAttorney.LastName), IsRequestForm: true, FormType: Type };
             $scope.ShowAttorneyForm = true;
         }
     }
@@ -75,7 +74,7 @@
 
     $scope.GetAttorneyAssistantContactList = function (AttyID) {
         var promise = AttorneyService.GetAttorneyAssistantContactList($scope.UserAccessId, AttyID);
-        promise.success(function (response) {            
+        promise.success(function (response) {
             if (response.Success) {
                 $scope.AttorneyAssistantContactList = response.Data;
             }
@@ -111,11 +110,11 @@
         $scope.ShowSearchFirm = true;
     };
 
-    function AttorneyById(AttyID) {        
+    function AttorneyById(AttyID) {
         if (AttyID != undefined && AttyID != "") {
             $scope.isEdit = true;
             var promise = AttorneyService.GetAttorneyByAttyIdForAttorney(AttyID);
-            promise.success(function (response) {                
+            promise.success(function (response) {
                 if (response.Data != null) {
                     $scope.objAttorney = response.Data[0];
                     SetCheckBoxStatus($scope.objAttorney.DocProductionPreference, $scope.DocumentProdctionOptions);
@@ -123,8 +122,8 @@
                     SetCheckBoxStatus($scope.objAttorney.RequestSent, $scope.RequestSentOptions);
                 }
 
-                
-                
+
+
                 //SetCheckBoxStatus($scope.LocationObj.SendRequest, $scope.SendRequestOptions);                
                 //SetCheckBoxStatus($scope.LocationObj.ReccanRequested, $scope.ReccanRequestedOptions);
                 //SetCheckBoxStatus($scope.LocationObj.LinkedLocation, $scope.LinkedLocationOptions);
@@ -148,11 +147,11 @@
         promise.error(function (data, statusCode) {
         });
     }
-  
-    function SetCheckBoxStatus(csvValue, optionsList) {        
+
+    function SetCheckBoxStatus(csvValue, optionsList) {
         if (csvValue != null && csvValue != '') {
             csvValue = csvValue.toString().split('');
-            angular.forEach($filter('filter')(optionsList, { 'IsChecked': false }), function (item, key) {                
+            angular.forEach($filter('filter')(optionsList, { 'IsChecked': false }), function (item, key) {
                 item.IsChecked = (csvValue.indexOf(item.Value) > -1);
             });
         }
@@ -270,14 +269,14 @@
     }
 
     $scope.SaveAttorney = function (form) {
-        
+
         if (form.$valid) {
             $scope.objAttorney.DocProductionPreference = GetCSVForCheckBoxs($scope.DocumentProdctionOptions);
             $scope.objAttorney.LinkedContacts = GetCSVForCheckBoxs($scope.PreferredContactOption);
             $scope.objAttorney.RequestSent = GetCSVForCheckBoxs($scope.RequestSentOptions);
             $scope.objAttorney.AttorneyAssistantContactList = [];
             $scope.objAttorney.AttorneyAssistantContactList = $scope.AttorneyAssistantContactList;
-            
+
             if (!$scope.isEdit) {
                 $scope.objAttorney.Notes = $('#Notes').val();
                 var promise = AttorneyService.InsertAttorney($scope.UserEmployeeID, $scope.UserAccessId, $scope.objAttorney);
@@ -333,7 +332,7 @@
     // #region --- ADDITIONAL CONTACTS ---
 
     $scope.BindAdditionalContact = function () {
-        var promise = FirmServices.GetAdditionalContacts($scope.objAttorney.AttyID,"Attorney");
+        var promise = FirmServices.GetAdditionalContacts($scope.objAttorney.AttyID, "Attorney");
         promise.success(function (response) {
             if (response.Success) {
 
@@ -512,7 +511,7 @@
     }
 
     function GetEmployeelist() {
-        var promise = EmployeeServices.GetEmployeeList();
+        var promise = EmployeeServices.GetEmployeeList($rootScope.CompanyNo);
         promise.success(function (response) {
             $scope.Employeelist = response.Data;
             bindEmployeeList();

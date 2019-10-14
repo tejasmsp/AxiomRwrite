@@ -16,7 +16,7 @@
                                 <li ng-show="Firmform.FirmName.$error.required">Firm Name is required.</li>
                                 <li ng-show="Firmform.City.$error.required">City is required.</li>
                                 <li ng-show="Firmform.Email.$error.email">Invalid Email.</li>
-                                <li ng-show="Firmform.CompanyNo.$error.required">Invalid Company No.</li>
+                                @*<li ng-show="Firmform.CompanyNo.$error.required">Invalid Company No.</li>*@
                                 @*<li ng-show="Firmform.Email.$valid">Please enter valid email.</li>*@
                             </ul>
                         </div>
@@ -134,14 +134,14 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    @*<div class="col-md-6">
                         <label class="col-sm-3 control-label lbl-primary pr-5 pt-0 mandatoryField">Company No</label>
                         <div class="col-sm-9">
                             <select name="CompanyNo" ng-model="FirmObj.CompanyNo" class="form-control" ng-options="item.CompNo as item.CompNo for item in Companylist" ng-required="true">
                                 <option value="">--Select--</option>
                             </select>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
                 <div class="row  mb-10" ng-if="isEdit">
                     <div class="col-md-6">

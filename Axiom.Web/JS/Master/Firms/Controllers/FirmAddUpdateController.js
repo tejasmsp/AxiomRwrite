@@ -11,8 +11,8 @@
     //Page Rights//
     $rootScope.CheckIsPageAccessible("Admin", "Firms", "View");
     $scope.IsUserCanEditFirm = $rootScope.isSubModuleAccessibleToUser('Admin', 'Firms', 'Edit Firm');
-    $scope.IsUserCanAddFirm = $rootScope.isSubModuleAccessibleToUser('Admin', 'Firms', 'Add Firm'); 
-   //-----
+    $scope.IsUserCanAddFirm = $rootScope.isSubModuleAccessibleToUser('Admin', 'Firms', 'Add Firm');
+    //-----
     $scope.RequestSentOptions =
         [
             { Value: '0', Title: 'None', IsChecked: false }
@@ -24,7 +24,7 @@
 
 
     $scope.OpenAddForms = function ($event, Type) {
-        
+
         // Type
         // 1 Have Own Authorization
         // 2 Have Own Facesheet
@@ -39,7 +39,7 @@
             isRequestForm = false;
             isFaceSheet = true;
         }
-        
+
 
         if ($event.target.checked) {
             $scope.FirmFormObj = { FirmID: $scope.FirmObj.FirmID, Name: ($scope.FirmObj.FirmName), IsRequestForm: isRequestForm, IsFaceSheet: isFaceSheet };
@@ -48,7 +48,7 @@
     };
 
     function GetEmployeelist() {
-        var promise = EmployeeServices.GetEmployeeList();
+        var promise = EmployeeServices.GetEmployeeList($rootScope.CompanyNo);
         promise.success(function (response) {
             $scope.Employeelist = response.Data;
             bindEmployeeList();
@@ -149,13 +149,14 @@
         });
     };
     $scope.SaveFirm = function (form) {
-        debugger;
         if (form.$valid) {
             $scope.FirmObj.DocProductionPreference = GetCSVForCheckBoxs($scope.DocumentProdctionOptions);
             angular.forEach($filter('filter')($scope.RequestSentOptions, { 'IsChecked': true }), function (item, key) {
                 $scope.FirmObj.RequestSent = item.Value;
             });
+
             if (!$scope.isEdit) {
+                $scope.FirmObj.CompanyNo = $rootScope.CompanyNo;
                 $scope.FirmObj.Notes = $('#Notes').val();
                 var promise = FirmServices.InsertFirm($scope.FirmObj, $scope.UserEmployeeID, $scope.UserAccessId);
                 promise.success(function (response) {
@@ -401,7 +402,7 @@
                 SetCheckBoxStatus($scope.FirmObj.DocProductionPreference, $scope.DocumentProdctionOptions);
                 $scope.FirmObj.RequestSent = response.Data[0].RequestSent;
                 if (!isNullOrUndefinedOrEmpty($scope.FirmObj.RequestSent)) {
-                    angular.forEach($filter('filter')($scope.RequestSentOptions, { 'Value': $scope.FirmObj.RequestSent+'' }), function (item, key) {
+                    angular.forEach($filter('filter')($scope.RequestSentOptions, { 'Value': $scope.FirmObj.RequestSent + '' }), function (item, key) {
                         item.IsChecked = true;
                     });
                 }
@@ -549,12 +550,12 @@
     }
 
     function init() {
-       // $scope.EnableGenerteCodeValidation = false;
+        // $scope.EnableGenerteCodeValidation = false;
         CreateObjects();
         dropdownbind();
         $scope.GetFirmById($stateParams.FirmID);
         getUserDetails();
-        
+
     }
     function getUserDetails() {
         var promise = CommonServices.GetUserDetails();
@@ -582,8 +583,8 @@
     }
 
     $scope.SaveMonthlyBillingContact = function (form) {
-        if (form.$valid) {            
-            if ($scope.FirmObj.FirmID == null || $scope.FirmObj.FirmID == '' ) {
+        if (form.$valid) {
+            if ($scope.FirmObj.FirmID == null || $scope.FirmObj.FirmID == '') {
                 toastr.error("Please Generate FirmID");
                 return;
             }
@@ -637,7 +638,7 @@
 
     $scope.InsertMemberOfID = function (form) {
         if (form.$valid) {
-            
+
             var saveMemberOfID = FirmServices.InsertMemberOfID($scope.FirmObj.FirmID, $scope.objMember.CompanyID, $scope.objMember.MemberID)
             saveMemberOfID.success(function (response) {
                 if (response.Success) {
