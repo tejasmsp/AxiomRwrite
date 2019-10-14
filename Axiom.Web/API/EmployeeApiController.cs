@@ -25,12 +25,13 @@ namespace Axiom.Web.API
         #region DatabaseOperations
         [HttpGet]
         [Route("GetEmployeeList")]
-        public ApiResponse<EmployeeEntity> GetEmployeeList()
+        public ApiResponse<EmployeeEntity> GetEmployeeList(int CompanyNo)
         {
             var response = new ApiResponse<EmployeeEntity>();
             try
             {
-                var result = _repository.ExecuteSQL<EmployeeEntity>("GetEmployeeList").ToList();
+                SqlParameter[] param = { new SqlParameter("CompamyNo", (object)CompanyNo ?? (object)DBNull.Value) };
+                var result = _repository.ExecuteSQL<EmployeeEntity>("GetEmployeeList", param).ToList();
                 if (result == null)
                 {
                     result = new List<EmployeeEntity>();
@@ -111,7 +112,7 @@ namespace Axiom.Web.API
                     body = body.Replace("{CompanyName}", objCompany.CompName);
                     body = body.Replace("{Link}", objCompany.SiteURL);
 
-                    string subject = "Welcome To " + objCompany.CompName + " Requisition";                    
+                    string subject = "Welcome To " + objCompany.CompName + " Requisition";
                     EmailHelper.Email.Send(model.Email, body.ToString(), subject, "", "tejaspadia@gmail.com,autharchive@axiomcopy.com");
 
                     response.str_ResponseData = result;

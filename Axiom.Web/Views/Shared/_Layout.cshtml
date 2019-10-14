@@ -9,7 +9,7 @@
 
     @Styles.Render("~/Content/css")
 
-    @Styles.Render("~/Content/")
+    @Styles.Render("~/Content/theamcss_" + ProjectSession.CompanyUserDetail.CompNo)
     <style type="text/css">
            @ProjectSession.CompanyUserDetail.Style
     </style>
@@ -118,7 +118,6 @@
                         <li ng-class="{ active: $state.includes('OrderList') }" ng-if="isSubModuleAccessibleToUser('Order', 'Orders', 'View')">
                             <a href="" ui-sref="OrderList"><i class="icon-bookmark position-left"></i>Orders </a>
                         </li>
-
                     </ul>
                 </li>
                 <li ng-class="{ active: $state.includes('SearchOrderList')|| $state.includes('OrderDetail')|| $state.includes('PartDetail')}" ng-if="isSubModuleAccessibleToUser('Search', 'Search', 'View')"><a ui-sref="SearchOrderList"><i class="icon-search4 position-left"></i>Search</a></li>

@@ -1,8 +1,8 @@
 ﻿app.service('EmployeeServices', function ($http, configurationService) {
     var EmployeeService = [];
 
-    EmployeeService.GetEmployeeList = function () {
-        return $http.get(configurationService.basePath + "GetEmployeeList");
+    EmployeeService.GetEmployeeList = function (CompanyNo) {
+        return $http.get(configurationService.basePath + "GetEmployeeList?CompanyNo=" + CompanyNo);
     };
     EmployeeService.GetEmployeeById = function (UserId) {
         return $http.get(configurationService.basePath + "GetEmployeeById?UserId=" + UserId);
@@ -16,7 +16,7 @@
         return $http.post(configurationService.basePath + "UpdateEmployee", model);
     };
 
-    
+
     EmployeeService.DeleteMessage = function (id) {
         return $http.post(configurationService.basePath + "DeleteCustomMessage?id=" + id);
     };

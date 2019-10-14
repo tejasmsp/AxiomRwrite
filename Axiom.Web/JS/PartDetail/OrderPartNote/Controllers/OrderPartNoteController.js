@@ -14,7 +14,7 @@
     //#region Event
 
     $scope.GetOrderPartNotes = function () {
-        
+
         var promise = OrderNoteService.GetOrderNotes($scope.OrderId, $scope.PartNo);
         promise.success(function (response) {
             if (response.Data != null) {
@@ -37,13 +37,13 @@
             }
             if ($scope.RoleName === 'Attorney') {
                 result1 = $filter('filter')(result1, { IsPublic: true }, true);
-            } 
+            }
             else if ($scope.RoleName === 'Administrator') {
                 result1 = result1;//$filter('filter')(result1, { IsPublic: false }, true);
             }
-            
+
             $scope.PartNoteList = result1;
-           
+
         });
         promise.error(function (data, statusCode) {
         });
@@ -63,7 +63,7 @@
     };
     $scope.SaveClientPartNote = function (form) {
         if (form.$valid) {
-         
+
             $scope.ClientPartNoteObj.OrderId = $scope.OrderId;
             $scope.ClientPartNoteObj.PartNo = $scope.PartNo;
             $scope.ClientPartNoteObj.UserId = $rootScope.LoggedInUserDetail.UserId;
@@ -87,7 +87,7 @@
     };
 
 
-    $scope.SavePartNote = function (form) {        
+    $scope.SavePartNote = function (form) {
         //if (isNullOrUndefinedOrEmpty($scope.PartNoteObj.NotesInternal) && isNullOrUndefinedOrEmpty($scope.PartNoteObj.NotesClient) && $scope.CurrentState != "SearchOrderList") {
         //    toastr.warning('Please enter Internal OR Client note.');
         //    return false;
@@ -100,7 +100,7 @@
                 })[0].InternalStatus;
                 $scope.PartNoteObj.InternalStatusText = InternalStatusText;
             }
-            
+
             $scope.PartNoteObj.OrderId = $scope.OrderId;
             $scope.PartNoteObj.PartNo = $scope.PartNo;
             $scope.PartNoteObj.UserId = $rootScope.LoggedInUserDetail.UserId;
@@ -110,21 +110,20 @@
                 $scope.PartNoteObj.PageFrom = "SearchOrderList";
                 $scope.PartNoteObj.OrderIdPartIdList = $scope.$parent.SelectedOrdersWithPart;
             }
-            $scope.RemoveCallBack();                
+            $scope.RemoveCallBack();
             var promise = OrderPartNoteService.InsertOrderPartNotes($scope.PartNoteObj);
             promise.success(function (response) {
                 if (response.Success && response.InsertedId == 1) {
                     toastr.success('Note Save Successfully');
                     if ($scope.CurrentState == "SearchOrderList") {
-                        angular.element('#modal_OrderPartNote').modal('hide');                                            
-                    } else
-                    {
+                        angular.element('#modal_OrderPartNote').modal('hide');
+                    } else {
                         angular.element('#modal_PartNote').modal('hide');
                         $scope.GetOrderPartNotes();
                         $scope.getInternalStatus();
                     }
-                   
-                    
+
+
                 }
                 else {
                     toastr.error(response.Message[0]);
@@ -136,15 +135,15 @@
         }
     };
 
-    $scope.RemoveCallBackFromNote = function (form) {        
-        if ($scope.CurrentState == "SearchOrderList") {              
-            $scope.PartNoteObj.OrderIdPartIdList = $scope.$parent.SelectedOrdersWithPart; 
-            $scope.PartNoteObj.UserId = $scope.UserAccessId;        
+    $scope.RemoveCallBackFromNote = function (form) {
+        if ($scope.CurrentState == "SearchOrderList") {
+            $scope.PartNoteObj.OrderIdPartIdList = $scope.$parent.SelectedOrdersWithPart;
+            $scope.PartNoteObj.UserId = $scope.UserAccessId;
             var promise = OrderPartNoteService.RemoveCallBackFromNote($scope.PartNoteObj);
             promise.success(function (response) {
-               if (response.Success) {
+                if (response.Success) {
                     toastr.success('Call Back Date set blank Successfully');
-                    angular.element('#modal_OrderPartNote').modal('hide');                  
+                    angular.element('#modal_OrderPartNote').modal('hide');
                 }
                 else {
                     toastr.error(response.Message[0]);
@@ -195,19 +194,19 @@
             $scope.PartNoteObj.CallBack = null;
         }
     }
-    
+
     //#endregion
 
     //#region Method    
     function bindDropdown() {
         var _quickNote = CommonServices.GetQuickNotesDropDown();
-        _quickNote.success(function (response) {            
+        _quickNote.success(function (response) {
             $scope.QuickNoteList = response.Data;
         });
         _quickNote.error(function (data, statusCode) {
         });
         var _internalStatus = CommonServices.GetInternalStatusDropDown();
-        _internalStatus.success(function (response) {            
+        _internalStatus.success(function (response) {
             $scope.InternalStatusList = response.Data;
             debugger;
             if (!isNullOrUndefinedOrEmpty($scope.InternalStatusList) && $scope.InternalStatusList.length > 0 && $scope.CurrentState != "SearchOrderList") {
@@ -232,7 +231,7 @@
     }
 
     function getEmployeeList() {
-        var emp = EmployeeServices.GetEmployeeList();
+        var emp = EmployeeServices.GetEmployeeList($rootScope.CompanyNo);
         emp.success(function (response) {
             $scope.EmployeeList = angular.copy(response.Data);
             $scope.PartNoteAssgnTo = "";
@@ -241,16 +240,16 @@
         });
     }
 
-    function resetPartNotesDetailPopup() {        
+    function resetPartNotesDetailPopup() {
         $scope.PartNoteObj = new Object();
         $scope.PartNoteform.$setPristine();
         $scope.PartNoteAssgnTo = "";
-        $('form').trigger("reset");  
+        $('form').trigger("reset");
     }
     $scope.PartNoteObj = new Object();
-    function init() {    
-        if ($scope.CurrentState == "SearchOrderList") {                  
-            bindDropdown();      
+    function init() {
+        if ($scope.CurrentState == "SearchOrderList") {
+            bindDropdown();
             getEmployeeList();
 
         } else {
@@ -259,7 +258,7 @@
             $scope.PartNoteObj = new Object();
             $scope.GetOrderPartNotes();
         }
-        
+
     }
     //#endregion
 

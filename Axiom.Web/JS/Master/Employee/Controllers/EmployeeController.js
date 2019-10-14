@@ -85,7 +85,7 @@
     }
 
     function GetEmployeelist() {
-        var promise = EmployeeServices.GetEmployeeList();
+        var promise = EmployeeServices.GetEmployeeList($rootScope.CompanyNo);
         promise.success(function (response) {
             $scope.Employeelist = response.Data;
             bindEmployeeList();
