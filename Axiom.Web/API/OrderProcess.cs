@@ -129,7 +129,7 @@ namespace Axiom.Web.API
                 SqlParameter[] param = { new SqlParameter("OrderID", (object)OrderId ?? (object)DBNull.Value) };
                 var result = _repository.ExecuteSQL<OrderDetailEntity>("GetOrderDetails", param).ToList();
 
-                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);                
 
                 if (result != null && result.Count > 0)
                 {
@@ -209,6 +209,7 @@ namespace Axiom.Web.API
                     body = body.Replace("##Division##", data.Division);
                     body = body.Replace("##County##", data.CountyName);
                     body = body.Replace("##Court##", data.Court);
+                    body = body.Replace("##IMAGELINK##", objCompany.Logopath);
 
                     //Attorneys of Record
                     SqlParameter[] SQLparam = { new SqlParameter("OrderId", (object)OrderId ?? (object)DBNull.Value) };
