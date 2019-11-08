@@ -135,6 +135,7 @@ namespace Axiom.Entity
         public string InvoiceId { get; set; }
         public string WaiverAttyFirstName { get; set; }
         public string WaiverAttyLastName { get; set; }
+        public string WaiverAttyID { get; set; }
         public int Pages { get; set; }
     }
     public class PrintInvoiceEmailBill
@@ -197,5 +198,6 @@ namespace Axiom.Entity
         public string AttorneyNm { get; set; }      
         public bool DocPreference { get; set; }
         public string Comment { get; set; }
+        public string AttyID { get; set; }
     }
 }

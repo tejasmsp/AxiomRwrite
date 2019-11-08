@@ -1,4 +1,28 @@
-﻿app.directive('loading', ['$http', function ($http) {
+﻿app.directive('charCount', ['$log', '$timeout', function ($log, $timeout) {
+    return {
+        restrict: 'A',
+        compile: function compile() {
+            return {
+                post: function postLink(scope, iElement, iAttrs) {
+                    iElement.bind('keydown', function () {
+                        scope.$apply(function () {
+                            scope.numberOfCharacters = iElement.val().length;
+                        });
+                    });
+                    iElement.bind('paste', function () {
+                        $timeout(function () {
+                            scope.$apply(function () {
+                                scope.numberOfCharacters = iElement.val().length;
+                            });
+                        }, 200);
+                    });
+                }
+            }
+        }
+    }
+}]);
+
+app.directive('loading', ['$http', function ($http) {
     return {
         restrict: 'A',
         link: function (scope, elm, attrs) {

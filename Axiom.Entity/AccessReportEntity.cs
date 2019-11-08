@@ -58,7 +58,8 @@ namespace Axiom.Entity
     }
     public class NonInvoicedPartsEntity
     {
-        public string OrderNo { get; set; }
+        public int OrderNo { get; set; }
+        public int PartNo { get; set; }
         public string Location { get; set; }
 
         private string _CompleteDate;
@@ -142,9 +143,19 @@ namespace Axiom.Entity
         public string Patient { get; set; }
         public string Location { get; set; }
         public int Days { get; set; }
-
     }
+    public class AgedARSummary
+    {
+        public string FirmName { get; set; }
+        public string FirmID { get; set; }
+        public int InvoiceNo { get; set; }
+        public decimal InvoiceAmount { get; set; }
+        public decimal PaidAmount { get; set; }
 
-
-
+        public decimal ThirtyDaysAmount { get; set; }
+        public decimal SixtyDaysAmount { get; set; }
+        public decimal NintyDaysAmount { get; set; }
+        public decimal NintyPlysDaysAmount { get; set; }
+        public decimal TotalPending { get; set; }
+    }
 }

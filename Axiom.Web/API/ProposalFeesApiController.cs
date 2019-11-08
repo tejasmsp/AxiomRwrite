@@ -146,7 +146,7 @@ namespace Axiom.Web.API
                         var proposalId = _repository.ExecuteSQL<int>("SaveProposalFee", saveparam).FirstOrDefault();
                         if (proposalId > 0)
                         {
-                            string subject = "Proposal Fees Request";
+                            string subject = "Proposal Fees Request " + Convert.ToString(model.OrderNo) + "-" + Convert.ToString(model.PartNo);
                             string body = string.Empty;
 
                             CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(model.CompanyNo);

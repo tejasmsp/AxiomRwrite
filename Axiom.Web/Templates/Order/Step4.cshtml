@@ -1,4 +1,5 @@
-﻿<form name="step4form" id="step4form" novalidate ng-init="createDatePicker()">
+﻿<link href="~/Scripts/charcount/angular-character-count.css" rel="stylesheet" />
+<form name="step4form" id="step4form" novalidate ng-init="createDatePicker()">
     <div class="panel panel-white panel-custom-color">
         <div class="panel-body OrderWizardPnl"   ng-class="PageMode==Enum.PageMode.ViewOnly?'disabledbutton':''">
             <div class="row">
@@ -25,39 +26,39 @@
                     <label class="control-label lbl-primary">Caption</label> <div class="clearfix"> </div>
                     <div class="form-group row">
                         <div class="col-sm-5">
-                            <input type="text" name="Caption1" class="form-control" placeholder="Caption" maxlength="200" ng-model="OrderStep4Obj.Caption1">
+                            <input type="text" name="Caption1" class="form-control" placeholder="Caption" maxlength="100" ng-maxlength="100" char-count warning-count="30" danger-count="15" ng-model="OrderStep4Obj.Caption1">
                         </div>
                         <div class="col-md-1 text-center">
-                            
+
                         </div>
                         <div class="col-md-6">
-                            <input type="text" name="VsText1" class="form-control"  maxlength="200" ng-model="OrderStep4Obj.VsText1">
+                            <input type="text" name="VsText1" class="form-control" maxlength="100" ng-maxlength="100" char-count warning-count="30" danger-count="15" ng-model="OrderStep4Obj.VsText1">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group row">
                         <div class="col-sm-5">
-                            <input type="text" name="Caption2" class="form-control" placeholder="Caption" maxlength="200" ng-model="OrderStep4Obj.Caption2">
+                            <input type="text" name="Caption2" class="form-control" placeholder="Caption" maxlength="100" ng-maxlength="100" char-count warning-count="30" danger-count="15" ng-model="OrderStep4Obj.Caption2">
                         </div>
                         <div class="col-md-1 text-center">
                             VS
                         </div>
                         <div class="col-md-6">
-                            <input type="text" name="VsText2" class="form-control"  maxlength="200" ng-model="OrderStep4Obj.VsText2">
+                            <input type="text" name="VsText2" class="form-control" maxlength="100" ng-maxlength="100" char-count warning-count="30" danger-count="15" ng-model="OrderStep4Obj.VsText2">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group row">
                         <div class="col-sm-5">
-                            <input type="text" name="Caption3" class="form-control" placeholder="Caption" maxlength="200" ng-model="OrderStep4Obj.Caption3">
+                            <input type="text" name="Caption3" class="form-control" placeholder="Caption" maxlength="100" ng-maxlength="100" char-count warning-count="30" danger-count="15" ng-model="OrderStep4Obj.Caption3">
                         </div>
                         <div class="col-md-1 text-center">
                             
                         </div>
                         <div class="col-md-6">
-                            <input type="text" name="VsText3" class="form-control"  maxlength="200" ng-model="OrderStep4Obj.VsText3">
+                            <input type="text" name="VsText3" class="form-control" maxlength="100" ng-maxlength="100" char-count warning-count="30" danger-count="15" ng-model="OrderStep4Obj.VsText3">
                         </div>
                     </div>
                 </div>

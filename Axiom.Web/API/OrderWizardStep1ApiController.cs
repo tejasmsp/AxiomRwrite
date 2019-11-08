@@ -284,7 +284,7 @@ namespace Axiom.Web.API
                         //Upload Location Documents on Final Submit
                         SqlParameter[] SqlFileparam = { new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value),
                         new SqlParameter("PartNo", (object)0 ?? (object)DBNull.Value)};
-                        var LocDocumentList = _repository.ExecuteSQL<LocationFilesModel>("GetLocationTempFiles", SqlFileparam).ToList();
+                        var LocDocumentList = _repository.ExecuteSQL<LocationFilesModel>("GetLocationTempFilesForNewOrder", SqlFileparam).ToList();
                         if (LocDocumentList != null && LocDocumentList.Count > 0)
                         {
                             string sourcePath = ConfigurationManager.AppSettings["AttachPathLocal"].ToString();
@@ -317,12 +317,17 @@ namespace Axiom.Web.API
                                 Document docobj = new Document();
                                 docobj.DeleteAttchFile(docitem.FileName, docitem.BatchId, sourcePath);
                             }
+                            SqlParameter[] deleteLocationFile = {
+                                    new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value)
+                                };
+                            _repository.ExecuteSQL<int>("DeleteLocationFileByOrderNo", deleteLocationFile).FirstOrDefault();                            
                         }
 
                         await new OrderProcess().OrderSummaryEmail(Convert.ToInt32(model.OrderId), model.UserEmail, model.CompanyNo, Convert.ToInt32(model.SubmitStatus));
                         await new OrderProcess().AddQuickformsForNewOrder(Convert.ToInt32(model.OrderId), Convert.ToBoolean(model.SubmitStatus), Convert.ToBoolean(model.SubmitStatus));
 
-                        await new OrderProcess().ESignature(Convert.ToInt32(model.OrderId), model.CompanyNo);
+                        // await new OrderProcess().ESignature(Convert.ToInt32(model.OrderId), model.CompanyNo);
+
                         InsertWaiverForNewOrder(Convert.ToInt32(model.OrderId));
 
                         // UPDATE isAddedPart TO 0 OF ALL PART AFTER PROCESSING ORDER

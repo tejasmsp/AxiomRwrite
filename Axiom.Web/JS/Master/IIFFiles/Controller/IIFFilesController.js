@@ -67,46 +67,23 @@
                 });
             },
             "columns": [
-                //{
-                //    "title": '',
-                //    "sClass": "action dt-center",
-                //    "orderable": false,
-                //    "width": "4%",
-                //    //"data" : "IsAssociated",
-                //    "render": function (data, type, row) {
-
-                //        var strAction = '';
-                //        if (row.IsAssociated == 1) {
-                //            strAction = '<input type="checkbox" ng-click="UpdateAssociatedFirm($event)" checked/>';
-                //            //row.ReplacedBy
-                //            //strAction = 'Added';
-                //            //strAction = strAction + '<a class="ico_btn cursor-pointer" ng-click="DeleteMergeLocation($event)" title="Delete">  <i class="icon-trash cursor-pointer"></i> </a>'
-                //            //strAction = strAction + '<a class="ico_btn cursor-pointer" ng-click="AddMergeLocation($event)" title="Delete">  <i class="icon-trash cursor-pointer"></i> </a>'
-                //        }
-                //        else {
-                //            strAction = '<input type="checkbox" ng-click="UpdateAssociatedFirm($event)"/>';
-                //        }
-
-
-                //        return strAction;
-                //    }
-                //},
-                // { "data": "State", "title": "State", "className": "dt-left" },                
                 {
-                    "title": '',
+                    "title": 'ALL',
                     "data": "",
-                    "sClass": "action dt-center",
-                    "orderable": true,
+                    "className": "dt-center btn-custom-link",
+                    "sorting": "false",
+                    'searchable': false,
+                    'orderable': false,
                     "width": "2%",
                     "render": function (data, type, row) {
-                        if ($scope.CheckListArray.indexOf(row.CheckID) > -1) {
-                            return '<input type="checkbox" ng-click="PushToArray($event,' + row.CheckID + ')" checked />';
+                        if ($scope.CheckListArray.indexOf(row.CheckID.toString()) > -1) {
+                            return '<input type="checkbox" rel="iifCheckBox" ng-click="PushToArray($event,' + "'" + row.CheckID + "'" +'")" checked />';
                         }
                         else {
-                            return '<input type="checkbox" ng-click="PushToArray($event,' + row.CheckID + ')" />';
+                            return '<input type="checkbox" rel="iifCheckBox" value="' + row.CheckID + '" ng-click="PushToArray($event,' + "'" + row.CheckID +"'" + ')" />';
                         }
 
-                        
+
                         //if (data.CheckID) {
                         //    return '<input type="checkbox" ng-click="PushToArray($event,' + data.CheckID +')" checked />';
                         //}
@@ -144,6 +121,9 @@
                 //}
 
             ],
+            "fnInitComplete": function () {
+                $scope.DefaultInitialization();
+            },
             "initComplete": function () {
                 var dataTable = $('#tbliifCheckList').DataTable();
                 // BindCustomerSearchBar($scope, $compile, dataTable);
@@ -157,10 +137,41 @@
             }
         });
     }
+    
+    $scope.DefaultInitialization = function() {
+        $('#tbliifCheckList').on('click', 'th', function () {
+            debugger;            
+            if ($(this).text() == "ALL") {
+
+                $('input[rel=iifCheckBox]').each(function () {
+                    debugger;
+                    this.checked = true;
+                    $scope.CheckListArray.push($(this).val());
+                });
+                $(".table-grid th.btn-custom-link").text("NONE");
+                
+                //$scope.RushAllStatus = true;
+                //$scope.AllRush();
+            }
+            else if ($(this).text() == "NONE") {
+                $('input[rel=iifCheckBox]').each(function () {
+                    this.checked = false;
+                    for (var i = 0; i <= $scope.CheckListArray.length - 1; i++) {
+                        if ($scope.CheckListArray[i] === $(this).val()) {
+                            $scope.CheckListArray.splice(i, 1);
+                            break;
+                        }
+                    }
+                });
+                $(".table-grid th.btn-custom-link").text("ALL");
+            }
+            
+        });
+    }
 
     $scope.PushToArray = function ($event, CheckID) {
         if ($($event.target).parent().find("input").prop('checked')) {
-            $scope.CheckListArray.push(CheckID)
+            $scope.CheckListArray.push(CheckID);
         }
         else {
             for (var i = 0; i <= $scope.CheckListArray.length -1; i++) {

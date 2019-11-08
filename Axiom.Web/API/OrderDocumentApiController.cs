@@ -515,7 +515,7 @@ namespace Axiom.Web.API
                 }
 
                 #region Send Mail
-                if (Convert.ToInt32(data["FileTypeId"]) == 11)
+                if (Convert.ToInt32(data["FileTypeId"]) == 11 && isFileUploaded)
                 {
                     try
                     {
@@ -528,7 +528,7 @@ namespace Axiom.Web.API
                         if (result != null && result.Any(x => x.NewRecordAvailable))
                         {
                             CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
-                            string subject = "Your Records Are Available";
+							string subject = "Your Records Are Available " + Convert.ToString(data["OrderId"]) + "-" + Convert.ToString(data["PartNo"]);
                             string LiveSiteURL = ConfigurationManager.AppSettings["LiveSiteURL"].ToString();
 
                             foreach (AssistContactEmail item in result.Where(x => x.NewRecordAvailable && !string.IsNullOrEmpty(x.AssistantEmail)))
@@ -546,13 +546,13 @@ namespace Axiom.Web.API
                                 body = body.Replace("{ORDERNO}", data["OrderId"] + "-" + data["PartNo"]);
                                 body = body.Replace("{InvHdr}", item.InvHdr);
                                 body = body.Replace("{Pages}", Convert.ToString(data["PageNo"]));
-                                body = body.Replace("{LINK}", LiveSiteURL + "/PartDetail?OrderId=" + data["OrderId"] + "&PartNo=" + data["PartNo"]);
+                                body = body.Replace("{LINK}", Convert.ToString(objCompany.SiteURL) + "/PartDetail?OrderId=" + data["OrderId"] + "&PartNo=" + data["PartNo"]);
                                 body = body.Replace("{LogoURL}", objCompany.Logopath);
                                 body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
                                 body = body.Replace("{CompanyName}", objCompany.CompName);
                                 body = body.Replace("{Link}", objCompany.SiteURL);
 
-                                EmailHelper.Email.Send(item.AssistantEmail, body.ToString(), subject, "", "tejaspadia@gmail.com");
+                                EmailHelper.Email.Send(item.AssistantEmail, body.ToString(), subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
 
                             }
                         }

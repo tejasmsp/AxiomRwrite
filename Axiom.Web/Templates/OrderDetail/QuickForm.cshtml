@@ -28,13 +28,13 @@
                 <div class="panel-body pnl-back-grey">
                     <table class="table table-bordered tblPartDetailQuickForm">
                         <tr>
-                            <th class="tbldocHeader" width="5%"></th>
+                            <th class="tbldocHeader" width="5%"><input type="checkbox" id="chkAll" ng-click="SelectAllParts($event)" /></th>
                             <th class="tbldocHeader" width="12%">Part No</th>
                             <th class="tbldocHeader" width="55%">Location</th>
                             <th class="tbldocHeader">Record Type</th>
                         </tr>
                         <tr ng-click="selectedtableRow(item)" ng-repeat="item in partDetailList">
-                            <td><input type="checkbox" id="chk-{{item.PartNo}}" ng-click="selectedOrder(item.PartNo,$event)"></td>
+                            <td><input type="checkbox" id="chk-{{item.PartNo}}" value="{{item.PartNo}}" rel="quickFormCheckBox" ng-click="selectedOrder(item.PartNo,$event)"></td>
                             <td>{{ item.PartNo }}</td>
                             <td>{{ item.LocationName }}</td>
                             <td>{{ item.RecordType }}</td>

@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 
-var app = angular.module("AXIOM", ["ui.router", "LocalStorageModule", "ngSanitize", "angular.filter", "uiSwitch"]);
+var app = angular.module("AXIOM", ["ui.router", "LocalStorageModule", "ngSanitize", "angular.filter", "uiSwitch","angular-character-count"]);
 //app.factory("ShareData", function () {
 //    return { value: 0 };
 //});

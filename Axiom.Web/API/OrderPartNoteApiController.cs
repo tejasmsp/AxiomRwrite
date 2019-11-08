@@ -103,7 +103,7 @@ namespace Axiom.Web.API
                             accExecutiveEmail = "leah.boroski@axiomcopy.com";
                         }
 
-                        string subject = "Client Note Added";
+                        string subject = "Client Note Added " + Convert.ToString(modal.OrderId) + "-" + Convert.ToString(modal.PartNo);
                         System.Text.StringBuilder htmlBody = new System.Text.StringBuilder();
                         htmlBody.Append(@"<!DOCTYPE html><html xmlns='http://www.w3.org/1999/xhtml'><head><title></title><style>table, th, td {border: 1px solid gray;font-family:Verdana;}</style></head>");
                         htmlBody.Append(@"<body style='font-family:Verdana;'>");
@@ -171,7 +171,8 @@ namespace Axiom.Web.API
                             accExecutiveEmail = "leah.boroski@axiomcopy.com";
                         }
 
-                        string subject = "Client Note Added";
+                        string subject = "Client Note Added " + Convert.ToString(modal.OrderId) + "-" + Convert.ToString(modal.PartNo);
+
                         System.Text.StringBuilder htmlBody = new System.Text.StringBuilder();
                         htmlBody.Append(@"<!DOCTYPE html><html xmlns='http://www.w3.org/1999/xhtml'><head><title></title><style>table, th, td {border: 1px solid gray;font-family:Verdana;}</style></head>");
                         htmlBody.Append(@"<body style='font-family:Verdana;'>");

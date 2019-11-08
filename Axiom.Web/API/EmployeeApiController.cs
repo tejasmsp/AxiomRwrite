@@ -92,7 +92,7 @@ namespace Axiom.Web.API
                                         };
 
                 var result = _repository.ExecuteSQL<string>("InsertEmployee", param).FirstOrDefault();
-                if (result != string.Empty)
+                if (result != string.Empty && result != "-1")
                 {
                     CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(model.CompanyNo);
                     System.Text.StringBuilder body = new StringBuilder();
@@ -106,24 +106,25 @@ namespace Axiom.Web.API
                     body = body.Replace("{LastName}", model.LastName);
                     body = body.Replace("{Email}", model.Email);
                     body = body.Replace("{Password}", RandomPassword);
-                    body = body.Replace("{Link}", ConfigurationManager.AppSettings["LiveSiteURL"].ToString());
+                    body = body.Replace("{Link}", objCompany.SiteURL);
                     body = body.Replace("{LogoURL}", objCompany.Logopath);
                     body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
                     body = body.Replace("{CompanyName}", objCompany.CompName);
                     body = body.Replace("{Link}", objCompany.SiteURL);
 
-                    string subject = "Welcome To " + objCompany.CompName + " Requisition";
-                    EmailHelper.Email.Send(model.Email, body.ToString(), subject, "", "tejaspadia@gmail.com,autharchive@axiomcopy.com");
+                    string subject = "Welcome To " + objCompany.CompName;
+                    EmailHelper.Email.Send(model.Email, body.ToString(), subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
 
-                    response.str_ResponseData = result;
-                    response.Success = true;
+                    
                 }
+                response.str_ResponseData = result;
+                response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Message.Add(ex.Message);
             }
-
+            
             return response;
         }
 

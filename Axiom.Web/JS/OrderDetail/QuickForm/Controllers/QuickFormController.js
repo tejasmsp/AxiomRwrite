@@ -129,6 +129,25 @@
         }
 
     }
+    $scope.SelectAllParts = function ($event) {
+        $scope.selectedPartList = [];
+        if ($event.target.checked) {
+            $('input[rel=quickFormCheckBox]').each(function () {                
+                this.checked = true;
+                $scope.selectedPartList.push($(this).val());
+            });
+        }
+        else {            
+            $('input[rel=quickFormCheckBox]').each(function () {
+                
+                this.checked = false;
+                var index = $scope.selectedPartList.indexOf($(this).val());
+                if (index > -1) {
+                    $scope.selectedPartList.splice(index, 1);
+                }
+            });
+        }
+    }
     $scope.selectedOrder = function (partNo, $event) {
         $event.stopPropagation();
         var isselected = $("#chk-" + partNo).is(":checked");

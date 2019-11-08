@@ -22,6 +22,38 @@
     $scope.ShowFilterButton = false;
     $scope.TotalInvoices = 0;
     $scope.showInvoiceCount = false;
+    $scope.thirtyTotal = 0;
+    $scope.sixtyTotal = 0;
+    $scope.nintyTotal = 0;
+    $scope.nintyplusTotal = 0;
+    $scope.agedarTotal = 0;
+    $scope.ShowSummarybutton = false;
+
+
+    function AgedARBalance() {
+        $scope.thirtyTotal = 0;
+        $scope.sixtyTotal = 0;
+        $scope.nintyTotal = 0;
+        $scope.nintyplusTotal = 0;
+        $scope.agedarTotal = 0;
+        if ($stateParams.type == 'AgedAR') {
+            $scope.showReportListAll.filter(function (i, e) {
+                $scope.agedarTotal += i.Balance;
+                if (i.Days <= 30) {
+                    $scope.thirtyTotal = $scope.thirtyTotal + i.Balance;
+                }
+                else if (i.Days > 30 && i.Days <= 60) {
+                    $scope.sixtyTotal = $scope.sixtyTotal + i.Balance;
+                }
+                else if (i.Days > 60 && i.Days <= 90) {
+                    $scope.nintyTotal = $scope.nintyTotal + i.Balance;
+                }
+                else if (i.Days > 90) {
+                    $scope.nintyplusTotal = $scope.nintyplusTotal + i.Balance;
+                }
+            });
+        }
+    };
 
     function showReport() {
         debugger;
@@ -33,7 +65,7 @@
         $scope.showBalance = ($stateParams.type == 'InvoiceByDate' || $stateParams.type == 'GrangeBilling' || $stateParams.type == 'GroverBilling');
         $scope.showInvoiceCount = $stateParams.type == 'InvoiceByDate';
         $scope.ShowFilterButton = $stateParams.type == 'AgedAR';
-
+        $scope.ShowSummarybutton = $stateParams.type == 'AgedAR';
         if ($.fn.DataTable.isDataTable("#tblReports")) {
             // $('#tblReports').DataTable().fndestroy();
         }
@@ -60,7 +92,6 @@
                 $scope.BillAmount += value.InvoiceAmount;
             });
         }
-
         if ($stateParams.type == 'AgedAR') {
             if ($scope.Days == 30) {
                 $scope.showReportList = $scope.showReportListAll.filter(function (i, e) {                    
@@ -180,23 +211,26 @@
     };
 
     $scope.FilterRecord = function (days) {
-        debugger;
         $scope.Days = days;
         showReport();
     };
 
     $scope.DisplayReport = function () {
-        debugger;
         var showReportList = AccessReportService.DisplayAccessReportPartsByDate($stateParams.type, $scope.AccessReport.StartDate, $scope.AccessReport.EndDate, $rootScope.CompanyNo, $scope.AccessReport.CheckNumber, $scope.AccessReport.SSNNumber, $scope.AccessReport.FirmID);
         showReportList.success(function (response) {
             $scope.showReportList = response.Data;
             $scope.showReportListAll = response.Data;
             $scope.showDownloadButton = true;
             showReport();
+            AgedARBalance();
         });
         showReportList.error(function (response) {
             toastr.error(response.Message[0]);
         });
+    };
+
+    $scope.DownloadSummaryReport = function () {
+        var reportFile = AccessReportService.DownloadAccessReportAgedARSummary($scope.AccessReport.StartDate, $scope.AccessReport.EndDate, $scope.AccessReport.CompanyNo, $scope.AccessReport.FirmID);
     }
 
     $scope.DownloadReport = function () {
@@ -208,7 +242,6 @@
         }
     };
     function init() {
-        debugger
         $scope.AccessReport = new Object();
         var date = new Date();
         var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -223,6 +256,6 @@
 
         $scope.AccessReport.StartDate = $filter('date')(firstDay, 'MM/dd/yyyy');
         $scope.AccessReport.EndDate = $filter('date')(lastDay, 'MM/dd/yyyy');
-    }
+    };
     init();
 });

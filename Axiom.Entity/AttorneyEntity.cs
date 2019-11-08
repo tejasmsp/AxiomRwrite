@@ -93,6 +93,7 @@ namespace Axiom.Entity
         public Int16 Dormant { get; set; }
         public Int16 FullAccess { get; set; }
         public int Type { get; set; }
+        public int CompanyNo { get; set; }
 
         public List<AttorneyAssistantContact> AttorneyAssistantContactList { get; set; }
     }

@@ -69,7 +69,7 @@ namespace Axiom.Web.API
                 CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
                 foreach (SendEmailForInvoice item in result)
                 {
-                    string subject = "Billing Proposal";
+                    string subject = "Billing Proposal " + Convert.ToString(item.OrderNo);
                     string body = string.Empty;
                     using (System.IO.StreamReader reader = new System.IO.StreamReader(HttpContext.Current.Server.MapPath("~/MailTemplate/WaiverBillingProposal.html")))
                     {
@@ -135,11 +135,11 @@ namespace Axiom.Web.API
                     string strApproveLink, strNotApprovedLink, strEditScopeLink, strQueryString;
                     if (!string.IsNullOrEmpty(item.LocationName))
                     {
-                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + item.LocationName.Replace(',', ' ') + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + item.PartNo.ToString() + "," + AttorneyNm;
+                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + item.LocationName.Replace(',', ' ') + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + item.PartNo.ToString() + "," + AttorneyNm + "," + item.AttyID;
                     }
                     else
                     {
-                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + item.PartNo.ToString() + "," + AttorneyNm;
+                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + item.PartNo.ToString() + "," + AttorneyNm + "," + item.AttyID;
                     }
 
 
@@ -176,67 +176,11 @@ namespace Axiom.Web.API
                     //}
                     //item.Email = item.Email.Trim(',');
 
-                    EmailHelper.Email.Send(item.AttorneyEmail, body, subject, "", "tejaspadia@gmail.com");
+                    EmailHelper.Email.Send(item.AttorneyEmail, body, subject, ccMail: "autharchive@axiomcopy.com", bccMail: "tejaspadia@gmail.com");
 
                     //AxiomEmail.SendMailBilling(subject, body, "sejal.k@shaligraminfotech.com", true, "AxiomSupport@axiomcopy.com", null, "");
                     // AxiomEmail.SendMailBilling(subject, body, waiver.Email.ToString(), true, "AxiomSupport@axiomcopy.com", null, "tejaspadia@gmail.com,autoemail@axiomcopy.com");
-
                 }
-
-                #region Comment
-                //foreach (var item in result)
-                //{
-                //    if (item.Type != "Attorney")
-                //        continue;
-                //    string subject = "Your Records Are Available";
-                //    string Sendto = item.Email;
-
-                //    System.Text.StringBuilder body = new System.Text.StringBuilder();
-                //    using (System.IO.StreamReader reader = new System.IO.StreamReader(HttpContext.Current.Server.MapPath("~/MailTemplate/BillingRecords.html")))
-                //    {
-                //        body.Append(reader.ReadToEnd());
-                //    }
-
-                //    body = body.Replace("{UserName}", "Hello " + item.FirstName.Trim() + " " + item.LastName.Trim() + ",");
-                //    body = body.Replace("{LOCATION}", LocationName + " (" + Location + ")");
-                //    body = body.Replace("{PATIENT}", Patient);
-                //    body = body.Replace("{CLAIMNO}", Convert.ToString(OrderDetail[0].BillingClaimNo));
-                //    body = body.Replace("{ORDERNO}", OrderNumber + "-" + PartNumber);
-                //    body = body.Replace("{InvHdr}", Convert.ToString(OrderDetail[0].InvHdr));
-                //    body = body.Replace("{Pages}", Convert.ToString(OrderDetail[0].Pages));
-                //    body = body.Replace("{LINK}", "o=" + OrderNumber + "&p=" + PartNumber);
-
-                //    // EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "j.alspaugh@axiomcopy.com", "tejas.p@cementdigital.com");
-                //    EmailHelper.Email.Send(item.Email, body.ToString(),subject, "tejaspadia@gmail.com", "");
-                //}
-                //foreach (var item in result)
-                //{
-                //    if (item.Type == "Attorney")
-                //        continue;
-                //    string subject = "Your Records Are Available";
-                //    string Sendto = item.Email;
-
-                //    System.Text.StringBuilder body = new System.Text.StringBuilder();
-                //    using (System.IO.StreamReader reader = new System.IO.StreamReader(HttpContext.Current.Server.MapPath("~/MailTemplate/BillingRecords.html")))
-                //    {
-                //        body.Append(reader.ReadToEnd());
-                //    }
-
-                //    body = body.Replace("{UserName}", "Hello " + item.FirstName.Trim() + " " + item.LastName.Trim() + ",");
-                //    body = body.Replace("{LOCATION}", LocationName + " (" + Location + ")");
-                //    body = body.Replace("{PATIENT}", Patient);
-                //    body = body.Replace("{CLAIMNO}", Convert.ToString(OrderDetail[0].BillingClaimNo));
-                //    body = body.Replace("{ORDERNO}", OrderNumber + "-" + PartNumber);
-                //    body = body.Replace("{InvHdr}", Convert.ToString(OrderDetail[0].InvHdr));
-                //    body = body.Replace("{Pages}", Convert.ToString(OrderDetail[0].Pages));
-                //    body = body.Replace("{LINK}", "o=" + OrderNumber + "&p=" + PartNumber);
-
-                //    // EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "j.alspaugh@axiomcopy.com", "tejas.p@cementdigital.com");
-                //    EmailHelper.Email.Send(item.Email, body.ToString(), subject, "tejaspadia@gmail.com", "");
-                //}
-                #endregion
-
-
                 response.Success = true;
                 response.Data = result;
             }
@@ -593,7 +537,7 @@ namespace Axiom.Web.API
                 {
                     foreach (GenerateInvoiceEntity item in result)
                     {
-                        string subject = "Billing Proposal";
+                        string subject = "Billing Proposal " + Convert.ToString(OrderNo);
                         string body = string.Empty;
                         using (System.IO.StreamReader reader = new System.IO.StreamReader(HttpContext.Current.Server.MapPath("~/MailTemplate/WaiverBillingProposal.html")))
                         {
@@ -646,25 +590,12 @@ namespace Axiom.Web.API
                         string strAmount = item.TotalAmountForPatientAtty.ToString();
                         string WaiverID = string.Empty;
 
-                        string strApproveLink, strNotApprovedLink, strEditScopeLink, strQueryString;
-                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + item.LocationName.Replace(',', ' ') + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + PartNo.ToString() + "," + AttorneyNm;
+                        string strApproveLink, strNotApprovedLink, strEditScopeLink, strQueryString;                        
+                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + item.LocationName.Replace(',', ' ') + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + PartNo.ToString() + "," + AttorneyNm + "," + item.WaiverAttyID;
                         strApproveLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                         strNotApprovedLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                         strEditScopeLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
 
-                        // FOR LOCAL MACHINE
-                        //body = body.Replace("{YESLINK}", "http://localhost:51617/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
-                        //body = body.Replace("{NOLINK}", "http://localhost:51617/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
-
-
-                        // FOR DEMO SITE
-                        //body = body.Replace("{YESLINK}", "http://192.168.0.22:8080/Clients/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
-                        //body = body.Replace("{NOLINK}", "http://192.168.0.22:8080/Clients/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
-
-
-                        // FOR LIVE SITE
-                        //body = body.Replace("{YESLINK}", "https://www.axiomcopyonline.com/Clients/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
-                        //body = body.Replace("{NOLINK}", "https://www.axiomcopyonline.com/Clients/WaiverBilling.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
 
                         string BaseLink = objCompany.SiteURL + "BillingProposal?type=";
 
@@ -679,7 +610,7 @@ namespace Axiom.Web.API
                         }
                         item.Email = item.Email.Trim(',');
 
-                        EmailHelper.Email.Send(item.Email, body, subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com.com");
+                        EmailHelper.Email.Send(item.Email, body, subject, ccMail: "autharchive@axiomcopy.com", bccMail: "tejaspadia@gmail.com");
 
                         //AxiomEmail.SendMailBilling(subject, body, "sejal.k@shaligraminfotech.com", true, "AxiomSupport@axiomcopy.com", null, "");
                         // AxiomEmail.SendMailBilling(subject, body, waiver.Email.ToString(), true, "AxiomSupport@axiomcopy.com", null, "tejaspadia@gmail.com,autoemail@axiomcopy.com");

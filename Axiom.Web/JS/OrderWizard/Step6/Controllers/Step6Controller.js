@@ -862,7 +862,6 @@
             },
             "fnDrawCallback": function () {
 
-
             },
             "fnCreatedRow": function (nRow, aData, iDataIndex) {
 

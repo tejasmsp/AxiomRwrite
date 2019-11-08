@@ -57,7 +57,7 @@ namespace Axiom.Web.API
                 {
                     if (item.Type != "Attorney")
                         continue;
-                    string subject = "Your Records Are Available";
+                    string subject = "Your Records Are Available  " + OrderNumber + "-" + PartNumber;
                     string Sendto = item.Email;
 
                     System.Text.StringBuilder body = new System.Text.StringBuilder();
@@ -88,7 +88,7 @@ namespace Axiom.Web.API
                 {
                     if (item.Type == "Attorney")
                         continue;
-                    string subject = "Your Records Are Available";
+                    string subject = "Your Records Are Available  " + OrderNumber + "-" + PartNumber;
                     string Sendto = item.Email;
 
                     System.Text.StringBuilder body = new System.Text.StringBuilder();

@@ -92,11 +92,13 @@
     };
 
     $scope.GetCompanyDetails = function (OrderId) { //Header Detail
+        
         var promise = OrderDetailMasterService.GetOrderCompanyDetail(OrderId);
         promise.success(function (response) {
             if (response.Data.length > 0) {
                 $scope.CompanyDetailobj = response.Data[0];
                 if ($scope.CompanyDetailobj.CompanyNo != $rootScope.CompanyNo) {
+                    debugger;
                     alert("item not found.")
                     $state.go("OrderList");
                 }

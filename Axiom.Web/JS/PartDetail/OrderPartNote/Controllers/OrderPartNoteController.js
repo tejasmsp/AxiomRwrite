@@ -13,6 +13,25 @@
     $scope.$on('resetPartNotesPopupDetails', resetPartNotesDetailPopup);
     //#region Event
 
+
+    $scope.PrintNote = function () {
+        console.log($scope.PartNoteList);
+        var printContents;
+        printContents = "<div style='font-family: monospace;'>"
+        printContents += "Notes for Order No : " + $scope.OrderId + "-" + $scope.PartNo;
+        printContents += "</br></br>";
+        angular.forEach($scope.PartNoteList, function (value, key) {
+            debugger;
+            printContents = printContents + value.Note + "</br>";
+            printContents = printContents + "<b>" + $filter('date')(value.DtsInserted, "MMM dd yyyy hh:mm:ss a")  + " - " + value.FirstName + " " + value.LastName + "</b></br>";
+            printContents = printContents + "</br>";
+        });
+        printContents = printContents + "</div>";
+        var popupWin = window.open('', '_blank', 'width=600,height=500');
+        popupWin.document.open();
+        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+        popupWin.document.close();
+    };
     $scope.GetOrderPartNotes = function () {
 
         var promise = OrderNoteService.GetOrderNotes($scope.OrderId, $scope.PartNo);

@@ -1029,6 +1029,8 @@
       <DependentUpon>DsInvoice.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\charcount\angular-character-count.css" />
+    <Content Include="Scripts\charcount\angular-character-count.js" />
     <Content Include="Scripts\dataTables.tableTools.js" />
     <Content Include="Scripts\forms\selects\bootstrap_multiselect.js" />
     <Content Include="Scripts\forms\styling\components_modals.js" />
@@ -1268,7 +1270,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49816</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8087/</IISUrl>
+          <IISUrl>http://localhost:8086/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

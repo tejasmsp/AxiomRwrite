@@ -103,18 +103,18 @@
                                                 <table style="width:100%">
                                                     <tr style="width:100%" ng-repeat="InvoiceFeesDetailItem in InvoiceFeesDetail | filter:{ ItemNo: InvoiceFeesItem.ItemNo }">
                                                         <td align="left">
-                                                            <span ng-show="InvoiceFeesDetailItem.FeeValue <= 0">
+                                                            <span ng-if="InvoiceFeesDetailItem.FeeValue <= 0">
                                                                 {{InvoiceFeesDetailItem.Pages}} Page @@ {{InvoiceFeesDetailItem.OrigRate > 0 ? InvoiceFeesDetailItem.OrigRate : InvoiceFeesDetailItem.CopyRate}}
                                                             </span>
-                                                            <span ng-show="InvoiceFeesDetailItem.FeeValue > 0">
+                                                            <span ng-if="InvoiceFeesDetailItem.FeeValue > 0">
                                                                 {{InvoiceFeesDetailItem.FeeName}}
                                                             </span>
                                                         </td>
                                                         <td align="right">
-                                                            <span ng-show="InvoiceFeesDetailItem.FeeValue <= 0">
+                                                            <span ng-if="InvoiceFeesDetailItem.FeeValue <= 0">
                                                                 {{(InvoiceFeesDetailItem.OrigRate) > 0 ? (InvoiceFeesDetailItem.OrigRate * InvoiceFeesDetailItem.Pages  | number:2) : (InvoiceFeesDetailItem.CopyRate * InvoiceFeesDetailItem.Pages  | number:2)}}
                                                             </span>
-                                                            <span ng-show="InvoiceFeesDetailItem.FeeValue > 0">
+                                                            <span ng-if="InvoiceFeesDetailItem.FeeValue > 0">
                                                                 {{InvoiceFeesDetailItem.FeeValue  | number:2}}
                                                             </span>
                                                         </td>

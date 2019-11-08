@@ -708,7 +708,24 @@ namespace Axiom.Web.API
             {
 
                 var objFile = file.Name.Split('_');
-                if (objFile.Length > 0 && objFile[1] == batchId && objFile[2] == fileName)
+                string objFileName = string.Empty;
+                if (objFile.Length > 3)
+                {
+                    for (int i = 0; i < objFile.Length; i++)
+                    {
+                        if (i > 1)
+                        {
+                            objFileName += objFile[i] + "_";
+                        }
+                    }
+                    objFileName = objFileName.Trim('_');
+                }
+                else
+                {
+                    objFileName = objFile[2];
+                }
+
+                if (objFile.Length > 0 && objFile[1] == batchId && objFileName == fileName)
                 {
 
                     string fileDiskName = Guid.NewGuid().ToString() + file.Extension;

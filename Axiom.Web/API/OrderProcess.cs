@@ -101,7 +101,7 @@ namespace Axiom.Web.API
                                             string attachmentPath = AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/GuideLine.PNG";
                                             Attachment inline = new Attachment(attachmentPath);
                                             lst.Add(inline);
-                                            Email.SendMailWithAttachment(EmailID, body.ToString(), "Sign Document", null, lst, "", "tejaspadia@gmail.com");
+                                            Email.SendMailWithAttachment(EmailID, body.ToString(), "Sign Document", null, lst, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
                                         }
                                         catch (Exception ex)
                                         {
@@ -468,8 +468,18 @@ namespace Axiom.Web.API
                             {
                                 attchmentFileList.Add("EditOrderSummary.html");
                             }
+                            string subject = string.Empty;
+                            subject = isNewOrder ? "New Order Summary " : "Edit Order Summary ";
+                            subject = subject + Convert.ToString(OrderId);
+                            // EmailHelper.Email.SendMailWithAttachment(userEmail, strBody.ToString(), isNewOrder ? "New Order Summary" : "Edit Order Summary", attchmentFileList, attachmentList, "", "");
+                            EmailHelper.Email.SendMailWithAttachment(userEmail, strBody.ToString(), subject, attchmentFileList, attachmentList, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
+                            //string illegal = "[^a-zA-Z0-9.-]";
+                            //Regex reg = new Regex(illegal);
+                            //string recsOf = NormalizeLength(data.PatientName, 60);
+                            //recsOf = reg.Replace(recsOf, "_");
 
-                            EmailHelper.Email.SendMailWithAttachment(userEmail, strBody.ToString(), isNewOrder ? "New Order Summary" : "Edit Order Summary", attchmentFileList, attachmentList, "", "");
+
+                            // EmailHelper.Email.SendMailWithAttachment(userEmail, strBody.ToString(), isNewOrder ? "New Order Summary" : "Edit Order Summary", attchmentFileList, attachmentList, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
                             //string illegal = "[^a-zA-Z0-9.-]";
                             //Regex reg = new Regex(illegal);
                             //string recsOf = NormalizeLength(data.PatientName, 60);

@@ -106,7 +106,7 @@ namespace Axiom.Web.Controllers
 
             CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
 
-            string subject = "Proposal Fees Request Status";
+            string subject = "Proposal Fees Request Status " + Convert.ToString(model.orderno) + "-" + Convert.ToString(model.part);
             string body = string.Empty;
             using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/ProposalFeesReply.html"))
             {
@@ -128,8 +128,7 @@ namespace Axiom.Web.Controllers
             body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
             body = body.Replace("{CompanyName}", objCompany.CompName);
             body = body.Replace("{Link}", objCompany.SiteURL);
-
-            EmailHelper.Email.Send(model.accExecutiveEmail, body, subject, "", "tejaspadia@gmail.com;autoemail@axiomcopy.com");
+            EmailHelper.Email.Send(model.accExecutiveEmail, body, subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
             var feeStatus = status ? 1 : 2;
             SqlParameter[] sqlparam = {  new SqlParameter("ProposalFeesID", (object)model.proposalFeesID ?? (object)DBNull.Value),
                                 new SqlParameter("FeesStatus", (object)feeStatus ?? (object)DBNull.Value),
@@ -152,7 +151,7 @@ namespace Axiom.Web.Controllers
 
                 CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
 
-                string subject = "Proposal Fees Request Status - Edit Scope";
+                string subject = "Proposal Fees Request Status - Edit Scope " + Convert.ToString(model.orderno) + "-" + Convert.ToString(model.part);
                 string body = string.Empty;
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/ProposalFeesReplyEditScope.html"))
                 {
@@ -173,7 +172,7 @@ namespace Axiom.Web.Controllers
                 body = body.Replace("{CompanyName}", objCompany.CompName);
                 body = body.Replace("{Link}", objCompany.SiteURL);
 
-                EmailHelper.Email.Send(model.accExecutiveEmail, body, subject, "", "tejaspadia@gmail.com;autoemail@axiomcopy.com");
+                EmailHelper.Email.Send(model.accExecutiveEmail, body, subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
 
                 SqlParameter[] saveparam = {  new SqlParameter("ProposalFeesID", (object)model.proposalFeesID ?? (object)DBNull.Value),
                                 new SqlParameter("FeesStatus", (object)3 ?? (object)DBNull.Value),

@@ -110,7 +110,8 @@ namespace Axiom.Web
                    "~/Scripts/angular-sanitize.js",
                    "~/Scripts/angucomplete-alt.min.js",
                    "~/Scripts/loadash.min.js",
-                   "~/Scripts/switch/angular-ui-switch.js"
+                   "~/Scripts/switch/angular-ui-switch.js",
+                   "~/Scripts/charcount/angular-character-count.js"
                    )
                    );
 

@@ -34,11 +34,11 @@ namespace QuickFormService
             Log.ServicLog("Duration Time :  " + ConfigurationManager.AppSettings["Duration"].ToString() + " min");
             InitializeComponent();
 
-            //serviceTimer = new Timer();
-            //serviceTimer.Elapsed += serviceTimer_Elapsed;
-            //serviceTimer.Interval = Convert.ToDouble(ConfigurationManager.AppSettings["Duration"].ToString()) * 60 * 1000;
-            //serviceTimer.Enabled = true;
-            //serviceTimer.Start();
+            serviceTimer = new Timer();
+            serviceTimer.Elapsed += serviceTimer_Elapsed;
+            serviceTimer.Interval = Convert.ToDouble(ConfigurationManager.AppSettings["Duration"].ToString()) * 60 * 1000;
+            serviceTimer.Enabled = true;
+            serviceTimer.Start();
 
             InitializeComponent();
         }
