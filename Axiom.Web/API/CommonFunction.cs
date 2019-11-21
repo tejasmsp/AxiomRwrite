@@ -34,5 +34,30 @@ namespace Axiom.Web
             }
         }
 
+
+        public static CompanyDetailForEmailEntity CompanyDetailForEmailByOrderNo(string OrderNo)
+        {
+            CompanyDetailForEmailEntity result = new CompanyDetailForEmailEntity();
+            try
+            {
+
+
+                SqlParameter[] param = { new SqlParameter("OrderNo", (object)OrderNo ?? (object)DBNull.Value) };
+
+                result = _repository.ExecuteSQL<CompanyDetailForEmailEntity>("CompanyDetailForEmailByOrderNo", param).FirstOrDefault();
+
+                if (result == null)
+                {
+                    result = new CompanyDetailForEmailEntity();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            return result ;
+        }
+
     }
 }

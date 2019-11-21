@@ -532,8 +532,12 @@ namespace Axiom.Web.API
                 htmlBody.Replace("{CompanyName}", objCompany.CompName);
                 htmlBody.Replace("{Link}", objCompany.SiteURL);
 
-                //AxiomEmail.SendMailBilling("Cancel Part Reqeust", htmlBody.ToString(), accExecutiveEmail, true, "axiomsupport@axiomcopy.com", null, "tejaspadia@gmail.com,autoemail");
-                Email.Send(accExecutiveEmail, htmlBody.ToString(), "Cancel Part Reqeust", "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
+                Email.Send(CompanyNo: objCompany.CompNo
+                    ,mailTo: accExecutiveEmail
+                    ,body: htmlBody.ToString()
+                    ,subject: "Cancel Part Reqeust"
+                    ,ccMail: ""
+                    ,bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                 
                 response.Success = true;
             }

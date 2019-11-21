@@ -199,5 +199,9 @@ namespace Axiom.Entity
         public bool DocPreference { get; set; }
         public string Comment { get; set; }
         public string AttyID { get; set; }
+
+        public string CompanyNo { get; set; }
+        public string LogoPath { get; set; }
+        public string CompanyName { get; set; }
     }
 }

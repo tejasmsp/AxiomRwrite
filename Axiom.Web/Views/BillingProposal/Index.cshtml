@@ -10,13 +10,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXIOM- Billing Proposal</title>
+    @if (Model.CompanyNo == "6")
+    {<title>Legal Eagle - Billing Proposal</title> }
+    else
+    { <title>Axiom - Billing Proposal</title>}
+    
     @Styles.Render("~/Content/css")
 </head>
 <body>
     <div class="navbar navbar-inverse fixed">
         <div class="navbar-header">
-            <a class="navbar-brand" href="index.html"><img src="@ProjectSession.CompanyUserDetail.ImagePath" alt=""></a>
+            <a class="navbar-brand" href="index.html"><img src="@Model.LogoPath" alt=""></a>
             <ul class="nav navbar-nav pull-right visible-xs-block">
                 <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
             </ul>
@@ -88,12 +92,19 @@
         </div>
     }
     <div class="footer text-muted text-center">
-        &copy; @DateTime.Today.Year <a href="#">Axiom</a>, All Rights Reserved.
+        &copy; @DateTime.Today.Year <a href="#">@Model.CompanyName</a>, All Rights Reserved.
     </div>
 </body>
 </html>
 <script type="text/javascript" lang="ja">
-    
+    (function () {
+        var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        link.href = 'LegalEagle/favicon.ico';
+        // link.href = 'favicon.ico';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    })();    
 </script>
 <style type="text/css">
     .colorGreen {

@@ -1081,30 +1081,37 @@ namespace Axiom.Web.API
 
                     clonedRow.Cells[2].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[2].FirstParagraph);
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
                     builder.Write(item.InvoiceAmount.ToString());
 
                     clonedRow.Cells[3].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[3].FirstParagraph);
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
                     builder.Write(item.PaidAmount.ToString());
 
                     clonedRow.Cells[4].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[4].FirstParagraph);
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
                     builder.Write(item.ThirtyDaysAmount.ToString());
 
                     clonedRow.Cells[5].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[5].FirstParagraph);
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
                     builder.Write(item.SixtyDaysAmount.ToString());
 
                     clonedRow.Cells[6].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[6].FirstParagraph);
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
                     builder.Write(item.NintyDaysAmount.ToString());
 
                     clonedRow.Cells[7].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[7].FirstParagraph);
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
                     builder.Write(item.NintyPlysDaysAmount.ToString());
 
                     clonedRow.Cells[8].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[8].FirstParagraph);
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
                     builder.Write(item.TotalPending.ToString());
 
 
@@ -1199,14 +1206,17 @@ namespace Axiom.Web.API
 
                 clonedRow.Cells[2].FirstParagraph.ChildNodes.Clear();
                 builder.MoveTo(clonedRow.Cells[2].FirstParagraph);
+                builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
                 builder.Write(item.InvoiceAmount.ToString());
 
                 clonedRow.Cells[3].FirstParagraph.ChildNodes.Clear();
                 builder.MoveTo(clonedRow.Cells[3].FirstParagraph);
+                builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
                 builder.Write(item.PaidAmount.ToString());
 
                 clonedRow.Cells[4].FirstParagraph.ChildNodes.Clear();
                 builder.MoveTo(clonedRow.Cells[4].FirstParagraph);
+                builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
                 builder.Write(item.Balance.ToString());
 
                 clonedRow.Cells[5].FirstParagraph.ChildNodes.Clear();

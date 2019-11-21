@@ -113,7 +113,13 @@ namespace Axiom.Web.API
                     body = body.Replace("{Link}", objCompany.SiteURL);
 
                     string subject = "Welcome To " + objCompany.CompName;
-                    EmailHelper.Email.Send(model.Email, body.ToString(), subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
+                    EmailHelper.Email.Send(
+                            CompanyNo: objCompany.CompNo
+                            ,mailTo: model.Email
+                            ,body: body.ToString()
+                            ,subject: subject
+                            ,ccMail: ""
+                            , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
                     
                 }

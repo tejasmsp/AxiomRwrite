@@ -101,7 +101,14 @@ namespace Axiom.Web.API
                                             string attachmentPath = AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/GuideLine.PNG";
                                             Attachment inline = new Attachment(attachmentPath);
                                             lst.Add(inline);
-                                            Email.SendMailWithAttachment(EmailID, body.ToString(), "Sign Document", null, lst, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
+                                            Email.SendMailWithAttachment(CompanyNo: objCompany.CompNo
+                                                , mailTo: EmailID
+                                                , bodyTemplate: body.ToString()
+                                                , subject: "Sign Document"
+                                                , attachmentFilename: null
+                                                , lstAttachment: lst
+                                                , ccMail: ""
+                                                , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                                         }
                                         catch (Exception ex)
                                         {
@@ -129,7 +136,7 @@ namespace Axiom.Web.API
                 SqlParameter[] param = { new SqlParameter("OrderID", (object)OrderId ?? (object)DBNull.Value) };
                 var result = _repository.ExecuteSQL<OrderDetailEntity>("GetOrderDetails", param).ToList();
 
-                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);                
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
 
                 if (result != null && result.Count > 0)
                 {
@@ -471,19 +478,16 @@ namespace Axiom.Web.API
                             string subject = string.Empty;
                             subject = isNewOrder ? "New Order Summary " : "Edit Order Summary ";
                             subject = subject + Convert.ToString(OrderId);
-                            // EmailHelper.Email.SendMailWithAttachment(userEmail, strBody.ToString(), isNewOrder ? "New Order Summary" : "Edit Order Summary", attchmentFileList, attachmentList, "", "");
-                            EmailHelper.Email.SendMailWithAttachment(userEmail, strBody.ToString(), subject, attchmentFileList, attachmentList, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
-                            //string illegal = "[^a-zA-Z0-9.-]";
-                            //Regex reg = new Regex(illegal);
-                            //string recsOf = NormalizeLength(data.PatientName, 60);
-                            //recsOf = reg.Replace(recsOf, "_");
 
+                            EmailHelper.Email.SendMailWithAttachment(CompanyNo: objCompany.CompNo
+                                , mailTo: userEmail
+                                , bodyTemplate: strBody.ToString()
+                                , subject: subject
+                                , attachmentFilename: attchmentFileList
+                                , lstAttachment: attachmentList
+                                , ccMail: ""
+                                , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
-                            // EmailHelper.Email.SendMailWithAttachment(userEmail, strBody.ToString(), isNewOrder ? "New Order Summary" : "Edit Order Summary", attchmentFileList, attachmentList, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
-                            //string illegal = "[^a-zA-Z0-9.-]";
-                            //Regex reg = new Regex(illegal);
-                            //string recsOf = NormalizeLength(data.PatientName, 60);
-                            //recsOf = reg.Replace(recsOf, "_");
 
                             w.Dispose();
                             ms.Dispose();
@@ -518,6 +522,8 @@ namespace Axiom.Web.API
 
         public async Task AddQuickformsForNewOrder(int OrderNo, bool isEditOrder = false, bool isNewAddedPart = false, string partNumberCSV = "")
         {
+            CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmailByOrderNo(OrderNo.ToString());
+
             await Task.Run(() =>
             {
                 try
@@ -1368,11 +1374,16 @@ namespace Axiom.Web.API
                                                 string body = "We have not found Email for " + OrderNo + "-" + part.PartNo;
                                                 body += "\n Location ID : " + location.LocID;
                                                 body += "\n Location Name : " + location.Name1 + " " + location.Name2;
-                                                EmailHelper.Email.Send("j.alspaugh@axiomcopy.com", body, subject, "tejaspadia@gmail.com", "");
+                                                EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                                    , mailTo: "j.alspaugh@axiomcopy.com"
+                                                    , body: body
+                                                    , subject: subject
+                                                    , ccMail: "tejaspadia@gmail.com"
+                                                    , bccMail: "");
                                             }
                                             else
                                             {
-                                                EmailDocument(doc, fileNames, emailToPatientAtty, location.Email, orderConfirmEmails, msFile, ed, additionalEmail, true, pdfDocName);
+                                                EmailDocument(objCompany.CompNo, doc, fileNames, emailToPatientAtty, location.Email, orderConfirmEmails, msFile, ed, additionalEmail, true, pdfDocName);
                                                 string partNotes = string.Empty;
                                                 CreateNoteString(OrderNo, part.PartNo, "Input or Sent via Email.", "SYSTEM", ref partNotes, false, false);
                                             }
@@ -1387,7 +1398,12 @@ namespace Axiom.Web.API
                                                 string body = "We have not found Fax Number for " + OrderNo + "-" + part.PartNo;
                                                 body += "\n Location ID : " + location.LocID;
                                                 body += "\n Location Name : " + location.Name1 + " " + location.Name2;
-                                                EmailHelper.Email.Send("j.alspaugh@axiomcopy.com", body, subject, "tejaspadia@gmail.com", "");
+                                                EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                                    , mailTo: "j.alspaugh@axiomcopy.com"
+                                                    , body: body
+                                                    , subject: subject
+                                                    , ccMail: "tejaspadia@gmail.com"
+                                                    , bccMail: "");
                                             }
                                             else
                                             {
@@ -1637,6 +1653,32 @@ namespace Axiom.Web.API
                         }
                     }
 
+                    // SEND AUTHORIZATION TO PATIENT ATTORNEY
+
+                    MemoryStream[] msFileAuth = new MemoryStream[20];
+                    List<string> fileNamesAuth = new List<string>();
+                    GetCreateAuthorization(OrderNo, ref fileNamesAuth, ref msFileAuth);
+
+                    if (!string.IsNullOrEmpty(emailToPatientAtty))
+                    {
+                        try
+                        {
+                            EmailDetails ed = new EmailDetails();
+                            ed.Caption = objOrderDetail.Caption;
+                            ed.CauseNumber = objOrderDetail.CauseNo;
+                            ed.PatientName = objOrderDetail.PatientName;
+                            string OrderAttorney = objOrderDetail.OrderingAttorney;
+                            string acctrep = objOrderDetail.AcctRep;
+                            var pdfDocName = OrderNo + ".pdf";
+                            Aspose.Words.Document doc = new Aspose.Words.Document();
+                            EmailDocument(objCompany.CompNo, doc, fileNamesAuth, emailToPatientAtty, "", "", msFileAuth, ed, "", true, pdfDocName);
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -1858,6 +1900,48 @@ namespace Axiom.Web.API
                 Log.ServicLog(ex.ToString());
             }
         }
+
+        private void GetCreateAuthorization(int OrderNo, ref List<string> AttachFileName, ref MemoryStream[] msFile)
+        {
+            try
+            {
+                SqlParameter[] Sqlorderparam = { new SqlParameter("OrderNumber", (object)OrderNo ?? (object)DBNull.Value)};
+                var attachedFileList = _repository.ExecuteSQL<QuickFormDocumentAttachmentListEntity>("GetCreateAuthorizationByOrderNo", Sqlorderparam).ToList();
+                if (attachedFileList != null && attachedFileList.Count > 0)
+                {
+                    int counter = AttachFileName.Count();
+                    string uploadRoot = Path.Combine(ConfigurationManager.AppSettings["UploadRoot"].ToString());
+                    foreach (var item in attachedFileList)
+                    {
+                        string finalPath = "";
+                        int partNo = item.PartNo;
+                        if (partNo <= 0)
+                            finalPath = string.Format(@"{0}{1}\{2}", uploadRoot, OrderNo, item.FileDiskName);
+                        else
+                            finalPath = string.Format(@"{0}{1}\{2}\{3}", uploadRoot, OrderNo, partNo.ToString(), item.FileDiskName);
+                        if (File.Exists(finalPath))
+                        {
+                            using (FileStream fstream = File.OpenRead(finalPath))
+                            {
+                                MemoryStream mstream = new MemoryStream();
+                                mstream.SetLength(fstream.Length);
+                                fstream.Read(mstream.GetBuffer(), 0, (int)fstream.Length);
+                                mstream.Position = 0L;
+                                msFile[counter] = mstream;
+                                AttachFileName.Add(item.FileName);
+                                counter++;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.ServicLog(ex.ToString());
+            }
+
+        }
+
         private void GetAttachFileFromDB(int OrderNo, int partno, ref List<string> AttachFileName, ref MemoryStream[] msFile)
         {
             try
@@ -1899,12 +1983,14 @@ namespace Axiom.Web.API
             }
 
         }
-        private void EmailDocument(Aspose.Words.Document doc, List<string> fileName, string attyEmail, string locationEmail, string orderConfirmEmails, MemoryStream[] msList, EmailDetails ed, string additionalEmail, bool isMultiple, string MargeFileName)
+        private void EmailDocument(int CompanyNo, Aspose.Words.Document doc, List<string> fileName, string attyEmail, string locationEmail, string orderConfirmEmails, MemoryStream[] msList, EmailDetails ed, string additionalEmail, bool isMultiple, string MargeFileName)
         {
             try
             {
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
+
                 string body = string.Empty;
-                string template = AppDomain.CurrentDomain.BaseDirectory + "/Templates/AuthorizationEmail.html";
+                string template = AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/AuthorizationEmail.html";
                 using (StreamReader reader = new StreamReader((template)))
                 {
                     body = reader.ReadToEnd();
@@ -1913,6 +1999,7 @@ namespace Axiom.Web.API
                 body = body.Replace("{PATIENTNAME}", ed.PatientName);
                 body = body.Replace("{EXNAME}", ed.AccExeName);
                 body = body.Replace("{EXEMAIL}", ed.AccExeEmail);
+                body = body.Replace("{LogoURL}", objCompany.Logopath);
 
                 string subject = string.IsNullOrEmpty(ed.Caption) ? "Quick Forms Document" : ed.Caption;
                 string emailTo = "";
@@ -1925,7 +2012,7 @@ namespace Axiom.Web.API
                     emailTo += orderConfirmEmails + ",";
                 }
                 emailTo += locationEmail; //Location Email
-                OrderProcessSendMail(fileName, subject, body, emailTo, true, isMultiple, msList, "", additionalEmail, MargeFileName);
+                OrderProcessSendMail(CompanyNo, fileName, subject, body, emailTo, true, isMultiple, msList, "tejaspadia@gmail.com,autharchive@axiomcopy.com", additionalEmail, MargeFileName);
             }
             catch (Exception ex)
             {
@@ -1934,7 +2021,7 @@ namespace Axiom.Web.API
         }
 
 
-        private void OrderProcessSendMail(List<string> fileName, string subject, string body, string SendTo, bool isHTMl, bool isMultiple, System.IO.MemoryStream[] attachments = null, string bcc = "", string cc = "", string MergeFileName = "")
+        private void OrderProcessSendMail(int CompanyNo, List<string> fileName, string subject, string body, string SendTo, bool isHTMl, bool isMultiple, System.IO.MemoryStream[] attachments = null, string bcc = "", string cc = "", string MergeFileName = "")
         {
             string QAEmail = Convert.ToString(ConfigurationManager.AppSettings["QAEmail"]);
             bool isQATesting = Convert.ToBoolean(ConfigurationManager.AppSettings["isQATesting"]);
@@ -1943,7 +2030,9 @@ namespace Axiom.Web.API
             try
             {
                 MailMessage mm = new MailMessage();
-                SmtpClient smtp = Email.GetSMTP();
+                // SmtpClient smtp = Email.GetSMTP();
+                SmtpClient smtp = Email.GetSMTPByCompany(CompanyNo);
+
                 mm.Body = body;
 
                 if (isQATesting)
@@ -1961,35 +2050,49 @@ namespace Axiom.Web.API
                         SendTo = Axiom.Common.CommonHelper.EmailString(SendTo);
                         if (!string.IsNullOrEmpty(SendTo))
                         {
-                            mm.To.Add(SendTo);
+
+                            if (!string.IsNullOrEmpty(SendTo))
+                            {
+                                string[] toid = SendTo.Split(';', ',');
+
+                                foreach (string toEmailId in toid)
+                                {
+                                    if (!string.IsNullOrEmpty(toEmailId))
+                                    {
+                                        mm.To.Add(new MailAddress(toEmailId));
+                                    }
+                                }
+                            }
                         }
-
-
-                        //string[] toEmail = SendTo.Split(',').Select(x => x.Trim()).Distinct().ToArray();
-                        //foreach (var email in toEmail)
-                        //{
-                        //    mm.To.Add(email);
-                        //}
                     }
                 }
-
-                bcc = "tejaspadia@gmail.com";
-
 
                 mm.IsBodyHtml = isHTMl;
 
                 if (!string.IsNullOrEmpty(bcc))
                 {
-                    mm.Bcc.Add(bcc);
-                }
-                if (!string.IsNullOrEmpty(cc))
-                {
-                    string[] ccEmail = cc.Split(',').Select(x => x.Trim()).Distinct().ToArray();
-                    foreach (var email in ccEmail)
+                    string[] bccid = bcc.Split(';', ',');
+                    foreach (string bccEmailId in bccid)
                     {
-                        mm.CC.Add(email);
+                        if (!string.IsNullOrEmpty(bccEmailId))
+                        {
+                            mm.Bcc.Add(new MailAddress(bccEmailId));
+                        }
                     }
                 }
+
+                if (!string.IsNullOrEmpty(cc))
+                {
+                    string[] ccid = cc.Split(';', ',');
+                    foreach (string ccEmailId in ccid)
+                    {
+                        if (!string.IsNullOrEmpty(ccEmailId))
+                        {
+                            mm.CC.Add(new MailAddress(ccEmailId));
+                        }
+                    }
+                }
+                
                 if (isMultiple == true)
                 {
                     int msCounter = 0;

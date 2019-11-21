@@ -2,9 +2,15 @@
 <html ng-app="AXIOM">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     @*<title>Axiom | @ViewBag.Title</title>*@
-    <title ng-cloak ng-bind="'Axiom | '+pageTitle"></title>
+    @if (ProjectSession.CompanyUserDetail.CompNo == 6)
+    {
+        <title ng-cloak ng-bind="'Legal Eagle | '+pageTitle"></title>}
+    else
+    {
+        <title ng-cloak ng-bind="'Axiom | '+pageTitle"></title>}
+
     <base href="/" />
 
     @Styles.Render("~/Content/css")
@@ -318,7 +324,7 @@
     <!-- /page container -->
     <!-- Footer -->
     <div class="footer text-muted">
-        &copy; @DateTime.Today.Year <a href="#">Axiom</a>, All Rights Reserved.
+        &copy; @DateTime.Today.Year <a href="#">@ProjectSession.CompanyUserDetail.CompName</a>, All Rights Reserved.
     </div>
 
 

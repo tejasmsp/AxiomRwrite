@@ -20,5 +20,8 @@ namespace Axiom.Web.Models
         public string Newpages { get; set; }
         public string Newamount { get; set; }
         public bool isUpdated { get; set; }
+        public string CompanyNo { get; set; }
+        public string LogoPath { get; set; }
+        public string CompanyName { get; set; }
     }
 }

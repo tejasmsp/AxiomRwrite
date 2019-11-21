@@ -175,7 +175,7 @@ namespace Axiom.Web.API
                     
 
                     string subject = "Welcome To " + objCompany.CompName;
-                    EmailHelper.Email.Send(model.Email, body.ToString(), subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
+                    EmailHelper.Email.Send(objCompany.CompNo,model.Email, body.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                 }
                 response.str_ResponseData = result;
                 response.Success = true;

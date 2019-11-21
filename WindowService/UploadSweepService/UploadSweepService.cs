@@ -395,6 +395,7 @@ namespace UploadSweepService
             int rcvdid = 0;
             int Pages = 0;
             dt = DbAccess.GetLastUploadedRecord("ServiceSweepGetLastUploadedRecord", orderno, partno);
+            DataTable dtAssistantContact = new DataTable();
             if (dt != null)
             {
                 if (dt.Rows.Count > 0)
@@ -405,6 +406,43 @@ namespace UploadSweepService
                         RecordType = Convert.ToInt32(dt.Rows[0]["RecType"]);
                         rcvdid = Convert.ToInt32(dt.Rows[0]["RcvdId"]);
                         Pages = Convert.ToInt32(dt.Rows[0]["Pages"]);
+                        
+                        var result = DbAccess.GetAssistContactEmailList("GetAssistContactEmailList", orderno, partno, FileTypeID, RecordType);
+                        List<CompanyDetailForEmailEntity> objCompany = DbAccess.CompanyDetailForEmail("CompanyDetailForEmailByOrderNo", orderno);
+                        
+
+                        string template = AppDomain.CurrentDomain.BaseDirectory + "MailTemplate\\BillingRecords.html";
+                        System.Text.StringBuilder body = new System.Text.StringBuilder();
+                        using (System.IO.StreamReader reader = new System.IO.StreamReader(template))
+                        {
+                            body.Append(reader.ReadToEnd());
+                        }
+                        string subject = "Your Records Are Available " + Convert.ToString(orderno) + "-" + Convert.ToString(partno);
+
+                        foreach (AssistContactEmail itemEmail in result.Where(x => x.NewRecordAvailable && !string.IsNullOrEmpty(x.AssistantEmail)))
+                        {
+                            try
+                            {
+                                body = body.Replace("{UserName}", "Hello " + itemEmail.AssistantName + ",");
+                                body = body.Replace("{LOCATION}", itemEmail.LocationName + " (" + itemEmail.LocID + ")");
+                                body = body.Replace("{PATIENT}", itemEmail.PatientName);
+                                body = body.Replace("{CLAIMNO}", itemEmail.BillingClaimNo);
+                                body = body.Replace("{ORDERNO}", Convert.ToString(orderno) + "-" + Convert.ToString(partno));
+                                body = body.Replace("{InvHdr}", itemEmail.InvHdr);
+                                body = body.Replace("{Pages}", Convert.ToString(Pages));
+                                body = body.Replace("{LINK}", Convert.ToString(objCompany[0].SiteURL) + "/PartDetail?OrderId=" + Convert.ToString(orderno) + "&PartNo=" + Convert.ToString(partno));
+                                body = body.Replace("{LogoURL}", objCompany[0].LogoPath);
+                                body = body.Replace("{ThankYou}", objCompany[0].ThankYouMessage);
+                                body = body.Replace("{CompanyName}", objCompany[0].CompName);
+                                
+
+                                EmailHelper.SendMail(itemEmail.AssistantEmail, body.ToString(), subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {

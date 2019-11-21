@@ -43,6 +43,7 @@ namespace Axiom.Entity
         public int CreatedBy { get; set; }
         public string SiteURL { get; set; }
         public string Style { get; set; }
+        public string AllowedURL { get; set; }
     }
     public class CompanyDetailForEmailEntity
     {

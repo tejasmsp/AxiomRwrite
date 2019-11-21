@@ -32,7 +32,7 @@ namespace Axiom.Web.API
         public ApiResponse<PrintInvoiceEmailBill> QuickFormGetRecords(string AttyID, string InvoiceNumber, string OrderNumber, string PartNumber, string Location, string LocationName, string Patient)
         {
             var response = new ApiResponse<PrintInvoiceEmailBill>();
-            
+
 
             try
             {
@@ -81,7 +81,13 @@ namespace Axiom.Web.API
                     body = body.Replace("{Link}", objCompany.SiteURL);
 
                     // EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "j.alspaugh@axiomcopy.com", "tejas.p@cementdigital.com");
-                    EmailHelper.Email.Send(mailTo:item.Email,body: body.ToString(),subject: subject,ccMail: "", bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
+                    EmailHelper.Email.Send(
+                                            CompanyNo: objCompany.CompNo
+                                            , mailTo: item.Email, body: body.ToString()
+                                            , subject: subject
+                                            , ccMail: ""
+                                            , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com"
+                                            );
                 }
 
                 foreach (var item in result)
@@ -112,7 +118,12 @@ namespace Axiom.Web.API
                     body = body.Replace("{Link}", objCompany.SiteURL);
 
                     // EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "j.alspaugh@axiomcopy.com", "tejas.p@cementdigital.com");
-                    EmailHelper.Email.Send(item.Email, body.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
+                    EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                            ,mailTo: item.Email
+                                            ,body: body.ToString()
+                                            ,subject: subject
+                                            ,ccMail: ""
+                                            ,bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                 }
 
                 response.Success = true;
@@ -131,7 +142,7 @@ namespace Axiom.Web.API
         {
             var response = new ApiResponse<InvMsgEntity>();
             try
-            {           
+            {
                 var result = _repository.ExecuteSQL<InvMsgEntity>("GetInvMsg").ToList();
 
                 if (result == null)
@@ -142,7 +153,7 @@ namespace Axiom.Web.API
                 {
                     response.Data = result;
                 }
-                response.Success = true;                
+                response.Success = true;
             }
             catch (Exception ex)
             {
@@ -151,5 +162,5 @@ namespace Axiom.Web.API
             return response;
         }
 
-    }    
+    }
 }

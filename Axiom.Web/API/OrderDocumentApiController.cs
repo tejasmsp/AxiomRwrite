@@ -243,6 +243,7 @@ namespace Axiom.Web.API
         public BaseApiResponse UploadDocument(int CompanyNo)
         {
             var response = new BaseApiResponse();
+            int FileversionID=0;
             try
             {
                 var modal = HttpContext.Current.Request.Form[0];
@@ -289,6 +290,19 @@ namespace Axiom.Web.API
                     Directory.CreateDirectory(tempFullPath);
                 }
                 Guid CreatedByGUID = new Guid(data["CreatedBy"].ToString());
+                int RecordTypeID = 0;
+
+                try
+                {
+                    RecordTypeID = Convert.ToInt32(data["RecordTypeId"]);
+                }
+                catch (Exception Ex)
+                {
+
+                }
+
+
+
                 if (HttpContext.Current.Request.Files.AllKeys.Any())
                 {
                     for (int i = 0; i < HttpContext.Current.Request.Files.Count; i++)
@@ -317,9 +331,11 @@ namespace Axiom.Web.API
                                                  ,new SqlParameter("FileDiskName", (object)FileDiskName ?? (object)DBNull.Value)
                                                  ,new SqlParameter("PageNo", (object)Convert.ToInt32(data["PageNo"]) ?? (object)DBNull.Value)
                                                  ,new SqlParameter("CreatedBy", (object)CreatedByGUID?? (object)DBNull.Value)
-                                                 };
+                        };
+
                         var result = _repository.ExecuteSQL<int>("InsertFile", param).FirstOrDefault();
-                        if (result == 1)
+                        FileversionID = result;
+                        if (result > 0)
                         {
                             FileDiskName = fDiskName;
                             FileExtension = fileType;
@@ -455,7 +471,7 @@ namespace Axiom.Web.API
                             soldAttorneyList.Add(new SoldAttorneyEntity { AttyId = item.AttyId, AttyType = "Ordering" });
                         }
 
-                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList);
+                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList,RecordTypeID, FileversionID);
 
                     }
                     catch (Exception ex)
@@ -500,7 +516,7 @@ namespace Axiom.Web.API
                             soldAttorneyList.Add(new SoldAttorneyEntity { AttyId = item.AttyId, AttyType = "Ordering" });
                         }
 
-                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList);
+                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList,RecordTypeID, FileversionID);
 
                     }
                     catch (Exception ex)
@@ -552,7 +568,12 @@ namespace Axiom.Web.API
                                 body = body.Replace("{CompanyName}", objCompany.CompName);
                                 body = body.Replace("{Link}", objCompany.SiteURL);
 
-                                EmailHelper.Email.Send(item.AssistantEmail, body.ToString(), subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
+                                EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                    ,mailTo: item.AssistantEmail
+                                    ,body: body.ToString()
+                                    ,subject: subject
+                                    ,ccMail: ""
+                                    ,bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
                             }
                         }

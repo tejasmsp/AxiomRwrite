@@ -30,7 +30,7 @@ namespace Axiom.Web.API
         [HttpPost]
         [Route("IIFGenerateCheckList")]
         public TableParameter<IIFCheckListEntity> IIFGenerateCheckList(TableParameter<IIFCheckListEntity> tableParameter, int PageIndex, string FromDate = "",
-                string ToDate = "",bool ToBePrint = false)
+                string ToDate = "", bool ToBePrint = false, int CompanyNo = 1)
         {
 
             tableParameter.PageIndex = PageIndex;
@@ -65,10 +65,8 @@ namespace Axiom.Web.API
                 },
                 new SqlParameter{ParameterName = "FromDate",DbType = DbType.Date,Value = (object)Convert.ToDateTime(FromDate) ?? (object)DBNull.Value  },
                 new SqlParameter{ParameterName = "ToDate",DbType = DbType.Date,Value = (object)Convert.ToDateTime(ToDate) ?? (object)DBNull.Value  },
-                new SqlParameter{ParameterName = "ToBePrint",DbType = DbType.Boolean,Value = (object)ToBePrint ?? (object)DBNull.Value  }
-                //new SqlParameter{ParameterName = "City",DbType = DbType.String,Value =  (object)City ?? (object)DBNull.Value },
-                //new SqlParameter{ParameterName = "State",DbType = DbType.String,Value = (object)State ?? (object)DBNull.Value  },
-                //new SqlParameter{ParameterName = "AssociatedFirm",DbType = DbType.String,Value = (object)ParentFirm ?? (object)DBNull.Value  }
+                new SqlParameter{ParameterName = "ToBePrint",DbType = DbType.Boolean,Value = (object)ToBePrint ?? (object)DBNull.Value  },
+                new SqlParameter{ParameterName = "CompanyNo",DbType = DbType.Int32,Value = (object)CompanyNo ?? (object)DBNull.Value  }
                 };
 
                 var result = _repository.ExecuteSQL<IIFCheckListEntity>("IIFGenerateCheckList", param).ToList();
@@ -100,7 +98,7 @@ namespace Axiom.Web.API
 
         [HttpPost]
         [Route("PrintCheckIIFFiles")]
-        public HttpResponseMessage PrintCheckIIFFiles(string fromDate,string toDate,string checkID,int checkNo)
+        public HttpResponseMessage PrintCheckIIFFiles(string fromDate, string toDate, string checkID, int checkNo,int CompanyNo)
         {
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
 
@@ -110,11 +108,13 @@ namespace Axiom.Web.API
                                         , new SqlParameter("ToDate", (object)toDate ?? (object)DBNull.Value)
                                         , new SqlParameter("CheckID", (object)checkID ?? (object)DBNull.Value)
                                         , new SqlParameter("CheckNumber", (object)checkNo ?? (object)DBNull.Value)
+                                        , new SqlParameter("CompanyNo", (object)CompanyNo ?? (object)DBNull.Value)
+                                        
                                         };
                 var result = _repository.ExecuteSQL<IIFPrintCheckEntity>("PrintCheckIIFFiles ", param).ToList();
-                if (result.Count > 0 )
+                if (result.Count > 0)
                 {
-                    
+
 
                     DataTable dt = new DataTable();
                     dt = Common.CommonHelper.ToDataTable(result);
@@ -126,7 +126,7 @@ namespace Axiom.Web.API
                     MemoryStream ms = new MemoryStream();
 
                     Aspose.Words.Document doc = new Aspose.Words.Document(path);
-                   // doc.MailMerge.RemoveEmptyParagraphs = true;
+                    // doc.MailMerge.RemoveEmptyParagraphs = true;
                     doc.MailMerge.Execute(dt);
                     System.Collections.IEnumerator enumerator = dt.Rows.GetEnumerator();
 
@@ -143,7 +143,7 @@ namespace Axiom.Web.API
                         System.IO.File.Delete(FullPathWithFileName);
                     }
                     FileStream file = new FileStream(FullPathWithFileName, FileMode.CreateNew, FileAccess.ReadWrite);
-                    
+
                     ms.WriteTo(file);
 
                     file.Close();
@@ -164,22 +164,22 @@ namespace Axiom.Web.API
                     response.Content = new ByteArrayContent(bytes);
 
                     response.Content.Headers.Clear();
-                    response.Content.Headers.Add("Content-Disposition", "attachment; filename=" + fileNames+ ".pdf");
+                    response.Content.Headers.Add("Content-Disposition", "attachment; filename=" + fileNames + ".pdf");
                     response.Content.Headers.Add("Content-Length", bytes.Length.ToString());
                     response.Content.Headers.ContentType = new MediaTypeHeaderValue(MimeMapping.GetMimeMapping("application/pdf"));
 
-                   
+
 
                     //Set the Response Content Length.
                     //response.Content.Headers.ContentLength = bytes.LongLength;
 
                     //Set the Content Disposition Header Value and FileName.
-                  //  response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                 //   response.Content.Headers.ContentDisposition.FileName = FullPathWithFileName;
+                    //  response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                    //   response.Content.Headers.ContentDisposition.FileName = FullPathWithFileName;
 
 
                     //Set the File Content Type.
-                   // response.Content.Headers.ContentType = "Application/pdf";// new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(FullPathWithFileName));
+                    // response.Content.Headers.ContentType = "Application/pdf";// new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(FullPathWithFileName));
 
                     return response;
 
@@ -231,7 +231,7 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetIIFFileForDay")]
-        public HttpResponseMessage GetIIFFileForDay(DateTime date,bool ToBePrint)
+        public HttpResponseMessage GetIIFFileForDay(DateTime date, bool ToBePrint, int CompanyNo)
         {
             // var response = new ApiResponse<IIFFilesEntity>();
             // Create HTTP Response.
@@ -239,7 +239,9 @@ namespace Axiom.Web.API
             try
             {
                 SqlParameter[] param = {new SqlParameter("Date", (object)date ?? (object)DBNull.Value)
-                                        ,new SqlParameter("ToBePrint", (object)ToBePrint ?? (object)DBNull.Value)};
+                                        ,new SqlParameter("ToBePrint", (object)ToBePrint ?? (object)DBNull.Value)
+                                        ,new SqlParameter("CompanyNo", (object)CompanyNo ?? (object)DBNull.Value)
+                                        };
                 var result = _repository.ExecuteSQL<IIFFilesEntity>("GetIIfFileForDay", param).ToList();
 
                 if (result == null)
@@ -383,7 +385,7 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetIIFFileForDayCSV")]
-        public HttpResponseMessage GetIIFFileForDayCSV(DateTime date)
+        public HttpResponseMessage GetIIFFileForDayCSV(DateTime date, bool ToBePrint, int CompanyNo)
         {
             // var response = new ApiResponse<IIFFilesEntity>();
             // Create HTTP Response.
@@ -391,7 +393,9 @@ namespace Axiom.Web.API
             try
             {
                 SqlParameter[] param = { new SqlParameter("Date", (object)date ?? (object)DBNull.Value)
-                                        };
+                                        ,new SqlParameter("ToBePrint", (object)ToBePrint ?? (object)DBNull.Value)
+                                        ,new SqlParameter("CompanyNo", (object)CompanyNo ?? (object)DBNull.Value)};
+
                 var result = _repository.ExecuteSQL<IIFFilesEntity>("GetIIfFileForDay", param).ToList();
 
                 if (result == null)
@@ -402,7 +406,7 @@ namespace Axiom.Web.API
                 MemoryStream memoryStream = new MemoryStream();
                 StreamWriter sw = new StreamWriter(memoryStream);
 
-                
+
 
                 DataTable dt = new DataTable();
                 int i;
@@ -417,7 +421,7 @@ namespace Axiom.Web.API
                     Dtable.Columns.Remove("Date");
                     Dtable.Columns.Remove("AcctNo");
                     Dtable.Columns.Remove("Secondname");
-                    Dtable.Columns.Remove("checkamount");                    
+                    Dtable.Columns.Remove("checkamount");
                 }
 
                 string CSVFileName = "csv_" + DateTime.Now.ToString("yyyy-MM-ddhhmmdd");
@@ -426,7 +430,7 @@ namespace Axiom.Web.API
 
                 StringBuilder sb = new StringBuilder();
 
-                
+
                 foreach (DataRow dr in Dtable.Rows)
                 {
                     foreach (DataColumn dc in Dtable.Columns)
@@ -451,7 +455,7 @@ namespace Axiom.Web.API
                 }
                 sw.Flush();
                 byte[] bytesInStream = memoryStream.ToArray(); // simpler way of converting to array        
-                
+
                 MemoryStream ms = new MemoryStream(bytesInStream);
 
                 FileStream file = new FileStream(CSVPath, FileMode.CreateNew, FileAccess.ReadWrite);

@@ -253,6 +253,7 @@
     <Compile Include="API\BatchInvoiceApi.cs" />
     <Compile Include="API\BillingApiController.cs" />
     <Compile Include="API\CommonFunction.cs" />
+    <Compile Include="API\DownloadDocuments.cs" />
     <Compile Include="API\MiscellaneousChargesApiController.cs" />
     <Compile Include="API\ClientApiController.cs" />
     <Compile Include="API\Document.cs" />

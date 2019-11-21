@@ -7,6 +7,7 @@ using System.Web.Configuration;
 using System.Net.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Axiom.Web.EmailHelper
 {
@@ -16,14 +17,21 @@ namespace Axiom.Web.EmailHelper
         public static bool isQATesting = Convert.ToBoolean(ConfigurationManager.AppSettings["isQATesting"]);
 
         #region Send Email
-        public static async Task Send(string mailTo, string body, string subject, string ccMail = "", string bccMail = "")
+        public static async Task Send(int CompanyNo, string mailTo, string body, string subject, string ccMail = "", string bccMail = "")
         {
             char[] removeChar = { ',', ';' };
             mailTo = mailTo.Trim(removeChar);
             try
             {
 
+                SmtpClient smtp = GetSMTPByCompany(CompanyNo);
+                System.Net.NetworkCredential nc = (NetworkCredential)smtp.Credentials;
+                // SmtpClient smtp = GetSMTP();
+
+
+
                 MailMessage mail = new MailMessage();
+                // mail.From = new MailAddress(nc.UserName, "Tejas  Padia");
                 mail.Body = body;
                 mail.IsBodyHtml = true;
                 if (mailTo != "")
@@ -38,6 +46,8 @@ namespace Axiom.Web.EmailHelper
                         if (mailTo != null && mailTo != "")
                         {
                             string[] mailToID = mailTo.Split(',', ';');
+                            mailToID = mailToID.Distinct().ToArray();
+
                             foreach (string ToEmailId in mailToID)
                             {
                                 if (!string.IsNullOrEmpty(ToEmailId))
@@ -54,11 +64,12 @@ namespace Axiom.Web.EmailHelper
                 else
                     mail.Subject = subject;
 
-                SmtpClient smtp = GetSMTP();
+
 
                 if (ccMail != null && ccMail != "")
                 {
                     string[] ccid = ccMail.Split(',', ';');
+                    ccid = ccid.Distinct().ToArray();
 
                     foreach (string ccEmailId in ccid)
                     {
@@ -72,6 +83,7 @@ namespace Axiom.Web.EmailHelper
                 if (bccMail != null && bccMail != "")
                 {
                     string[] bccid = bccMail.Split(',', ';');
+                    bccid = bccid.Distinct().ToArray();
                     foreach (string bccEmailId in bccid)
                     {
                         if (!string.IsNullOrEmpty(bccEmailId))
@@ -91,7 +103,7 @@ namespace Axiom.Web.EmailHelper
             }
         }
 
-        public static bool SendMailWithAttachment(string mailTo, string bodyTemplate, string subject, List<string> attachmentFilename, List<System.Net.Mail.Attachment> lstAttachment, string ccMail = "", string bccMail = "")
+        public static bool SendMailWithAttachment(int CompanyNo, string mailTo, string bodyTemplate, string subject, List<string> attachmentFilename, List<System.Net.Mail.Attachment> lstAttachment, string ccMail = "", string bccMail = "")
         {
             try
             {
@@ -99,6 +111,11 @@ namespace Axiom.Web.EmailHelper
                 mailTo = mailTo.Trim(removeChar);
 
                 MailMessage mail = new MailMessage();
+                SmtpClient smtp = GetSMTPByCompany(CompanyNo);
+
+
+
+
                 if (mailTo != "")
                 {
                     if (isQATesting)
@@ -123,7 +140,7 @@ namespace Axiom.Web.EmailHelper
                         }
                     }
                 }
-                bccMail = "tejaspadia@gmail.com";
+
 
                 if (isQATesting)
                     mail.Subject = subject + " [Actul Email to be Send : " + mailTo + " ]";
@@ -149,7 +166,7 @@ namespace Axiom.Web.EmailHelper
                     }
                 }
 
-                SmtpClient smtp = GetSMTP();
+
 
 
                 if (!string.IsNullOrEmpty(ccMail))
@@ -188,11 +205,48 @@ namespace Axiom.Web.EmailHelper
             return true;
         }
 
+        public static SmtpClient GetSMTPByCompany(int CompanyNo)
+        {
+            System.Configuration.Configuration configurationFile = WebConfigurationManager.OpenWebConfiguration("~/Web.config");
+
+            string mailSection = string.Empty;
+            switch (CompanyNo)
+            {
+                case 1:
+                    mailSection = "mailSettings/smtp_1";
+                    break;
+                case 4:
+                    mailSection = "mailSettings/smtp_4";
+                    break;
+                case 6:
+                    mailSection = "mailSettings/smtp_6";
+                    break;
+            }
+
+            SmtpSection mailSettings = (SmtpSection)configurationFile.GetSection(mailSection);
+
+            if (mailSettings != null)
+            {
+                int port = mailSettings.Network.Port;
+                string host = mailSettings.Network.Host;
+                string password = mailSettings.Network.Password;
+                string username = mailSettings.Network.UserName;
+                string domain = mailSettings.Network.ClientDomain;
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(host, port);
+
+                smtp.Credentials = new System.Net.NetworkCredential(username, password, domain);
+
+                // smtp.EnableSsl = true;
+                return smtp;
+            }
+            return null;
+        }
 
         public static SmtpClient GetSMTP()
         {
             System.Configuration.Configuration configurationFile = WebConfigurationManager.OpenWebConfiguration("~/Web.config");
             MailSettingsSectionGroup mailSettings = (MailSettingsSectionGroup)configurationFile.GetSectionGroup("system.net/mailSettings");
+
 
 
             if (mailSettings != null)

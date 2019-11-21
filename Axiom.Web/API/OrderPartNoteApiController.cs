@@ -56,6 +56,8 @@ namespace Axiom.Web.API
         {
             string OrderIdsWithPartIdsXML = ConvertToXml<OrderIdsPartIds>.GetXMLString(modal.OrderIdPartIdList);
 
+            CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmailByOrderNo(Convert.ToString(modal.OrderId));
+
             var response = new BaseApiResponse();
             try
             {
@@ -115,7 +117,12 @@ namespace Axiom.Web.API
                         htmlBody.Replace("##MESSAGE##", accExecutiveName + ", <br />Client has added new note.<br /><br />");
                         htmlBody.Replace("##ORDERNO##", modal.OrderId + "-" + modal.PartNo);
                         htmlBody.Replace("##NOTE##", modal.NotesClient);
-                        EmailHelper.Email.Send(accExecutiveEmail, htmlBody.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
+                        EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                                , mailTo: accExecutiveEmail
+                                                , body: htmlBody.ToString()
+                                                , subject: subject
+                                                , ccMail: ""
+                                                , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
                     }
                     response.Success = true;
@@ -157,6 +164,8 @@ namespace Axiom.Web.API
                         string accExecutiveName = string.Empty;
                         string accExecutiveEmail = string.Empty;
 
+                        CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmailByOrderNo(modal.OrderId.ToString());
+
 
                         SqlParameter[] param1 = { new SqlParameter("UserId", (object)UserId ?? (object)DBNull.Value) };
                         var MailDetail = _repository.ExecuteSQL<AccountExecutive>("GetClientAcctExec", param1).FirstOrDefault();
@@ -184,8 +193,13 @@ namespace Axiom.Web.API
                         htmlBody.Replace("##MESSAGE##", accExecutiveName + ", <br />Client has added new note.<br /><br />");
                         htmlBody.Replace("##ORDERNO##", modal.OrderId + "-" + modal.PartNo);
                         htmlBody.Replace("##NOTE##", modal.NotesClient);
-                        //  EmailHelper.Email.Send("j.alspaugh@axiomcopy.com", htmlBody.ToString(), subject, "tejaspadia@gmail.com", "");
-                        EmailHelper.Email.Send(accExecutiveEmail, htmlBody.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
+
+                        
+                        EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                            ,mailTo: accExecutiveEmail
+                            ,body: htmlBody.ToString()
+                            ,subject: subject,ccMail: ""
+                            ,bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                     }
                     response.Success = true;
                     response.InsertedId = result;

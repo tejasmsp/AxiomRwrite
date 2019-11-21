@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbAccess.cs" />
+    <Compile Include="EmailHelper.cs" />
     <Compile Include="Entity\FileObject.cs" />
     <Compile Include="Entity\FilesToPart.cs" />
     <Compile Include="Entity\OrderAttorneyEntity.cs" />

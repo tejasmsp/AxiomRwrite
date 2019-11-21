@@ -110,6 +110,7 @@ namespace Axiom.Web.API
                                         ,new SqlParameter("notes",(object)model.Notes??(object)DBNull.Value)
                                         ,new SqlParameter("createdBy",(object)model.CreatedBy??(object)DBNull.Value)
                                         ,new SqlParameter("siteURL",(object)model.SiteURL??(object)DBNull.Value)
+                                        ,new SqlParameter("AllowedURL",(object)model.AllowedURL??(object)DBNull.Value)
                                         };
                 var result = _repository.ExecuteSQL<int>("InsertCompany", param).FirstOrDefault();
                 if (result > 0)
@@ -163,8 +164,9 @@ namespace Axiom.Web.API
                                         ,new SqlParameter("incomeNo",(object)model.IncomeNo??(object)DBNull.Value)
                                         ,new SqlParameter("term",(object)model.Term??(object)DBNull.Value)
                                         ,new SqlParameter("notes",(object)model.Notes??(object)DBNull.Value)
-                                        ,new SqlParameter("updatedBy",(object)model.CreatedBy??(object)DBNull.Value)
-                                        ,new SqlParameter("siteURL",(object)model.SiteURL??(object)DBNull.Value)
+                                        ,new SqlParameter("updatedBy",(object)model.CreatedBy??(object)DBNull.Value)                                        
+                                        ,new SqlParameter("AllowedURL",(object)model.AllowedURL??(object)DBNull.Value)
+                                        
                                         };
                 var result = _repository.ExecuteSQL<int>("UpdateCompanyDetail", param).FirstOrDefault();
                 if (result > 0)

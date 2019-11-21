@@ -68,22 +68,35 @@ namespace Axiom.Web.Controllers
             try
             {
 
+
                 if (!string.IsNullOrEmpty(value))
                 {
                     string[] querystring = HttpUtility.UrlDecode(EncryptDecrypt.Decrypt(Convert.ToString(value))).Split(',');
 
-                    model.accExecutiveEmail = Convert.ToString(querystring[0]);
-                    model.accExecutiveName = Convert.ToString(querystring[1]);
-                    model.orderno = Convert.ToString(querystring[2]);
-                    model.location = Convert.ToString(querystring[3]);
-                    model.pages = Convert.ToString(querystring[4]);
-                    model.amount = Convert.ToString(querystring[5]);
-                    model.proposalFeesID = Convert.ToString(querystring[6]);
-                    model.part = Convert.ToString(querystring[7]);
-                    model.Newamount = model.amount;
-                    model.Newpages = model.pages;
-                    model.operation = HttpUtility.UrlDecode(EncryptDecrypt.Decrypt(type)).ToString().ToLower();
-                    model.isUpdated = false;
+                    try
+                    {
+                        model.accExecutiveEmail = Convert.ToString(querystring[0]);
+                        model.accExecutiveName = Convert.ToString(querystring[1]);
+                        model.orderno = Convert.ToString(querystring[2]);
+                        model.location = Convert.ToString(querystring[3]);
+                        model.pages = Convert.ToString(querystring[4]);
+                        model.amount = Convert.ToString(querystring[5]);
+                        model.proposalFeesID = Convert.ToString(querystring[6]);
+                        model.part = Convert.ToString(querystring[7]);
+                        model.Newamount = model.amount;
+                        model.Newpages = model.pages;
+                        model.operation = HttpUtility.UrlDecode(EncryptDecrypt.Decrypt(type)).ToString().ToLower();
+                        model.isUpdated = false;
+
+                        model.CompanyNo = Convert.ToString(querystring[8]);
+                        model.CompanyName = Convert.ToString(querystring[9]);
+                        model.LogoPath = Convert.ToString(querystring[10]);
+
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
                     if (!string.IsNullOrEmpty(type))
                     {
                         if (model.operation == "a")
@@ -95,46 +108,64 @@ namespace Axiom.Web.Controllers
             }
             catch (Exception ex)
             {
+                Common.Log.ServicLog("--------- 1 ----------");
+                Common.Log.ServicLog(ex.ToString());
             }
             return View(model);
         }
         private void SendEmail(ProposalFeesApprovalModel model, bool status)
         {
-            string currentUrl = Request.Url.AbsoluteUri;
-            var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
-            int CompanyNo = response.Data[0];
-
-            CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
-
-            string subject = "Proposal Fees Request Status " + Convert.ToString(model.orderno) + "-" + Convert.ToString(model.part);
-            string body = string.Empty;
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/ProposalFeesReply.html"))
+            try
             {
-                body = reader.ReadToEnd();
-            }
-            if (status)
-                body = body.Replace("{STATUS}", "APPROVED");
-            else
-                body = body.Replace("{STATUS}", "NOT APPROVED");
+                string currentUrl = Request.Url.AbsoluteUri;
+                Common.Log.ServicLog(currentUrl.ToString());
+                var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
+                int CompanyNo = response.Data[0];
+
+                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
+
+                string subject = "Proposal Fees Request Status " + Convert.ToString(model.orderno) + "-" + Convert.ToString(model.part);
+                string body = string.Empty;
+                using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/ProposalFeesReply.html"))
+                {
+                    body = reader.ReadToEnd();
+                }
+                if (status)
+                    body = body.Replace("{STATUS}", "APPROVED");
+                else
+                    body = body.Replace("{STATUS}", "NOT APPROVED");
 
 
-            body = body.Replace("{UserName}", model.accExecutiveName);
-            body = body.Replace("{ORDERNO}", model.orderno);
-            body = body.Replace("{PARTNO}", model.part);
-            body = body.Replace("{LOCATION}", model.location);
-            body = body.Replace("{PAGES}", model.pages);
-            body = body.Replace("{COST}", model.amount);
-            body = body.Replace("{LogoURL}", objCompany.Logopath);
-            body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
-            body = body.Replace("{CompanyName}", objCompany.CompName);
-            body = body.Replace("{Link}", objCompany.SiteURL);
-            EmailHelper.Email.Send(model.accExecutiveEmail, body, subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
-            var feeStatus = status ? 1 : 2;
-            SqlParameter[] sqlparam = {  new SqlParameter("ProposalFeesID", (object)model.proposalFeesID ?? (object)DBNull.Value),
+                body = body.Replace("{UserName}", model.accExecutiveName);
+                body = body.Replace("{ORDERNO}", model.orderno);
+                body = body.Replace("{PARTNO}", model.part);
+                body = body.Replace("{LOCATION}", model.location);
+                body = body.Replace("{PAGES}", model.pages);
+                body = body.Replace("{COST}", model.amount);
+                body = body.Replace("{LogoURL}", objCompany.Logopath);
+                body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                body = body.Replace("{CompanyName}", objCompany.CompName);
+                body = body.Replace("{Link}", objCompany.SiteURL);
+
+                EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                            , mailTo: model.accExecutiveEmail
+                                            , body: body
+                                            , subject: subject
+                                            , ccMail: ""
+                                            , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
+
+                var feeStatus = status ? 1 : 2;
+                SqlParameter[] sqlparam = {  new SqlParameter("ProposalFeesID", (object)model.proposalFeesID ?? (object)DBNull.Value),
                                 new SqlParameter("FeesStatus", (object)feeStatus ?? (object)DBNull.Value),
                                 new SqlParameter("Comments", (object)model.comment ?? (object)DBNull.Value)
                             };
-            _repository.ExecuteSQL<int>("UpdateProposalFeeApproval", sqlparam).FirstOrDefault();
+                _repository.ExecuteSQL<int>("UpdateProposalFeeApproval", sqlparam).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Common.Log.ServicLog("2");
+                Common.Log.ServicLog(ex.ToString());
+            }
 
         }
 
@@ -172,7 +203,12 @@ namespace Axiom.Web.Controllers
                 body = body.Replace("{CompanyName}", objCompany.CompName);
                 body = body.Replace("{Link}", objCompany.SiteURL);
 
-                EmailHelper.Email.Send(model.accExecutiveEmail, body, subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
+                EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                        , mailTo: model.accExecutiveEmail
+                                        , body: body
+                                        , subject: subject
+                                        , ccMail: ""
+                                        , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
                 SqlParameter[] saveparam = {  new SqlParameter("ProposalFeesID", (object)model.proposalFeesID ?? (object)DBNull.Value),
                                 new SqlParameter("FeesStatus", (object)3 ?? (object)DBNull.Value),
@@ -183,10 +219,13 @@ namespace Axiom.Web.Controllers
                 {
                     model.isUpdated = true;
                 }
+                model.CompanyNo = objCompany.CompNo.ToString();
+                model.CompanyName = objCompany.CompName;
+                model.LogoPath = objCompany.Logopath;
             }
             catch (Exception ex)
             {
-
+                Common.Log.ServicLog(ex.ToString());
             }
             return View("~/Views/Home/ProposalFeeApproval.cshtml", model);
         }

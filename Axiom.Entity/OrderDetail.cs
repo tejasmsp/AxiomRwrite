@@ -182,6 +182,19 @@ namespace Axiom.Entity
         public string FileTypeID { get; set; }
     }
 
+    public class FileVersionEntity
+    {
+        public int FileId { get; set; }
+        public int OrderNo { get; set; }
+        public int PartNo { get; set; }
+        public string FileName { get; set; }
+        public int FileTypeId { get; set; }
+        bool IsPublic { get; set; }
+        public int RecordTypeId { get; set; }
+        public int RcvdId { get; set; }
+        public string FileDiskName { get; set; }
+        public int Pages { get; set; }
+    }
     public class FileEntity
     {
         public int FileId { get; set; }

@@ -124,13 +124,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" ng-if="RoleName!='Attorney'">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3 lbl-primary" style="padding-top:0px;">Is Public</label>
-                                    <div class="col-sm-9">
-                                        <input type="checkbox" ng-model="DocumentObj.IsPublic" ng-checked="DocumentObj.IsPublic" />
+                                    <div class="col-sm-6">
+                                        <label class="col-sm-8 pl-0 pr-0 pb-0 mb-0">
+                                            <label class="lbl-checkbox bg-white">
+                                                <input ng-model="DocumentObj.IsPublic" ng-checked="DocumentObj.IsPublic" type="checkbox" class="ng-valid ng-dirty ng-valid-parse ng-touched">Is Public Document
+                                            </label>
+                                        </label>
                                     </div>
+
+                                    @*<label class="control-label col-sm-3 lbl-primary" style="padding-top:0px;">Is Public</label>
+        <div class="col-sm-9">
+            <input type="checkbox" ng-model="DocumentObj.IsPublic" ng-checked="DocumentObj.IsPublic" />
+        </div>*@
                                 </div>
                             </div>
                         </div>

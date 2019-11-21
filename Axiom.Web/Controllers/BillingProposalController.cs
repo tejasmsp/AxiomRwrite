@@ -34,6 +34,7 @@ namespace Axiom.Web.Controllers
             string partno = string.Empty;
             string AttorneyNm = string.Empty;
             string AttyID = string.Empty;
+
             BtnType = (HttpUtility.UrlDecode(EncryptDecrypt.Decrypt(type)));
             string[] querystring = HttpUtility.UrlDecode(EncryptDecrypt.Decrypt(value)).Split(',');
             //strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + location.Name1 + " " + location.Name1 + "(" + location.LocID + ")" + "," + strPages + "," + strAmount;
@@ -53,15 +54,15 @@ namespace Axiom.Web.Controllers
             {
 
             }
+            int CompanyNo = 0;
+            CompanyDetailForEmailEntity objCompany = new CompanyDetailForEmailEntity();
+            string currentUrl = Request.Url.AbsoluteUri;
+            var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
+            CompanyNo = response.Data[0];
+            objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
 
             if (BtnType.ToLower() == "n")
             {
-                string currentUrl = Request.Url.AbsoluteUri;
-                var response = homeApiController.GetCompanyNoBySiteUrl(currentUrl);
-                int CompanyNo = response.Data[0];
-
-                CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
-
                 string subject = "Billing Proposal Reply - Reject " + Convert.ToString(orderno) + "-" + Convert.ToString(partno);
                 string body = string.Empty;
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "/MailTemplate/WaiverBillingReplyRejected.html"))
@@ -80,8 +81,14 @@ namespace Axiom.Web.Controllers
                 body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
                 body = body.Replace("{CompanyName}", objCompany.CompName);
                 body = body.Replace("{Link}", objCompany.SiteURL);
-                
-                EmailHelper.Email.Send(accExecutiveEmail, body, subject, ccMail: "autharchive@axiomcopy.com", bccMail: "tejaspadia@gmail.com");
+
+                EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                    , mailTo: accExecutiveEmail
+                    , body: body
+                    , subject: subject
+                    , ccMail: ""
+                    , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
+
                 UpdateWaiver(orderno, partno, AttyID, true);
             }
 
@@ -95,6 +102,9 @@ namespace Axiom.Web.Controllers
             obj.PartNo = partno;
             obj.BtnType = BtnType.ToLower();
             obj.AttyID = AttyID;
+            obj.CompanyNo = CompanyNo.ToString();
+            obj.CompanyName = objCompany.CompName;
+            obj.LogoPath = objCompany.Logopath;
 
             return View(obj);
         }
@@ -136,7 +146,12 @@ namespace Axiom.Web.Controllers
                 body = body.Replace("{CompanyName}", objCompany.CompName);
                 body = body.Replace("{Link}", objCompany.SiteURL);
 
-                EmailHelper.Email.Send(obj.AccExecutiveEmail, body, subject, ccMail: "autharchive@axiomcopy.com", bccMail: "tejaspadia@gmail.com");
+                EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                    , mailTo: obj.AccExecutiveEmail
+                    , body: body
+                    , subject: subject
+                    , ccMail: "autharchive@axiomcopy.com"
+                    , bccMail: "tejaspadia@gmail.com");
 
                 UpdateWaiver(obj.OrderNo, obj.PartNo, obj.AttyID, false);
             }

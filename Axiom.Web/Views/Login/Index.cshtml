@@ -9,7 +9,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Axiom | Login</title>
+
+    @if (ProjectSession.CompanyUserDetail.CompNo == 6)
+    {
+        <title>Legal Eagle | Login</title>}
+    else
+    {<title> Axiom | Login </title>}
     <!-- Global stylesheets -->
     @Styles.Render("~/Content/css")
     <!-- /global stylesheets -->
@@ -162,8 +167,7 @@
     <!-- /page container -->
     <!-- Footer -->
     <div class="footer text-muted text-center">
-
-        &copy; 2019. <img src="~/assets/images/axiomGroupLogoBottom.png" />
+        &copy; 2019 @ProjectSession.CompanyUserDetail.CompName 
     </div>
     <!-- /footer -->
     <script>

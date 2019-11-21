@@ -172,7 +172,7 @@ namespace Axiom.Web.API
 
                             string strApproveLink, strNotApprovedLink, strEditScopeLink, strQueryString;
                             strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + model.OrderNo + "," + location.Name1.Replace(',', ' ') + " (" + location.LocID + ")" + "," + model.Pages + "," + model.Amount +
-                                "," + proposalId.ToString() + "," + model.PartNo.ToString();
+                                "," + proposalId.ToString() + "," + model.PartNo.ToString() + "," + objCompany.CompNo.ToString() + "," + objCompany.CompName.ToString() + "," + objCompany.Logopath;
                             strApproveLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                             strNotApprovedLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                             strEditScopeLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
@@ -220,7 +220,12 @@ namespace Axiom.Web.API
                                 if (!string.IsNullOrEmpty(emailIds))
                                     emailIds += ",";
                                 emailIds += orderFeesEmails;
-                                EmailHelper.Email.Send(emailIds, body, subject, "", "tejaspadia@gmail.com;autoemail@axiomcopy.com");
+                                EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                    , mailTo: emailIds
+                                    , body: body
+                                    , subject: subject
+                                    , ccMail: ""
+                                    , bccMail: "tejaspadia@gmail.com;autharchive@axiomcopy.com");
                             }
                             else
                             {
@@ -228,7 +233,12 @@ namespace Axiom.Web.API
                                 if (!string.IsNullOrEmpty(emailIds))
                                     emailIds += ",";
                                 emailIds += orderFeesEmails;
-                                EmailHelper.Email.Send(emailIds, body, subject, "", "tejaspadia@gmail.com;autoemail@axiomcopy.com");
+                                EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                    , mailTo: emailIds
+                                    , body: body
+                                    , subject: subject
+                                    , ccMail: ""
+                                    , bccMail: "tejaspadia@gmail.com;autharchive@axiomcopy.com");
                             }
                         }
                         response.Success = true;

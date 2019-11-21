@@ -60,7 +60,7 @@
                     "type": "POST",
                     "url": sSource + "?PageIndex=" + (parseInt($('#tbliifCheckList').DataTable().page.info().page) + 1)
                         + "&FromDate=" + $scope.objCheckDetail.FromDate
-                        + "&ToDate=" + $scope.objCheckDetail.ToDate + "&ToBePrint=" + $scope.objCheckDetail.ToBePrint,
+                        + "&ToDate=" + $scope.objCheckDetail.ToDate + "&ToBePrint=" + $scope.objCheckDetail.ToBePrint + "&CompanyNo=" + $rootScope.CompanyNo,
                     "data": aoData,
                     "success": fnCallback,
                     "error": function (data, statusCode) { }
@@ -198,7 +198,7 @@
 
     $scope.PrintCheck = function (form) {
         if (form.$valid) {
-            var iif = IIFFilesService.PrintCheckIIFFiles($scope.objCheckDetail.FromDate, $scope.objCheckDetail.ToDate, $scope.CheckListArray.toString(), $scope.objPrinCheck.CheckNo);
+            var iif = IIFFilesService.PrintCheckIIFFiles($scope.objCheckDetail.FromDate, $scope.objCheckDetail.ToDate, $scope.CheckListArray.toString(), $scope.objPrinCheck.CheckNo,$rootScope.CompanyNo);
         }
     }
     $scope.SelectCheck = function ($event) {
@@ -231,7 +231,7 @@
 
         if (form.$valid) {
             debugger;
-            var iif = IIFFilesService.GetIIFFileForDay($scope.objIIFFile.Date, $scope.objIIFFile.ToBePrint);
+            var iif = IIFFilesService.GetIIFFileForDay($scope.objIIFFile.Date, $scope.objIIFFile.ToBePrint, $rootScope.CompanyNo);
             iif.success(function (response) {
 
                 var file = new Blob([response], { type: 'text/plain' });
@@ -278,7 +278,7 @@
     $scope.GetIIFFilesCSV = function () {
         debugger;
         // TO DOWNLOAD CSF FILE
-        var iifCSV = IIFFilesService.GetIIFFileForDayCSV($scope.objIIFFile.Date, $scope.objIIFFile.ToBePrint);
+        var iifCSV = IIFFilesService.GetIIFFileForDayCSV($scope.objIIFFile.Date, $scope.objIIFFile.ToBePrint,$rootScope.CompanyNo);
         iifCSV.success(function (response) {
             debugger;
             var file = new Blob([response], { type: 'text/plain' });

@@ -151,7 +151,7 @@ namespace Axiom.Web.Controllers
                     bodyTemplate = bodyTemplate.Replace("##Link##", objCompany.SiteURL);
 
 
-                    Email.Send(MailTo, bodyTemplate, "Login Details", "", "");
+                    Email.Send(objCompany.CompNo,MailTo, bodyTemplate, "Login Details", "", "");
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -241,7 +241,7 @@ namespace Axiom.Web.Controllers
                     bodyTemplate = bodyTemplate.Replace("{CompanyName}", objCompany.CompName);
                     bodyTemplate = bodyTemplate.Replace("{Link}", objCompany.SiteURL);
 
-                    Email.Send(MailTo, bodyTemplate, "Login Details", "", "");
+                    Email.Send(objCompany.CompNo,MailTo, bodyTemplate, "Login Details", "", "");
                     model.Msg = "Password has send successfully in your mail.";
                     return View("~/Views/Login/Index.cshtml", model);
                 }

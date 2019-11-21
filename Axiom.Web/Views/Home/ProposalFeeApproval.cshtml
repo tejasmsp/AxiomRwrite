@@ -10,13 +10,25 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AXIOM-Proposal Fee Approval</title>
+    @if (Model.CompanyNo == "6")
+    {
+        <title>Legal Eagle - Proposal Fee Approval</title>
+    }
+    else
+    {
+        <title>Axiom - Proposal Fee Approval</title>
+    }
+
+
+
+
     @Styles.Render("~/Content/css")
 </head>
 <body>
     <div class="navbar navbar-inverse fixed">
         <div class="navbar-header">
-            <a class="navbar-brand" href="index.html"><img src="@ProjectSession.CompanyUserDetail.ImagePath" alt=""></a>
+            @*<a class="navbar-brand" href="index.html"><img src="@ProjectSession.CompanyUserDetail.ImagePath" alt=""></a>*@
+            <a class="navbar-brand" href="index.html"><img src="@Model.LogoPath" alt=""></a>
             <ul class="nav navbar-nav pull-right visible-xs-block">
                 <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
             </ul>
@@ -96,7 +108,7 @@
         </div>
     }
     <div class="footer text-muted text-center">
-        &copy; @DateTime.Today.Year <a href="#">Axiom</a>, All Rights Reserved.
+        &copy; @DateTime.Today.Year <a href="#">@Model.CompanyName</a>, All Rights Reserved.
     </div>
 </body>
 </html>

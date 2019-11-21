@@ -30,20 +30,20 @@
                                                     <div class="col-sm-6 pl-0 pr-0">
                                                         <label class="control-label col-sm-12">Order No.</label>
                                                         <div class="col-sm-12">
-                                                            <input type="text" name="OrderNo" ng-model="OrderSearchObj.OrderNo" placeholder="Order No" class="form-control" maxlength="100">
+                                                            <input type="text" name="OrderNo" my-Enter="bindOrderList()" ng-model="OrderSearchObj.OrderNo" placeholder="Order No" class="form-control" maxlength="100">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6 pl-0 pr-0">
                                                         <label class="control-label col-sm-12">Part No.</label>
                                                         <div class="col-sm-12">
-                                                            <input type="text" name="PartNo" ng-model="OrderSearchObj.PartNo" placeholder="Part No" class="form-control" maxlength="100">
+                                                            <input type="text" name="PartNo" my-Enter="bindOrderList()" ng-model="OrderSearchObj.PartNo" placeholder="Part No" class="form-control" maxlength="100">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 pl-0 pr-0">
                                                     <label class="control-label col-sm-12">Records of Name</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" name="RecordsofName" ng-model="OrderSearchObj.RecordsofName" placeholder="Records of Name" class="form-control" maxlength="100">
+                                                        <input type="text" name="RecordsofName" my-Enter="bindOrderList()" ng-model="OrderSearchObj.RecordsofName" placeholder="Records of Name" class="form-control" maxlength="100">
                                                     </div>
                                                 </div>
                                             </div>
@@ -53,7 +53,7 @@
                                                 <div class="col-sm-4 pl-0 pr-0">
                                                     <label class="control-label col-sm-12">Location</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" name="Location" ng-model="OrderSearchObj.Location" placeholder="Location" class="form-control" maxlength="100">
+                                                        <input type="text" name="Location" my-Enter="bindOrderList()" ng-model="OrderSearchObj.Location" placeholder="Location" class="form-control" maxlength="100">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 pl-0 pr-0">
@@ -67,8 +67,8 @@
                                                 <div class="col-sm-4 pl-0 pr-0">
                                                     <label class="control-label col-sm-12">Fax</label>
                                                     <div class="col-sm-12">
-                                                        <div class="col-sm-5 pl-0"><input type="text" name="AreaCode" ng-model="OrderSearchObj.AreaCode" placeholder="AreaCode" class="form-control" maxlength="100"></div>
-                                                        <div class="col-sm-7 pl-0 pr-0"><input type="text" name="FaxNo" ng-model="OrderSearchObj.FaxNo" placeholder="FaxNo" class="form-control" maxlength="100"></div>
+                                                        <div class="col-sm-5 pl-0"><input type="text" my-Enter="bindOrderList()" name="AreaCode" ng-model="OrderSearchObj.AreaCode" placeholder="AreaCode" class="form-control" maxlength="100"></div>
+                                                        <div class="col-sm-7 pl-0 pr-0"><input type="text" my-Enter="bindOrderList()" name="FaxNo" ng-model="OrderSearchObj.FaxNo" placeholder="FaxNo" class="form-control" maxlength="100"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -78,19 +78,19 @@
                                                 <div class="col-sm-4 pl-0 pr-0">
                                                     <label class="control-label col-sm-12">Patient's Attorney</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" name="PatientAttorney" ng-model="OrderSearchObj.PatientAttorney" placeholder="Patient Attorney" class="form-control" maxlength="100">
+                                                        <input type="text" name="PatientAttorney" my-Enter="bindOrderList()" ng-model="OrderSearchObj.PatientAttorney" placeholder="Patient Attorney" class="form-control" maxlength="100">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 pl-0 pr-0">
                                                     <label class="control-label col-sm-12">Ordering Attorney</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" name="OrderingAttorney" ng-model="OrderSearchObj.OrderingAttorney" placeholder="Ordering Attorney" class="form-control" maxlength="100">
+                                                        <input type="text" my-Enter="bindOrderList()" name="OrderingAttorney" ng-model="OrderSearchObj.OrderingAttorney" placeholder="Ordering Attorney" class="form-control" maxlength="100">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 pl-0 pr-0">
                                                     <label class="control-label col-sm-12">Ordering Firm</label>
                                                     <div class="col-sm-12">
-                                                        <input type="text" name="OrderingFirm" ng-model="OrderSearchObj.OrderingFirm" placeholder="Ordering Firm" class="form-control" maxlength="100">
+                                                        <input type="text" my-Enter="bindOrderList()" name="OrderingFirm" ng-model="OrderSearchObj.OrderingFirm" placeholder="Ordering Firm" class="form-control" maxlength="100">
                                                     </div>
                                                 </div>
                                             </div>
@@ -105,8 +105,8 @@
                                                     <div class="col-sm-12">
                                                         <div id="ddlRecordTypeId" custom-select="item.Code as item.Descr for item in RecordTypeList| filter: $searchTerm | orderBy:'Descr' " ng-model="OrderSearchObj.RecordTypeId"></div>
                                                         @*<select name="RecordTypeId" ng-model="OrderSearchObj.RecordTypeId" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypeList | orderBy:'Descr' ">
-                                                            <option value="">--Select--</option>
-                                                        </select>*@
+                                                                <option value="">--Select--</option>
+                                                            </select>*@
 
                                                     </div>
                                                 </div>
@@ -115,13 +115,13 @@
                                                     <div class="col-sm-12">
                                                         <div id="ddlAccountRep" custom-select="item.EmpId as item.EmployeeName for item in AccountReplist | filter: $searchTerm" ng-model="OrderSearchObj.AccountRep"></div>
                                                         @*<select name="RecordTypeId" ng-model="OrderSearchObj.AccountRep" class="form-control" ng-options="item.EmpId as item.EmployeeName for item in AccountReplist">
-                                                            <option value="">--Select--</option>
-                                                        </select>*@
+                                                                <option value="">--Select--</option>
+                                                            </select>*@
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 pl-0 pr-0" >
+                                        <div class="col-md-4 pl-0 pr-0">
                                             <div class="col-sm-12">
                                                 <div class="col-sm-4  pl-0 pr-0" style="display:none">
                                                     <label class="control-label col-sm-12">Processor</label>
@@ -136,8 +136,8 @@
                                                     <div class="col-sm-12">
                                                         <div id="ddl_assignedTo" custom-select="item.EmpId as item.EmployeeName for item in EmployeeList | filter: $searchTerm" ng-model="OrderSearchObj.AssignedTo"></div>
                                                         @*<select ng-model="OrderSearchObj.AssignedTo" class="form-control" ng-options="item.EmpId as item.EmployeeName for item in AccountReplist">
-                                                            <option value="">--Select--</option>
-                                                        </select>*@
+                                                                <option value="">--Select--</option>
+                                                            </select>*@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 pl-0 pr-0">
@@ -157,8 +157,8 @@
                                                     <div class="col-sm-12">
                                                         <div id="ddlInternalStatus" custom-select="item.InternalStatus as item.InternalStatus for item in InternalStatuslist | filter: $searchTerm" ng-model="OrderSearchObj.InternalStatus"></div>
                                                         @*<select name="InternalStatus" ng-model="OrderSearchObj.InternalStatus" class="form-control" ng-options="item.InternalStatus as item.InternalStatus for item in InternalStatuslist">
-                                                            <option value="">--Select--</option>
-                                                        </select>*@
+                                                                <option value="">--Select--</option>
+                                                            </select>*@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4 pl-0 pr-0">
@@ -180,7 +180,7 @@
                                         </div>
                                     </div>
                                     <div class="row mb-10">
-                                        <div class="col-md-4 pl-0 pr-0" style="display:none" >
+                                        <div class="col-md-4 pl-0 pr-0" style="display:none">
                                             <div class="col-sm-12">
                                                 <div class="col-sm-6 pl-0 pr-0">
                                                     <label class="control-label col-sm-12">Due Date</label>
@@ -333,12 +333,12 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group pb-0 mb-0">
-                        <input type="button" value="Add Order Part Note" class="btn btn-primary btn-sm mb-10" ng-click="AddPartNotes()" id="btnAddNotesToPart" style="display:none;" />                        
+                        <input type="button" value="Add Order Part Note" class="btn btn-primary btn-sm mb-10" ng-click="AddPartNotes()" id="btnAddNotesToPart" style="display:none;" />
                         <input type="button" value="Generate Invoice" class="btn btn-primary btn-sm mb-10" ng-click="GenerateInvoice()" title="Generate invoice for selected part" id="btnGenerateInovice" style="display:none;" />
                         <div class="table-responsive table-grid">
                             <table class="table table-bordered table-framed" id="tblOrder"></table>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
@@ -367,7 +367,7 @@
     <div ng-show="IsFromClientOrderList">
         <div static-include="./Templates/OrderDetail/OrderDocument.cshtml" ng-controller="OrderDocumentController"></div>
     </div>
-    <div id="modal_OrderPartNote" class="modal fade" data-backdrop="static" data-keyboard="false" >
+    <div id="modal_OrderPartNote" class="modal fade" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg">
             <form name="PartNoteform" class="form-horizontal" novalidate>
                 <div class="modal-content" ng-controller="OrderPartNoteController" ng-if="IsNoteSectionEnable==1">
@@ -396,9 +396,9 @@
 
                 </div>
             </form>
-               
+
         </div>
-    </div>    
+    </div>
 </div>
 
 

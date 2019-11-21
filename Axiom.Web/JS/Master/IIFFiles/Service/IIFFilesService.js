@@ -1,21 +1,19 @@
 ﻿app.service('IIFFilesService', function ($http, configurationService) {
     var IIFFilesService = [];
 
-    IIFFilesService.GetIIFFileForDay = function (date, ToBePrint) {
-        return $http.get(configurationService.basePath + "GetIIFFileForDay?Date=" + date + "&ToBePrint=" + ToBePrint);
+    IIFFilesService.GetIIFFileForDay = function (date, ToBePrint, CompanyNo) {
+        return $http.get(configurationService.basePath + "GetIIFFileForDay?Date=" + date + "&ToBePrint=" + ToBePrint + "&CompanyNo=" + CompanyNo);
     };
-    IIFFilesService.GetIIFFileForDayCSV = function (date, ToBePrint) {
-        return $http.get(configurationService.basePath + "GetIIFFileForDayCSV?Date=" + date + "&ToBePrint=" + ToBePrint);
+    IIFFilesService.GetIIFFileForDayCSV = function (date, ToBePrint, CompanyNo) {
+        return $http.get(configurationService.basePath + "GetIIFFileForDayCSV?Date=" + date + "&ToBePrint=" + ToBePrint + "&CompanyNo=" + CompanyNo);
     };
 
-    IIFFilesService.IIFGenerateCheckList = function (fromDate, toDate) {
-        return $http.post(configurationService.basePath + "IIFGenerateCheckList?fromdate="+ fromDate + "&todate=" + toDate);
+    IIFFilesService.IIFGenerateCheckList = function (fromDate, toDate, CompanyNo) {
+        return $http.post(configurationService.basePath + "IIFGenerateCheckList?fromdate=" + fromDate + "&todate=" + toDate + "&CompanyNo=" + CompanyNo);
     };
-    IIFFilesService.PrintCheckIIFFiles = function (fromDate, toDate, checkID, checkNo) {
-       //  return $http.post(configurationService.basePath + "PrintCheckIIFFiles?fromdate=" + fromDate + "&todate=" + toDate + "&checkID=" + checkID + "&checkNo=" + checkNo );
-
+    IIFFilesService.PrintCheckIIFFiles = function (fromDate, toDate, checkID, checkNo,CompanyNo) {
         $http({
-            url: configurationService.basePath + "PrintCheckIIFFiles?fromdate=" + fromDate + "&todate=" + toDate + "&checkID=" + checkID + "&checkNo=" + checkNo,
+            url: configurationService.basePath + "PrintCheckIIFFiles?fromdate=" + fromDate + "&todate=" + toDate + "&checkID=" + checkID + "&checkNo=" + checkNo + "&CompanyNo=" + CompanyNo,
             method: "POST",
             responseType: 'arraybuffer'
         }).success(function (data, status, headers, config) {
@@ -38,7 +36,7 @@
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
-              //  window.open(objectUrl);
+                //  window.open(objectUrl);
             }
         }).error(function (data, status, headers, config) {
         });

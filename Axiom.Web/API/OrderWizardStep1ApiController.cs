@@ -252,14 +252,89 @@ namespace Axiom.Web.API
             return response;
         }
 
+        public string GetDefaultLocationByCompanyNo(int CompanyNo)
+        {
+            string Company1Location = "AXIOMI001"; // Axiom Import dummy
+            string Company4Location = "AXIOMI001"; // Axiom Import dummy
+            string Company6Location = "AXIOMI001"; // Axiom Import dummy
+
+            string returnLocation = "AXIOMI001";
+
+            switch (CompanyNo)
+            {
+                case 1:
+                    returnLocation = Company1Location;
+                    break;
+                case 4:
+                    returnLocation = Company4Location;
+                    break;
+                case 6:
+                    returnLocation = Company6Location;
+                    break;
+            }
+
+
+            return returnLocation;
+        }
+
+
         [HttpPost]
         [Route("SubmitOrder")]
         public async Task<BaseApiResponse> SubmitOrder(OrderWizardStep1 model)
         {
             var response = new BaseApiResponse();
 
-            SqlParameter[] paramStatus = { new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value) };
-            bool isPartAddLater = _repository.ExecuteSQL<bool>("GetOrderStatus", paramStatus).FirstOrDefault();
+            // IF NO LOCATION IS INSERTED DURING NEW ORDER THEN ASSIGN DEFAULT LOCATION
+
+            int partCount = 0;
+
+            SqlParameter[] paramPartCount = { new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value)};
+
+            partCount = _repository.ExecuteSQL<int>("CountTotalPartByOrderNo", paramPartCount).FirstOrDefault();
+            
+
+            if (partCount == 0)
+            {
+                int recordType = 4; // Billing Records
+                try
+                {
+                    string defaultLocation = GetDefaultLocationByCompanyNo(model.CompanyNo);
+
+                    OrderWizardStep3 resultStep3 = new OrderWizardStep3();
+
+                    SqlParameter[] paramStep3 = { new SqlParameter("OrderId", (object)model.OrderId ?? (object)DBNull.Value) };
+                    resultStep3 = _repository.ExecuteSQL<OrderWizardStep3>("GetOrderWizardStep3Details", paramStep3).FirstOrDefault();
+
+
+
+                    SqlParameter[] paramScope = { new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value)
+                                        ,new SqlParameter("RecType", (object)recordType ?? (object)DBNull.Value)};
+
+                    string resultScope = _repository.ExecuteSQL<string>("GetScopeForLocation", paramScope).FirstOrDefault();
+
+
+
+                    OrderWizardStep6 defaultPart = new OrderWizardStep6();
+                    defaultPart.OrderId = Convert.ToInt64(model.OrderId);
+                    defaultPart.LocID = defaultLocation;
+                    defaultPart.EmpId = model.EmpId;
+                    defaultPart.IsAuthorization = true;
+                    defaultPart.RecordTypeId = recordType;
+                    defaultPart.RequestMeansId = 1;
+                    defaultPart.ScopeStartDate = resultStep3.DateOfBirth;
+                    defaultPart.ScopeEndDate = DateTime.Now.Date;
+                    defaultPart.Scope = resultScope;
+
+                    OrderWizardStep6ApiController step6 = new OrderWizardStep6ApiController();
+                    await step6.InsertOrUpdateOrderWizardStep6(defaultPart);
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
 
             try
             {
@@ -320,7 +395,7 @@ namespace Axiom.Web.API
                             SqlParameter[] deleteLocationFile = {
                                     new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value)
                                 };
-                            _repository.ExecuteSQL<int>("DeleteLocationFileByOrderNo", deleteLocationFile).FirstOrDefault();                            
+                            _repository.ExecuteSQL<int>("DeleteLocationFileByOrderNo", deleteLocationFile).FirstOrDefault();
                         }
 
                         await new OrderProcess().OrderSummaryEmail(Convert.ToInt32(model.OrderId), model.UserEmail, model.CompanyNo, Convert.ToInt32(model.SubmitStatus));

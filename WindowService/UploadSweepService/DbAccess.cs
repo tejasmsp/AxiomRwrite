@@ -36,7 +36,7 @@ namespace UploadSweepService
                 return dt;
             }
         }
-        
+
         public static void ServiceSweepUpdateRcvdProcess(string spName, int RcvdID)
         {
             List<string> recordList = new List<string>();
@@ -45,9 +45,9 @@ namespace UploadSweepService
                 objConn.Open();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@RcvdID", SqlDbType.Int).Value = RcvdID;                
+                cmd.Parameters.Add("@RcvdID", SqlDbType.Int).Value = RcvdID;
                 cmd.Connection = objConn;
-                cmd.CommandText = spName;                
+                cmd.CommandText = spName;
                 cmd.ExecuteNonQuery();
             }
         }
@@ -70,6 +70,51 @@ namespace UploadSweepService
                 return dt;
             }
         }
+        public static List<CompanyDetailForEmailEntity> CompanyDetailForEmail(string spName, int OrderNO)
+        {
+            List<string> recordList = new List<string>();
+            using (SqlConnection objConn = new SqlConnection(sConnectionString))
+            {
+                objConn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@OrderNo", SqlDbType.Int).Value = OrderNO;
+                cmd.Connection = objConn;
+                cmd.CommandText = spName;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dt.TableName = "Result";
+                return ConvertDataTable<CompanyDetailForEmailEntity>(dt);
+            }
+        }
+
+
+
+        public static List<AssistContactEmail> GetAssistContactEmailList(string spName, int OrderNo, int PartNo, int FileTypeId, int RecordTypeId)
+        {
+            List<string> recordList = new List<string>();
+            using (SqlConnection objConn = new SqlConnection(sConnectionString))
+            {
+                objConn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderNo;
+                cmd.Parameters.Add("@PartNo", SqlDbType.Int).Value = PartNo;
+                cmd.Parameters.Add("@FileTypeId", SqlDbType.Int).Value = FileTypeId;
+                cmd.Parameters.Add("@RecordTypeId", SqlDbType.Int).Value = RecordTypeId;
+
+                cmd.Connection = objConn;
+                cmd.CommandText = spName;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dt.TableName = "Result";
+                return ConvertDataTable<AssistContactEmail>(dt);
+            }
+        }
+
 
         public static void AddFilesToPart(FilesToPartEntity obj, string spName)
         {
@@ -116,7 +161,14 @@ namespace UploadSweepService
                 foreach (PropertyInfo pro in temp.GetProperties())
                 {
                     if (pro.Name == column.ColumnName)
-                        pro.SetValue(obj, dr[column.ColumnName], null);
+                    {
+                        if (dr[column.ColumnName] == null || dr[column.ColumnName] == DBNull.Value)
+                            continue;
+                        else
+                            pro.SetValue(obj, dr[column.ColumnName], null);
+                    }
+
+
                     else
                         continue;
                 }

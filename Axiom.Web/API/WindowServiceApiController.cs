@@ -167,19 +167,14 @@ namespace Axiom.Web.API
                     body = body.Replace("{YESLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
                     body = body.Replace("{NOLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
 
-                    //Add Attorney Email
+                    EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                            , mailTo: item.AttorneyEmail
+                                            , body: body
+                                            , subject: subject
+                                            , ccMail: ""
+                                            , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
-                    //var OrderFirmAttrorneyEmailIds = GetAttorneyEmailListByOrderId(OrderNo);
-                    //if (!String.IsNullOrEmpty(OrderFirmAttrorneyEmailIds))
-                    //{
-                    //    item.Email = item.Email + "," + OrderFirmAttrorneyEmailIds;
-                    //}
-                    //item.Email = item.Email.Trim(',');
 
-                    EmailHelper.Email.Send(item.AttorneyEmail, body, subject, ccMail: "autharchive@axiomcopy.com", bccMail: "tejaspadia@gmail.com");
-
-                    //AxiomEmail.SendMailBilling(subject, body, "sejal.k@shaligraminfotech.com", true, "AxiomSupport@axiomcopy.com", null, "");
-                    // AxiomEmail.SendMailBilling(subject, body, waiver.Email.ToString(), true, "AxiomSupport@axiomcopy.com", null, "tejaspadia@gmail.com,autoemail@axiomcopy.com");
                 }
                 response.Success = true;
                 response.Data = result;
@@ -484,11 +479,13 @@ namespace Axiom.Web.API
                 BillingApiController bc = new BillingApiController();
                 int OrderID = Convert.ToInt32(item.OrderId);
                 int PartNo = Convert.ToInt32(item.PartNo);
-                ApiResponse<BillToAttorneyDetailsEntity> objBillToDetails = bc.GetBillToAttorneyDetailsByOrderId(OrderID.ToString(), PartNo.ToString());
-                ApiResponse<SoldToAttorneyDetailsEntity> objSoldToDetails = bc.GetSoldToAttorneyDetailsByOrderId(OrderID.ToString(), PartNo.ToString());
 
-                ApiResponse<BillToAttorneyEntity> objBillToAttorney = new ApiResponse<BillToAttorneyEntity>();
+                ApiResponse<SoldToAttorneyDetailsEntity> objSoldToDetails = bc.GetSoldToAttorneyDetailsByOrderId(OrderID.ToString(), PartNo.ToString());
+                ApiResponse<BillToAttorneyDetailsEntity> objBillToDetails = bc.GetBillToAttorneyDetailsByOrderId(OrderID.ToString(), PartNo.ToString());
+
                 ApiResponse<BillToAttorneyEntity> objSoldtoAttorney = new ApiResponse<BillToAttorneyEntity>();
+                ApiResponse<BillToAttorneyEntity> objBillToAttorney = new ApiResponse<BillToAttorneyEntity>();
+
 
                 if (objSoldToDetails.Data.Count > 0)
                 {
@@ -515,10 +512,34 @@ namespace Axiom.Web.API
             return response;
         }
 
+        public string GenerateDownloadLink(int FileVersionID,CompanyDetailForEmailEntity objCompany)
+        {
+            string returnLink = string.Empty;
+            string siteURL = objCompany.SiteURL + "api/DownloadDocument?value=";
+            FileVersionEntity FileEntity = new FileVersionEntity();
+            SqlParameter[] param = {
+                        new SqlParameter("FileVersionID", (object)FileVersionID ?? (object)DBNull.Value)};
+            var result = _repository.ExecuteSQL<FileVersionEntity>("GetFileDetailByFileVersionID", param).FirstOrDefault();
+
+            if (result != null)
+            {
+                string currentdate = DateTime.Now.AddDays(30).ToString();
+                string link = result.FileDiskName + "," + result.FileName + "," + result.OrderNo.ToString() + "," + result.PartNo.ToString() + "," + currentdate;
+                returnLink = siteURL + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(link));
+            }
+
+            return returnLink;
+            // return new Document().DownloadFileFromServer(FileEntity.FileDiskName, FileEntity.FileName, FileEntity.OrderNo, FileEntity.PartNo);
+
+
+        }
+
+
         [HttpPost]
         [Route("GenerateInvoice")]
-        public ApiResponse<GenerateInvoiceEntity> GenerateInvoice(Int64 OrderNo, int PartNo, string BillToAttorney, int CompanyNo, List<SoldAttorneyEntity> SoldAtty)
+        public ApiResponse<GenerateInvoiceEntity> GenerateInvoice(Int64 OrderNo, int PartNo, string BillToAttorney, int CompanyNo, List<SoldAttorneyEntity> SoldAtty, int RecordTypeID = 0, int FileVersionID = 0)
         {
+
             var response = new ApiResponse<GenerateInvoiceEntity>();
             string xmlData = ConvertToXml<SoldAttorneyEntity>.GetXMLString(SoldAtty);
             CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
@@ -535,8 +556,11 @@ namespace Axiom.Web.API
 
                 if (result.Count > 0)
                 {
+                    // string documetntlink = GenerateDownloadLink(FileVersionID,objCompany);
                     foreach (GenerateInvoiceEntity item in result)
                     {
+                        if (RecordTypeID == 41 || RecordTypeID == 137)
+                            continue;
                         string subject = "Billing Proposal " + Convert.ToString(OrderNo);
                         string body = string.Empty;
                         using (System.IO.StreamReader reader = new System.IO.StreamReader(HttpContext.Current.Server.MapPath("~/MailTemplate/WaiverBillingProposal.html")))
@@ -558,7 +582,18 @@ namespace Axiom.Web.API
                         //  body = body.Replace("{RecordType}", location.Descr.Trim());
                         body = body.Replace("{RecordType}", Convert.ToString(item.Descr));//INVHdr OF Item TABLE
                         body = body.Replace("{PAGES}", Convert.ToString(item.Pages));
-                        body = body.Replace("{COST}", Convert.ToString(item.TotalAmountForPatientAtty.ToString("F")));
+                        if (OrderNo == 64205)
+                        {
+                            double totalCost = 0;
+                            totalCost = (item.Pages * 0.25) + 10;
+                            body = body.Replace("{COST}", Convert.ToString(totalCost.ToString("F")));
+                        }
+                        else
+                        {
+                            body = body.Replace("{COST}", Convert.ToString(item.TotalAmountForPatientAtty.ToString("F")));
+                        }
+
+
                         body = body.Replace("{LogoURL}", objCompany.Logopath);
                         body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
                         body = body.Replace("{CompanyName}", objCompany.CompName);
@@ -590,7 +625,7 @@ namespace Axiom.Web.API
                         string strAmount = item.TotalAmountForPatientAtty.ToString();
                         string WaiverID = string.Empty;
 
-                        string strApproveLink, strNotApprovedLink, strEditScopeLink, strQueryString;                        
+                        string strApproveLink, strNotApprovedLink, strEditScopeLink, strQueryString;
                         strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + item.LocationName.Replace(',', ' ') + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + PartNo.ToString() + "," + AttorneyNm + "," + item.WaiverAttyID;
                         strApproveLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                         strNotApprovedLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
@@ -610,10 +645,12 @@ namespace Axiom.Web.API
                         }
                         item.Email = item.Email.Trim(',');
 
-                        EmailHelper.Email.Send(item.Email, body, subject, ccMail: "autharchive@axiomcopy.com", bccMail: "tejaspadia@gmail.com");
-
-                        //AxiomEmail.SendMailBilling(subject, body, "sejal.k@shaligraminfotech.com", true, "AxiomSupport@axiomcopy.com", null, "");
-                        // AxiomEmail.SendMailBilling(subject, body, waiver.Email.ToString(), true, "AxiomSupport@axiomcopy.com", null, "tejaspadia@gmail.com,autoemail@axiomcopy.com");
+                        EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                                                , mailTo: item.Email
+                                                , body: body
+                                                , subject: subject
+                                                , ccMail: ""
+                                                , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
                     }
                 }
