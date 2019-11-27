@@ -633,7 +633,7 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetFirmByUserId")]
-        public ApiResponse<FirmScopeEntity> GetFirmByUserId(string UserID, string CompNo)
+        public ApiResponse<FirmScopeEntity> GetFirmByUserId(string UserID, string CompNo="")
         {
             var response = new ApiResponse<FirmScopeEntity>();
             try

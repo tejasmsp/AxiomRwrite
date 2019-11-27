@@ -582,16 +582,21 @@ namespace Axiom.Web.API
                         //  body = body.Replace("{RecordType}", location.Descr.Trim());
                         body = body.Replace("{RecordType}", Convert.ToString(item.Descr));//INVHdr OF Item TABLE
                         body = body.Replace("{PAGES}", Convert.ToString(item.Pages));
-                        if (OrderNo == 64205)
-                        {
-                            double totalCost = 0;
-                            totalCost = (item.Pages * 0.25) + 10;
-                            body = body.Replace("{COST}", Convert.ToString(totalCost.ToString("F")));
-                        }
-                        else
-                        {
-                            body = body.Replace("{COST}", Convert.ToString(item.TotalAmountForPatientAtty.ToString("F")));
-                        }
+
+                        double totalCost = 0;
+                        totalCost = (item.Pages * 0.25) + 10;
+                        body = body.Replace("{COST}", Convert.ToString(totalCost.ToString("F")));
+
+                        //if (OrderNo == 64205)
+                        //{
+                        //    double totalCost = 0;
+                        //    totalCost = (item.Pages * 0.25) + 10;
+                        //    body = body.Replace("{COST}", Convert.ToString(totalCost.ToString("F")));
+                        //}
+                        //else
+                        //{
+                        //    body = body.Replace("{COST}", Convert.ToString(item.TotalAmountForPatientAtty.ToString("F")));
+                        //}
 
 
                         body = body.Replace("{LogoURL}", objCompany.Logopath);

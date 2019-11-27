@@ -184,7 +184,7 @@
     $scope.BindFirmDropDown = function () {
 
         // var firmDropdownList = CommonServices.FirmForDropdown("");
-        var firmDropdownList = CommonServices.GetFirmByUserId($scope.UserGuid);
+        var firmDropdownList = CommonServices.GetFirmByUserId($scope.UserGuid, $rootScope.CompanyNo);
         firmDropdownList.success(function (response) {
 
             $scope.firmList = response.Data;

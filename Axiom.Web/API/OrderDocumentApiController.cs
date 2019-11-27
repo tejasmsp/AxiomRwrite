@@ -243,7 +243,7 @@ namespace Axiom.Web.API
         public BaseApiResponse UploadDocument(int CompanyNo)
         {
             var response = new BaseApiResponse();
-            int FileversionID=0;
+            int FileversionID = 0;
             try
             {
                 var modal = HttpContext.Current.Request.Form[0];
@@ -256,6 +256,23 @@ namespace Axiom.Web.API
                 int rcvdid = 0;
                 if (Convert.ToInt32(data["PartNo"]) > 0 && Convert.ToInt32(data["FileTypeId"]) == 11)
                 {
+
+                    if (Convert.ToInt32(data["RecordTypeId"]) != 41 && Convert.ToInt32(data["RecordTypeId"]) != 137)
+                    {
+                        int compdateResult = 0;
+                        try
+                        {
+                            SqlParameter[] paramCompDate = {  new SqlParameter("OrderId", (object)Convert.ToInt32(data["OrderId"]) ?? (object)DBNull.Value)
+                                                        ,new SqlParameter("PartNo",(object)Convert.ToInt32(data["PartNo"])?? (object)DBNull.Value)};
+                            compdateResult = _repository.ExecuteSQL<int>("UpdateCompDate", paramCompDate).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                    }
+
+
                     try
                     {
 
@@ -471,7 +488,7 @@ namespace Axiom.Web.API
                             soldAttorneyList.Add(new SoldAttorneyEntity { AttyId = item.AttyId, AttyType = "Ordering" });
                         }
 
-                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList,RecordTypeID, FileversionID);
+                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList, RecordTypeID, FileversionID);
 
                     }
                     catch (Exception ex)
@@ -516,7 +533,7 @@ namespace Axiom.Web.API
                             soldAttorneyList.Add(new SoldAttorneyEntity { AttyId = item.AttyId, AttyType = "Ordering" });
                         }
 
-                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList,RecordTypeID, FileversionID);
+                        bc.GenerateInvoice(OrderID, PartNo, strBilltoAttorney, CompanyNo, soldAttorneyList, RecordTypeID, FileversionID);
 
                     }
                     catch (Exception ex)
@@ -544,7 +561,7 @@ namespace Axiom.Web.API
                         if (result != null && result.Any(x => x.NewRecordAvailable))
                         {
                             CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
-							string subject = "Your Records Are Available " + Convert.ToString(data["OrderId"]) + "-" + Convert.ToString(data["PartNo"]);
+                            string subject = "Your Records Are Available " + Convert.ToString(data["OrderId"]) + "-" + Convert.ToString(data["PartNo"]);
                             string LiveSiteURL = ConfigurationManager.AppSettings["LiveSiteURL"].ToString();
 
                             foreach (AssistContactEmail item in result.Where(x => x.NewRecordAvailable && !string.IsNullOrEmpty(x.AssistantEmail)))
@@ -569,11 +586,11 @@ namespace Axiom.Web.API
                                 body = body.Replace("{Link}", objCompany.SiteURL);
 
                                 EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
-                                    ,mailTo: item.AssistantEmail
-                                    ,body: body.ToString()
-                                    ,subject: subject
-                                    ,ccMail: ""
-                                    ,bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
+                                    , mailTo: item.AssistantEmail
+                                    , body: body.ToString()
+                                    , subject: subject
+                                    , ccMail: ""
+                                    , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
                             }
                         }

@@ -36,8 +36,18 @@ namespace Axiom.Entity
         public string AttorneyLastName { get; set; }
         public string AttyID { get; set; }
         public string PatientName { get; set; }
-
     }
+
+    public class BillingProposalAttorneyEntity
+    {
+        public int OrderNo { get; set; }
+        public int PartNo { get; set; }
+        public string AttyID { get; set; }
+        public string AttorneyFirstname { get; set; }
+        public string AttorneyLastName { get; set; }
+        public string AttorneyEmail { get; set; }
+    }
+
     public class BillInvoiceListEntity
     {
         public int InvoiceNumber { get; set; }
