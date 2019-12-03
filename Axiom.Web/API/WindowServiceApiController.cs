@@ -512,7 +512,7 @@ namespace Axiom.Web.API
             return response;
         }
 
-        public string GenerateDownloadLink(int FileVersionID,CompanyDetailForEmailEntity objCompany)
+        public string GenerateDownloadLink(int FileVersionID, CompanyDetailForEmailEntity objCompany)
         {
             string returnLink = string.Empty;
             string siteURL = objCompany.SiteURL + "api/DownloadDocument?value=";
@@ -530,14 +530,12 @@ namespace Axiom.Web.API
 
             return returnLink;
             // return new Document().DownloadFileFromServer(FileEntity.FileDiskName, FileEntity.FileName, FileEntity.OrderNo, FileEntity.PartNo);
-
-
         }
 
 
         [HttpPost]
         [Route("GenerateInvoice")]
-        public ApiResponse<GenerateInvoiceEntity> GenerateInvoice(Int64 OrderNo, int PartNo, string BillToAttorney, int CompanyNo, List<SoldAttorneyEntity> SoldAtty, int RecordTypeID = 0, int FileVersionID = 0)
+        public ApiResponse<GenerateInvoiceEntity> GenerateInvoice(Int64 OrderNo, int PartNo, string BillToAttorney, int CompanyNo, List<SoldAttorneyEntity> SoldAtty, int RecordTypeID = 0, int FileVersionID = 0, bool isFromBillingProposal = false)
         {
 
             var response = new ApiResponse<GenerateInvoiceEntity>();
@@ -553,11 +551,25 @@ namespace Axiom.Web.API
                         ,new SqlParameter("SoldAttorneyAndAttorneyType", (object)xmlData ?? (object)DBNull.Value)
                 };
                 var result = _repository.ExecuteSQL<GenerateInvoiceEntity>("GenerateInvoice", param).ToList();
+                if (isFromBillingProposal)
+                {
+                    response.Success = true;
+                    response.Data = result;
+                    return response;
+                }
+                    
 
                 if (result.Count > 0)
                 {
-                    // string documetntlink = GenerateDownloadLink(FileVersionID,objCompany);
-                    foreach (GenerateInvoiceEntity item in result)
+
+                    SqlParameter[] BillingProposalParam = {
+                        new SqlParameter("OrderNo", (object)OrderNo ?? (object)DBNull.Value)
+                        ,new SqlParameter("PartNo", (object)PartNo ?? (object)DBNull.Value)
+                    };
+                    List<BillingProposalAttorneyEntity> resultBillingProposal = new List<BillingProposalAttorneyEntity>();
+                    resultBillingProposal = _repository.ExecuteSQL<BillingProposalAttorneyEntity>("BillingProposalAttorny", BillingProposalParam).ToList();
+
+                    foreach (BillingProposalAttorneyEntity item in resultBillingProposal)
                     {
                         if (RecordTypeID == 41 || RecordTypeID == 137)
                             continue;
@@ -567,36 +579,25 @@ namespace Axiom.Web.API
                         {
                             body = reader.ReadToEnd();
                         }
-                        if (!string.IsNullOrEmpty(item.FirstName))
+                        if (!string.IsNullOrEmpty(item.AttorneyFirstname))
                         {
-                            body = body.Replace("{Attorney}", Convert.ToString(item.FirstName) + " " + Convert.ToString(item.LastName).Trim());
-                            body = body.Replace("{Firm}", Convert.ToString(item.FirmName).Trim());
+                            body = body.Replace("{Attorney}", Convert.ToString(item.AttorneyFirstname) + " " + Convert.ToString(item.AttorneyLastName).Trim());
+                            body = body.Replace("{Firm}", Convert.ToString(result[0].FirmName).Trim());
                         }
-                        body = body.Replace("{caption}", Convert.ToString(item.Caption).Trim());
-                        body = body.Replace("{RECORDSOF}", Convert.ToString(item.Patient).Trim());
+                        body = body.Replace("{caption}", Convert.ToString(result[0].Caption).Trim());
+                        body = body.Replace("{RECORDSOF}", Convert.ToString(result[0].Patient).Trim());
 
-                        body = body.Replace("{UserName}", Convert.ToString(item.WaiverAttyFirstName).Trim() + " " + Convert.ToString(item.WaiverAttyLastName).Trim());
+                        body = body.Replace("{UserName}", Convert.ToString(item.AttorneyFirstname).Trim() + " " + Convert.ToString(item.AttorneyLastName).Trim());
                         body = body.Replace("{ORDERNO}", OrderNo.ToString());
 
-                        body = body.Replace("{LOCATION}", Convert.ToString(item.LocationName).Replace(',', ' ') + " (" + Convert.ToString(item.LocID) + ")");
+                        body = body.Replace("{LOCATION}", Convert.ToString(result[0].LocationName).Replace(',', ' ') + " (" + Convert.ToString(result[0].LocID) + ")");
                         //  body = body.Replace("{RecordType}", location.Descr.Trim());
-                        body = body.Replace("{RecordType}", Convert.ToString(item.Descr));//INVHdr OF Item TABLE
-                        body = body.Replace("{PAGES}", Convert.ToString(item.Pages));
+                        body = body.Replace("{RecordType}", Convert.ToString(result[0].Descr));//INVHdr OF Item TABLE
+                        body = body.Replace("{PAGES}", Convert.ToString(result[0].Pages));
 
                         double totalCost = 0;
-                        totalCost = (item.Pages * 0.25) + 10;
+                        totalCost = (result[0].Pages * 0.25) + 10;
                         body = body.Replace("{COST}", Convert.ToString(totalCost.ToString("F")));
-
-                        //if (OrderNo == 64205)
-                        //{
-                        //    double totalCost = 0;
-                        //    totalCost = (item.Pages * 0.25) + 10;
-                        //    body = body.Replace("{COST}", Convert.ToString(totalCost.ToString("F")));
-                        //}
-                        //else
-                        //{
-                        //    body = body.Replace("{COST}", Convert.ToString(item.TotalAmountForPatientAtty.ToString("F")));
-                        //}
 
 
                         body = body.Replace("{LogoURL}", objCompany.Logopath);
@@ -607,31 +608,16 @@ namespace Axiom.Web.API
                         string accExecutiveName = "Admin";
                         string accExecutiveEmail = "nrrpf@axiomcopy.com";
 
-                        string AttorneyNm = Convert.ToString(item.WaiverAttyFirstName).Trim() + " " + Convert.ToString(item.WaiverAttyLastName).Trim() + " (" + Convert.ToString(item.Email).Trim() + ")";
-                        //Guid value = new Guid(Membership.GetUser().ProviderUserKey.ToString());
+                        string AttorneyNm = Convert.ToString(item.AttorneyFirstname).Trim() + " " + Convert.ToString(item.AttorneyLastName).Trim() + " (" + Convert.ToString(item.AttorneyEmail).Trim() + ")";
 
-                        //Guid value = new Guid("3668BE61-8089-42AC-AC30-8334BE2C7410");
-                        //retval.CreateErrorResponse(retval.message + value.ToString() + Membership.GetUser().ProviderUserKey.ToString());
-
-                        //GetClientAcctExecResult accExecutive = mr.GetClientAcctExec(value).FirstOrDefault<GetClientAcctExecResult>();
-                        //if (accExecutive != null)
-                        //{
-                        //    accExecutiveName = Convert.ToString(accExecutive.Name);
-                        //    accExecutiveEmail = Convert.ToString(accExecutive.Email);
-                        //}
-                        //else
-                        //{
-                        //    accExecutiveName = "Leah Boroski";
-                        //    accExecutiveEmail = "leah.boroski@axiomcopy.com";
-                        //}
 
                         string orderNo = OrderNo.ToString();
-                        string strPages = item.Pages.ToString();
-                        string strAmount = item.TotalAmountForPatientAtty.ToString();
+                        string strPages = result[0].Pages.ToString();
+                        string strAmount = totalCost.ToString(); //result[0].TotalAmountForPatientAtty.ToString();
                         string WaiverID = string.Empty;
 
                         string strApproveLink, strNotApprovedLink, strEditScopeLink, strQueryString;
-                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + item.LocationName.Replace(',', ' ') + " (" + item.LocID + ")" + "," + strPages + "," + strAmount + "," + PartNo.ToString() + "," + AttorneyNm + "," + item.WaiverAttyID;
+                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + result[0].LocationName.Replace(',', ' ') + " (" + result[0].LocID + ")" + "," + strPages + "," + strAmount + "," + PartNo.ToString() + "," + AttorneyNm + "," + item.AttyID + "," + FileVersionID;
                         strApproveLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                         strNotApprovedLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                         strEditScopeLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
@@ -642,22 +628,14 @@ namespace Axiom.Web.API
                         body = body.Replace("{YESLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
                         body = body.Replace("{NOLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
 
-                        //Add Attorney Email
-                        var OrderFirmAttrorneyEmailIds = GetAttorneyEmailListByOrderId(OrderNo);
-                        if (!String.IsNullOrEmpty(OrderFirmAttrorneyEmailIds))
-                        {
-                            item.Email = item.Email + "," + OrderFirmAttrorneyEmailIds;
-                        }
-                        item.Email = item.Email.Trim(',');
-
                         EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
-                                                , mailTo: item.Email
+                                                , mailTo: item.AttorneyEmail
                                                 , body: body
                                                 , subject: subject
                                                 , ccMail: ""
                                                 , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
-
                     }
+
                 }
                 response.Success = true;
                 response.Data = result;

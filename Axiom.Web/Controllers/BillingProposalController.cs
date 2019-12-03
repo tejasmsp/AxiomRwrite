@@ -34,6 +34,7 @@ namespace Axiom.Web.Controllers
             string partno = string.Empty;
             string AttorneyNm = string.Empty;
             string AttyID = string.Empty;
+            string FileVersionID = string.Empty;
 
             BtnType = (HttpUtility.UrlDecode(EncryptDecrypt.Decrypt(type)));
             string[] querystring = HttpUtility.UrlDecode(EncryptDecrypt.Decrypt(value)).Split(',');
@@ -49,6 +50,7 @@ namespace Axiom.Web.Controllers
             try
             {
                 AttyID = querystring[8].ToString();
+                FileVersionID = querystring[9].ToString();
             }
             catch (Exception ex)
             {
@@ -105,6 +107,7 @@ namespace Axiom.Web.Controllers
             obj.CompanyNo = CompanyNo.ToString();
             obj.CompanyName = objCompany.CompName;
             obj.LogoPath = objCompany.Logopath;
+            obj.FileVersionID = FileVersionID;
 
             return View(obj);
         }
@@ -150,10 +153,25 @@ namespace Axiom.Web.Controllers
                     , mailTo: obj.AccExecutiveEmail
                     , body: body
                     , subject: subject
-                    , ccMail: "autharchive@axiomcopy.com"
-                    , bccMail: "tejaspadia@gmail.com");
+                    , ccMail: ""
+                    , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
 
                 UpdateWaiver(obj.OrderNo, obj.PartNo, obj.AttyID, false);
+
+
+                List<SoldAttorneyEntity> lstSoldAtty = new List<SoldAttorneyEntity>();
+                SoldAttorneyEntity objSoldAtty = new SoldAttorneyEntity();
+                objSoldAtty.AttyId = obj.AttyID;
+                objSoldAtty.AttyType = "Ordering";
+                lstSoldAtty.Add(objSoldAtty);
+
+                BillingApiController ba = new BillingApiController();
+                ba.GenerateInvoice(Convert.ToInt64(obj.OrderNo), Convert.ToInt32(obj.PartNo), obj.AttyID, objCompany.CompNo, lstSoldAtty,0,0,true);
+                string DownLoadLink = GenerateDownloadLink(Convert.ToInt32(obj.FileVersionID), objCompany);
+                objView.DownloadLink = DownLoadLink;
+                objView.CompanyNo = CompanyNo.ToString();
+                objView.CompanyName = objCompany.CompName;
+                objView.LogoPath = objCompany.Logopath;
             }
             catch (Exception ex)
             {
@@ -161,6 +179,29 @@ namespace Axiom.Web.Controllers
             }
             return View("Index", objView);
         }
+
+
+        public string GenerateDownloadLink(int FileVersionID, CompanyDetailForEmailEntity objCompany)
+        {
+            string returnLink = string.Empty;
+            string siteURL = objCompany.SiteURL + "api/DownloadDocument?value=";
+            FileVersionEntity FileEntity = new FileVersionEntity();
+            SqlParameter[] param = {
+                        new SqlParameter("FileVersionID", (object)FileVersionID ?? (object)DBNull.Value)};
+            var result = _repository.ExecuteSQL<FileVersionEntity>("GetFileDetailByFileVersionID", param).FirstOrDefault();
+
+            if (result != null)
+            {
+                string currentdate = DateTime.Now.AddDays(30).ToString();
+                string link = result.FileDiskName + "," + result.FileName + "," + result.OrderNo.ToString() + "," + result.PartNo.ToString() + "," + currentdate;
+                returnLink = siteURL + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(link));
+            }
+
+            return returnLink;
+            // return new Document().DownloadFileFromServer(FileEntity.FileDiskName, FileEntity.FileName, FileEntity.OrderNo, FileEntity.PartNo);
+        }
+
+
         public void UpdateWaiver(string OrderNo, string PartNo, string AttyID, bool Waiver)
         {
             try

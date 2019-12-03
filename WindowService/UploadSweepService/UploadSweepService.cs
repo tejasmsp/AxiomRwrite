@@ -436,7 +436,7 @@ namespace UploadSweepService
                                 body = body.Replace("{CompanyName}", objCompany[0].CompName);
                                 
 
-                                EmailHelper.SendMail(itemEmail.AssistantEmail, body.ToString(), subject, "autharchive@axiomcopy.com", "tejaspadia@gmail.com");
+                                EmailHelper.SendMail(itemEmail.AssistantEmail, body.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                             }
                             catch (Exception ex)
                             {

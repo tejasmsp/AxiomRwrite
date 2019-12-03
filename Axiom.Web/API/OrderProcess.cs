@@ -1299,26 +1299,18 @@ namespace Axiom.Web.API
                             //var location = _repository.ExecuteSQL<LocationEntity>("GetLocationById", param).FirstOrDefault();
                             if (part.isCreateAuthSup == true && part.isAuth == true)
                             {
-                                var AsgnTo = "AUTHSS";
-                                var CallBack = DateTime.Now.AddDays(14);
-
-                                // THIS LOGIC WILLNOT APPLY WHEN CREATING NEW ORDER
-                                //if ((part.ChngDate == Convert.ToDateTime("1900-01-01 00:00:00")) || (pt.ChngDate == null) || (pt.ChngDate <= DateTime.Now.AddYears(-2)))
-                                //{
-                                //    AsgnTo = "FSTCAL";
-                                //    CallBack = Convert.ToDateTime(part.CallBack);
-                                //}
-
-                                //DbAccess.UpdateOrderPart(OrderNo, PartNo, AsgnTo, CallBack);
-                                UpdatePart(OrderNo, part.PartNo, AsgnTo, DateTime.Now.AddDays(14));
+                                if (part.LocID.Trim().ToUpper() != "AXIOMI001")
+                                {
+                                    var AsgnTo = "AUTHSS";
+                                    var CallBack = DateTime.Now.AddDays(14);
+                                    UpdatePart(OrderNo, part.PartNo, AsgnTo, DateTime.Now.AddDays(14));
+                                }
                             }
                             else if (location != null && !string.IsNullOrEmpty(location.SendRequest))
                             {
                                 string[] strsplit = location.SendRequest.Split(',');
                                 foreach (string action in strsplit)
                                 {
-
-
 
                                     if (action == "0" || action == "2")
                                     {

@@ -213,5 +213,7 @@ namespace Axiom.Entity
         public string CompanyNo { get; set; }
         public string LogoPath { get; set; }
         public string CompanyName { get; set; }
+        public string FileVersionID { get; set; }
+        public string DownloadLink { get; set; }
     }
 }

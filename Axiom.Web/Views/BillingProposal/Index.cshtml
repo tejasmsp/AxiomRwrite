@@ -3,6 +3,12 @@
 @{
     Layout = null;
 }
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
 
 <!DOCTYPE html>
 
@@ -11,10 +17,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @if (Model.CompanyNo == "6")
-    {<title>Legal Eagle - Billing Proposal</title> }
+    {
+        <title>Legal Eagle - Billing Proposal</title> }
     else
-    { <title>Axiom - Billing Proposal</title>}
-    
+    {
+        <title>Axiom - Billing Proposal</title>}
+
     @Styles.Render("~/Content/css")
 </head>
 <body>
@@ -26,8 +34,6 @@
             </ul>
         </div>
     </div>
-
-
     @if (Model.BtnType == "y")
     {
         <div class="row pt-20">
@@ -48,8 +54,7 @@
             @Html.HiddenFor(m => m.AttorneyNm);
             @Html.HiddenFor(m => m.BtnType);
             @Html.HiddenFor(m => m.AttyID);
-
-
+            @Html.HiddenFor(m => m.FileVersionID);
 
             <div class="row pt-20">
                 <div class="col-md-12 text-center">
@@ -58,8 +63,8 @@
                     </div>
                     <div class="col-md-4" style="text-align:left;">
                         @*@Html.TextBoxFor(m => m.Newpages, new { @class = "form-control" })*@
-                        <label>Digital</label>&nbsp;@Html.RadioButtonFor(m => m.DocPreference, "true")
-                        <label>Hard Copy</label>&nbsp;@Html.RadioButtonFor(m => m.DocPreference, "false")
+                        <label>Digital</label>&nbsp;@Html.RadioButtonFor(m => m.DocPreference, "false")
+                        <label>Hard Copy</label>&nbsp;@Html.RadioButtonFor(m => m.DocPreference, "true")
                     </div>
                 </div>
             </div>
@@ -87,7 +92,15 @@
     {
         <div class="row mt-20">
             <div class="col-lg-12 text-center">
-                <label class="colorGreen">Your response has been successfully sent to Account Executive.</label>
+                <a href="@Model.DownloadLink" id="downloadLink" class="btn btn-primary" target="_blank" title="Download Record.">Download Your Record</a>
+                <br />
+                <br />
+                <br />
+                <label>This link will expire in 30 days.</label>
+                <br />
+                <br />
+                <button data-clipboard-demo data-clipboard-text="@Model.DownloadLink" title="Copy Link to Clipboard" name="submit" class="btn btn-primary">Copy Link</button>
+
             </div>
         </div>
     }
@@ -97,14 +110,44 @@
 </body>
 </html>
 <script type="text/javascript" lang="ja">
-    (function () {
-        var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-        link.type = 'image/x-icon';
-        link.rel = 'shortcut icon';
-        link.href = 'LegalEagle/favicon.ico';
-        // link.href = 'favicon.ico';
-        document.getElementsByTagName('head')[0].appendChild(link);
-    })();    
+    var clipboard = new ClipboardJS('.btn');
+
+    clipboard.on('success', function (e) {
+        setTooltip(e.trigger, 'Copied!');
+        hideTooltip(e.trigger);
+        //console.info('Action:', e.action);
+        //console.info('Text:', e.text);
+        //console.info('Trigger:', e.trigger);
+        //e.clearSelection();
+    });
+
+    clipboard.on('error', function (e) {
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+    });
+
+
+    $('btn').tooltip({
+        trigger: 'click',
+        placement: 'bottom'
+    });
+
+    function setTooltip(btn, message) {
+        $(btn).tooltip('hide')
+            .attr('data-original-title', message)
+            .tooltip('show');
+    }
+
+    function hideTooltip(btn) {
+        setTimeout(function () {
+            $(btn).tooltip('hide');
+        }, 1000);
+    }
+
+
+
+    
+
 </script>
 <style type="text/css">
     .colorGreen {

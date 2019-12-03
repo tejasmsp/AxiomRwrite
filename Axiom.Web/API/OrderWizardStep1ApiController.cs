@@ -288,10 +288,10 @@ namespace Axiom.Web.API
 
             int partCount = 0;
 
-            SqlParameter[] paramPartCount = { new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value)};
+            SqlParameter[] paramPartCount = { new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value) };
 
             partCount = _repository.ExecuteSQL<int>("CountTotalPartByOrderNo", paramPartCount).FirstOrDefault();
-            
+
 
             if (partCount == 0)
             {
@@ -346,12 +346,19 @@ namespace Axiom.Web.API
                     {
                         model.SubmitStatus = orderResult[0].SubmitStatus;
                     }
-                    SqlParameter[] param = {new SqlParameter("OrderId", (object)model.OrderId ?? (object)DBNull.Value)
+                    int result = 0;
+                    try
+                    {
+                        SqlParameter[] param = {new SqlParameter("OrderId", (object)model.OrderId ?? (object)DBNull.Value)
                                          ,new SqlParameter("UpdatedBy", (object)model.EmpId ?? (object)DBNull.Value)
                                         ,new SqlParameter("UserAccessId", (object)model.UserAccessId  ?? (object)DBNull.Value)};
 
-                    var result = _repository.ExecuteSQL<int>("SubmitOrder", param).FirstOrDefault();
+                        result = _repository.ExecuteSQL<int>("SubmitOrder", param).FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
 
+                    }
                     if (result > 0)
                     {
 
