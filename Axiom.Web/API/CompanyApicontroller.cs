@@ -4,7 +4,9 @@ using Axiom.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Http;
 
 namespace Axiom.Web.API
@@ -116,6 +118,7 @@ namespace Axiom.Web.API
                 if (result > 0)
                 {
                     response.Success = true;
+                    response.InsertedId = result;
                 }
             }
             catch (Exception ex)
@@ -195,6 +198,66 @@ namespace Axiom.Web.API
                 if (result > 0)
                 {
                     response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message.Add(ex.Message);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("UploadCompanyLogo")]
+        public ApiResponse<bool> UploadCompanyLogo(int CompNo)
+        {
+            var response = new ApiResponse<bool>();
+            try
+            {
+                if (HttpContext.Current.Request.Files.AllKeys.Any())
+                {
+                    // Get the uploaded image from the Files collection
+                    var httpPostedFile = HttpContext.Current.Request.Files[0];
+                    byte[] data;
+                    string[] ext = httpPostedFile.FileName.Split('.');
+                    string[] type = {"png"};
+                    if (type.Any(ext[ext.Length - 1].Contains))
+                    {
+                        using (System.IO.Stream inputStream = httpPostedFile.InputStream)
+                        {
+                            System.IO.MemoryStream memoryStream = inputStream as System.IO.MemoryStream;
+                            if (memoryStream == null)
+                            {
+                                memoryStream = new System.IO.MemoryStream();
+                                inputStream.CopyTo(memoryStream);
+                            }
+                            data = memoryStream.ToArray();
+                            string filePath = HttpContext.Current.Server.MapPath(@"~/assets/images") + @"/logo-axiom_" + Convert.ToString(CompNo) + ".png";
+                            if (File.Exists(filePath))
+                            {
+                                File.Delete(filePath);
+                            }
+                            FileStream file = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+                            memoryStream.WriteTo(file);
+                            file.Close();
+                        }
+
+                        SqlParameter[] param = {new SqlParameter("CompNo", (object)CompNo ?? (object)DBNull.Value)
+                                               ,new SqlParameter("Logo"  , (object)data   ?? (object)DBNull.Value)};
+                        var result = _repository.ExecuteSQL<bool>("UploadCompanyLogo", param).ToList();
+
+                        if (result == null)
+                        {
+                            result = new List<bool>() { false };
+                        }
+                        response.Success = true;
+                        response.Data = result;
+                    }
+                    else
+                    {
+                        response.Success = true;
+                        response.Data = new List<bool>() { false };
+                    }
                 }
             }
             catch (Exception ex)

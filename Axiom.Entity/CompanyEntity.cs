@@ -44,6 +44,7 @@ namespace Axiom.Entity
         public string SiteURL { get; set; }
         public string Style { get; set; }
         public string AllowedURL { get; set; }
+        public byte[] Logo { get; set; }
     }
     public class CompanyDetailForEmailEntity
     {
