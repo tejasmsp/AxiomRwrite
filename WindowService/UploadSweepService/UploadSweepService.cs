@@ -8,12 +8,20 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Configuration;
+using System.Net.Http;
 using System.Net.Mail;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using UploadSweepService.Entity;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web.Script.Serialization;
+using System.Web;
 
 namespace UploadSweepService
 {
@@ -25,6 +33,8 @@ namespace UploadSweepService
         MoreInformation = 4,
         InPrgress = 1
     }
+
+
 
 
     public partial class UploadSweepService : ServiceBase
@@ -348,10 +358,101 @@ namespace UploadSweepService
                                 Log.ServicLog("===============================================");
                             }
                         }
-
-
                     }
+                }
+            }
+            catch (Exception ex)
+            {
 
+            }
+        }
+
+
+        public void GenerateInvoice(Int64 OrderNo, int PartNo, string BillToAttorney, int CompanyNo, List<SoldAttorneyEntity> SoldAtty, CompanyDetailForEmailEntity objCompany, int RecordTypeID = 0, int FileVersionID = 0, bool isFromBillingProposal = false)
+        {
+            string xmlData = ConvertToXml<SoldAttorneyEntity>.GetXMLString(SoldAtty);
+
+
+            try
+            {
+
+                List<GenerateInvoiceEntity> result = DbAccess.GenerateInvoice("GenerateInvoice", orderno, partno, BillToAttorney, xmlData);
+
+
+                if (result.Count > 0)
+                {
+
+                    List<BillingProposalAttorneyEntity> resultBillingProposal = new List<BillingProposalAttorneyEntity>();
+
+                    resultBillingProposal = DbAccess.BillingProposalAttorny("BillingProposalAttorny", orderno, partno);
+
+                    foreach (BillingProposalAttorneyEntity item in resultBillingProposal)
+                    {
+                        if (RecordTypeID == 41 || RecordTypeID == 137)
+                            continue;
+                        string subject = "Billing Proposal " + Convert.ToString(OrderNo);
+                        string body = string.Empty;
+                        using (System.IO.StreamReader reader = new System.IO.StreamReader(HttpContext.Current.Server.MapPath("~/MailTemplate/WaiverBillingProposal.html")))
+                        {
+                            body = reader.ReadToEnd();
+                        }
+                        if (!string.IsNullOrEmpty(item.AttorneyFirstname))
+                        {
+                            body = body.Replace("{Attorney}", Convert.ToString(item.AttorneyFirstname) + " " + Convert.ToString(item.AttorneyLastName).Trim());
+                            body = body.Replace("{Firm}", Convert.ToString(result[0].FirmName).Trim());
+                        }
+                        body = body.Replace("{caption}", Convert.ToString(result[0].Caption).Trim());
+                        body = body.Replace("{RECORDSOF}", Convert.ToString(result[0].Patient).Trim());
+
+                        body = body.Replace("{UserName}", Convert.ToString(item.AttorneyFirstname).Trim() + " " + Convert.ToString(item.AttorneyLastName).Trim());
+                        body = body.Replace("{ORDERNO}", OrderNo.ToString());
+
+                        body = body.Replace("{LOCATION}", Convert.ToString(result[0].LocationName).Replace(',', ' ') + " (" + Convert.ToString(result[0].LocID) + ")");
+                        //  body = body.Replace("{RecordType}", location.Descr.Trim());
+                        body = body.Replace("{RecordType}", Convert.ToString(result[0].Descr));//INVHdr OF Item TABLE
+                        body = body.Replace("{PAGES}", Convert.ToString(result[0].Pages));
+
+                        double totalCost = 0;
+                        totalCost = (result[0].Pages * 0.25) + 10;
+                        body = body.Replace("{COST}", Convert.ToString(totalCost.ToString("F")));
+
+
+                        body = body.Replace("{LogoURL}", objCompany.LogoPath);
+                        body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                        body = body.Replace("{CompanyName}", objCompany.CompName);
+                        body = body.Replace("{Link}", objCompany.SiteURL);
+
+                        string accExecutiveName = "Admin";
+                        string accExecutiveEmail = "nrrpf@axiomcopy.com";
+
+                        string AttorneyNm = Convert.ToString(item.AttorneyFirstname).Trim() + " " + Convert.ToString(item.AttorneyLastName).Trim() + " (" + Convert.ToString(item.AttorneyEmail).Trim() + ")";
+
+
+                        string orderNo = OrderNo.ToString();
+                        string strPages = result[0].Pages.ToString();
+                        string strAmount = totalCost.ToString(); //result[0].TotalAmountForPatientAtty.ToString();
+                        string WaiverID = string.Empty;
+
+                        string strApproveLink, strNotApprovedLink, strEditScopeLink, strQueryString;
+                        strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + orderNo + "," + result[0].LocationName.Replace(',', ' ') + " (" + result[0].LocID + ")" + "," + strPages + "," + strAmount + "," + PartNo.ToString() + "," + AttorneyNm + "," + item.AttyID + "," + FileVersionID;
+                        strApproveLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
+                        strNotApprovedLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
+                        strEditScopeLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
+
+
+                        string BaseLink = objCompany.SiteURL + "BillingProposal?type=";
+
+                        body = body.Replace("{YESLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("Y")) + "&value=" + strApproveLink);
+                        body = body.Replace("{NOLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
+
+
+                        EmailHelper.SendMail(mailTo: item.AttorneyEmail
+                                            , body: body
+                                            , subject: subject
+                                            , ccMail: ""
+                                            , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com"
+                                            );
+                    }
                 }
             }
             catch (Exception ex)
@@ -360,8 +461,10 @@ namespace UploadSweepService
             }
 
         }
+
         public void UploadOtherRecords(FileInfo file, string OrderNo, string PartNo)
         {
+
             string item = ConfigurationManager.AppSettings["DocumentFolder"];
             string str = ConfigurationManager.AppSettings["Processed"];
             this.di = new DirectoryInfo(item);
@@ -387,6 +490,7 @@ namespace UploadSweepService
             Guid guid = Guid.NewGuid();
             string str1 = string.Concat(guid.ToString(), file.Extension);
             this.FileToPart(file, PartNo, str1);
+            
             DataTable dt = new DataTable();
 
             // NEW CHANGE FOR SWEEP PROGRAM FOR ATTACHING UPLOADED FILES WITH RECORDS WHICH DONT HAVE ANY FILE UPLOADED
@@ -406,10 +510,10 @@ namespace UploadSweepService
                         RecordType = Convert.ToInt32(dt.Rows[0]["RecType"]);
                         rcvdid = Convert.ToInt32(dt.Rows[0]["RcvdId"]);
                         Pages = Convert.ToInt32(dt.Rows[0]["Pages"]);
-                        
+
                         var result = DbAccess.GetAssistContactEmailList("GetAssistContactEmailList", orderno, partno, FileTypeID, RecordType);
                         List<CompanyDetailForEmailEntity> objCompany = DbAccess.CompanyDetailForEmail("CompanyDetailForEmailByOrderNo", orderno);
-                        
+
 
                         string template = AppDomain.CurrentDomain.BaseDirectory + "MailTemplate\\BillingRecords.html";
                         System.Text.StringBuilder body = new System.Text.StringBuilder();
@@ -434,7 +538,7 @@ namespace UploadSweepService
                                 body = body.Replace("{LogoURL}", objCompany[0].LogoPath);
                                 body = body.Replace("{ThankYou}", objCompany[0].ThankYouMessage);
                                 body = body.Replace("{CompanyName}", objCompany[0].CompName);
-                                
+
 
                                 EmailHelper.SendMail(itemEmail.AssistantEmail, body.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                             }
@@ -443,6 +547,34 @@ namespace UploadSweepService
 
                             }
                         }
+
+                        List<BillToAttorneyDetailsEntity> objBillToDetails = DbAccess.GetBillToAttorneyDetailsByOrderId("GetBillToAttorneyDetailsByOrderId", orderno, partno);
+                        List<SoldToAttorneyDetailsEntity> objSoldToDetails = DbAccess.GetSoldToAttorneyDetailsByOrderId("GetSoldToAttorneyDetailsByOrderId",orderno,partno);
+
+                        List<BillToAttorneyEntity> objBillToAttorney = new List<BillToAttorneyEntity>();
+                        List<BillToAttorneyEntity> objSoldtoAttorney = new List<BillToAttorneyEntity>();
+
+                        if (objSoldToDetails.Count > 0)
+                        {
+                            objSoldtoAttorney = DbAccess.GetSoldToAttorneyByOrderNo("GetSoldToAttorneyByOrderNo",orderno,partno);
+                        }
+
+                        if (objBillToDetails.Count > 0)
+                        {
+                            objBillToAttorney = DbAccess.GetBillToAttorneyByFirmId("GetBillToAttorneyByFirmId",objBillToDetails[0].BillingFirmID);
+                        }
+                        string strBilltoAttorney = objBillToAttorney.Count > 0 ? objBillToAttorney[0].AttyId : "";
+
+                        List<SoldAttorneyEntity> soldAttorneyList = new List<SoldAttorneyEntity>();
+
+
+                        foreach (var itemAtty in objSoldtoAttorney)
+                        {
+                            soldAttorneyList.Add(new SoldAttorneyEntity { AttyId = itemAtty.AttyId, AttyType = "Ordering" });
+                        }
+
+                        GenerateInvoice(orderno, PartNo, strBilltoAttorney, objCompany[0].CompNo, soldAttorneyList, RecordType, FileversionID);
+
                     }
                     catch (Exception ex)
                     {

@@ -498,7 +498,7 @@ namespace Axiom.Web.API
                     }
 
                 }
-                else
+                else if(isFileUploaded)
                 {
 
 
@@ -602,16 +602,15 @@ namespace Axiom.Web.API
                         Log.ServicLog(ex.ToString());
                     }
                 }
-
-
-
-
                 #endregion
+                if (!isFileUploaded)
+                    response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Message.Add(ex.Message);
             }
+            
             return response;
         }
 

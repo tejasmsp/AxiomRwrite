@@ -89,6 +89,89 @@ namespace UploadSweepService
             }
         }
 
+        public static List<BillToAttorneyDetailsEntity> GetBillToAttorneyDetailsByOrderId(string spName, int OrderNo, int PartNo)
+        {
+            List<string> recordList = new List<string>();
+            using (SqlConnection objConn = new SqlConnection(sConnectionString))
+            {
+                objConn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderNo;
+                cmd.Parameters.Add("@PartNo", SqlDbType.Int).Value = PartNo;
+
+                cmd.Connection = objConn;
+                cmd.CommandText = spName;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dt.TableName = "Result";
+                return ConvertDataTable<BillToAttorneyDetailsEntity>(dt);
+            }
+        }
+        public static List<SoldToAttorneyDetailsEntity> GetSoldToAttorneyDetailsByOrderId(string spName, int OrderNo, int PartNo)
+        {
+            List<string> recordList = new List<string>();
+            using (SqlConnection objConn = new SqlConnection(sConnectionString))
+            {
+                objConn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderNo;
+                cmd.Parameters.Add("@PartNo", SqlDbType.Int).Value = PartNo;
+
+                cmd.Connection = objConn;
+                cmd.CommandText = spName;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dt.TableName = "Result";
+                return ConvertDataTable<SoldToAttorneyDetailsEntity>(dt);
+            }
+        }
+        public static List<BillToAttorneyEntity> GetSoldToAttorneyByOrderNo(string spName, int OrderNo, int PartNo)
+        {
+            List<string> recordList = new List<string>();
+            using (SqlConnection objConn = new SqlConnection(sConnectionString))
+            {
+                objConn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderNo;
+                cmd.Parameters.Add("@PartNo", SqlDbType.Int).Value = PartNo;
+
+                cmd.Connection = objConn;
+                cmd.CommandText = spName;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dt.TableName = "Result";
+                return ConvertDataTable<BillToAttorneyEntity>(dt);
+            }
+        }
+        public static List<BillToAttorneyEntity> GetBillToAttorneyByFirmId(string spName,string FirmID )
+        {
+            List<string> recordList = new List<string>();
+            using (SqlConnection objConn = new SqlConnection(sConnectionString))
+            {
+                objConn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@FirmID", SqlDbType.Int).Value = FirmID;
+
+                cmd.Connection = objConn;
+                cmd.CommandText = spName;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dt.TableName = "Result";
+                return ConvertDataTable<BillToAttorneyEntity>(dt);
+            }
+        }
 
 
         public static List<AssistContactEmail> GetAssistContactEmailList(string spName, int OrderNo, int PartNo, int FileTypeId, int RecordTypeId)
@@ -112,6 +195,52 @@ namespace UploadSweepService
                 da.Fill(dt);
                 dt.TableName = "Result";
                 return ConvertDataTable<AssistContactEmail>(dt);
+            }
+        }
+
+        public static List<BillingProposalAttorneyEntity> BillingProposalAttorny(string spName, int OrderNo, int PartNo)
+        {
+            List<string> recordList = new List<string>();
+            using (SqlConnection objConn = new SqlConnection(sConnectionString))
+            {
+                objConn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderNo;
+                cmd.Parameters.Add("@PartNo", SqlDbType.Int).Value = PartNo;
+
+                cmd.Connection = objConn;
+                cmd.CommandText = spName;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dt.TableName = "Result";
+                return ConvertDataTable<BillingProposalAttorneyEntity>(dt);
+            }
+        }
+
+        public static List<GenerateInvoiceEntity> GenerateInvoice(string spName, int OrderNo, int PartNo, string BillAttorney, string SoldAttorneyAndAttorneyType)
+        {
+            List<string> recordList = new List<string>();
+            using (SqlConnection objConn = new SqlConnection(sConnectionString))
+            {
+                objConn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderNo;
+                cmd.Parameters.Add("@PartNo", SqlDbType.Int).Value = PartNo;
+                cmd.Parameters.Add("@BillAttorney", SqlDbType.Int).Value = BillAttorney;
+                cmd.Parameters.Add("@SoldAttorneyAndAttorneyType", SqlDbType.Int).Value = SoldAttorneyAndAttorneyType;
+
+                cmd.Connection = objConn;
+                cmd.CommandText = spName;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dt.TableName = "Result";
+                return ConvertDataTable<GenerateInvoiceEntity>(dt);
             }
         }
 

@@ -13,7 +13,7 @@ namespace UploadSweepService
         /// The main entry point for the application.
         /// </summary>
         /// 
-        static bool isDebug = false;
+        static bool isDebug = true;
         static void Main()
         {
 
