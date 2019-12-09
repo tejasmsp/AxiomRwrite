@@ -520,7 +520,7 @@ namespace Axiom.Web.API
             }
         }
 
-        public async Task AddQuickformsForNewOrder(int OrderNo, bool isEditOrder = false, bool isNewAddedPart = false, string partNumberCSV = "")
+        public async Task AddQuickformsForNewOrder(int OrderNo, bool isEditOrder = false, bool isNewAddedPart = false, string partNumberCSV = "", string logoDirectoryPath ="")
         {
             CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmailByOrderNo(OrderNo.ToString());
 
@@ -1151,7 +1151,13 @@ namespace Axiom.Web.API
                             Aspose.Words.License license = new Aspose.Words.License();
                             license.SetLicense("Aspose.Words.lic");
                             string filePath = Path.Combine(documentRoot, qf.DocPath.ToString().Trim().Replace(">", "\\"), qf.DocName.Trim());
-                            Aspose.Words.Document doc = new Aspose.Words.Document(filePath);
+                            #region Add Company Wise logo 
+                            //OLD Code: Aspose.Words.Document doc = new Aspose.Words.Document(filePath); 
+
+                            Aspose.Words.Document doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", logoDirectoryPath, objCompany.CompNo));
+                            #endregion
+
+
 
                             try
                             {

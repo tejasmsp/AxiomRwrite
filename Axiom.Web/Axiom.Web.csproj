@@ -854,9 +854,15 @@
     <Content Include="MailTemplate\ClientRecords\vendor\select2\select2.min.js" />
     <Content Include="MailTemplate\GetPassword.html" />
     <Content Include="MailTemplate\ForgetPassword.html" />
-    <Content Include="ProjectLicFiles\Aspose.BarCode.dll" />
-    <Content Include="ProjectLicFiles\Aspose.Pdf.dll" />
-    <Content Include="ProjectLicFiles\Aspose.Words.dll" />
+    <Content Include="ProjectLicFiles\Aspose.BarCode.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectLicFiles\Aspose.Pdf.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProjectLicFiles\Aspose.Words.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ProjectLicFiles\NReco.PdfGenerator.dll" />
     <Content Include="ProjectLicFiles\PdfSharp.dll" />
     <Content Include="Reports\InvoiceBatchReport.aspx" />
@@ -1271,7 +1277,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49816</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8086/</IISUrl>
+          <IISUrl>http://localhost:8087/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

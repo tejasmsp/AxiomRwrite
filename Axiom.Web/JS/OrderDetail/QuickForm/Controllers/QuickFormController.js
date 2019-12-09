@@ -536,6 +536,7 @@
             // $scope.GetQuickformPdf(objpdf);
             objpdf.EmpId = $scope.UserEmployeeID;
             objpdf.UserId = $scope.UserGUID;
+            objpdf.CompNo = $rootScope.CompanyNo;
             var result = QuickFormService.QuickFormGetPdf(objpdf);
         });
         currentPath.error(function (data, statusCode) {
@@ -543,9 +544,12 @@
     }
     $scope.PrintOpenDocument = function (item) {
         debugger;
-        $scope.GetDocumentRootPath(item);
-        $scope.ShowQuickForm = true;
-
+        if (item!=null) {
+            item.CompNo = $rootScope.CompanyNo;
+            $scope.GetDocumentRootPath(item);
+            $scope.ShowQuickForm = true; 
+        }
+        
     }
     $scope.GetQuickformPdf = function (objpdfList) {
         for (var c = 0; c < objpdfList.length; c++) {            

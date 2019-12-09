@@ -406,7 +406,9 @@ namespace Axiom.Web.API
                         }
 
                         await new OrderProcess().OrderSummaryEmail(Convert.ToInt32(model.OrderId), model.UserEmail, model.CompanyNo, Convert.ToInt32(model.SubmitStatus));
-                        await new OrderProcess().AddQuickformsForNewOrder(Convert.ToInt32(model.OrderId), Convert.ToBoolean(model.SubmitStatus), Convert.ToBoolean(model.SubmitStatus));
+
+                        
+                        await new OrderProcess().AddQuickformsForNewOrder(Convert.ToInt32(model.OrderId), Convert.ToBoolean(model.SubmitStatus), Convert.ToBoolean(model.SubmitStatus), logoDirectoryPath: HttpContext.Current.Server.MapPath(@"~/assets/images/"));
 
                         // await new OrderProcess().ESignature(Convert.ToInt32(model.OrderId), model.CompanyNo);
 
