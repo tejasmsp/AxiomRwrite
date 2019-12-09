@@ -73,6 +73,7 @@ namespace QuickFormService
             Log.ServicLog("Generate Documents" + DateTime.Now.ToString());
             Log.ServicLog("---------- SERVICE EXECUTED " + DateTime.Now.ToString() + "---------------");
             string documentRoot = ConfigurationManager.AppSettings["DocumentRoot"];
+            string companyLogoDirectory = ConfigurationManager.AppSettings["CompanyLogoDirectory"];
             List<string> FileNotFound = new List<string>();
             try
             {
@@ -441,7 +442,16 @@ namespace QuickFormService
                                             FileNotFound.Add("Order No : <b>" + OrderPart + "</b>   " + filePath);
                                             continue;
                                         }
-                                        Document doc = new Document(filePath);
+
+
+
+                                        #region Add Company Wise logo 
+
+                                        //OLD Code: //Document doc = new Document(filePath);
+                                        //CompanyLogoDirectory
+                                        Document doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
+
+                                        #endregion
 
                                         // Here Barcode Generater Code
                                         Aspose.BarCode.License licence = new Aspose.BarCode.License();
