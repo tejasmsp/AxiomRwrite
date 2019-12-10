@@ -170,6 +170,8 @@ namespace Axiom.Entity
         public bool? Rush { get; set; }
         public string RoleName { get; set; }
         public string LoggedInUserEmail { get; set; }
+        public string IStatus { get; set; }
+        public bool AllowDelete { get; set; }
     }
     public class OrderWizardStep6Document
     {

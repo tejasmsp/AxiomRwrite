@@ -392,7 +392,8 @@ namespace UploadSweepService
                             continue;
                         string subject = "Billing Proposal " + Convert.ToString(OrderNo);
                         string body = string.Empty;
-                        using (System.IO.StreamReader reader = new System.IO.StreamReader(HttpContext.Current.Server.MapPath("~/MailTemplate/WaiverBillingProposal.html")))
+                        
+                        using (System.IO.StreamReader reader = new System.IO.StreamReader(AppDomain.CurrentDomain.BaseDirectory + "MailTemplate\\WaiverBillingProposal.html"))
                         {
                             body = reader.ReadToEnd();
                         }
@@ -467,6 +468,7 @@ namespace UploadSweepService
 
             string item = ConfigurationManager.AppSettings["DocumentFolder"];
             string str = ConfigurationManager.AppSettings["Processed"];
+            int FileVersionID = 0;
             this.di = new DirectoryInfo(item);
             if (!this.di.Exists)
             {
@@ -490,7 +492,9 @@ namespace UploadSweepService
             Guid guid = Guid.NewGuid();
             string str1 = string.Concat(guid.ToString(), file.Extension);
             this.FileToPart(file, PartNo, str1);
+
             
+
             DataTable dt = new DataTable();
 
             // NEW CHANGE FOR SWEEP PROGRAM FOR ATTACHING UPLOADED FILES WITH RECORDS WHICH DONT HAVE ANY FILE UPLOADED
@@ -500,6 +504,9 @@ namespace UploadSweepService
             int Pages = 0;
             dt = DbAccess.GetLastUploadedRecord("ServiceSweepGetLastUploadedRecord", orderno, partno);
             DataTable dtAssistantContact = new DataTable();
+
+            
+
             if (dt != null)
             {
                 if (dt.Rows.Count > 0)
@@ -510,6 +517,20 @@ namespace UploadSweepService
                         RecordType = Convert.ToInt32(dt.Rows[0]["RecType"]);
                         rcvdid = Convert.ToInt32(dt.Rows[0]["RcvdId"]);
                         Pages = Convert.ToInt32(dt.Rows[0]["Pages"]);
+
+
+                        FileObject fileObject = new FileObject()
+                        {
+                            FileName = file.Name,
+                            FileType = FileTypeID, // dbo.FileTypes = 18 WHICH IS "OTHER"
+                            IsPublic = true,
+                            OrderNo = this.orderno,
+                            PartNo = this.partno,
+                            RecordType = RecordType,
+                            Pages = Pages,
+                            UserId = new Guid("507D72AE-1E1F-4FC0-AEED-3962FF1DCEC8")
+                        };
+                        FileVersionID = this.AddFilesToPart(fileObject, str1);
 
                         var result = DbAccess.GetAssistContactEmailList("GetAssistContactEmailList", orderno, partno, FileTypeID, RecordType);
                         List<CompanyDetailForEmailEntity> objCompany = DbAccess.CompanyDetailForEmail("CompanyDetailForEmailByOrderNo", orderno);
@@ -563,46 +584,33 @@ namespace UploadSweepService
                         {
                             objBillToAttorney = DbAccess.GetBillToAttorneyByFirmId("GetBillToAttorneyByFirmId",objBillToDetails[0].BillingFirmID);
                         }
-                        string strBilltoAttorney = objBillToAttorney.Count > 0 ? objBillToAttorney[0].AttyId : "";
+                        string strBilltoAttorney = objBillToAttorney.Count > 0 ? objBillToAttorney[0].AttyID : "";
 
                         List<SoldAttorneyEntity> soldAttorneyList = new List<SoldAttorneyEntity>();
 
 
                         foreach (var itemAtty in objSoldtoAttorney)
                         {
-                            soldAttorneyList.Add(new SoldAttorneyEntity { AttyId = itemAtty.AttyId, AttyType = "Ordering" });
+                            soldAttorneyList.Add(new SoldAttorneyEntity { AttyId = itemAtty.AttyID, AttyType = "Ordering" });
                         }
 
-                        GenerateInvoice(orderno, PartNo, strBilltoAttorney, objCompany[0].CompNo, soldAttorneyList, RecordType, FileversionID);
-
+                        GenerateInvoice(orderno, partno, strBilltoAttorney, objCompany[0].CompNo, soldAttorneyList,objCompany[0], RecordType, FileVersionID);
                     }
                     catch (Exception ex)
                     {
-
+                        Log.ServicLog("From Bill Generation section : " + ex.ToString());
                     }
-
                 }
             }
 
-            FileObject fileObject = new FileObject()
-            {
-                FileName = file.Name,
-                FileType = FileTypeID, // dbo.FileTypes = 18 WHICH IS "OTHER"
-                IsPublic = true,
-                OrderNo = this.orderno,
-                PartNo = this.partno,
-                RecordType = RecordType,
-                Pages = Pages,
-                UserId = new Guid("507D72AE-1E1F-4FC0-AEED-3962FF1DCEC8")
-            };
-            this.AddFilesToPart(fileObject, str1);
+            
             try
             {
                 DbAccess.ServiceSweepUpdateRcvdProcess("ServiceSweepUpdateRcvdProcess", rcvdid);
             }
             catch (Exception ex)
             {
-
+                Log.ServicLog(ex.ToString());
             }
 
             Log.ServicLog(string.Concat(file, " Processed Successfully"));
@@ -653,8 +661,9 @@ namespace UploadSweepService
             File.Delete(this.destFile);
             File.Copy(this.sourceFile, this.destFile);
         }
-        private void AddFilesToPart(FileObject fileObj, string fileDiskName)
+        private int AddFilesToPart(FileObject fileObj, string fileDiskName)
         {
+            int retValue = 0;
             try
             {
                 var obj = new FilesToPartEntity();
@@ -667,12 +676,13 @@ namespace UploadSweepService
                 obj.IsPublic = fileObj.IsPublic;
                 obj.Pages = fileObj.Pages;
                 obj.FileDiskName = fileDiskName;
-                DbAccess.AddFilesToPart(obj, "ServiceSweepAddFilesToPart");
+                retValue = DbAccess.AddFilesToPart(obj, "ServiceSweepAddFilesToPart");
             }
             catch (Exception exception)
             {
                 Log.ServicLog(exception.Message);
             }
+            return retValue;
         }
         private void InsertData(int orderno, int partno, string documentname, bool status, DateTime createddate)
         {

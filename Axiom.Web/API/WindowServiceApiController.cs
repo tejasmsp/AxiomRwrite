@@ -571,6 +571,9 @@ namespace Axiom.Web.API
 
                     foreach (BillingProposalAttorneyEntity item in resultBillingProposal)
                     {
+                        // RecordTypeID = 41 (Cancelled)
+                        // RecordTypeID = 137 (No Records)
+
                         if (RecordTypeID == 41 || RecordTypeID == 137)
                             continue;
                         string subject = "Billing Proposal " + Convert.ToString(OrderNo);

@@ -1370,8 +1370,8 @@ namespace Axiom.Web.API
                                                     , mailTo: "j.alspaugh@axiomcopy.com"
                                                     , body: body
                                                     , subject: subject
-                                                    , ccMail: "tejaspadia@gmail.com"
-                                                    , bccMail: "");
+                                                    , ccMail: ""
+                                                    , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                                             }
                                             else
                                             {

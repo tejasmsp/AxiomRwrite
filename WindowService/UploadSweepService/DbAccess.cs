@@ -140,7 +140,7 @@ namespace UploadSweepService
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderNo;
+                cmd.Parameters.Add("@OrderNo", SqlDbType.Int).Value = OrderNo;
                 cmd.Parameters.Add("@PartNo", SqlDbType.Int).Value = PartNo;
 
                 cmd.Connection = objConn;
@@ -161,7 +161,7 @@ namespace UploadSweepService
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@FirmID", SqlDbType.Int).Value = FirmID;
+                cmd.Parameters.Add("@FirmID", SqlDbType.VarChar).Value = FirmID;
 
                 cmd.Connection = objConn;
                 cmd.CommandText = spName;
@@ -207,7 +207,7 @@ namespace UploadSweepService
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderNo;
+                cmd.Parameters.Add("@OrderNo", SqlDbType.Int).Value = OrderNo;
                 cmd.Parameters.Add("@PartNo", SqlDbType.Int).Value = PartNo;
 
                 cmd.Connection = objConn;
@@ -229,10 +229,10 @@ namespace UploadSweepService
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.Add("@OrderID", SqlDbType.Int).Value = OrderNo;
+                cmd.Parameters.Add("@OrderNo", SqlDbType.Int).Value = OrderNo;
                 cmd.Parameters.Add("@PartNo", SqlDbType.Int).Value = PartNo;
-                cmd.Parameters.Add("@BillAttorney", SqlDbType.Int).Value = BillAttorney;
-                cmd.Parameters.Add("@SoldAttorneyAndAttorneyType", SqlDbType.Int).Value = SoldAttorneyAndAttorneyType;
+                cmd.Parameters.Add("@BillAttorney", SqlDbType.VarChar).Value = BillAttorney;
+                cmd.Parameters.Add("@SoldAttorneyAndAttorneyType", SqlDbType.Xml).Value = SoldAttorneyAndAttorneyType;
 
                 cmd.Connection = objConn;
                 cmd.CommandText = spName;
@@ -245,7 +245,7 @@ namespace UploadSweepService
         }
 
 
-        public static void AddFilesToPart(FilesToPartEntity obj, string spName)
+        public static int AddFilesToPart(FilesToPartEntity obj, string spName)
         {
             using (SqlConnection objConn = new SqlConnection(sConnectionString))
             {
@@ -263,7 +263,7 @@ namespace UploadSweepService
                 cmd.Parameters.AddWithValue("FileDiskName", obj.FileDiskName);
                 cmd.Connection = objConn;
                 cmd.CommandText = spName;
-                cmd.ExecuteNonQuery();
+                return Convert.ToInt32(cmd.ExecuteScalar());
 
             }
         }

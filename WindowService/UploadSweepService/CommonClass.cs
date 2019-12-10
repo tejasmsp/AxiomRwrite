@@ -14,7 +14,7 @@ namespace UploadSweepService
     }
     public class BillToAttorneyEntity
     {
-        public string AttyId { get; set; }
+        public string AttyID { get; set; }
         public string AttorneyName { get; set; }
         public string Warning { get; set; }
     }
