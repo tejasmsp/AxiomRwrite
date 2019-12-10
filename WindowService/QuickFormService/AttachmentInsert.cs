@@ -260,7 +260,13 @@ namespace QuickFormService
                             License license = new License();
                             license.SetLicense("Aspose.Words.lic");
                             string filePath = Path.Combine(documentRoot, drForm["DocPath"].ToString().Trim().Replace(">", "/"), docName.Trim());
-                            Document doc = new Document(filePath);
+
+                            #region Add Company Wise logo 
+                            //OLD Code: //Document doc = new Document(filePath);
+                            string companyLogoDirectory = ConfigurationManager.AppSettings["CompanyLogoDirectory"];
+                            Document doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
+                            #endregion
+
                             doc.MailMerge.Execute(dtQuery);
                             doc.Save(ms, SaveFormat.Pdf);
                             string outputFileName = "printforms";
