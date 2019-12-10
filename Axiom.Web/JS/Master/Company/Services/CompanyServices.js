@@ -20,5 +20,19 @@
     CompanyService.DeleteCompany = function (CompNo) {
         return $http.post(configurationService.basePath + "DeleteCompany?CompNo=" + CompNo);
     };
+    CompanyService.UploadCompanyLogo = function (fd, CompNo) {
+        return $.ajax({
+            url: configurationService.basePath + "UploadCompanyLogo?CompNo=" + CompNo,
+            data: fd,
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: 'POST', // For jQuery < 1.9
+            success: function (data) {
+            }
+        });
+    };
+
     return CompanyService;
 });

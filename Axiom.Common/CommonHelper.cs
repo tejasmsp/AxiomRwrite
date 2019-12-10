@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Data;
+using Aspose.Words;
+using System.IO;
+using Aspose.Words.Drawing;
+
 namespace Axiom.Common
 {
     public class CommonHelper
@@ -96,6 +100,93 @@ namespace Axiom.Common
                 chars[i] = _allowedChars[(int)((_allowedChars.Length) * randNum.NextDouble())];
             }
             return new string(chars);
+        }
+
+        /// <summary>
+        /// Insert Image in Word Document 
+        /// </summary>
+        /// <param name="SourceDocumentFilePath">Source/Input Document file's full path</param>
+        ///// <param name="TargetDocumentFilePath">Target/Output Document file's full path</param>
+        /// <param name="InputImagePath">Image full path(Which needs to be inserted in the document) </param>
+        /// <param name="needtoAddHeader">Add header in page page if true  </param>
+        /// <param name="ImageWidthDraw">Image-Width in the document</param>
+        /// <param name="ImageHeightDraw">Image-Height in the document</param>
+        /// <param name="Left">Left</param>
+        /// <param name="Top">Top</param>
+        /// <returns></returns>
+        public static Document InsertHeaderLogo(string SourceDocumentFilePath, string InputImagePath, bool needtoAddHeader = false, double ImageWidthDraw = 120, double ImageHeightDraw = 44, double Left = 10, double Top = 10)
+            //, string TargetDocumentFilePath,
+        {
+            License license1 = new License();
+            license1.SetLicense("Aspose.Words.lic");
+            Document doc = new Document(SourceDocumentFilePath);
+            DocumentBuilder builder = new DocumentBuilder(doc);
+            if (needtoAddHeader)
+            {
+                Section currentSection = builder.CurrentSection;
+
+                PageSetup pageSetup = currentSection.PageSetup;
+
+
+                pageSetup.DifferentFirstPageHeaderFooter = false;
+
+
+                // --- Create header for the first page. ---
+
+                pageSetup.HeaderDistance = 100;
+
+                builder.MoveToHeaderFooter(HeaderFooterType.HeaderFirst);
+
+                builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+
+
+                // Set font properties for header text.
+
+                builder.Font.Name = "Arial";
+
+                builder.Font.Bold = true;
+
+                builder.Font.Size = 14;
+
+
+                // Specify header title for the first page.
+
+                builder.Write("...Header Text Here....");
+
+
+                // --- Create header for pages other than first. ---
+
+                pageSetup.HeaderDistance = 20;
+
+                builder.MoveToHeaderFooter(HeaderFooterType.HeaderPrimary);
+
+
+                // Insert absolutely positioned image into the top/left corner of the header.
+
+                // Distance from the top/left edges of the page is set to 10 points.
+
+                if (File.Exists(InputImagePath))
+                {
+
+                    builder.InsertImage(InputImagePath, RelativeHorizontalPosition.Page, 10, RelativeVerticalPosition.Page, 10, ImageWidthDraw, ImageHeightDraw, WrapType.Through);
+                }
+
+                //doc.Save(TargetDocumentFilePath);
+            }
+            else
+            {
+                RelativeHorizontalPosition h = RelativeHorizontalPosition.Page;
+                RelativeVerticalPosition v = RelativeVerticalPosition.Page;
+                WrapType w = WrapType.None;
+                if (File.Exists(InputImagePath))
+                {
+
+                    builder.InsertImage(InputImagePath, h, 10, v, 10, ImageWidthDraw, ImageHeightDraw, w);
+                }
+            }
+
+            return doc;
+
         }
     }
 

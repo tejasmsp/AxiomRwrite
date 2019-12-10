@@ -219,10 +219,19 @@
                             <textarea rows="3" class="form-control" ng-model="Companyobj.AllowedURL"></textarea>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-2 control-label lbl-primary">Logo</label>
+                        <div class="col-sm-10">
+                            <div class="divFileUpload" style="width:160px;height:70px;min-height: 70px; ">
+                                <input type='file' id="fileLogo" name="fileLogo" class="file_upload" title="Select Image" onchange="readURL(this);" accept="image/x-png" />
+                                <img src="" ng-src="data:image/png;base64,{{Companyobj.Logo}}" id="imgLogo" alt="" width="150" height="70" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 text-right" style="padding-right:17px;">
-                        <button type="button" ui-sref="Company" class="btn btn-default" title="Cancel">Cancle</button>
+                        <button type="button" ui-sref="Company" class="btn btn-default" title="Cancel">Cancel</button>
                         <button type="submit" ng-if="((isSubModuleAccessibleToUser('Settings', 'Company', 'Edit Company')) || (isSubModuleAccessibleToUser('Settings', 'Company', 'Add Company')))" ng-click="SaveCompany(Companyeditform)" class="btn btn-primary" title="Save">Save</button>
 
                     </div>
@@ -231,3 +240,30 @@
         </div>
     </div>
 </div>
+<script>
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+
+            var array = input.files[0].name.split(".")
+            var ext = array[array.length - 1];
+            var type = ["png"];
+            if (type.indexOf(ext.toLowerCase()) > -1) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgLogo')
+                        .attr('src', e.target.result);
+                    a = e.target.result;
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                alert("Please select png-image file only.")
+                return false;
+            }
+
+        }
+    }
+</script>

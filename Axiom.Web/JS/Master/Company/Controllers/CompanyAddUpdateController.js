@@ -11,17 +11,46 @@
     //------------
 
     //#region Events
+
+    $scope.UpdateUserProfile = function (form) {
+
+        if (form.$valid) { 
+            var fd = new FormData();
+            fd.append("file", $("#fileLogo")[0].files[0]);
+            var fileupload = CompanyServices.UploadCompanyLogo(fd, $scope.Companyobj.CompNo);
+            fileupload.success(function (response) {
+                if (response != null && response.Message != null && response.Message.length > 0) {
+                    toastr.error(response.Message[0]);
+                    return;
+                }
+                if (!$scope.isEdit)
+                {
+                    toastr.success('Company saved successfully.'); 
+                }
+                else
+                {
+                    toastr.success('Company updated successfully.');
+                }
+                $state.transitionTo('Company');
+             
+            });
+        }
+
+    };
+
     $scope.SaveCompany = function (form) {
-        debugger;
+        
         if (form.$valid) {
             $scope.Companyobj.CreatedBy = $scope.UserAccessId;
             if (!$scope.isEdit) {
-                debugger;
+                
                 var promise = CompanyServices.InsertCompany($scope.Companyobj);
                 promise.success(function (response) {
-                    if (response.Success) {
-                        toastr.success('Company saved successfully.');
-                        $state.transitionTo('Company');
+                    if (response.Success) { 
+                        $scope.Companyobj.CompNo = response.InsertedId;
+                        $scope.UpdateUserProfile(form);
+                        //toastr.success('Company saved successfully.');
+                        //$state.transitionTo('Company');
                     }
                     else {
                         toastr.error(response.Message[0]);
@@ -30,14 +59,14 @@
                 promise.error(function (data, statusCode) {
                 });
             }
-            else {
-                debugger;
+            else { 
                 var promiseedit = CompanyServices.UpdateCompanyDetail($scope.Companyobj);
                 promiseedit.success(function (response) {
-                    debugger;
+                    
                     if (response.Success) {
-                        toastr.success('Company updated successfully.');
-                        $state.transitionTo('Company');
+                        //toastr.success('Company updated successfully.');
+                        //$state.transitionTo('Company');
+                        $scope.UpdateUserProfile(form);
                     }
                     else {
                         toastr.error(response.Message[0]);
