@@ -58,8 +58,8 @@
         return $http.post(configurationService.basePath + "DeleteCanvas?ID=" + ID);
     };
 
-    Step6Service.DeleteOrderLocation = function (PartNo, OrderNo) {
-        return $http.post(configurationService.basePath + "DeleteOrderLocation?PartNo=" + PartNo + "&OrderNo=" + OrderNo);
+    Step6Service.DeleteOrderLocation = function (PartNo, OrderNo,UserAccessID) {
+        return $http.post(configurationService.basePath + "DeleteOrderLocation?PartNo=" + PartNo + "&OrderNo=" + OrderNo + "&UserAccessID=" + UserAccessID);
     };
 
 

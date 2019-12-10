@@ -172,6 +172,7 @@ namespace Axiom.Web.Controllers
                 objView.CompanyNo = CompanyNo.ToString();
                 objView.CompanyName = objCompany.CompName;
                 objView.LogoPath = objCompany.Logopath;
+                objView.FileVersionID = obj.FileVersionID;
             }
             catch (Exception ex)
             {

@@ -524,7 +524,7 @@
     $scope.DeleteLocation = function ($event) {
         var tblStep6 = $('#tblStep6').DataTable();
         var data = tblStep6.row($($event.target).parents('tr')).data();
-        var promise = Step6Service.DeleteOrderLocation(data.PartNo, data.OrderId);
+        var promise = Step6Service.DeleteOrderLocation(data.PartNo, data.OrderId, $scope.UserAccessId);
         promise.success(function (response) {
             if (response.Success) {
                 tblStep6.row($($event.target).parents('tr')).remove();
@@ -850,9 +850,12 @@
                     "sorting": "false",
                     "width": "8%",
                     "render": function (data, type, row) {
+                        
                         var strAction = '';
                         strAction = "<a class='ico_btn cursor-pointer' ng-click='EditLocationPopup($event)' data-toggle='tooltip' data-placement='left' tooltip title='Edit'> <i  class='icon-pencil3' ></i></a> ";
-                        strAction += "<a class='ico_btn cursor-pointer' ng-click='DeleteLocation($event)' data-toggle='tooltip' data-placement='left' tooltip  title='Delete'>  <i  class='icon-trash cursor-pointer'></i> </a>";
+                        if (row.AllowDelete) {
+                            strAction += "<a class='ico_btn cursor-pointer' ng-click='DeleteLocation($event)' data-toggle='tooltip' data-placement='left' tooltip  title='Delete'>  <i  class='icon-trash cursor-pointer'></i> </a>";
+                        }                        
                         return strAction;
                     }
                 }

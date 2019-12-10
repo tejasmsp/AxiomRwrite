@@ -94,11 +94,11 @@
                     <button ng-click="FilterRecord(0)" ng-show="ShowFilterButton" class="btn btn-primary mr-10" title="90 Plus Days">90 Plus</button>
                     <button ng-click="FilterRecord(-1)" ng-show="ShowFilterButton" class="btn btn-primary mr-10" title="Clear Filter">Clear</button>
                     <div ng-show="ShowFilterButton" style="display:contents;">
-                        <label class="control-label lbl-primary">30 Days total&nbsp;:&nbsp;</label><b>{{thirtyTotal | number:2}}</b>
-                        <label class="control-label lbl-primary">&nbsp;60 Days total&nbsp;:&nbsp;</label><b>{{sixtyTotal | number:2}}</b>
-                        <label class="control-label lbl-primary">&nbsp;90 Days total&nbsp;:&nbsp;</label><b>{{nintyTotal | number:2}}</b>
-                        <label class="control-label lbl-primary">&nbsp;90 Plus Days total&nbsp;:&nbsp;</label><b>{{nintyplusTotal | number:2}}</b>
-                        <label class="control-label lbl-primary">&nbsp;Total&nbsp;:&nbsp;</label><b>{{agedarTotal | number:2}}</b>
+                        <label class="control-label lbl-primary">30 Days total&nbsp;:&nbsp;</label><b>${{thirtyTotal | number:2}}</b>
+                        <label class="control-label lbl-primary">&nbsp;60 Days total&nbsp;:&nbsp;</label><b>${{sixtyTotal | number:2}}</b>
+                        <label class="control-label lbl-primary">&nbsp;90 Days total&nbsp;:&nbsp;</label><b>${{nintyTotal | number:2}}</b>
+                        <label class="control-label lbl-primary">&nbsp;90 Plus Days total&nbsp;:&nbsp;</label><b>${{nintyplusTotal | number:2}}</b>
+                        <label class="control-label lbl-primary">&nbsp;Total&nbsp;:&nbsp;</label><b>${{agedarTotal | number:2}}</b>
 
                     </div>
                 </div>

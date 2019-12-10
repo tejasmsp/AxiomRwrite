@@ -620,7 +620,7 @@ namespace Axiom.Web.API
         }
         [HttpPost]
         [Route("DeleteOrderLocation")]
-        public BaseApiResponse DeleteOrderLocation(int PartNo = 0, int OrderNo = 0)
+        public BaseApiResponse DeleteOrderLocation(int PartNo = 0, int OrderNo = 0, int UserAccessID=0)
         {
             var response = new BaseApiResponse();
             try
@@ -628,6 +628,7 @@ namespace Axiom.Web.API
                 SqlParameter[] param = { new SqlParameter("PartNo", (object)PartNo ?? (object)DBNull.Value),
                                          new SqlParameter("FileTypeId", (object)FileType.Request ?? (object)DBNull.Value)
                                          ,new SqlParameter("OrderNo", (object)OrderNo ?? (object)DBNull.Value)
+                                         ,new SqlParameter("UserAccessID", (object)UserAccessID ?? (object)DBNull.Value)
                 };
                 var result = _repository.ExecuteSQL<int>("DeleteOrderLocation", param).FirstOrDefault();
                 if (result == 1)

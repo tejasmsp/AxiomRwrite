@@ -498,7 +498,12 @@ namespace Axiom.Web.API
                     }
 
                 }
-                else
+
+                // GENERATE BILL FOR THESE RECORD TYPE EVEN IF NO FILE IS UPLOADED
+                // RecordTypeID = 50(Cd Of Films) 
+                // RecordTypeID = 41(Cancelled)
+                // RecordTypeID = 168(Custodian Fee)
+                else if (isFileUploaded || RecordTypeID == 50 || RecordTypeID == 41 || RecordTypeID == 168)
                 {
 
 
@@ -602,16 +607,15 @@ namespace Axiom.Web.API
                         Log.ServicLog(ex.ToString());
                     }
                 }
-
-
-
-
                 #endregion
+                if (!isFileUploaded)
+                    response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Message.Add(ex.Message);
             }
+            
             return response;
         }
 

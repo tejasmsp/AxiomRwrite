@@ -1057,15 +1057,15 @@ namespace Axiom.Web.API
                 myTable.Rows[0].Cells[0].Remove();
                 myTable.Rows[1].Cells[0].Remove();
 
-                myTable.Rows[0].Cells[0].CellFormat.Width = 220; //Firm Name
+                myTable.Rows[0].Cells[0].CellFormat.Width = 180; //Firm Name
                 myTable.Rows[0].Cells[1].CellFormat.Width = 70; // FirmID
-                myTable.Rows[0].Cells[2].CellFormat.Width = 70; // Invoice Amount
-                myTable.Rows[0].Cells[3].CellFormat.Width = 70; // Paid Amount
-                myTable.Rows[0].Cells[4].CellFormat.Width = 70; // Thirty
-                myTable.Rows[0].Cells[5].CellFormat.Width = 70; // Sixty
-                myTable.Rows[0].Cells[6].CellFormat.Width = 60; // Ninty
-                myTable.Rows[0].Cells[7].CellFormat.Width = 60; // Ninty Plus
-                myTable.Rows[0].Cells[8].CellFormat.Width = 70; // Total Pending
+                myTable.Rows[0].Cells[2].CellFormat.Width = 74; // Invoice Amount
+                myTable.Rows[0].Cells[3].CellFormat.Width = 74; // Paid Amount
+                myTable.Rows[0].Cells[4].CellFormat.Width = 74; // Thirty
+                myTable.Rows[0].Cells[5].CellFormat.Width = 74; // Sixty
+                myTable.Rows[0].Cells[6].CellFormat.Width = 70; // Ninty
+                myTable.Rows[0].Cells[7].CellFormat.Width = 70; // Ninty Plus
+                myTable.Rows[0].Cells[8].CellFormat.Width = 74; // Total Pending
 
                 foreach (AgedARSummary item in result)
                 {
@@ -1082,37 +1082,37 @@ namespace Axiom.Web.API
                     clonedRow.Cells[2].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[2].FirstParagraph);
                     builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
-                    builder.Write(item.InvoiceAmount.ToString());
+                    builder.Write(item.InvoiceAmount.ToString("C"));
 
                     clonedRow.Cells[3].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[3].FirstParagraph);
                     builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
-                    builder.Write(item.PaidAmount.ToString());
+                    builder.Write(item.PaidAmount.ToString("C"));
 
                     clonedRow.Cells[4].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[4].FirstParagraph);
                     builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
-                    builder.Write(item.ThirtyDaysAmount.ToString());
+                    builder.Write(item.ThirtyDaysAmount.ToString("C"));
 
                     clonedRow.Cells[5].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[5].FirstParagraph);
                     builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
-                    builder.Write(item.SixtyDaysAmount.ToString());
+                    builder.Write(item.SixtyDaysAmount.ToString("C"));
 
                     clonedRow.Cells[6].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[6].FirstParagraph);
                     builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
-                    builder.Write(item.NintyDaysAmount.ToString());
+                    builder.Write(item.NintyDaysAmount.ToString("C"));
 
                     clonedRow.Cells[7].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[7].FirstParagraph);
                     builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
-                    builder.Write(item.NintyPlysDaysAmount.ToString());
+                    builder.Write(item.NintyPlysDaysAmount.ToString("C"));
 
                     clonedRow.Cells[8].FirstParagraph.ChildNodes.Clear();
                     builder.MoveTo(clonedRow.Cells[8].FirstParagraph);
                     builder.ParagraphFormat.Alignment = ParagraphAlignment.Right;
-                    builder.Write(item.TotalPending.ToString());
+                    builder.Write(item.TotalPending.ToString("C"));
 
 
                     myTable.AppendChild(clonedRow);

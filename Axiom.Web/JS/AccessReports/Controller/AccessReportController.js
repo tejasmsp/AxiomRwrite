@@ -134,6 +134,7 @@
         if ($scope.showReportList != null && $scope.showReportList.length > 0) {
             datamodel = $scope.showReportList[0];
             Object.keys(datamodel).forEach(function (item, i) {
+                debugger;
                 columns.push({
                     "title": AddSpace(item),
                     "className": "dt-left",
@@ -167,7 +168,6 @@
                 }
             });
         }
-
     };
 
     function BindCompanyDetail() {
