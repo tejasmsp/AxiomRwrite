@@ -270,8 +270,7 @@
     };
 
     function GetFirmFormsList() {
-
-        var promise = FirmServices.GetFirmFormsList($scope.objFirmForm.FirmID, $scope.objFirmForm.IsRequestForm, $scope.objFirmForm.IsFaceSheet);
+        var promise = FirmServices.GetFirmFormsList($scope.objFirmForm.FirmID,  $scope.objFirmForm.IsFaceSheet,$scope.objFirmForm.IsRequestForm);
         promise.success(function (response) {
 
             $scope.LocationFormsList = response.Data;
