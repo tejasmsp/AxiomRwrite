@@ -1151,14 +1151,26 @@ namespace Axiom.Web.API
                             Aspose.Words.License license = new Aspose.Words.License();
                             license.SetLicense("Aspose.Words.lic");
                             string filePath = Path.Combine(documentRoot, qf.DocPath.ToString().Trim().Replace(">", "\\"), qf.DocName.Trim());
+
+
                             #region Add Company Wise logo 
-                            //OLD Code: Aspose.Words.Document doc = new Aspose.Words.Document(filePath); 
 
-                            Aspose.Words.Document doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", logoDirectoryPath, objCompany.CompNo));
+                            Aspose.Words.Document doc;
+
+                            // doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", logoDirectoryPath, objCompany.CompNo));
+
+                            string[] testOrderNo = Convert.ToString(ConfigurationManager.AppSettings["TestOrderNo"]).Split(',');
+                            
+                            if (testOrderNo.Contains(OrderNo.ToString()))
+                            {
+                                doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), objCompany.CompNo));
+                            }
+                            else
+                            {
+                                //OLD Code: 
+                                doc = new Aspose.Words.Document(filePath);
+                            }
                             #endregion
-
-
-
                             try
                             {
                                 DataColumnCollection columns = dtQueryList.Columns;

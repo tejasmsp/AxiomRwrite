@@ -261,7 +261,7 @@
     };
 
     $scope.SaveAttorney = function () {
-
+        debugger;
         $scope.AttyObj.CreatedBy = $rootScope.LoggedInUserDetail.EmpId;
         $scope.AttyObj.CompanyNo = $rootScope.CompanyNo;
         var attorney = Step5Service.InsertNewAttorneyFromStep5($scope.AttyObj);

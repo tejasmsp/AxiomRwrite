@@ -122,7 +122,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-2">Record Type :</label>
                                     <div class="col-sm-9">
-                                        <select name="RecordTypeId" ng-model="OrderPartObj.RecordTypeId" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypeList" required="required">
+                                        <select name="RecordTypeId" ng-change="ChangeRecordType()" ng-model="OrderPartObj.RecordTypeId" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypeList" required="required">
                                             <option value="">--Select--</option>
                                         </select>
                                     </div>

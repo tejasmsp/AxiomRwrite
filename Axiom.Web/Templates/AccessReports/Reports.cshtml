@@ -1,4 +1,5 @@
 ﻿<link href="~/Content/bootstrap-select.css" rel="stylesheet" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 <div class="page-content" ng-controller="AccessReportController">
     <div class="panel panel-white">
         <div class="panel-heading">
@@ -25,13 +26,13 @@
                     </div>
                 </div>
                 @*<div class="col-md-2" ng-show="showCompany">
-                    <div class="form-group">
-                        <label class="control-label lbl-primary">Company</label>
-                        <select name="CompanyID" class="form-control" ng-model="AccessReport.CompanyNo" ng-options="item.CompNo as item.CompName for item in companydropdownlist">
-                            <option value="">-- All --</option>
-                        </select>
-                    </div>
-                </div>*@
+                        <div class="form-group">
+                            <label class="control-label lbl-primary">Company</label>
+                            <select name="CompanyID" class="form-control" ng-model="AccessReport.CompanyNo" ng-options="item.CompNo as item.CompName for item in companydropdownlist">
+                                <option value="">-- All --</option>
+                            </select>
+                        </div>
+                    </div>*@
                 <div class="col-md-2" ng-show="ShowFirm">
                     <div class="form-group">
                         <label class="control-label lbl-primary">Firm</label>
@@ -40,8 +41,8 @@
                             <option value="">-- All --</option>
                         </select>
                         @*<select name="FirmID" class="form-control" ng-model="AccessReport.FirmID" ng-options="item.FirmID as item.FirmName for item in firmList">
-                            <option value="">-- All --</option>
-                        </select>*@
+                                <option value="">-- All --</option>
+                            </select>*@
                     </div>
                 </div>
                 <div class="col-md-2" ng-show="showCheckNumber">

@@ -135,11 +135,49 @@
             datamodel = $scope.showReportList[0];
             Object.keys(datamodel).forEach(function (item, i) {
                 debugger;
-                columns.push({
-                    "title": AddSpace(item),
-                    "className": "dt-left",
-                    "data": item
-                });
+                if (item == "InvoiceAmount" || item == "PaidAmount" || item == "Balance" ) {
+                    columns.push({
+                        "title": AddSpace(item),
+                        "className": "dt-left",
+                        "data": null,
+                        "className": "dt-body-right",
+                        "width": "100px",
+                        "render": function (data, type, row) {
+                            return (numeral(data[item]).format('$0,0.00'))
+                        }
+                    });
+                }
+                else if (item == "InvoiceNo") {
+                    columns.push({
+                        "title": AddSpace(item),
+                        "className": "dt-left",
+                        "data": item,
+                        "width":"70px"
+                    });
+                }
+                else if (item == "OrderNo") {
+                    columns.push({
+                        "title": AddSpace(item),
+                        "className": "dt-left",
+                        "data": item,
+                        "width": "70px"
+                    });
+                }
+                else if (item == "InvoiceDate") {
+                    columns.push({
+                        "title": AddSpace(item),
+                        "className": "dt-left",
+                        "data": item,
+                        "width": "80px"
+                    });
+                }
+                else {
+                    columns.push({
+                        "title": AddSpace(item),
+                        "className": "dt-left",
+                        "data": item
+                    });
+                }
             });
         }
 

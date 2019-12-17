@@ -129,6 +129,7 @@
                 //SetCheckBoxStatus($scope.LocationObj.LinkedLocation, $scope.LinkedLocationOptions);
 
                 //GetCSVForCheckBoxs($scope.SendRequestOptions);
+                $scope.EnableGenerteCodeValidation = true;
             });
             promise.error(function (data, statusCode) {
             });

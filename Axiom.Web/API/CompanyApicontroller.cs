@@ -219,7 +219,7 @@ namespace Axiom.Web.API
                     // Get the uploaded image from the Files collection
                     var httpPostedFile = HttpContext.Current.Request.Files[0];
                     byte[] data;
-                    string[] ext = httpPostedFile.FileName.Split('.');
+                    string[] ext = httpPostedFile.FileName.ToLower().Split('.');
                     string[] type = {"png"};
                     if (type.Any(ext[ext.Length - 1].Contains))
                     {

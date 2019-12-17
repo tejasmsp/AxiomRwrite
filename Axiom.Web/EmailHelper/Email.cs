@@ -28,10 +28,7 @@ namespace Axiom.Web.EmailHelper
                 System.Net.NetworkCredential nc = (NetworkCredential)smtp.Credentials;
                 // SmtpClient smtp = GetSMTP();
 
-
-
-                MailMessage mail = new MailMessage();
-                // mail.From = new MailAddress(nc.UserName, "Tejas  Padia");
+                MailMessage mail = new MailMessage();                
                 mail.Body = body;
                 mail.IsBodyHtml = true;
                 if (mailTo != "")

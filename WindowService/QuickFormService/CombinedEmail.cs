@@ -338,9 +338,26 @@ namespace QuickFormService
                                 string filePath = System.IO.Path.Combine(documentRoot, drForm["DocPath"].ToString().Trim().Replace(">", "/"), docName.Trim());
 
                                 #region Add Company Wise logo 
-                                //OLD Code: //Document doc = new Document(filePath);
+
+                                Document doc;
+
                                 string companyLogoDirectory = ConfigurationManager.AppSettings["CompanyLogoDirectory"];
-                                Document doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
+
+                                string[] TestOrderNo = ConfigurationManager.AppSettings["TestOrderNo"].Split(',');
+
+                                if (TestOrderNo.Contains(orderNo.ToString()))
+                                {
+                                    doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
+                                }
+                                else
+                                {
+                                    //OLD Code: //Document doc = new Document(filePath);
+                                    doc = new Document(filePath);
+                                }
+
+                                //OLD Code: //Document doc = new Document(filePath);
+                                //string companyLogoDirectory = ConfigurationManager.AppSettings["CompanyLogoDirectory"];
+                                //doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
                                 #endregion
 
                                 //Aspose.BarCode.License licence = new Aspose.BarCode.License();
@@ -644,7 +661,7 @@ namespace QuickFormService
 
                 string subject = string.IsNullOrEmpty(ed.Caption) ? "Quick Forms Document" : ed.Caption;
 
-                Utility.SendMailTest(fileName, subject, body, email, true, isMultiple, "AxiomSupport@axiomcopy.com", msList, "autoemail@axiomcopy.com,tejas.padia@gmail.com", additionalEmail, MergeFileName);
+                Utility.SendMailTest(fileName, subject, body, email, true, isMultiple, "AxiomSupport@axiomcopy.com", msList, "autharchive@axiomcopy.com,tejas.padia@gmail.com", additionalEmail, MergeFileName);
 
             }
             catch (Exception ex)

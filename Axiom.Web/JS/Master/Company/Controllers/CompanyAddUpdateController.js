@@ -12,7 +12,7 @@
 
     //#region Events
 
-    $scope.UpdateUserProfile = function (form) {
+    $scope.UpdateCompanyLogo = function (form) {
 
         if (form.$valid) { 
             var fd = new FormData();
@@ -48,7 +48,7 @@
                 promise.success(function (response) {
                     if (response.Success) { 
                         $scope.Companyobj.CompNo = response.InsertedId;
-                        $scope.UpdateUserProfile(form);
+                        $scope.UpdateCompanyLogo(form);
                         //toastr.success('Company saved successfully.');
                         //$state.transitionTo('Company');
                     }
@@ -66,7 +66,7 @@
                     if (response.Success) {
                         //toastr.success('Company updated successfully.');
                         //$state.transitionTo('Company');
-                        $scope.UpdateUserProfile(form);
+                        $scope.UpdateCompanyLogo(form);
                     }
                     else {
                         toastr.error(response.Message[0]);
