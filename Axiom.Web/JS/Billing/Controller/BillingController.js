@@ -62,8 +62,13 @@
     };
 
     $scope.PrintInvoice = function (invoiceNumber) {
-        var url = $state.href('PrintInvoice', { 'InvoiceID': invoiceNumber, 'OrderId': $scope.objBilling.OrderNo, 'PartNo': $scope.objBilling.PartNo, 'IsPrintAll': $scope.IsPrintAll });
-        window.open(url, '_blank');
+
+        OpenInvoiceReportViewer(invoiceNumber);
+        //Old code
+        if (false) {
+            var url = $state.href('PrintInvoice', { 'InvoiceID': invoiceNumber, 'OrderId': $scope.objBilling.OrderNo, 'PartNo': $scope.objBilling.PartNo, 'IsPrintAll': $scope.IsPrintAll });
+            window.open(url, '_blank');
+        } 
     };
 
     $scope.FirmSearch = function (event) {
@@ -277,18 +282,39 @@
     };
 
     $scope.PrintSelectedInvoice = function () {
-        var SelectedInvoiceIds = "";
+        var SelectedInvoiceIds = [];
+        var SelectedInvoiceList = [];
         if (!$scope.IsPrintAll) {
-            var SelectedInvoiceList = $filter('filter')($scope.InvoiceDetailList, { IsPrint: true });
-            for (var i = 0; i < SelectedInvoiceList.length; i++) {
-                SelectedInvoiceIds = SelectedInvoiceIds + SelectedInvoiceList[i].InvoiceNumber + ",";
-            }
+            SelectedInvoiceList = $filter('filter')($scope.InvoiceDetailList, { IsPrint: true });
         }
-        if (!($scope.IsPrintAll) && isNullOrUndefinedOrEmpty(SelectedInvoiceIds)) {
+        else {
+            SelectedInvoiceList = $scope.InvoiceDetailList;
+        } 
+        for (var i = 0; i < SelectedInvoiceList.length; i++) {
+            SelectedInvoiceIds.push(SelectedInvoiceList[i].InvoiceNumber);
+        }
+
+        if (SelectedInvoiceIds == null || SelectedInvoiceIds.length == 0) {
             toastr.warning("Please selected invoice");
         } else {
-            var url = $state.href('PrintInvoice', { 'InvoiceID': SelectedInvoiceIds, 'OrderId': $scope.objBilling.OrderNo, 'PartNo': $scope.objBilling.PartNo, 'IsPrintAll': $scope.IsPrintAll });
-            window.open(url, '_blank');
+            OpenInvoiceReportViewer(SelectedInvoiceIds.join(','));
+        }
+
+        //Old code
+        if (false) {
+            var SelectedInvoiceIds = "";
+            if (!$scope.IsPrintAll) {
+                var SelectedInvoiceList = $filter('filter')($scope.InvoiceDetailList, { IsPrint: true });
+                for (var i = 0; i < SelectedInvoiceList.length; i++) {
+                    SelectedInvoiceIds = SelectedInvoiceIds + SelectedInvoiceList[i].InvoiceNumber + ",";
+                }
+            }
+            if (!($scope.IsPrintAll) && isNullOrUndefinedOrEmpty(SelectedInvoiceIds)) {
+                toastr.warning("Please selected invoice");
+            } else { 
+                var url = $state.href('PrintInvoice', { 'InvoiceID': SelectedInvoiceIds, 'OrderId': $scope.objBilling.OrderNo, 'PartNo': $scope.objBilling.PartNo, 'IsPrintAll': $scope.IsPrintAll });
+                window.open(url, '_blank');
+            }
         }
     };
 
@@ -545,5 +571,11 @@
     }
 
     init();
+
+    function OpenInvoiceReportViewer(InvoiceNO) { 
+        var src = '/Reports/InvoiceBatchReport.aspx'; 
+        src = src + "?OnlyFilterByInvoice=true&InvoiceNO=" + InvoiceNO; 
+        window.open(src, '_blank');
+    }
 
 });

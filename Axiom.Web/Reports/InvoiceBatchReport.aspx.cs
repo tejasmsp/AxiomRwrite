@@ -111,6 +111,13 @@ namespace Axiom.Web.Reports
             }
         }
 
+        private bool? _OnlyFilterByInvoice
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Request.QueryString["OnlyFilterByInvoice"]) ? Convert.ToBoolean(Request.QueryString["OnlyFilterByInvoice"]) : false;
+            }
+        }
 
         #endregion
         protected void Page_Load(object sender, EventArgs e)
@@ -156,8 +163,21 @@ namespace Axiom.Web.Reports
             }
 
             try
-            {       
-                if(_Invoice.Value && _Statement.Value)
+            {
+                if (_OnlyFilterByInvoice == true)
+                {
+                    dsCustomers = GetCustomersReport_Invoice(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly,OnlyFilterByInvoice: true);
+                    this.ReportViewer1.PageCountMode = PageCountMode.Actual;
+                    ReportViewer1.Width = Unit.Percentage(100);
+                    ReportViewer1.ProcessingMode = 0;
+                    ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/Reports/InvoiceNew.rdlc");
+                    ReportDataSource datasource = new ReportDataSource("dsInvoice", dsCustomers.Tables["DtInvoice"]);
+                    ReportViewer1.LocalReport.DataSources.Clear();
+                    ReportViewer1.LocalReport.DataSources.Add(datasource);
+                    ReportViewer1.LocalReport.SubreportProcessing += LocalReport_SubreportProcessing;
+                    ReportViewer1.LocalReport.Refresh();
+                }
+                else if(_Invoice.Value && _Statement.Value)
                 {
                     DsInvoice dsCustomers = GetCustomersReport_Statement(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly);
                  
@@ -434,7 +454,7 @@ namespace Axiom.Web.Reports
 
             return null;
         }
-        public DsInvoice GetCustomersReport_Invoice(string FirmID, string Caption, string ClaimNo, string InvoiceNO, string AttyID, string SoldAttyName, string FromDate, string ToDate, bool? Invoice, bool? Statement, bool? OpenInvoiceOnly)
+        public DsInvoice GetCustomersReport_Invoice(string FirmID, string Caption, string ClaimNo, string InvoiceNO, string AttyID, string SoldAttyName, string FromDate, string ToDate, bool? Invoice, bool? Statement, bool? OpenInvoiceOnly, bool? OnlyFilterByInvoice = false)
         {
             var conString = ConfigurationManager.ConnectionStrings["Axiom"];
             string strConnString = conString.ConnectionString;
@@ -447,18 +467,27 @@ namespace Axiom.Web.Reports
                 SqlCommand sqlCmd = new SqlCommand("GetCustomersReport_Invoice", conn);
 
                 sqlCmd.CommandType = CommandType.StoredProcedure;
-                sqlCmd.Parameters.AddWithValue("@FirmID", (object)FirmID ?? (object)DBNull.Value);
-                sqlCmd.Parameters.AddWithValue("@Caption", (object)Caption ?? (object)DBNull.Value);
-                sqlCmd.Parameters.AddWithValue("@ClaimNo", (object)ClaimNo ?? (object)DBNull.Value);
-                sqlCmd.Parameters.AddWithValue("@InvoiceNO", (object)InvoiceNO ?? (object)DBNull.Value);
-                sqlCmd.Parameters.AddWithValue("@AttyID", (object)AttyID ?? (object)DBNull.Value);
-                sqlCmd.Parameters.AddWithValue("@SoldAttyName", (object)SoldAttyName ?? (object)DBNull.Value);
-                sqlCmd.Parameters.AddWithValue("@FromDate", (object)FromDate ?? (object)DBNull.Value);
-                sqlCmd.Parameters.AddWithValue("@ToDate", (object)ToDate ?? (object)DBNull.Value);
-                sqlCmd.Parameters.AddWithValue("@Invoice", (object)Invoice ?? (object)DBNull.Value);
-                sqlCmd.Parameters.AddWithValue("@Statement", (object)Statement ?? (object)DBNull.Value);
-                sqlCmd.Parameters.AddWithValue("@OpenInvoiceOnly", (object)OpenInvoiceOnly ?? (object)DBNull.Value);
-
+                if (OnlyFilterByInvoice==false)
+                {
+                    sqlCmd.Parameters.AddWithValue("@FirmID", (object)FirmID ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@Caption", (object)Caption ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@ClaimNo", (object)ClaimNo ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@InvoiceNO", (object)InvoiceNO ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@AttyID", (object)AttyID ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@SoldAttyName", (object)SoldAttyName ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@FromDate", (object)FromDate ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@ToDate", (object)ToDate ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@Invoice", (object)Invoice ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@Statement", (object)Statement ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@OpenInvoiceOnly", (object)OpenInvoiceOnly ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@OnlyFilterByInvoice", false);
+                }
+                else
+                {
+                    sqlCmd.Parameters.AddWithValue("@InvoiceNO", (object)InvoiceNO ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@OnlyFilterByInvoice", (object)OnlyFilterByInvoice ?? (object)DBNull.Value);
+                }
+                
                 sqlCmd.ExecuteNonQuery();                
                 SqlDataAdapter da = new SqlDataAdapter(sqlCmd);
                 conn.Close();
