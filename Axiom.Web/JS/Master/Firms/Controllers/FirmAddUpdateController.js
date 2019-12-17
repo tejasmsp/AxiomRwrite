@@ -40,7 +40,7 @@
             isFaceSheet = true;
         }
         else if (Type == 4) {
-            isRequestForm = false;
+            isRequestForm = true;
             isFaceSheet = false;
         }
         
