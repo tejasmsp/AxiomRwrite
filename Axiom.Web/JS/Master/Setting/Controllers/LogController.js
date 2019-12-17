@@ -1,10 +1,13 @@
-﻿app.controller('LogController', function ($scope, $rootScope, $stateParams, $state, notificationFactory, SettingServices, configurationService, CommonServices, $compile, $filter) {
+﻿app.controller('LogController', function ($scope, $rootScope, $stateParams, $state, notificationFactory, SettingServices, EmployeeServices, configurationService, CommonServices, $compile, $filter) {
 
     decodeParams($stateParams);
     $scope.isEdit = false;
-    $scope.UserAccessId = $rootScope.LoggedInUserDetail.UserAccessId;
-    $scope.UserGUID = $rootScope.LoggedInUserDetail.UserId;
-
+    //$scope.UserAccessId = $rootScope.LoggedInUserDetail.UserAccessId;
+    $scope.log = new Object();
+    $scope.currentDate = $filter('date')(new Date(), $rootScope.GlobalDateFormat);
+    $scope.nextDate = $filter('date')(new Date(), $rootScope.GlobalDateFormat);
+    $scope.log = { fromDate: $scope.currentDate, toDate: $scope.nextDate, UserId: $rootScope.LoggedInUserDetail.UserId };
+    
     //Page Rights//
     $rootScope.CheckIsPageAccessible("Settings", "Log", "View");
     //------------
@@ -129,8 +132,8 @@
     function getLogList() {
         var toDate = new Date($scope.log.toDate);
         toDate.setDate(toDate.getDate() + 1);
-        $scope.nextDate = $filter('date')(toDate, $rootScope.GlobalDateFormat);
-        var promise = SettingServices.GetLogList($scope.UserGUID, $scope.log.fromDate, $scope.nextDate, $rootScope.CompanyNo);
+        toDate = $filter('date')(toDate, $rootScope.GlobalDateFormat);
+        var promise = SettingServices.GetLogList($scope.log.UserId, $scope.log.fromDate, toDate, $rootScope.CompanyNo);
         promise.success(function (response) {
             $scope.logList = response.Data;
             bindLogListTotable();
@@ -140,11 +143,28 @@
         });
     }
 
+    function getEmployeeList() {
+        var emp = EmployeeServices.GetEmployeeList($rootScope.CompanyNo);
+        emp.success(function (response) { 
+            $scope.log.UserId = $rootScope.LoggedInUserDetail.UserId;
+            $scope.EmployeeList = (response.Data);
+            setTimeout(function () {
+                $("#ddl_assignedTo .dropdown-toggle").trigger('click');
+                $("#ddl_assignedTo .dropdown-toggle").trigger('click');
+            },0);
+            getLogList();
+            
+        });
+        emp.error(function (data, statusCode) {
+        });
+    }
+
     function init() {
-        $scope.currentDate = $filter('date')(new Date(), $rootScope.GlobalDateFormat);
-        $scope.log = { fromDate: $scope.currentDate, toDate: $scope.currentDate };
+       
+        $scope.log = { fromDate: $scope.currentDate, toDate: $scope.currentDate, UserId: $rootScope.LoggedInUserDetail.UserId };
         $scope.logList = [];
-        getLogList();
+        getEmployeeList();
+        
     }
     //#endregion
 
