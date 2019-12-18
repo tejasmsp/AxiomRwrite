@@ -26,7 +26,7 @@
                                 <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2" ng-if="isSubModuleAccessibleToUser('EmployeeLog', 'EmployeeLog', 'View Other User Log')">
                             <div class="form-group">
                                 <div id="ddl_assignedTo" custom-select="item.UserId as item.EmployeeName for item in EmployeeList | filter: $searchTerm" ng-model="log.UserId"></div>
                             </div>

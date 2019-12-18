@@ -415,6 +415,7 @@ namespace Axiom.Web.API
                         ,new SqlParameter("RcvdID", (object)modal.RcvdID ?? (object)DBNull.Value)
                         ,new SqlParameter("ItemNo", (object)modal.ItemNo ?? (object)DBNull.Value)
                         ,new SqlParameter("BillAtty", (object)modal.BillAtty ?? (object)DBNull.Value)
+                          ,new SqlParameter("Message", (object)modal.Message ?? (object)DBNull.Value)
                 };
                 var result = _repository.ExecuteSQL<EditInvoiceEntity>("UpdateInvoice", param).ToList();
 

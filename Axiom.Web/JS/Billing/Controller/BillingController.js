@@ -104,6 +104,7 @@
             $scope.UpdateInvoiceInfo.StdFee5 = $scope.objEditInvoice.Binding;
             $scope.UpdateInvoiceInfo.StdFee6 = $scope.objEditInvoice.Shipping;
             $scope.UpdateInvoiceInfo.MiscChrge = $scope.objEditInvoice.MiscCharge;
+            $scope.UpdateInvoiceInfo.Message = $scope.objEditInvoice.Message;
 
             if ($scope.objEditInvoice.Attorney && typeof $scope.objEditInvoice.Attorney === 'object')
                 $scope.UpdateInvoiceInfo.BillAtty = $scope.objEditInvoice.Attorney.AttyId;
@@ -192,6 +193,7 @@
                         $scope.objEditInvoice.Original = response.Data[0].Original;
                         $scope.objEditInvoice.Attorney = response.Data[0].BillAtty;
                         $scope.objEditInvoice.MemberID = response.Data[0].MemberOf;
+                        $scope.objEditInvoice.Message = response.Data[0].Message;
 
 
                         $scope.UpdateInvoiceInfo = new Object();

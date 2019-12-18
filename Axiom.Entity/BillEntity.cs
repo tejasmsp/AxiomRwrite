@@ -92,6 +92,7 @@ namespace Axiom.Entity
         public int MiscChrge { get; set; }
         public string RcvdDate { get; set; }
         public string InvDate { get; set; }
+        public string Message { get; set; }
     }
 
     public class BillingRecordTypeListEntity
