@@ -33,6 +33,8 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider.state({ name: 'Court', url: '/Court', templateUrl: '/Templates/Settings/Court.cshtml', title: "Manage Court" });
     $stateProvider.state({ name: 'Department', url: '/Department', templateUrl: '/Templates/Settings/Department.cshtml', title: "Manage Department" });
     $stateProvider.state({ name: 'Employees', url: '/Employees', templateUrl: '/Templates/Settings/Employees.cshtml', title: 'Manage Employee' });
+    $stateProvider.state({ name: 'AssignUniversalList', url: '/AssignUniversalList', templateUrl: '/Templates/Settings/AssignUniversalList.cshtml', title: 'Manage Universal List' });
+
     $stateProvider.state({ name: 'FirmScope', url: '/FirmScope', templateUrl: '/Templates/Settings/FirmScope.cshtml' });
     $stateProvider.state({ name: 'IIFFiles', url: '/IIFFiles', templateUrl: '/Templates/Settings/IIFFiles.cshtml', title: 'IIF Files' });
     $stateProvider.state({ name: 'InvoiceBatch', url: '/InvoiceBatch', templateUrl: '/Templates/Settings/InvoiceBatch.cshtml', title: "Invoice Batch" });

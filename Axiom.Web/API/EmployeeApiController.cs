@@ -172,5 +172,56 @@ namespace Axiom.Web.API
         }
 
         #endregion
+
+        #region AssignToUser
+
+        [HttpGet]
+        [Route("GetUniversalList")]
+        public ApiResponse<EmployeeEntity> GetUniversalList()
+        {
+            var response = new ApiResponse<EmployeeEntity>();
+            try
+            { 
+                var result = _repository.ExecuteSQL<EmployeeEntity>("GetUniversalList").ToList();
+                if (result == null)
+                {
+                    result = new List<EmployeeEntity>();
+                }
+                response.Success = true;
+                response.Data = result;
+            }
+            catch (Exception ex)
+            {
+                response.Message.Add(ex.Message);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("UpdateUniversalStatus")]
+        public BaseApiResponse UpdateUniversalStatus(EmployeeEntity model)
+        {
+            var response = new BaseApiResponse();
+            try
+            {
+                SqlParameter[] param = { new SqlParameter("userId", (object)model.UserId ?? (object)DBNull.Value) 
+                                        , new SqlParameter("IsAssignTo", (object)model.IsAssignTo ?? (object)DBNull.Value) 
+                                        };
+                var result = _repository.ExecuteSQL<string>("UpdateUniversalStatus", param).FirstOrDefault();
+                if (result != string.Empty)
+                {
+                    response.str_ResponseData = result;
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message.Add(ex.Message);
+            }
+
+            return response;
+        }
+
+        #endregion
     }
 }

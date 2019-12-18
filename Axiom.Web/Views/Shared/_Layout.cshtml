@@ -127,7 +127,7 @@
                     </ul>
                 </li>
                 <li ng-class="{ active: $state.includes('SearchOrderList')|| $state.includes('OrderDetail')|| $state.includes('PartDetail')}" ng-if="isSubModuleAccessibleToUser('Search', 'Search', 'View')"><a ui-sref="SearchOrderList"><i class="icon-search4 position-left"></i>Search</a></li>
-                <li ng-class="{ active: $state.includes('AttorneyUsers') || $state.includes('Employees') || $state.includes('Scope') || $state.includes('SSN')|| $state.includes('Payment')|| $state.includes('InvoiceBatch') || $state.includes('BillingRate')  || $state.includes('Department')  || $state.includes('County') || $state.includes('District') || $state.includes('Court')|| $state.includes('QuickNotes') || $state.includes('Message') || $state.includes('Log')|| $state.includes('IIFFiles')|| $state.includes('Company')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Settings', 'View')" class="dropdown mega-menu mega-menu-wide">
+                <li ng-class="{ active: $state.includes('AttorneyUsers') || $state.includes('Employees') || $state.includes('AssignUniversalList') ||  $state.includes('Scope') || $state.includes('SSN')|| $state.includes('Payment')|| $state.includes('InvoiceBatch') || $state.includes('BillingRate')  || $state.includes('Department')  || $state.includes('County') || $state.includes('District') || $state.includes('Court')|| $state.includes('QuickNotes') || $state.includes('Message') || $state.includes('Log')|| $state.includes('IIFFiles')|| $state.includes('Company')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Settings', 'View')" class="dropdown mega-menu mega-menu-wide">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog3 position-left"></i>Settings<span class="caret"></span></a>
                     <div class="dropdown-menu dropdown-content">
                         <div class="dropdown-content-body">
@@ -138,6 +138,7 @@
                                         <li ng-class="{ active: $state.includes('AttorneyUsers')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Attorney Users', 'View')"><a href="#" ui-sref="AttorneyUsers"><i class="icon-bookmark4 position-left"></i>Attorney Users</a></li>
                                         <li ng-class="{ active: $state.includes('Employees')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Employees', 'View')"><a href="#" ui-sref="Employees"><i class="icon-users2 position-left"></i>Employees</a></li>
                                         <li ng-class="{ active: $state.includes('Scope')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Scope', 'View')"><a href="#" ui-sref="Scope"><i class="icon-file-text2 position-left"></i>Scope</a></li>
+                                        <li ng-class="{ active: $state.includes('AssignUniversalList')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Assign Universal List', 'View')"><a href="#" ui-sref="AssignUniversalList"><i class="icon-user position-left"></i>Assign Universal List</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3">

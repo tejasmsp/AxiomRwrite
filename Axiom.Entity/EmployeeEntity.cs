@@ -25,5 +25,6 @@ namespace Axiom.Entity
         public bool? IsApproved { get; set; }
         public string SelectedRoles { get; set; }
         public int CompanyNo { get; set; }
+        public bool? IsAssignTo { get; set; }
     }
 }

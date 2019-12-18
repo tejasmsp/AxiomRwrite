@@ -709,6 +709,8 @@
     <Content Include="JS\Master\Attorney\Service\AttorneyServices.js" />
     <Content Include="JS\Master\BillinRate\Controller\BillingRateController.js" />
     <Content Include="JS\Master\BillinRate\Service\BillingRateService.js" />
+    <Content Include="JS\Master\AssignUniversalList\Controllers\AssignUniversalListController.js" />
+    <Content Include="JS\Master\AssignUniversalList\Services\AssignUniversalListServices.js" />
     <Content Include="JS\Master\FirmSearch\Controllers\FirmSearchController.js" />
     <Content Include="JS\Master\FirmSearch\Services\FirmSearchServices.js" />
     <Content Include="JS\Master\Firms\Controllers\AssociatedFirmController.js" />
@@ -1213,6 +1215,7 @@
     <Content Include="Templates\AccountReceivable\VoidInvoices.cshtml" />
     <Content Include="Views\BillingProposal\Index.cshtml" />
     <Content Include="Templates\AccessReports\Reports.cshtml" />
+    <Content Include="Templates\Settings\AssignUniversalList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1277,7 +1280,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49816</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8087/</IISUrl>
+          <IISUrl>http://localhost:8086/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
