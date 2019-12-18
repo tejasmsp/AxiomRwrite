@@ -38,7 +38,7 @@ namespace QuickFormService
             serviceTimer.Elapsed += serviceTimer_Elapsed;
             serviceTimer.Interval = Convert.ToDouble(ConfigurationManager.AppSettings["Duration"].ToString()) * 60 * 1000;
             serviceTimer.Enabled = true;
-            serviceTimer.Start();
+            // serviceTimer.Start();
 
             InitializeComponent();
         }
@@ -74,6 +74,8 @@ namespace QuickFormService
             Log.ServicLog("---------- SERVICE EXECUTED " + DateTime.Now.ToString() + "---------------");
             string documentRoot = ConfigurationManager.AppSettings["DocumentRoot"];
             string companyLogoDirectory = ConfigurationManager.AppSettings["CompanyLogoDirectory"];
+            serviceTimer.Stop();
+
             List<string> FileNotFound = new List<string>();
             try
             {
@@ -447,15 +449,26 @@ namespace QuickFormService
 
                                         #region Add Company Wise logo 
 
-                                        //OLD Code: //Document doc = new Document(filePath);
-                                        //CompanyLogoDirectory
-                                        Document doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
+                                        Document doc;
+                                        
+                                        string[] TestOrderNo = ConfigurationManager.AppSettings["TestOrderNo"].Split(',');
+
+                                        if (TestOrderNo.Contains(orderNo.ToString()))
+                                        {
+                                            doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
+                                        }
+                                        else
+                                        {
+                                            //OLD Code: //Document doc = new Document(filePath);
+                                            doc = new Document(filePath);
+                                        }
+
+                                        // doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
+
 
                                         #endregion
 
-                                        // Here Barcode Generater Code
-                                        Aspose.BarCode.License licence = new Aspose.BarCode.License();
-                                        licence.SetLicense("Aspose.BarCode.lic");
+                                        // Here Barcode Generater Code                                        
                                         var FileTypeId2 = Convert.ToString(drForm["FileTypeID"]);
 
                                         doc.MailMerge.Execute(dtQuery);
@@ -712,7 +725,9 @@ namespace QuickFormService
             {
                 Log.ServicLog(ex.Message);
                 Log.ServicLog(ex.StackTrace.ToString());
+                serviceTimer.Start();
             }
+            serviceTimer.Start();
         }
 
 

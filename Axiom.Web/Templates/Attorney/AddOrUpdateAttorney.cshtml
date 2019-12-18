@@ -31,7 +31,7 @@
                         <label class="col-sm-3 control-label lbl-primary pr-0 mandatoryField">Firm ID:</label>
                         <div class="col-sm-9 display-inline-flex pl-0 " ng-show="!isEdit">
                             <span class="col-sm-3">
-                                <input type="text" ng-model="objAttorney.FirmID" maxlength="10" name="FirmID" placeholder="Firm ID" class="form-control" readonly="readonly" required>
+                                <input type="text" ng-model="objAttorney.FirmID" maxlength="20" name="FirmID" placeholder="Firm ID" class="form-control" readonly="readonly" required>
                             </span>
                             <span class="col-sm-9">
                                 <input type="text" ng-model="objAttorney.FirmName" maxlength="50" name="FirmName" placeholder="Firm Name" class="form-control" readonly="readonly">
@@ -41,7 +41,7 @@
 
                         <div class="col-sm-9 pl-0 pr-0" ng-show="isEdit">
                             <span class="col-sm-3">
-                                <input type="text" ng-model="objAttorney.FirmID" maxlength="10" name="FirmID" placeholder="Firm ID" class="form-control" readonly="readonly" required>
+                                <input type="text" ng-model="objAttorney.FirmID" maxlength="20" name="FirmID" placeholder="Firm ID" class="form-control" readonly="readonly" required>
                             </span>
                             <span class="col-sm-9">
                                 <input type="text" ng-model="objAttorney.FirmName" maxlength="50" name="FirmName" placeholder="Firm ID" class="form-control" readonly="readonly">
@@ -92,19 +92,19 @@
                     <div class="col-md-6">
                         <label class="col-sm-3 control-label lbl-primary pr-0">Phone No:</label>
                         <div class="col-sm-3">
-                            <input type="text" name="PhoneCode" ng-model="objAttorney.FAreaCode1" maxlength="4" integer-Only=""  placeholder="Code" class="form-control" readonly="readonly">
+                            <input type="text" name="PhoneCode" ng-model="objAttorney.FAreaCode1" maxlength="4" integer-Only="" placeholder="Code" class="form-control" readonly="readonly">
                         </div>
                         <div class="col-sm-6">
-                            <input type="text" name="experience-position" ng-model="objAttorney.FPhoneNo" maxlength="10" integer-Only=""  placeholder="Phone No" class="form-control" readonly="readonly">
+                            <input type="text" name="experience-position" ng-model="objAttorney.FPhoneNo" maxlength="10" integer-Only="" placeholder="Phone No" class="form-control" readonly="readonly">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label class="col-sm-3 control-label lbl-primary pr-0">Fax No:</label>
                         <div class="col-sm-3">
-                            <input type="text" name="FaxCode" ng-model="objAttorney.FAreaCode2" maxlength="4" integer-Only=""  placeholder="Code" class="form-control" readonly="readonly">
+                            <input type="text" name="FaxCode" ng-model="objAttorney.FAreaCode2" maxlength="4" integer-Only="" placeholder="Code" class="form-control" readonly="readonly">
                         </div>
                         <div class="col-sm-6">
-                            <input type="text" name="FaxNo" ng-model="objAttorney.FFaxNo" maxlength="10" integer-Only=""  placeholder="Fax No" class="form-control" readonly="readonly">
+                            <input type="text" name="FaxNo" ng-model="objAttorney.FFaxNo" maxlength="10" integer-Only="" placeholder="Fax No" class="form-control" readonly="readonly">
                         </div>
                     </div>
 
@@ -121,13 +121,13 @@
                         </div>
                     </div>
                     @*<div class="col-md-6">
-                        <label class="col-sm-3 control-label lbl-primary pr-5 pt-0 mandatoryField">Company No</label>
-                        <div class="col-sm-9">
-                            <select name="CompanyNo" ng-model="objAttorney.CompanyNo" class="form-control" ng-options="item.CompNo as item.CompNo for item in Companylist" ng-required="true">
-                                <option value="">--Select--</option>
-                            </select>
-                        </div>
-                    </div>*@
+                            <label class="col-sm-3 control-label lbl-primary pr-5 pt-0 mandatoryField">Company No</label>
+                            <div class="col-sm-9">
+                                <select name="CompanyNo" ng-model="objAttorney.CompanyNo" class="form-control" ng-options="item.CompNo as item.CompNo for item in Companylist" ng-required="true">
+                                    <option value="">--Select--</option>
+                                </select>
+                            </div>
+                        </div>*@
                 </div>
 
                 <div class="row mb-10">
@@ -137,7 +137,7 @@
                             <select name="Salutation" ng-model="objAttorney.Salutation" class="form-control" ng-options="item.Value as item.Title for item in  SalutationList"></select>
                         </div>
                         <div class="col-sm-7">
-                            <input type="text" name="FirstName" ng-model="objAttorney.FirstName" maxlength="15" placeholder="First Name" class="form-control" required>
+                            <input type="text" name="FirstName" ng-model="objAttorney.FirstName" maxlength="20" placeholder="First Name" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -151,10 +151,10 @@
                     <div class="col-md-6">
                         <label class="col-sm-3 control-label lbl-primary pr-0">Phone No:</label>
                         <div class="col-sm-2">
-                            <input type="text" name="PhoneCode" ng-model="objAttorney.AreaCode1" maxlength="5" placeholder="Code" integer-Only=""  class="form-control">
+                            <input type="text" name="PhoneCode" ng-model="objAttorney.AreaCode1" maxlength="5" placeholder="Code" integer-Only="" class="form-control">
                         </div>
                         <div class="col-sm-4">
-                            <input type="text" name="PhoneNo" ng-model="objAttorney.PhoneNo" maxlength="10" placeholder="Phone No" integer-Only=""  class="form-control">
+                            <input type="text" name="PhoneNo" ng-model="objAttorney.PhoneNo" maxlength="10" placeholder="Phone No" integer-Only="" class="form-control">
                         </div>
                         <div class="col-sm-3 pr-0">
                             <ul class="borderless pt-0 pl-0">
@@ -164,15 +164,15 @@
                                     </label>
                                 </li>
                             </ul>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label class="col-sm-3 control-label lbl-primary pr-0">Fax No:</label>
                         <div class="col-sm-2">
-                            <input type="text" name="FaxCode" ng-model="objAttorney.AreaCode2" maxlength="4" placeholder="Code" integer-Only=""  class="form-control">
+                            <input type="text" name="FaxCode" ng-model="objAttorney.AreaCode2" maxlength="4" placeholder="Code" integer-Only="" class="form-control">
                         </div>
                         <div class="col-sm-4">
-                            <input type="text" name="FaxNo" ng-model="objAttorney.FaxNo" maxlength="10" placeholder="Fax No" integer-Only=""  class="form-control">
+                            <input type="text" name="FaxNo" ng-model="objAttorney.FaxNo" maxlength="10" placeholder="Fax No" integer-Only="" class="form-control">
                         </div>
                         <div class="col-sm-3 pr-0">
                             <ul class="borderless pt-0 pl-0">
@@ -210,7 +210,7 @@
                     </div>
                     <div class="col-md-6" id="divAssistantContact">
                         <label class="col-sm-3 control-label lbl-primary pr-0">Assistant / Contact:</label>
-                        <div class="col-sm-9 pl-0" >
+                        <div class="col-sm-9 pl-0">
                             <div class="col-sm-12 pl-0 mb-5" ng-repeat="AssistantContact  in AttorneyAssistantContactList">
                                 <input type="text" ng-model="AssistantContact.AdditionalContactsID" hidden />
                                 <div class="col-sm-4">
@@ -228,8 +228,8 @@
                                         <i class="glyphicon glyphicon-minus"></i>
                                     </button>
                                 </div>
-                            </div>                         
-                        </div>                        
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row mb-10">
@@ -330,7 +330,7 @@
                                 </div>
                                 <div class="col-sm-12 pl-0 pr-0" ng-show="objAttorney.MonthlyBilling">
                                     <div class="col-sm-6">
-                                        <input type="text" name="ContactName" ng-model="objAttorney.ContactName"  maxlength="50" placeholder="Contact Name" class="form-control">
+                                        <input type="text" name="ContactName" ng-model="objAttorney.ContactName" maxlength="50" placeholder="Contact Name" class="form-control">
                                     </div>
                                     <div class="col-sm-6 pl-0 pr-20">
                                         <input type="email" name="ContactEmail" ng-model="objAttorney.ContactEmail" maxlength="100" placeholder="Contact Email" class="form-control">
@@ -338,7 +338,7 @@
                                     </div>
 
                                 </div>
-                              
+
                             </div>
 
                         </div>
@@ -473,7 +473,7 @@
         </form>
     </div>
 
-    <div id="modal_FirmSearch" data-backdrop="static"  data-keyboard="false" class="modal fade" static-Include="./Templates/Settings/Partial/FirmSearch.cshtml" ng-controller="FirmSearchController">
+    <div id="modal_FirmSearch" data-backdrop="static" data-keyboard="false" class="modal fade" static-Include="./Templates/Settings/Partial/FirmSearch.cshtml" ng-controller="FirmSearchController">
     </div>
 
     <div id="modal_AdditionalContacts" class="modal fade" data-backdrop="static" data-keyboard="false">

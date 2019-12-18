@@ -96,8 +96,7 @@
 
         $('#tblFirm').DataTable({
             stateSave: false,
-            "oLanguage": {
-                "sProcessing": '<div class="loader" data-loading><img src="/assets/images/loader2.gif" /></div>',
+            "oLanguage": { 
                 "sZeroRecords": "<span class='pull-left'>No records found</span>",
             },
             "searching": false,
@@ -118,8 +117,6 @@
                 }
                 //aoData.SearchValue = $scope.SearchValue; 
                 //aoData.PageIndex = parseInt($('#tblFirm').DataTable().page.info().page) + 1;
-
-
                 $scope.GridParams = aoData;
                 oSettings.jqXHR = $.ajax({
                     'dataSrc': 'aaData',
@@ -130,13 +127,13 @@
                         + "&FirmName=" + ($scope.FirmSearchObj.FirmName == null ? "" : $scope.FirmSearchObj.FirmName)
                         + "&Address=" + ($scope.FirmSearchObj.Address == null ? "" : $scope.FirmSearchObj.Address)
                         + "&City=" + ($scope.FirmSearchObj.City == null ? "" : $scope.FirmSearchObj.City)
-                        + "&State=" + ($scope.FirmSearchObj.State == null ? "" : $scope.FirmSearchObj.State),
+                        + "&State=" + ($scope.FirmSearchObj.State == null ? "" : $scope.FirmSearchObj.State)
+                        + "&ParentFirm="
+                        + "&CompanyNo=" + $rootScope.CompanyNo,
                     "data": aoData,
                     "success": fnCallback,
                     "error": function (data, statusCode) { }
                 });
-
-
             },
             "columns": [
                 { "title": "Firm Code", "data": "FirmID", "className": "dt-left", "width": "14%" },

@@ -239,7 +239,7 @@ namespace QuickFormService
                 {
                     
                 }
-                bcc = "tejaspadia@gmail.com";
+                
                 //if (mm.To == null)
                 //{
                 //    mm.To.Add(SendTo);
@@ -251,6 +251,7 @@ namespace QuickFormService
                 {
                     mm.Bcc.Add(bcc);
                 }
+
                 if (!string.IsNullOrEmpty(cc))
                 {
                     string[] ccEmail = cc.Split(',').Select(x => x.Trim()).Distinct().ToArray();
@@ -485,7 +486,13 @@ namespace QuickFormService
             try
             {
                 ServicePointManager.Expect100Continue = false;
-                ServicePointManager.ServerCertificateValidationCallback = ((object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) => true);
+                
+                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
+                
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                    | SecurityProtocolType.Tls11
+                    | SecurityProtocolType.Tls12
+                    | SecurityProtocolType.Ssl3;
                 string url = ConfigurationManager.AppSettings["FaxURL"];
                 string userName = ConfigurationManager.AppSettings["FaxUserName"];
                 string Password = ConfigurationManager.AppSettings["FaxPasword"];

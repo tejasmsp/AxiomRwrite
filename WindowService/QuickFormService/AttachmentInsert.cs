@@ -261,10 +261,28 @@ namespace QuickFormService
                             license.SetLicense("Aspose.Words.lic");
                             string filePath = Path.Combine(documentRoot, drForm["DocPath"].ToString().Trim().Replace(">", "/"), docName.Trim());
 
+
+
+
                             #region Add Company Wise logo 
-                            //OLD Code: //Document doc = new Document(filePath);
+
+                            Document doc;
                             string companyLogoDirectory = ConfigurationManager.AppSettings["CompanyLogoDirectory"];
-                            Document doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
+
+                            string[] TestOrderNo = ConfigurationManager.AppSettings["TestOrderNo"].Split(',');
+                            if (TestOrderNo.Contains(orderNo.ToString()))
+                            {
+                                doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
+                            }
+                            else
+                            {
+                                //OLD Code: //Document doc = new Document(filePath);
+                                doc = new Document(filePath);
+                            }
+
+                            //OLD Code: //Document doc = new Document(filePath);
+
+                            // Document doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
                             #endregion
 
                             doc.MailMerge.Execute(dtQuery);

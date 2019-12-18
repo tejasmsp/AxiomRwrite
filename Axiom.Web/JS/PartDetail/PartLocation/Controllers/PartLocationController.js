@@ -23,6 +23,17 @@
         });
     };
 
+    $scope.ChangeRecordType = function () {        
+        debugger;
+        var promise = CommonServices.GetScopeForLocation($scope.OrderId.toString(), $scope.OrderPartObj.RecordTypeId.toString());
+        promise.success(function (response) {
+            if (response.Success) {
+                $scope.OrderPartObj.Scope = response.Data;
+            }
+        });
+        
+    };
+
     $scope.EditPartPopUp = function () {                
         $scope.IsLocSelect = true;
         $scope.OrderPartLocationform.$setPristine();
