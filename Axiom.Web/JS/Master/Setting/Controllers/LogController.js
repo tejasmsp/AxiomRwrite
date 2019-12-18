@@ -9,7 +9,14 @@
     $scope.log = { fromDate: $scope.currentDate, toDate: $scope.nextDate, UserId: $rootScope.LoggedInUserDetail.UserId };
     
     //Page Rights//
-    $rootScope.CheckIsPageAccessible("Settings", "Log", "View");
+    
+    if ($state.$current.name != "EmployeeLog") {
+        $rootScope.CheckIsPageAccessible("Settings", "Log", "View");
+    }
+    else {
+        $rootScope.CheckIsPageAccessible("EmployeeLog", "EmployeeLog", "View");
+    }
+   
     //------------
 
 

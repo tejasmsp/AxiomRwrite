@@ -192,7 +192,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         }
         // Redirect to login if route requires auth and you're not logged in
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-            debugger;
+            
             $rootScope.pageTitle = toState.title;
             $state.previous = fromState;
             $state.previousParams = fromParams;

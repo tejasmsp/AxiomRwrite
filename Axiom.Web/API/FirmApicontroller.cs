@@ -532,8 +532,9 @@ namespace Axiom.Web.API
             try
             {
                 SqlParameter[] param = { new SqlParameter("FirmID", (object)FirmID ?? (object)DBNull.Value)
+                                        ,new SqlParameter("isRequestform", (object)isRequestform ?? (object)DBNull.Value)
                                         ,new SqlParameter("isFaceSheet", (object)isFaceSheet ?? (object)DBNull.Value)
-                                        ,new SqlParameter("isRequestform", (object)isRequestform ?? (object)DBNull.Value) };
+                                         };
                 var result = _repository.ExecuteSQL<FirmForm>("GetFirmFormsList", param).ToList();
                 if (result == null)
                 {

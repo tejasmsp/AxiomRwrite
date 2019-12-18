@@ -35,13 +35,17 @@
             isRequestForm = false;
             isFaceSheet = false;
         }
-        if (Type == 2) {
+        else if (Type == 2) {
             isRequestForm = false;
             isFaceSheet = true;
         }
+        else if (Type == 4) {
+            isRequestForm = true;
+            isFaceSheet = false;
+        }
+        
 
-
-        if ($event.target.checked) {
+        if ($event.target.checked) { 
             $scope.FirmFormObj = { FirmID: $scope.FirmObj.FirmID, Name: ($scope.FirmObj.FirmName), IsRequestForm: isRequestForm, IsFaceSheet: isFaceSheet };
             $scope.ShowFirmForm = true;
         }
