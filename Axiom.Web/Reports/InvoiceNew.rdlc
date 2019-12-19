@@ -1081,13 +1081,13 @@
                                             <Style>Solid</Style>
                                           </Border>
                                           <BackgroundColor>Brown</BackgroundColor>
-                                          <PaddingLeft>2pt</PaddingLeft>
                                           <PaddingRight>2pt</PaddingRight>
                                           <PaddingTop>2pt</PaddingTop>
                                           <PaddingBottom>2pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
                                       <ColSpan>6</ColSpan>
+                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
                                   <TablixCell />
@@ -1210,7 +1210,7 @@
                                           </TablixColumns>
                                           <TablixRows>
                                             <TablixRow>
-                                              <Height>0.21874in</Height>
+                                              <Height>0.18229in</Height>
                                               <TablixCells>
                                                 <TablixCell>
                                                   <CellContents>
@@ -1264,7 +1264,7 @@
                                               </TablixCells>
                                             </TablixRow>
                                             <TablixRow>
-                                              <Height>0.24479in</Height>
+                                              <Height>0.20834in</Height>
                                               <TablixCells>
                                                 <TablixCell>
                                                   <CellContents>
@@ -1403,7 +1403,7 @@
                                               </TablixCells>
                                             </TablixRow>
                                             <TablixRow>
-                                              <Height>0.41928in</Height>
+                                              <Height>0.38283in</Height>
                                               <TablixCells>
                                                 <TablixCell>
                                                   <CellContents>
@@ -1469,7 +1469,7 @@
                                               </TablixCells>
                                             </TablixRow>
                                             <TablixRow>
-                                              <Height>0.26041in</Height>
+                                              <Height>0.22396in</Height>
                                               <TablixCells>
                                                 <TablixCell>
                                                   <CellContents>
@@ -1592,7 +1592,49 @@
                                               </TablixCells>
                                             </TablixRow>
                                             <TablixRow>
-                                              <Height>1.39843in</Height>
+                                              <Height>0.18229in</Height>
+                                              <TablixCells>
+                                                <TablixCell>
+                                                  <CellContents>
+                                                    <Textbox Name="Textbox66">
+                                                      <CanGrow>true</CanGrow>
+                                                      <KeepTogether>true</KeepTogether>
+                                                      <Paragraphs>
+                                                        <Paragraph>
+                                                          <TextRuns>
+                                                            <TextRun>
+                                                              <Value />
+                                                              <Style />
+                                                            </TextRun>
+                                                          </TextRuns>
+                                                          <Style />
+                                                        </Paragraph>
+                                                      </Paragraphs>
+                                                      <rd:DefaultName>Textbox66</rd:DefaultName>
+                                                      <Style>
+                                                        <Border>
+                                                          <Style>None</Style>
+                                                        </Border>
+                                                        <LeftBorder>
+                                                          <Color>Black</Color>
+                                                          <Style>Solid</Style>
+                                                        </LeftBorder>
+                                                        <PaddingLeft>10pt</PaddingLeft>
+                                                        <PaddingRight>2pt</PaddingRight>
+                                                        <PaddingTop>2pt</PaddingTop>
+                                                        <PaddingBottom>2pt</PaddingBottom>
+                                                      </Style>
+                                                    </Textbox>
+                                                    <ColSpan>4</ColSpan>
+                                                  </CellContents>
+                                                </TablixCell>
+                                                <TablixCell />
+                                                <TablixCell />
+                                                <TablixCell />
+                                              </TablixCells>
+                                            </TablixRow>
+                                            <TablixRow>
+                                              <Height>1.36198in</Height>
                                               <TablixCells>
                                                 <TablixCell>
                                                   <CellContents>
@@ -1600,15 +1642,15 @@
                                                       <TablixBody>
                                                         <TablixColumns>
                                                           <TablixColumn>
-                                                            <Width>1.2931in</Width>
+                                                            <Width>1.16079in</Width>
                                                           </TablixColumn>
                                                           <TablixColumn>
-                                                            <Width>2.31394in</Width>
+                                                            <Width>5.52402in</Width>
                                                           </TablixColumn>
                                                         </TablixColumns>
                                                         <TablixRows>
                                                           <TablixRow>
-                                                            <Height>0.16211in</Height>
+                                                            <Height>0.15299in</Height>
                                                             <TablixCells>
                                                               <TablixCell>
                                                                 <CellContents>
@@ -1686,7 +1728,7 @@
                                                             </TablixCells>
                                                           </TablixRow>
                                                           <TablixRow>
-                                                            <Height>0.20744in</Height>
+                                                            <Height>0.19832in</Height>
                                                             <TablixCells>
                                                               <TablixCell>
                                                                 <CellContents>
@@ -1764,7 +1806,7 @@
                                                             </TablixCells>
                                                           </TablixRow>
                                                           <TablixRow>
-                                                            <Height>0.16406in</Height>
+                                                            <Height>0.15494in</Height>
                                                             <TablixCells>
                                                               <TablixCell>
                                                                 <CellContents>
@@ -1806,7 +1848,6 @@
                                                                 <CellContents>
                                                                   <Textbox Name="Message1">
                                                                     <CanGrow>true</CanGrow>
-                                                                    <KeepTogether>true</KeepTogether>
                                                                     <Paragraphs>
                                                                       <Paragraph>
                                                                         <TextRuns>
@@ -1837,7 +1878,7 @@
                                                             </TablixCells>
                                                           </TablixRow>
                                                           <TablixRow>
-                                                            <Height>0.86483in</Height>
+                                                            <Height>0.85571in</Height>
                                                             <TablixCells>
                                                               <TablixCell>
                                                                 <CellContents>
@@ -1889,12 +1930,12 @@
                                                                     <TablixBody>
                                                                       <TablixColumns>
                                                                         <TablixColumn>
-                                                                          <Width>2.31394in</Width>
+                                                                          <Width>5.52402in</Width>
                                                                         </TablixColumn>
                                                                       </TablixColumns>
                                                                       <TablixRows>
                                                                         <TablixRow>
-                                                                          <Height>0.14414in</Height>
+                                                                          <Height>0.14262in</Height>
                                                                           <TablixCells>
                                                                             <TablixCell>
                                                                               <CellContents>
@@ -1928,7 +1969,7 @@
                                                                           </TablixCells>
                                                                         </TablixRow>
                                                                         <TablixRow>
-                                                                          <Height>0.14414in</Height>
+                                                                          <Height>0.14262in</Height>
                                                                           <TablixCells>
                                                                             <TablixCell>
                                                                               <CellContents>
@@ -1962,7 +2003,7 @@
                                                                           </TablixCells>
                                                                         </TablixRow>
                                                                         <TablixRow>
-                                                                          <Height>0.14414in</Height>
+                                                                          <Height>0.14262in</Height>
                                                                           <TablixCells>
                                                                             <TablixCell>
                                                                               <CellContents>
@@ -1996,7 +2037,7 @@
                                                                           </TablixCells>
                                                                         </TablixRow>
                                                                         <TablixRow>
-                                                                          <Height>0.14414in</Height>
+                                                                          <Height>0.14262in</Height>
                                                                           <TablixCells>
                                                                             <TablixCell>
                                                                               <CellContents>
@@ -2030,7 +2071,7 @@
                                                                           </TablixCells>
                                                                         </TablixRow>
                                                                         <TablixRow>
-                                                                          <Height>0.14414in</Height>
+                                                                          <Height>0.14262in</Height>
                                                                           <TablixCells>
                                                                             <TablixCell>
                                                                               <CellContents>
@@ -2064,7 +2105,7 @@
                                                                           </TablixCells>
                                                                         </TablixRow>
                                                                         <TablixRow>
-                                                                          <Height>0.14414in</Height>
+                                                                          <Height>0.14262in</Height>
                                                                           <TablixCells>
                                                                             <TablixCell>
                                                                               <CellContents>
@@ -2159,71 +2200,12 @@
                                                         </LeftBorder>
                                                       </Style>
                                                     </Tablix>
-                                                    <ColSpan>2</ColSpan>
+                                                    <ColSpan>4</ColSpan>
                                                   </CellContents>
                                                 </TablixCell>
                                                 <TablixCell />
-                                                <TablixCell>
-                                                  <CellContents>
-                                                    <Textbox Name="Textbox184">
-                                                      <CanGrow>true</CanGrow>
-                                                      <KeepTogether>true</KeepTogether>
-                                                      <Paragraphs>
-                                                        <Paragraph>
-                                                          <TextRuns>
-                                                            <TextRun>
-                                                              <Value />
-                                                              <Style />
-                                                            </TextRun>
-                                                          </TextRuns>
-                                                          <Style />
-                                                        </Paragraph>
-                                                      </Paragraphs>
-                                                      <rd:DefaultName>Textbox184</rd:DefaultName>
-                                                      <Style>
-                                                        <Border>
-                                                          <Style>None</Style>
-                                                        </Border>
-                                                        <PaddingLeft>2pt</PaddingLeft>
-                                                        <PaddingRight>2pt</PaddingRight>
-                                                        <PaddingTop>2pt</PaddingTop>
-                                                        <PaddingBottom>2pt</PaddingBottom>
-                                                      </Style>
-                                                    </Textbox>
-                                                  </CellContents>
-                                                </TablixCell>
-                                                <TablixCell>
-                                                  <CellContents>
-                                                    <Textbox Name="Textbox185">
-                                                      <CanGrow>true</CanGrow>
-                                                      <KeepTogether>true</KeepTogether>
-                                                      <Paragraphs>
-                                                        <Paragraph>
-                                                          <TextRuns>
-                                                            <TextRun>
-                                                              <Value />
-                                                              <Style />
-                                                            </TextRun>
-                                                          </TextRuns>
-                                                          <Style />
-                                                        </Paragraph>
-                                                      </Paragraphs>
-                                                      <rd:DefaultName>Textbox185</rd:DefaultName>
-                                                      <Style>
-                                                        <Border>
-                                                          <Style>None</Style>
-                                                        </Border>
-                                                        <RightBorder>
-                                                          <Style>Solid</Style>
-                                                        </RightBorder>
-                                                        <PaddingLeft>2pt</PaddingLeft>
-                                                        <PaddingRight>2pt</PaddingRight>
-                                                        <PaddingTop>2pt</PaddingTop>
-                                                        <PaddingBottom>2pt</PaddingBottom>
-                                                      </Style>
-                                                    </Textbox>
-                                                  </CellContents>
-                                                </TablixCell>
+                                                <TablixCell />
+                                                <TablixCell />
                                               </TablixCells>
                                             </TablixRow>
                                           </TablixRows>
@@ -2243,6 +2225,7 @@
                                                 <Hidden>=IIF(Fields!InvHdr.Value="",True,False)</Hidden>
                                               </Visibility>
                                             </TablixMember>
+                                            <TablixMember />
                                             <TablixMember />
                                             <TablixMember />
                                             <TablixMember />
@@ -2496,7 +2479,7 @@
                           <ZIndex>3</ZIndex>
                           <Style>
                             <Border>
-                              <Style>None</Style>
+                              <Style>Solid</Style>
                             </Border>
                             <LeftBorder>
                               <Color>Black</Color>
