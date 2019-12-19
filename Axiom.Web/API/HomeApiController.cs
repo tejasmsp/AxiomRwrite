@@ -22,13 +22,14 @@ namespace Axiom.Web.API
         #region DatabaseOperations
         [HttpGet]
         [Route("GetActionDateStatus")]
-        public ApiResponse<HomeEntity> GetActionDateStatus()
+        public ApiResponse<HomeEntity> GetActionDateStatus(int? CompanyNo)
         {
             var response = new ApiResponse<HomeEntity>();
 
             try
             {
-                var result = _repository.ExecuteSQL<HomeEntity>("GetActionDateStatus").ToList();
+                SqlParameter[] param = { new SqlParameter("CompanyNo", (object)CompanyNo ?? (object)DBNull.Value) };
+                var result = _repository.ExecuteSQL<HomeEntity>("GetActionDateStatus", param).ToList();
                 if (result == null)
                 {
                     result = new List<HomeEntity>();
