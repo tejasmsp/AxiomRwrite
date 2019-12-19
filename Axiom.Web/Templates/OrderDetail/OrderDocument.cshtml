@@ -22,8 +22,8 @@
                 <th class="tbldocHeader" width="44%">File Name</th>
                 <th class="tbldocHeader" width="25%">File Type</th>
                 <th class="tbldocHeader" width="18%">Created Date</th>
-                <th class="tbldocHeader" width="2%" ng-if="RoleName!='Attorney'">Status</th>
-                <th class="tbldocHeader" width="2%" ng-if="RoleName!='Attorney'">Action</th>
+                <th class="tbldocHeader" width="2%" ng-if="!IsAttorneyLogin">Status</th>
+                <th class="tbldocHeader" width="2%" ng-if="!IsAttorneyLogin">Action</th>
 
             </tr>
             <tr ng-click="selectedtableRowDocument(item.FileDiskName,item.FileName)" ng-repeat="item in FileList">
@@ -31,8 +31,8 @@
                 <td ng-if="item.FileTypeId!=11"><a>{{ item.FileName }}</a></td>
                 <td>{{ item.FileType }}</td>
                 <td>{{ item.DtsCreated | date : GlobalDateFormat }}</td>
-                <td ng-if="RoleName!='Attorney'">{{item.IsPublic?'Public':'Private'}}</td>
-                <td class="text-center" width="2%" ng-if="RoleName!='Attorney'">
+                <td ng-if="!IsAttorneyLogin">{{item.IsPublic?'Public':'Private'}}</td>
+                <td class="text-center" width="2%" ng-if="!IsAttorneyLogin">
                     <a href="javascript:void(0)" class="ico_btn cursor-pointer" ng-if="item.IsPublic" data-toggle='tooltip' data-placement='left' tooltip title="Make Private" ng-click="FileStatusClick(item.IsPublic,item.FileId,$event)">
                         <i class="icon-unlocked2"></i>
                     </a>
@@ -124,7 +124,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" ng-if="RoleName!='Attorney'">
+                        <div class="row" ng-if="!IsAttorneyLogin">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3 lbl-primary" style="padding-top:0px;">Is Public</label>
