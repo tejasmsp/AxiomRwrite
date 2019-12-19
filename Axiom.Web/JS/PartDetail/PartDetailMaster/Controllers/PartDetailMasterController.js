@@ -137,7 +137,7 @@
 
     }
     function getEmployeeList() {
-        var emp = EmployeeServices.GetEmployeeList($rootScope.CompanyNo);
+        var emp = CommonServices.AssignToDropDown($rootScope.CompanyNo);
         emp.success(function (response) {
             $scope.EmployeeList = angular.copy(response.Data);
             $scope.PartNoteAssgnTo = angular.copy($scope.AsgnTo);

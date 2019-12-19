@@ -94,6 +94,7 @@
     };
 
     $scope.UpdateInvoice = function (form) {
+        debugger;
         if (form.$valid) {
             $scope.UpdateInvoiceInfo.OrigRate = $scope.objEditInvoice.OrigRate;
             $scope.UpdateInvoiceInfo.CopyRate = $scope.objEditInvoice.CopyRate;

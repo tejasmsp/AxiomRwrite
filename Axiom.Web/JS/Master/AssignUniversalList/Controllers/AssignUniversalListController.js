@@ -17,7 +17,7 @@
             data: $scope.Employeelist,
             "bDestroy": true,
             "dom": '<"top pull-left "f><"table"rt><"bottom"lip<"clear">>',
-            "aaSorting": false,
+            "aaSorting": [[2, 'asc']],
             "aLengthMenu": [10, 20, 50, 100, 200],
             "pageLength": 10,
             "stateSave": false,
@@ -38,34 +38,34 @@
                     "className": "dt-left",
                     "data": "EmpId",
                     "width": "10%",
-                    "sorting": "false"
+                    "orderable": true
                 },
                 {
                     "title": "Name",
                     "className": "dt-left",
                     "data": "EmployeeName",
                     "width": "15%",
-                    "sorting": "false"
+                    "orderable": true
                 },
                 {
                     "title": "Email",
                     "className": "dt-left",
                     "data": "UserName",
                     "width": "15%",
-                    "sorting": "false"
+                    "orderable": true
                 },
                 {
                     "title": "Department",
                     "className": "dt-left",
                     "data": "Department",
-                    "sorting": "false"
+                    "orderable": true
                 }
                 , {
                     "title": 'Universal ?',
                     "data": "IsAssignTo",
                     "sClass": "action dt-center",
-                    "width": "80px",
-                    "sorting": "false",
+                    "width": "80px",                    
+                    "orderable": true,
                     "render": function (data, type, row) { 
                         if (data) {
                             return '<label class="label bg-success-400">Yes</label>';

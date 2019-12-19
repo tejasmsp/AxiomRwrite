@@ -119,6 +119,9 @@
     commonService.GetScopeForLocation = function (OrderNo, RecType) {
         return $http.get(configurationService.basePath + "GetScopeForLocation?OrderNo=" + OrderNo + "&RecType=" + RecType);
     }
+    commonService.AssignToDropDown = function (CompanyNo) {
+        return $http.get(configurationService.basePath + "AssignToDropDown?CompanyNo=" + CompanyNo);
+    }
 
     return commonService;
 });

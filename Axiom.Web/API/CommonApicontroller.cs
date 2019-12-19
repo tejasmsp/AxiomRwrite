@@ -981,8 +981,29 @@ namespace Axiom.Web.API
             return response;
         }
 
-        
-        
+        [HttpGet]
+        [Route("AssignToDropDown")]
+        public ApiResponse<EmployeeEntity> AssignToDropDown(int CompanyNo)
+        {
+            var response = new ApiResponse<EmployeeEntity>();
+            try
+            {
+                SqlParameter[] param = { new SqlParameter("CompanyNo", (object)CompanyNo ?? (object)DBNull.Value) };
+                var result = _repository.ExecuteSQL<EmployeeEntity>("GetAssignToList",param).ToList();
+                if (result == null)
+                {
+                    result = new List<EmployeeEntity>();
+                }
+                response.Success = true;
+                response.Data = result;
+            }
+            catch (Exception ex)
+            {
+                response.Message.Add(ex.Message);
+            }
+            return response;
+        }
+
 
     }
 }

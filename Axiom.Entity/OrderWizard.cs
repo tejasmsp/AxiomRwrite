@@ -172,6 +172,8 @@ namespace Axiom.Entity
         public string LoggedInUserEmail { get; set; }
         public string IStatus { get; set; }
         public bool AllowDelete { get; set; }
+        public bool isBatchUpload { get; set; }
+        
     }
     public class OrderWizardStep6Document
     {

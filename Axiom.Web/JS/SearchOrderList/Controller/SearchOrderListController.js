@@ -61,8 +61,9 @@
 
     //#region Method
     function getEmployeeList() {
-        var emp = EmployeeServices.GetEmployeeList($rootScope.CompanyNo);
-        emp.success(function (response) {
+        // var emp = CommonServices.AssignToDropDown();
+        var emp = CommonServices.AssignToDropDown($rootScope.CompanyNo);
+        emp.success(function (response) {            
             $scope.EmployeeList = angular.copy(response.Data);
         });
         emp.error(function (data, statusCode) {

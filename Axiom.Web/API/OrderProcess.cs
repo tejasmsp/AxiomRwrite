@@ -365,7 +365,7 @@ namespace Axiom.Web.API
                                 fileName += "<br>";
                             }
 
-                            sbLocations = sbLocations.Replace("##LocationFiles##", fileName);
+                            sbLocations = sbLocations.Replace("##LocationFiles##", loc.isBatchUpload ? "File Upload Via Batch" : fileName);
                             combineLocation = combineLocation.Append(sbLocations);
                             locationCount++;
                         }
