@@ -552,6 +552,7 @@ namespace Axiom.Web.API
                     response.Success = true;
                 }
 
+                
                 #region Send Mail
                 if (Convert.ToInt32(data["FileTypeId"]) == 11 && isFileUploaded)
                 {
@@ -606,6 +607,48 @@ namespace Axiom.Web.API
                         Log.ServicLog("========== Email for UPLOADING DOCUMENT ==================");
                         Log.ServicLog(ex.ToString());
                     }
+                }
+                #endregion
+                #region Send Mail To Client Of Employee
+                try
+                {
+                    SqlParameter[] param = {  new SqlParameter("OrderId", (object)Convert.ToInt64(data["OrderId"]) ?? (object)DBNull.Value) };
+                    var clientOfUser = _repository.ExecuteSQL<AccntRepDetails>("GetClientOfEmailByOrderId", param).FirstOrDefault();
+                    if (clientOfUser != null && !string.IsNullOrEmpty(clientOfUser.Email))
+                    {
+                        CompanyDetailForEmailEntity objCompany = CommonFunction.CompanyDetailForEmail(CompanyNo);
+
+                        string subject = "Document uploaded by client " + Convert.ToString(data["OrderId"]) + "-" + Convert.ToString(data["PartNo"]);
+                        string LiveSiteURL = ConfigurationManager.AppSettings["LiveSiteURL"].ToString();
+
+                        System.Text.StringBuilder body = new System.Text.StringBuilder();
+                        using (System.IO.StreamReader reader = new System.IO.StreamReader(HttpContext.Current.Server.MapPath("~/MailTemplate/DocumentUploadedByClient.html")))
+                        {
+                            body.Append(reader.ReadToEnd());
+                        }
+
+                        body = body.Replace("{UserName}", clientOfUser.Name); 
+                        body = body.Replace("{ORDERNO}", data["OrderId"] + "-" + data["PartNo"]);
+                        body = body.Replace("{LINK}", Convert.ToString(objCompany.SiteURL) + "/PartDetail?OrderId=" + data["OrderId"] + "&PartNo=" + data["PartNo"]);
+                        body = body.Replace("{LogoURL}", objCompany.Logopath);
+                        body = body.Replace("{ThankYou}", objCompany.ThankYouMessage);
+                        body = body.Replace("{CompanyName}", objCompany.CompName);
+                        body = body.Replace("{Link}", objCompany.SiteURL);
+
+                        EmailHelper.Email.Send(CompanyNo: objCompany.CompNo
+                           , mailTo: clientOfUser.Email
+                           , body: body.ToString()
+                           , subject: subject
+                           , ccMail: ""
+                           , bccMail: "autharchive@axiomcopy.com,tejaspadia@gmail.com");
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Log.ServicLog("========== Email for UPLOADING DOCUMENT ==================");
+                    Log.ServicLog(ex.ToString());
                 }
                 #endregion
                 if (!isFileUploaded)
