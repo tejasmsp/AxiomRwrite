@@ -825,6 +825,10 @@
     <Content Include="JS\UserProfile\Controller\UserNotificationController.js" />
     <Content Include="JS\UserProfile\Controller\UserProfileController.js" />
     <Content Include="JS\UserProfile\Service\UserProfileService.js" />
+    <Content Include="MailTemplate\AddNewEmployee.html" />
+    <Content Include="MailTemplate\AuthorizationEmail.html" />
+    <Content Include="MailTemplate\BillingRecords.html" />
+    <Content Include="MailTemplate\CancelPart.html" />
     <Content Include="MailTemplate\ClientRecords\ClientRecords.html" />
     <Content Include="MailTemplate\ClientRecords\css\main.css" />
     <Content Include="MailTemplate\ClientRecords\css\util.css" />
@@ -854,8 +858,25 @@
     <Content Include="MailTemplate\ClientRecords\vendor\select2\select2.js" />
     <Content Include="MailTemplate\ClientRecords\vendor\select2\select2.min.css" />
     <Content Include="MailTemplate\ClientRecords\vendor\select2\select2.min.js" />
+    <Content Include="MailTemplate\DocumentUploadedByClient.html" />
     <Content Include="MailTemplate\GetPassword.html" />
     <Content Include="MailTemplate\ForgetPassword.html" />
+    <Content Include="MailTemplate\GuideLine.PNG" />
+    <Content Include="MailTemplate\LinktoPatientAttorney.html" />
+    <Content Include="MailTemplate\OrderSummary\Edit.html" />
+    <Content Include="MailTemplate\OrderSummary\OrderSummaryPage.html" />
+    <Content Include="MailTemplate\OrderSummary\OrderSummaryPageAttorneys.html" />
+    <Content Include="MailTemplate\OrderSummary\OrderSummaryPageCanvas.html" />
+    <Content Include="MailTemplate\OrderSummary\OrderSummaryPageLocations.html" />
+    <Content Include="MailTemplate\PasswordRecovery.html" />
+    <Content Include="MailTemplate\ProposalFees.html" />
+    <Content Include="MailTemplate\ProposalFeesReply.html" />
+    <Content Include="MailTemplate\ProposalFeesReplyEditScope.html" />
+    <Content Include="MailTemplate\WaiverBillingProposal.html" />
+    <Content Include="MailTemplate\WaiverBillingReply.html" />
+    <Content Include="MailTemplate\WaiverBillingReplyRejected.html" />
+    <Content Include="MailTemplate\WelcomeNewUser.html" />
+    <Content Include="MailTemplate\WelcomeNewUserInternal.html" />
     <Content Include="ProjectLicFiles\Aspose.BarCode.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -356,16 +356,19 @@ namespace Axiom.Web.API
                             {
                                 sbLocations = sbLocations.Replace("##PreApprovalMsg##", "");
                             }
+                            
                             SqlParameter[] SQLLocParam = { new SqlParameter("OrderId", (object)OrderId ?? (object)DBNull.Value),
-                         new SqlParameter("PartNo", (object)loc.PartNo ?? (object)DBNull.Value)};
+                                                           new SqlParameter("PartNo", (object)loc.PartNo ?? (object)DBNull.Value),
+                                                           new SqlParameter("IsBatchUpload", (object)loc.isBatchUpload ?? (object)DBNull.Value)
+                            };  
                             var FileList = _repository.ExecuteSQL<string>("GetLocationFiles", SQLLocParam).ToList();
-                            foreach (var file in FileList)
+                            if (FileList!=null)
                             {
-                                fileName += file;
-                                fileName += "<br>";
+                                fileName = string.Join("<br>", FileList);
                             }
+                            
 
-                            sbLocations = sbLocations.Replace("##LocationFiles##", loc.isBatchUpload ? "File Upload Via Batch" : fileName);
+                            sbLocations = sbLocations.Replace("##LocationFiles##", fileName);
                             combineLocation = combineLocation.Append(sbLocations);
                             locationCount++;
                         }

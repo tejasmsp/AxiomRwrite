@@ -9,6 +9,7 @@
     $scope.LocationID = "";
     $scope.IsLocSelect = false;
     $scope.RoleName = $rootScope.LoggedInUserDetail.RoleName ? $rootScope.LoggedInUserDetail.RoleName[0] : '';
+    $scope.IsAttorneyLogin = ($scope.RoleName === 'Attorney');
     $scope.validateFileType = false;
 
     //#region Event
@@ -16,7 +17,7 @@
     $scope.GetFileList = function () {
         var promise = OrderDocumentService.GetFileList($scope.OrderId, $scope.PartNo);
         promise.success(function (response) {
-            if ($scope.RoleName === 'Attorney') {
+            if ($scope.IsAttorneyLogin) {
                 $scope.FileList = $filter('filter')(response.Data, { IsPublic: true }, true);
             }
             else {
@@ -128,6 +129,7 @@
             $scope.DocumentObj.EmpId = $rootScope.LoggedInUserDetail.EmpId;
             $scope.DocumentObj.CreatedBy = $rootScope.LoggedInUserDetail.UserId;
             $scope.DocumentObj.UserAccessId = parseInt($rootScope.LoggedInUserDetail.UserAccessId);
+            $scope.DocumentObj.IsAttorneyLogin = $scope.IsAttorneyLogin;
             var formData = new FormData();
             formData.append("model", angular.toJson($scope.DocumentObj));
             for (var i = 0; i < $scope.files.length; i++) {
