@@ -213,7 +213,7 @@
                 break;
             case $rootScope.Enum.DailyDashboardSearch.Week:
                 var days = (7 * Value);                 
-                 start_Date = todayDate.setDate(todayDate.getDate() - days);
+                 start_Date = todayDate.setDate(todayDate.getDate() - days+1); //Changed by Akash + 1 
                  endDate = $filter('date')(start_Date, $rootScope.GlobalDateFormat);                
                 if (Value==2) {
                     $window.open("SearchOrderList?EndDate=" + endDate + "&IsRush=" + IsRush + "&EmpId=" + Item.EmpId + "&IsCallBack=1&IsFromDailyAnnouncement=1", '_blank');   
@@ -227,7 +227,7 @@
                 break;
             case $rootScope.Enum.DailyDashboardSearch.Day:                
                 if (Value == 2) {
-                    start_Date = todayDate.setDate(todayDate.getDate() - 7);
+                    start_Date = todayDate.setDate(todayDate.getDate() - 7 + 1);  //Changed by Akash + 1
                     startDate = $filter('date')(start_Date, $rootScope.GlobalDateFormat);
                     var today = new Date();
                     var End_Date = today.setDate(today.getDate() - 1);
@@ -236,7 +236,7 @@
                 }
                 if (Value == 0) {
                     var today = new Date();
-                    var start_Date = today.setDate(today.getDate());
+                    var start_Date = today.setDate(today.getDate() - 1);  //Changed by Akash - 1
                     startDate = $filter('date')(start_Date, $rootScope.GlobalDateFormat);                    
                     $window.open("SearchOrderList?FromDate=" + startDate + "&IsRush=" + IsRush + "&EmpId=" + Item.EmpId + "&IsCallBack=1&IsFromDailyAnnouncement=1", '_blank');                
                 }                              
