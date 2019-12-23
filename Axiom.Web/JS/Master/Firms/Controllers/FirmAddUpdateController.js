@@ -397,7 +397,7 @@
             $scope.isEdit = true;
             var promise = FirmServices.GetFirmById(FirmId);
             promise.success(function (response) {
-                debugger;
+                
                 $scope.FirmObj = response.Data[0];
                 if (!isNullOrUndefinedOrEmpty(response.Data[0].LastSalesCall)) {
                     $scope.FirmObj.LastSalesCall = $filter('date')(new Date(response.Data[0].LastSalesCall), $rootScope.GlobalDateFormat);
@@ -537,7 +537,8 @@
                 LastUsedDate: null,
                 UsedRank: null,
                 CompanyID: null,
-                LEDESBillingCode: null
+                LEDESBillingCode: null,
+                IndividualRequest: false
             };
 
         $scope.DocumentProdctionOptions =

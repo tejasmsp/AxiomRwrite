@@ -267,7 +267,8 @@ namespace Axiom.Web.API
                 {
                     SqlParameter[] linkparam = { new SqlParameter("LocId", (object)model.LocID ?? (object)DBNull.Value)
                                                 ,new SqlParameter("RecordTypeId", (object)model.RecordTypeId ?? (object)DBNull.Value)
-                    };
+                                                ,new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value)
+                                               };
                     var locationresult = _repository.ExecuteSQL<string>("GetLinkLocation", linkparam).FirstOrDefault();
                     linklocation = linklocation + ',' + Convert.ToString(locationresult);
 
@@ -366,6 +367,22 @@ namespace Axiom.Web.API
                                       )
                                  };
                     var result = _repository.ExecuteSQL<int>("InsertOrUpdateOrderWizardStep6", param1).FirstOrDefault();
+                    if (model.DocumentFileList != null && model.DocumentFileList.Count > 0)
+                    {
+                        foreach (var docitem in model.DocumentFileList)
+                        {
+                            SqlParameter[] attachparam = {  new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value),
+                                new SqlParameter("PartNo", (object)result ?? (object)DBNull.Value),
+                                new SqlParameter("FileName", (object)docitem.FileName ?? (object)DBNull.Value),
+                                new SqlParameter("BatchId", (object)docitem.BatchId ?? (object)DBNull.Value),
+                                new SqlParameter("LocID", (object)model.OrderId?? (object)DBNull.Value),
+                                new SqlParameter("FileTypeId", (object)(docitem.IsAuthSub==true?(int)FileType.Authorization:(int)FileType.Request)  ?? (object)DBNull.Value),
+                                new SqlParameter("RecordTypeId", (object)model.RecordTypeId ?? (object)DBNull.Value),
+                                new SqlParameter("CreatedBy", (object)model.CreatedBy ?? (object)DBNull.Value)
+                            };
+                            _repository.ExecuteSQL<int>("InsertLocationFiles", attachparam).FirstOrDefault();
+                        }
+                    }
                     response.Success = true;
                     response.lng_InsertedId = result;
                 }
