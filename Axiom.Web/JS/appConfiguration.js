@@ -29,6 +29,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider.state({ name: 'AttorneyUsers', url: '/AttorneyUsers', templateUrl: '/Templates/Settings/AttorneyUsers.cshtml', title: 'Manage Attorney User' });
     $stateProvider.state({ name: 'Scope', url: '/Scope', templateUrl: '/Templates/Settings/Scope.cshtml', title: 'Manage Scope' });
     $stateProvider.state({ name: 'BillingRate', url: '/BillingRate', templateUrl: '/Templates/Settings/BillingRate.cshtml', title: "Billing Rate" });
+    $stateProvider.state({ name: 'TransferRecord', url: '/TransferRecord', templateUrl: '/Templates/Settings/TransferRecord.cshtml', title: "Transfer Record" });
     $stateProvider.state({ name: 'County', url: '/County', templateUrl: '/Templates/Settings/County.cshtml', title: "Manage County" });
     $stateProvider.state({ name: 'Court', url: '/Court', templateUrl: '/Templates/Settings/Court.cshtml', title: "Manage Court" });
     $stateProvider.state({ name: 'Department', url: '/Department', templateUrl: '/Templates/Settings/Department.cshtml', title: "Manage Department" });
