@@ -36,6 +36,7 @@
                     <div class="col-md-4">
                         <label class="col-sm-1 control-label lbl-primary required pr-0">From </label>
                         <div class="col-sm-11">
+                            @*<div id="ddlSourceEntityId" name="ddlSourceEntityId" custom-select="item.Id as item.Text  for item in  TransferEntityFromLst | filter: $searchTerm" ng-model="objTransferRecord.SourceEntityId"></div>*@
                             <select id="ddlSourceEntityId" name="ddlSourceEntityId" ng-model="objTransferRecord.SourceEntityId" ng-change="OnFromListChanged()" class="form-control" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst">
                                 <option value="">-- Select --</option>
                             </select>
@@ -44,6 +45,7 @@
                     <div class="col-md-4">
                         <label class="col-sm-1 control-label lbl-primary required pr-0">To</label>
                         <div class="col-sm-11">
+                            @*<div id="ddlTargetEntityId" name="ddlTargetEntityId" ng-class="(objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId=='')?'bg-disabled':''" ng-disabled="objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId==''" ng-model="objTransferRecord.TargetEntityId" custom-select="item.Id as item.Text  for item in  TransferEntityToLst() | filter: $searchTerm" ng-model="objTransferRecord.SourceEntityId"></div>*@
                             <select id="ddlTargetEntityId" name="ddlTargetEntityId" ng-class="(objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId=='')?'bg-disabled':''" ng-disabled="objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId==''" ng-model="objTransferRecord.TargetEntityId" class="form-control" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst | filter:{Id:'!' + objTransferRecord.SourceEntityId} ">
                                 <option value="">-- Select --</option>
                             </select>

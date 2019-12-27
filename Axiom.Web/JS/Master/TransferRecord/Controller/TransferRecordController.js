@@ -11,7 +11,7 @@
 
     
     $scope.TransferEntityFromLst = [];
-    $scope.TransferEntityToLst = [];
+   // $scope.TransferEntityToLst = function () { return $filter('filter')($scope.TransferEntityFromLst, { Id:  '!'+ $scope.objTransferRecord.SourceEntityId  }, true ) }; 
 
     $scope.OnTransferEntityTypeChanged = function () {
         bindDropdown();
@@ -29,6 +29,8 @@
         promise.error(function (data, statusCode) { });
     }
     $scope.OnFromListChanged = function () {
+
+        
     };
 
     $scope.SubmitRecordsToTransfer = function (form) {
@@ -60,12 +62,24 @@
                                 if (response.Data != null && response.Data.length > 0) {
                                     affectedrecords = response.Data[0].AffectRecordCount;
                                 }
-                                setTimeout(function () {
+                                
+                               
+                                  
+                                    
+                                    var selectedRecord = $filter("filter")($scope.TransferEntityFromLst, { Id: $scope.objTransferRecord.SourceEntityId }, true);
+                                    if (selectedRecord != null) {
+                                        selectedRecord = selectedRecord[0];
+                                        $scope.TransferEntityFromLst.splice($scope.TransferEntityFromLst.indexOf(selectedRecord), 1);
+                                        var newList = [];
+                                        angular.copy($scope.TransferEntityFromLst, newList);
+                                        $scope.TransferEntityFromLst = newList;
+                                        $scope.objTransferRecord.SourceEntityId = null;
+                                    }
                                     $("#ddlSourceEntityId option:selected").remove();
-                                    $scope.objTransferRecord.SourceEntityId = '';
+                                    //
                                     //bindDropdown()
-                                },100);
-                                toastr.success("Total " + affectedrecords + " records has been transferred successfully (" + selectedSourceText + "-->" + selectedTargetText + " ).");
+                                
+                                 toastr.success("Total " + affectedrecords + " records has been transferred successfully (" + selectedSourceText + "-->" + selectedTargetText + " ).");
                             }
                             else {
                                 toastr.error(response.Message[0]);
