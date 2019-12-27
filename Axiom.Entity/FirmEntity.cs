@@ -77,6 +77,7 @@ namespace Axiom.Entity
         public bool isAssociated { get; set; }
         public int? RequestSent { get; set; }
         public int CompanyNo { get; set; }
+        public bool? IndividualRequest { get; set; }
     }
 
     public partial class FirmList

@@ -252,6 +252,7 @@
     <Compile Include="API\AxiomEnum.cs" />
     <Compile Include="API\BatchInvoiceApi.cs" />
     <Compile Include="API\BillingApiController.cs" />
+    <Compile Include="API\TransferRecordApiController.cs" />
     <Compile Include="API\CommonFunction.cs" />
     <Compile Include="API\DownloadDocuments.cs" />
     <Compile Include="API\MiscellaneousChargesApiController.cs" />
@@ -707,6 +708,8 @@
     <Content Include="JS\Master\Attorney\Controller\AttorneyController.js" />
     <Content Include="JS\Master\Attorney\Service\AddOrUpdateAttorneyService.js" />
     <Content Include="JS\Master\Attorney\Service\AttorneyServices.js" />
+    <Content Include="JS\Master\TransferRecord\Controller\TransferRecordController.js" />
+    <Content Include="JS\Master\TransferRecord\Service\TransferRecordService.js" />
     <Content Include="JS\Master\BillinRate\Controller\BillingRateController.js" />
     <Content Include="JS\Master\BillinRate\Service\BillingRateService.js" />
     <Content Include="JS\Master\AssignUniversalList\Controllers\AssignUniversalListController.js" />
@@ -1237,6 +1240,7 @@
     <Content Include="Views\BillingProposal\Index.cshtml" />
     <Content Include="Templates\AccessReports\Reports.cshtml" />
     <Content Include="Templates\Settings\AssignUniversalList.cshtml" />
+    <Content Include="Templates\Settings\TransferRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

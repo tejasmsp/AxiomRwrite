@@ -150,24 +150,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-10" ng-if="LocationStep1==true">
+                            <div class="row mb-10" ng-if="LocationStep1==true" ng-disabled="IsEdit">
                                 <div class="col-md-7 pl-0">
                                     <label class="col-sm-9 control-label lbl-primary">Would you like to request these records by means of:</label>
                                 </div>
                                 <div class="col-md-5 pl-0" ng-show="OrderStep6Obj.RequestMeansId == 2">
                                     <input type="file" class="input" id="myfile" file-model="myFile" multiple="true" style="display:none;" onchange="angular.element(this).scope().UploadFile(event)" />
-                                    <button type="button" class="btn btn-primary" ng-click="FileUploadClick()">Upload File</button>
+                                    <button type="button" class="btn btn-primary" ng-click="FileUploadClick()" >Upload File</button>
                                     <span ng-if="ErrorFileUpload" class="wysiwyg-color-red text-bold">Please upoad a file.</span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <div class="row mb-12" ng-if="LocationStep1==true">
+                                    <div class="row mb-12" ng-if="LocationStep1==true" >
                                         <div class="col-sm-6">
-                                            <select name="Authorization" class="form-control" ng-model="OrderStep6Obj.IsAuthorization" ng-options="item.Id as item.Name for item in IsAuthorizationAry" ng-change="AuthorizationChange()"></select>
+                                            <select name="Authorization" class="form-control" ng-model="OrderStep6Obj.IsAuthorization" ng-options="item.Id as item.Name for item in IsAuthorizationAry" ng-change="AuthorizationChange()" ng-disabled="IsEdit"></select>
                                         </div>
                                         <div class="col-sm-6 pr-0" ng-if="showcreateUpload">
-                                            <select name="AuthOption"  class="form-control" ng-model="OrderStep6Obj.RequestMeansId" ng-options="item.Id as item.Name for item in RequestMeansAry" ng-change="AuthorizationChange()"></select>
+                                            <select name="AuthOption"  class="form-control" ng-model="OrderStep6Obj.RequestMeansId" ng-options="item.Id as item.Name for item in RequestMeansAry" ng-change="AuthorizationChange()" ng-disabled="IsEdit"></select>
                                         </div>
                                     </div>
                                     <div class="row mb-10" ng-if="LocationStep1==true">
@@ -201,7 +201,7 @@
                                             <tbody>
                                                 <tr class="odd" ng-repeat="item in UploadFileList">
                                                     <td>{{item.FileName}}</td>
-                                                    <td class="text-center"><a href="javascript:void(0)" title="Delete" class="ico_btn cursor-pointer"><i class="icon-trash cursor-pointer" ng-click="deleteUploadedDocument($index,item.BatchId,item.FileName,item.FileId,item.PartNo)"></i></a></td>
+                                                    <td class="text-center"><a href="javascript:void(0)" title="Delete" class="ico_btn cursor-pointer"><i class="icon-trash cursor-pointer" ng-click="deleteUploadedDocument($index,item.BatchId,item.FileName,item.FileId,item.PartNo)" ng-disabled="IsEdit"></i></a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -255,14 +255,14 @@
                                 <label class="col-sm-2 control-label lbl-primary pt-0 required">Record Type:</label>
                                 <div class="col-sm-10">
                                     <ul class="borderless pt-0 pl-0">
-                                        <li class="li-checkbox col-sm-6 pl-0" ng-repeat="item in RecordTypeList | filter :{'IsLocationPageView':1}">
-                                            <label class="lbl-checkbox" for="rb_{{item.Code}}" ng-class="{true: 'bg-disabled'}[OrderStep6Obj.IsOtherChecked]">
-                                                <input id="rb_{{item.Code}}" type="radio" data-ng-model="OrderStep6Obj.RecordTypeId" ng-disabled="OrderStep6Obj.IsOtherChecked" data-ng-value="{{item.Code}}" />{{item.Descr}}
+                                        <li class="li-checkbox col-sm-6 pl-0" ng-repeat="item in RecordTypeList | filter :{'IsLocationPageView':1}" >
+                                            <label class="lbl-checkbox" for="rb_{{item.Code}}" ng-class="{true: 'bg-disabled'}[OrderStep6Obj.IsOtherChecked || IsEdit]" ng-disabled="IsEdit">
+                                                <input id="rb_{{item.Code}}" type="radio" data-ng-model="OrderStep6Obj.RecordTypeId" ng-disabled="OrderStep6Obj.IsOtherChecked || IsEdit" data-ng-value="{{item.Code}}" />{{item.Descr}}
                                             </label>
                                         </li>
                                         <li class="li-checkbox col-sm-6 pl-0">
-                                            <label class="lbl-checkbox bg-white" for="rb_OtherChecked">
-                                                <input id="rb_OtherChecked" type="checkbox" data-ng-model="OrderStep6Obj.IsOtherChecked" data-ng-value="OrderStep6Obj.IsOtherChecked" />Other
+                                            <label class="lbl-checkbox bg-white" for="rb_OtherChecked" ng-class="{true: 'bg-disabled'}[IsEdit]">
+                                                <input id="rb_OtherChecked" type="checkbox" data-ng-model="OrderStep6Obj.IsOtherChecked" data-ng-value="OrderStep6Obj.IsOtherChecked" ng-disabled="IsEdit"/>Other
                                             </label>
                                         </li>
                                     </ul>
@@ -273,7 +273,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label lbl-primary pt-0"></label>
                                         <div class="col-sm-6">
-                                            <select name="RecordTypeId" ng-model="OrderStep6Obj.RecordTypeId" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypeList | orderBy:'Descr' ">
+                                            <select name="RecordTypeId" ng-model="OrderStep6Obj.RecordTypeId" class="form-control" ng-options="item.Code as item.Descr for item in RecordTypeList | orderBy:'Descr' " ng-disabled="IsEdit">
                                                     <option value="">--Select--</option>
                                                 </select>
                                             @*<div name="RecordTypeId" class="ml-0" custom-select="item.Code as item.Descr for item in RecordTypeList | filter: $searchTerm" ng-model="OrderStep6Obj.RecordTypeId"></div>*@

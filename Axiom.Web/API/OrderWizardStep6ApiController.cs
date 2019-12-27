@@ -96,7 +96,7 @@ namespace Axiom.Web.API
 
         [HttpGet]
         [Route("GetOrderWizardStep6Location")]
-        public ApiResponse<OrderWizardStep6> GetOrderWizardStep6Location(Int64 orderId = 0,bool hideOldPart = false)
+        public ApiResponse<OrderWizardStep6> GetOrderWizardStep6Location(Int64 orderId = 0, bool hideOldPart = false)
         {
             var response = new ApiResponse<OrderWizardStep6>();
             var result = new List<OrderWizardStep6>();
@@ -267,34 +267,35 @@ namespace Axiom.Web.API
                 {
                     SqlParameter[] linkparam = { new SqlParameter("LocId", (object)model.LocID ?? (object)DBNull.Value)
                                                 ,new SqlParameter("RecordTypeId", (object)model.RecordTypeId ?? (object)DBNull.Value)
-                    };
+                                                ,new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value)
+                                               };
                     var locationresult = _repository.ExecuteSQL<string>("GetLinkLocation", linkparam).FirstOrDefault();
                     linklocation = linklocation + ',' + Convert.ToString(locationresult);
 
-                }
-                string[] splitlocation = linklocation.Trim(',').Split(',');
-                int cnt = 0;
-                string addedPart = string.Empty;
-                foreach (string loc in splitlocation)
-                {
-                    cnt++;
-                    string scope = model.Scope;
-                    if (cnt > 1)
-                    {
-                        SqlParameter[] paramscope = { new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value)
-                                        ,new SqlParameter("RecType", (object)loc.Split('|')[1] ?? (object)DBNull.Value)};
-                        var resultscope = _repository.ExecuteSQL<string>("GetScopeForLocation", paramscope).ToList();
-                        if (resultscope != null)
-                        {
-                            scope = Convert.ToString(resultscope[0]);
-                        }
-                        else
-                        {
-                            scope = "";
-                        }
 
-                    }
-                    SqlParameter[] param1 = { new SqlParameter("LocId",(object)loc.Split('|')[0]??(object)DBNull.Value)
+                    string[] splitlocation = linklocation.Trim(',').Split(',');
+                    int cnt = 0;
+                    string addedPart = string.Empty;
+                    foreach (string loc in splitlocation)
+                    {
+                        cnt++;
+                        string scope = model.Scope;
+                        if (cnt > 1)
+                        {
+                            SqlParameter[] paramscope = { new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value)
+                                        ,new SqlParameter("RecType", (object)loc.Split('|')[1] ?? (object)DBNull.Value)};
+                            var resultscope = _repository.ExecuteSQL<string>("GetScopeForLocation", paramscope).ToList();
+                            if (resultscope != null)
+                            {
+                                scope = Convert.ToString(resultscope[0]);
+                            }
+                            else
+                            {
+                                scope = "";
+                            }
+
+                        }
+                        SqlParameter[] param1 = { new SqlParameter("LocId",(object)loc.Split('|')[0]??(object)DBNull.Value)
                                         ,new SqlParameter("OrderLocationId",(object)model.OrderLocationId ??(object)DBNull.Value)
                                         ,new SqlParameter("OrderId",(object)model.OrderId ??(object)DBNull.Value)
                                         ,new SqlParameter("IsAuthorization",(object)model.IsAuthorization ??(object)DBNull.Value)
@@ -316,15 +317,15 @@ namespace Axiom.Web.API
                                       )
 
                                  };
-                    var result = _repository.ExecuteSQL<int>("InsertOrUpdateOrderWizardStep6", param1).FirstOrDefault();
-                    addedPart += result + ",";
-                    if (result > 0)
-                    {
-                        if (model.DocumentFileList != null && model.DocumentFileList.Count > 0)
+                        var result = _repository.ExecuteSQL<int>("InsertOrUpdateOrderWizardStep6", param1).FirstOrDefault();
+                        addedPart += result + ",";
+                        if (result > 0)
                         {
-                            foreach (var docitem in model.DocumentFileList)
+                            if (model.DocumentFileList != null && model.DocumentFileList.Count > 0)
                             {
-                                SqlParameter[] attachparam = {  new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value),
+                                foreach (var docitem in model.DocumentFileList)
+                                {
+                                    SqlParameter[] attachparam = {  new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value),
                                 new SqlParameter("PartNo", (object)result ?? (object)DBNull.Value),
                                 new SqlParameter("FileName", (object)docitem.FileName ?? (object)DBNull.Value),
                                 new SqlParameter("BatchId", (object)docitem.BatchId ?? (object)DBNull.Value),
@@ -333,17 +334,61 @@ namespace Axiom.Web.API
                                 new SqlParameter("RecordTypeId", (object)loc.Split('|')[1] ?? (object)DBNull.Value),
                                 new SqlParameter("CreatedBy", (object)model.CreatedBy ?? (object)DBNull.Value)
                             };
-                                _repository.ExecuteSQL<int>("InsertLocationFiles", attachparam).FirstOrDefault();
+                                    _repository.ExecuteSQL<int>("InsertLocationFiles", attachparam).FirstOrDefault();
+                                }
                             }
+                            response.Success = true;
+                            response.lng_InsertedId = result;
                         }
-                        response.Success = true;
-                        response.lng_InsertedId = result;
                     }
+
                 }
+                else
+                {
+                    SqlParameter[] param1 = { new SqlParameter("LocId",(object)model.LocID??(object)DBNull.Value)
+                                        ,new SqlParameter("OrderLocationId",(object)model.OrderLocationId ??(object)DBNull.Value)
+                                        ,new SqlParameter("OrderId",(object)model.OrderId ??(object)DBNull.Value)
+                                        ,new SqlParameter("IsAuthorization",(object)model.IsAuthorization ??(object)DBNull.Value)
+                                        ,new SqlParameter("RequestMeansId",(object)model.RequestMeansId ??(object)DBNull.Value)
+                                        ,new SqlParameter("IsRequireAdditionalService",(object)model.IsRequireAdditionalService ??(object)DBNull.Value)
+                                        ,new SqlParameter("ScopeStartDate",(object)model.ScopeStartDate ??(object)DBNull.Value)
+                                        ,new SqlParameter("ScopeEndDate",(object)model.ScopeEndDate ??(object)DBNull.Value)
+                                        ,new SqlParameter("Comment",(object)model.Comment ??(object)DBNull.Value)
+                                        ,new SqlParameter("IsOtherChecked",(object)model.IsOtherChecked ??(object)DBNull.Value)
+                                        ,new SqlParameter("RecordTypeId",(object)model.RecordTypeId ??(object)DBNull.Value)
+                                        ,new SqlParameter("CreatedBy",(object)model.EmpId ??(object)DBNull.Value)
+                                        ,new SqlParameter("UserAccessId",(object)model.UserAccessId ??(object)DBNull.Value)
+                                        ,new SqlParameter("EmpId",(object)model.EmpId ??(object)DBNull.Value)
+                                        ,new SqlParameter("AsgnTo",(object)model.AsgnTo ??(object)DBNull.Value)
+                                        ,new SqlParameter("Note",(object)model.Note ??(object)DBNull.Value)
+                                        ,new SqlParameter("Scope",(object)model.Scope ??(object)DBNull.Value)
+                                        ,new SqlParameter("IsAdmin",(object)IsAdmin ??(object)DBNull.Value)
+                                        ,new SqlParameter("Partno",(object)model.PartNo ??(object)DBNull.Value
+                                      )
+                                 };
+                    var result = _repository.ExecuteSQL<int>("InsertOrUpdateOrderWizardStep6", param1).FirstOrDefault();
+                    if (model.DocumentFileList != null && model.DocumentFileList.Count > 0)
+                    {
+                        foreach (var docitem in model.DocumentFileList)
+                        {
+                            SqlParameter[] attachparam = {  new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value),
+                                new SqlParameter("PartNo", (object)result ?? (object)DBNull.Value),
+                                new SqlParameter("FileName", (object)docitem.FileName ?? (object)DBNull.Value),
+                                new SqlParameter("BatchId", (object)docitem.BatchId ?? (object)DBNull.Value),
+                                new SqlParameter("LocID", (object)model.OrderId?? (object)DBNull.Value),
+                                new SqlParameter("FileTypeId", (object)(docitem.IsAuthSub==true?(int)FileType.Authorization:(int)FileType.Request)  ?? (object)DBNull.Value),
+                                new SqlParameter("RecordTypeId", (object)model.RecordTypeId ?? (object)DBNull.Value),
+                                new SqlParameter("CreatedBy", (object)model.CreatedBy ?? (object)DBNull.Value)
+                            };
+                            _repository.ExecuteSQL<int>("InsertLocationFiles", attachparam).FirstOrDefault();
+                        }
+                    }
+                    response.Success = true;
+                    response.lng_InsertedId = result;
+                }
+
                 SqlParameter[] paramStatus = { new SqlParameter("OrderNo", (object)model.OrderId ?? (object)DBNull.Value) };
                 bool isPartAddLater = _repository.ExecuteSQL<bool>("GetOrderStatus", paramStatus).FirstOrDefault();
-
-
                 // HERE RIGHT CODE FOR SUBMIT
                 // GetOrderStatus
                 if (isPartAddLater)
@@ -359,7 +404,6 @@ namespace Axiom.Web.API
                     //await new OrderProcess().OrderSummaryEmail(Convert.ToInt32(model.OrderId), model.LoggedInUserEmail , Convert.ToInt32(isPartAddLater));
                     //await new OrderProcess().ESignature(Convert.ToInt32(model.OrderId));
                 }
-
             }
             catch (Exception ex)
             {
@@ -620,7 +664,7 @@ namespace Axiom.Web.API
         }
         [HttpPost]
         [Route("DeleteOrderLocation")]
-        public BaseApiResponse DeleteOrderLocation(int PartNo = 0, int OrderNo = 0, int UserAccessID=0)
+        public BaseApiResponse DeleteOrderLocation(int PartNo = 0, int OrderNo = 0, int UserAccessID = 0)
         {
             var response = new BaseApiResponse();
             try

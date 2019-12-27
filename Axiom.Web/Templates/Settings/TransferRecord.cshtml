@@ -1,0 +1,62 @@
+﻿<div class="page-content" ng-controller="TransferRecordController">
+    <div class="panel panel-white">
+        <div class="panel-heading">
+            <h4 class="panel-title text-semibold"><i class="icon-file-spreadsheet mr-10 fs-19"></i>Transfer Record</h4>
+            @*<div class="heading-elements">
+                <ul class="icons-list">
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Transfer Record', 'Location')"><a ng-click="GetBillingRateDetail(objBillingRate.MemberID,0)" href="#" class="blue_link">[ + Add Billing Rate ]</a></li>
+                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Transfer Record', 'Attorney')"><a ng-click="GetRecordTypeDetail()" href="#" class="blue_link">[ + Add Record Type ]</a></li>
+                </ul>
+            </div>*@
+        </div>
+        <div class="panel-body">
+
+            <form class="form-horizontal" name="Transferform" novalidate>
+                <div class="row">
+                    <div id="messages" class="col-md-12 pl-20 pr-20">
+                        <div class="alert alert-danger alert-dismissible validationErrors" ng-show="( Transferform.$submitted  && !Transferform.$valid ) ">
+                            <ul>
+                                <li ng-if="Transferform.ddlEnitityTypeId.$error.required">Entity type is required.</li>
+                                <li ng-if="Transferform.ddlSourceEntityId.$error.required">Source Entity is required.</li>
+                                <li ng-if="Transferform.ddlTargetEntityId.$error.required">Target Entity is required.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> 
+                <div class="row mb-10">
+                    <div class="col-md-4">
+                        <label class="col-sm-3 control-label lbl-primary required pr-0">Transfer Entity:</label>
+                        <div class="col-sm-9">
+                            <select id="ddlEnitityTypeId"  name="ddlEnitityTypeId" ng-model="objTransferRecord.EnitityTypeId" ng-change="OnTransferEntityTypeChanged()" class="form-control" ng-options="item.Id as item.EntityName  for item in  TransferEntityList | filter:{IsVisible:false} ">
+                                @*<option value="">-- Select --</option>*@
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="col-sm-1 control-label lbl-primary required pr-0">From </label>
+                        <div class="col-sm-11">
+                            <select id="ddlSourceEntityId" name="ddlSourceEntityId" ng-model="objTransferRecord.SourceEntityId" ng-change="OnFromListChanged()" class="form-control" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="col-sm-1 control-label lbl-primary required pr-0">To</label>
+                        <div class="col-sm-11">
+                            <select id="ddlTargetEntityId" name="ddlTargetEntityId" ng-class="(objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId=='')?'bg-disabled':''" ng-disabled="objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId==''" ng-model="objTransferRecord.TargetEntityId" class="form-control" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst | filter:{Id:'!' + objTransferRecord.SourceEntityId} ">
+                                <option value="">-- Select --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-10">
+                    <div class="col-md-12 text-right pr-20">
+                        <button type="button" title="Cancel" class="btn btn-default">Cancel</button>
+                        <button type="submit" title="Submit" ng-click="SubmitRecordsToTransfer(Transferform)" class="btn btn-primary mr-5">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> 
+</div>
