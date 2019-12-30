@@ -963,7 +963,7 @@ namespace AxiomAutomation
                             if (locationList != null)
                             {
                                 var LocationCheck = locationList.FirstOrDefault();
-                                if (LocationCheck.ReqAuthorization == true || LocationCheck.FeeAmountSendRequest == true || LocationCheck.LinkRequest == true)
+                                if (LocationCheck.ReqAuthorization == true || LocationCheck.FeeAmountSendRequest == true)
                                 {
                                     DbAccess.UpdateOrderPart(OrderNo, PartNo, "UTILRE", Convert.ToDateTime(pt.CallBack));
                                     string partNotes = string.Empty;
