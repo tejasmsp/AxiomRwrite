@@ -32,20 +32,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.BarCode, Version=16.11.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Axiom.Web\bin\Aspose.BarCode.dll</HintPath>
+    <Reference Include="Aspose.BarCode">
+      <HintPath>..\..\Axiom.Web\ProjectLicFiles\Aspose.BarCode.dll</HintPath>
     </Reference>
     <Reference Include="Aspose.Pdf">
-      <HintPath>..\..\Axiom.Web\bin\Aspose.Pdf.dll</HintPath>
+      <HintPath>..\..\Axiom.Web\ProjectLicFiles\Aspose.Pdf.dll</HintPath>
     </Reference>
-    <Reference Include="Aspose.Words, Version=16.6.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Axiom.Web\bin\Aspose.Words.dll</HintPath>
+    <Reference Include="Aspose.Words">
+      <HintPath>..\..\Axiom.Web\ProjectLicFiles\Aspose.Words.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PdfSharp">
-      <HintPath>..\..\Axiom.Web\bin\PdfSharp.dll</HintPath>
+      <HintPath>..\..\Axiom.Web\ProjectLicFiles\PdfSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
