@@ -15,6 +15,9 @@ namespace EmailReminderService
         static bool isDebug = false;
         static void Main()
         {
+        #if DEBUG
+                    isDebug = true;
+        #endif
 
             if (isDebug == false)
             {
