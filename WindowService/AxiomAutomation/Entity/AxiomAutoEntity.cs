@@ -81,6 +81,8 @@ namespace AxiomAutomation.Entity
         public string PatientName { get; set; }
         public string OrderingAttorney { get; set; }
         public string AcctRep { get; set; }
+        public string AccExeName { get; set; }
+        public string AccExeEmail { get; set; }
     }
     public class AccntRepDetails
     {
@@ -115,4 +117,23 @@ namespace AxiomAutomation.Entity
         public string Descr { get; set; }
         public string FileDiskName { get; set; }
     }
+    public class CompanyDetailForEmailEntity
+    {
+        public Int16 CompNo { get; set; }
+        public string CompID { get; set; }
+        public string CompName { get; set; }
+        public string Street1 { get; set; }
+        public string Street2 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zip { get; set; }
+        public string Phone { get; set; }
+        public string FaxNo { get; set; }
+        public string Email { get; set; }
+        public string ThankYouMessage { get; set; }
+        public string LogoPath { get; set; }
+        public string SiteURL { get; set; }
+
+    }
+
 }

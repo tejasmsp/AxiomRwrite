@@ -416,7 +416,7 @@ namespace QuickFormService
                                             subquery = DbAccess.GetQueryByQueryTypeId(13, "SubQuery");
                                             if (!string.IsNullOrEmpty(subquery))
                                             {
-                                                subquery = Common.ReplaceOrderPartNo(subquery, orderNo, partIds).Replace("%%ATTYNO%%", "'" + attyId3 + "'");
+                                                subquery = Common.ReplaceOrderPartNo(subquery, orderNo, partIds).Replace("%%ATTYNO%%", "" + attyId3 + "");
                                             }
                                             dtSubQuery = DbAccess.ExecuteSQLQuery(subquery);
                                             var dt6 = dtQuery;
@@ -450,18 +450,19 @@ namespace QuickFormService
                                         #region Add Company Wise logo 
 
                                         Document doc;
-                                        
-                                        string[] TestOrderNo = ConfigurationManager.AppSettings["TestOrderNo"].Split(',');
+                                        doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
 
-                                        if (TestOrderNo.Contains(orderNo.ToString()))
-                                        {
-                                            doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
-                                        }
-                                        else
-                                        {
-                                            //OLD Code: //Document doc = new Document(filePath);
-                                            doc = new Document(filePath);
-                                        }
+                                        //string[] TestOrderNo = ConfigurationManager.AppSettings["TestOrderNo"].Split(',');
+
+                                        //if (TestOrderNo.Contains(orderNo.ToString()))
+                                        //{
+                                        //    doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
+                                        //}
+                                        //else
+                                        //{
+                                        //    //OLD Code: //Document doc = new Document(filePath);
+                                        //    doc = new Document(filePath);
+                                        //}
 
                                         // doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
 

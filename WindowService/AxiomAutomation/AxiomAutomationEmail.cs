@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Configuration;
 using System.Net;
 using System.IO;
+using AxiomAutomation.Entity;
 
 
 namespace AxiomAutomation
@@ -31,8 +32,65 @@ namespace AxiomAutomation
             }
             return null;
         }
+        public static SmtpClient GetSMTPByCompany(int CompanyNo, out string fromEmail)
+        {
+            try
+            {
+                fromEmail = string.Empty;
+                // System.Configuration.Configuration configurationFile = WebConfigurationManager.OpenWebConfiguration("~/Web.config");
+                Configuration configurationFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-        public static void SendMailTest(List<string> fileName, string subject, string body, string SendTo, bool isHTMl, bool isMultiple, System.IO.MemoryStream[] attachments = null, string bcc = "", string cc = "", string MergeFileName = "")
+                string AxiomFromEmail = Convert.ToString(ConfigurationManager.AppSettings["AxiomFromEmail"]);
+                string LegalLogicFromEmail = Convert.ToString(ConfigurationManager.AppSettings["LegalLogicFromEmail"]);
+                string LegalEagleFromEmail = Convert.ToString(ConfigurationManager.AppSettings["LegalEagleFromEmail"]);
+                string EmailPassword = Convert.ToString(ConfigurationManager.AppSettings["EmailPassword"]);
+                string EmailHost = Convert.ToString(ConfigurationManager.AppSettings["EmailHost"]);
+                string EmailUsername = Convert.ToString(ConfigurationManager.AppSettings["EmailUsername"]);
+
+                switch (CompanyNo)
+                {
+                    case 1:
+                        fromEmail = AxiomFromEmail;
+                        break;
+                    case 4:
+                        fromEmail = LegalLogicFromEmail;
+                        break;
+                    case 6:
+                        fromEmail = LegalEagleFromEmail;
+                        break;
+                    default:
+                        fromEmail = AxiomFromEmail;
+                        break;
+                }
+                
+
+
+                int port = 25;
+                string host = EmailHost;
+                string password = EmailPassword;
+                string username = EmailUsername;
+                //string domain = mailSettings.Network.ClientDomain;
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(host, port);
+
+
+
+
+                smtp.EnableSsl = false; 
+
+                smtp.Credentials = new System.Net.NetworkCredential(username, password);
+
+                // smtp.EnableSsl = true;
+                return smtp;
+
+            }
+            catch (Exception ex)
+            {
+                fromEmail = string.Empty;
+                return new SmtpClient();
+            }
+        }
+
+        public static void SendMailTest(CompanyDetailForEmailEntity objCompany, List<string> fileName, string subject, string body, string SendTo, bool isHTMl, bool isMultiple, System.IO.MemoryStream[] attachments = null, string bcc = "", string cc = "", string MergeFileName = "")
         {
             SmtpClient smtp = null;
             MailMessage mm = null;
@@ -42,9 +100,13 @@ namespace AxiomAutomation
             try
             {
                 mm = new MailMessage();
-                smtp = GetSMTP();
-                MailAddress from = new MailAddress("AxiomSupport@axiomcopy.com", "Axiom Support");
-                mm.From = from;
+                string fromEmail = string.Empty;
+                // smtp = GetSMTP();
+                smtp = GetSMTPByCompany(objCompany.CompNo, out fromEmail);
+
+
+                mm.From = new MailAddress(fromEmail, fromEmail);
+
                 if (isQATesting)
                     mm.Subject = subject + " [Actul Email to be Send : " + SendTo + " ]";
                 else

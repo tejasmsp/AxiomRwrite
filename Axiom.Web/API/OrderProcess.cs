@@ -1159,20 +1159,21 @@ namespace Axiom.Web.API
                             #region Add Company Wise logo 
 
                             Aspose.Words.Document doc;
+                            doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), objCompany.CompNo));
 
                             // doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", logoDirectoryPath, objCompany.CompNo));
 
-                            string[] testOrderNo = Convert.ToString(ConfigurationManager.AppSettings["TestOrderNo"]).Split(',');
+                            //string[] testOrderNo = Convert.ToString(ConfigurationManager.AppSettings["TestOrderNo"]).Split(',');
                             
-                            if (testOrderNo.Contains(OrderNo.ToString()))
-                            {
-                                doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), objCompany.CompNo));
-                            }
-                            else
-                            {
-                                //OLD Code: 
-                                doc = new Aspose.Words.Document(filePath);
-                            }
+                            //if (testOrderNo.Contains(OrderNo.ToString()))
+                            //{
+                            //    doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), objCompany.CompNo));
+                            //}
+                            //else
+                            //{
+                            //    //OLD Code: 
+                            //    doc = new Aspose.Words.Document(filePath);
+                            //}
                             #endregion
                             try
                             {
@@ -2043,8 +2044,9 @@ namespace Axiom.Web.API
             try
             {
                 MailMessage mm = new MailMessage();
+                string fromEmail = string.Empty;
                 // SmtpClient smtp = Email.GetSMTP();
-                SmtpClient smtp = Email.GetSMTPByCompany(CompanyNo);
+                SmtpClient smtp = Email.GetSMTPByCompany(CompanyNo,out fromEmail);
 
                 mm.Body = body;
 
@@ -2052,7 +2054,7 @@ namespace Axiom.Web.API
                     mm.Subject = subject + " [Actul Email to be Send : " + SendTo + " ]";
                 else
                     mm.Subject = subject;
-
+                mm.From = new MailAddress(fromEmail, fromEmail);
 
                 if (!string.IsNullOrEmpty(SendTo))
                 {

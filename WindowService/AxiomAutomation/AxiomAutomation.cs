@@ -75,9 +75,10 @@ namespace AxiomAutomation
 
         public void AutomationMain()
         {
-            
 
-            
+            List<CompanyDetailForEmailEntity> objCompany = new List<CompanyDetailForEmailEntity>();
+
+
 
             try
             {
@@ -92,6 +93,9 @@ namespace AxiomAutomation
                         {
                             int OrderNo = pt.OrderNo;
                             int PartNo = pt.PartNo;
+
+                            objCompany = DbAccess.CompanyDetailForEmail("CompanyDetailForEmailByOrderNo", pt.OrderNo);
+                            
 
                             bool isProcessServer = false;
                             var locationList = DbAccess.GetPartLocation(pt.LocID);
@@ -522,6 +526,7 @@ namespace AxiomAutomation
                                     ms.Dispose();
                                     #region Location
                                     var objOrderDetail = DbAccess.GetOrderDetailByOrderNo(OrderNo);
+                                    string OrderAttorney = string.Empty;
                                     if (locationList != null && locationList.Count > 0)
                                     {
                                         foreach (var location in locationList)
@@ -543,20 +548,24 @@ namespace AxiomAutomation
                                                         ed.Caption = objOrderDetail.Caption;
                                                         ed.CauseNumber = objOrderDetail.CauseNo;
                                                         ed.PatientName = objOrderDetail.PatientName;
-                                                        string OrderAttorney = objOrderDetail.OrderingAttorney;
-                                                        string acctrep = objOrderDetail.AcctRep;
+                                                        ed.AccExeName = string.IsNullOrEmpty(objOrderDetail.AccExeName) ? "Josh Sanford" : objOrderDetail.AccExeName;
+                                                        ed.AccExeEmail = string.IsNullOrEmpty(objOrderDetail.AccExeEmail) ? "Josh.Sanford@axiomcopy.com" : objOrderDetail.AccExeEmail;
 
-                                                        var objAccExecutive = DbAccess.GetAccntRepDetail(acctrep);
-                                                        if (objAccExecutive != null)
-                                                        {
-                                                            ed.AccExeName = objAccExecutive.Name;
-                                                            ed.AccExeEmail = objAccExecutive.Email;
-                                                        }
-                                                        else
-                                                        {
-                                                            ed.AccExeName = "Josh Sanford";
-                                                            ed.AccExeEmail = "Josh.Sanford@axiomcopy.com";
-                                                        }
+                                                        
+                                                        OrderAttorney = Convert.ToString(objOrderDetail.OrderingAttorney);
+
+
+                                                        // var objAccExecutive = DbAccess.GetAccntRepDetail(acctrep);
+                                                        //if (objAccExecutive != null)
+                                                        //{
+                                                        //    ed.AccExeName = objAccExecutive.Name;
+                                                        //    ed.AccExeEmail = objAccExecutive.Email;
+                                                        //}
+                                                        //else
+                                                        //{
+                                                        //    ed.AccExeName = "Josh Sanford";
+                                                        //    ed.AccExeEmail = "Josh.Sanford@axiomcopy.com";
+                                                        //}
                                                         string additionalEmail = string.Empty;
                                                         if (pdt == QueryType.Confirmation)
                                                         {
@@ -575,6 +584,7 @@ namespace AxiomAutomation
                                                         }
                                                         if (action == "2")
                                                         {
+                                                            // IF EMAIL LOCATION EMAIL IS NOT FOUND THEN SEND MAIL TO JACK
                                                             if (string.IsNullOrEmpty(location.Email))
                                                             {
                                                                 Log.ServicLog("=========== Email not found ================ ");
@@ -586,7 +596,7 @@ namespace AxiomAutomation
                                                             }
                                                             else
                                                             {
-                                                                EmailDocument(doc, fileNames, location.Email, msFile, ed, additionalEmail, true, pdfDocName);
+                                                                EmailDocument(doc, fileNames, location.Email, msFile, ed, additionalEmail, true, pdfDocName,objCompany[0]);
                                                                 Log.ServicLog("Email Sent to : " + location.Email);
                                                                 string partNotes = string.Empty;
                                                                 CreateNoteString(OrderNo, PartNo, "Input or sent via Email.", "SYSTEM", ref partNotes, false, false);
@@ -1035,7 +1045,7 @@ namespace AxiomAutomation
             Log.ServicLog(" ----------- Note end -------------------");
         }
 
-        public void EmailDocument(Aspose.Words.Document doc, List<string> fileName, string email, MemoryStream[] msList, EmailDetails ed, string additionalEmail, bool isMultiple, string MargeFileName)
+        public void EmailDocument(Aspose.Words.Document doc, List<string> fileName, string email, MemoryStream[] msList, EmailDetails ed, string additionalEmail, bool isMultiple, string MargeFileName,CompanyDetailForEmailEntity objCompany)
         {
             try
             {
@@ -1051,7 +1061,7 @@ namespace AxiomAutomation
                 body = body.Replace("{EXEMAIL}", ed.AccExeEmail);
 
                 string subject = string.IsNullOrEmpty(ed.Caption) ? "Quick Forms Document" : ed.Caption;
-                AxiomAutomationEmail.SendMailTest(fileName, subject, body, email, true, isMultiple, msList, "", additionalEmail, MargeFileName);
+                AxiomAutomationEmail.SendMailTest(objCompany,fileName, subject, body, email, true, isMultiple, msList, "", additionalEmail, MargeFileName);
             }
             catch (Exception ex)
             {

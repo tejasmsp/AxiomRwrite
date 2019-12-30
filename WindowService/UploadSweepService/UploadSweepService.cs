@@ -447,7 +447,8 @@ namespace UploadSweepService
                         body = body.Replace("{NOLINK}", BaseLink + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
 
 
-                        EmailHelper.SendMail(mailTo: item.AttorneyEmail
+                        EmailHelper.SendMail(objCompany: objCompany
+                                            , mailTo: item.AttorneyEmail
                                             , body: body
                                             , subject: subject
                                             , ccMail: ""
@@ -561,7 +562,7 @@ namespace UploadSweepService
                                 body = body.Replace("{CompanyName}", objCompany[0].CompName);
 
 
-                                EmailHelper.SendMail(itemEmail.AssistantEmail, body.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
+                                EmailHelper.SendMail(objCompany[0], itemEmail.AssistantEmail, body.ToString(), subject, "", "autharchive@axiomcopy.com,tejaspadia@gmail.com");
                             }
                             catch (Exception ex)
                             {

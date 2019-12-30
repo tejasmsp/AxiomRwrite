@@ -1,4 +1,4 @@
-﻿app.controller('OrderDocumentController', function ($scope, $rootScope, $http, $state, $stateParams, notificationFactory, CommonServices, OrderDocumentService, configurationService, $compile, $filter) {
+﻿app.controller('OrderDocumentController', function ($scope, $rootScope, $http, $state, $stateParams, notificationFactory, CommonServices, OrderDocumentService, configurationService, $compile, $filter, LocationServices) {
     decodeParams($stateParams);
     $scope.$on('OpenedFromClientOrderList', OpenedFromClientOrderList);
     $scope.IsFromClient = 1;  // Temporary

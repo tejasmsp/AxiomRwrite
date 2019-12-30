@@ -383,12 +383,99 @@
                 <hr />
                 <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeClick()">Close</button>
             </div>
-
         </div>
     </div>
 </div>
 
+<div id="modal_Year" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <form name="yearForm" class="form-horizontal" novalidate>
+            <div class="modal-content">
+                <div class="modal-header bg-main">                    
+                    <h5 class="modal-title">IRS Wizard</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-container">
+                        <div class="row mt-10 mb-10">
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">Year1</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="year1" class="form-control" maxlength="4" ng-model="year.year1" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">Year2</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="year2" class="form-control" maxlength="4" ng-model="year.year2" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-10 mb-10">
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">Year3</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="year3" class="form-control" maxlength="4" ng-model="year.year3" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">Year4</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="year4" class="form-control" maxlength="4" ng-model="year.year4" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-10 mb-10">
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">Year5</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="year5" class="form-control" maxlength="4" ng-model="year.year5" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">Year6</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="year6" class="form-control" maxlength="4" ng-model="year.year6" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-10 mb-10">
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">Year7</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="year7" class="form-control" maxlength="4" ng-model="year.year7" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-sm-3 control-label lbl-primary">Year8</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="year8" class="form-control" maxlength="4" ng-model="year.year8" />
+                                </div>
+                            </div>
+                        </div>
 
+
+
+                        <div class="row mt-10 mb-10">
+                            <div class="col-md-12">
+                                <div class="col-sm-9 col-sm-offset-3 text-right">
+                                    <button class="btn btn-primary mr-5" ng-click="Year_Save()">Save</button>
+                                    <button class="btn btn-default" ng-click="Year_Close()">Close</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblFirm"></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div id="modal_QuickdocumentForm" class="modal fade" static-Include="./Templates/OrderDetail/QuickFormDocument.cshtml" ng-controller="QuickFormDocumentController">
 </div>

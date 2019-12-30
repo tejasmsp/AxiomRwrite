@@ -24,11 +24,17 @@ namespace Axiom.Web.EmailHelper
             try
             {
 
-                SmtpClient smtp = GetSMTPByCompany(CompanyNo);
-                System.Net.NetworkCredential nc = (NetworkCredential)smtp.Credentials;
-                // SmtpClient smtp = GetSMTP();
 
-                MailMessage mail = new MailMessage();                
+                string fromEmail = string.Empty;
+                SmtpClient smtp = GetSMTPByCompany(CompanyNo, out fromEmail);
+                System.Net.NetworkCredential nc = (NetworkCredential)smtp.Credentials;
+                
+                // SmtpClient smtp = GetSMTP();
+                
+                MailMessage mail = new MailMessage();
+
+                mail.From = new MailAddress(fromEmail,fromEmail);
+
                 mail.Body = body;
                 mail.IsBodyHtml = true;
                 if (mailTo != "")
@@ -108,9 +114,10 @@ namespace Axiom.Web.EmailHelper
                 mailTo = mailTo.Trim(removeChar);
 
                 MailMessage mail = new MailMessage();
-                SmtpClient smtp = GetSMTPByCompany(CompanyNo);
+                string fromEmail = string.Empty;
+                SmtpClient smtp = GetSMTPByCompany(CompanyNo,out fromEmail);
 
-
+                mail.From = new MailAddress(fromEmail, fromEmail);
 
 
                 if (mailTo != "")
@@ -202,23 +209,12 @@ namespace Axiom.Web.EmailHelper
             return true;
         }
 
-        public static SmtpClient GetSMTPByCompany(int CompanyNo)
+        public static SmtpClient GetSMTPByCompany(int CompanyNo,out string fromEmail)
         {
             System.Configuration.Configuration configurationFile = WebConfigurationManager.OpenWebConfiguration("~/Web.config");
 
-            string mailSection = string.Empty;
-            switch (CompanyNo)
-            {
-                case 1:
-                    mailSection = "mailSettings/smtp_1";
-                    break;
-                case 4:
-                    mailSection = "mailSettings/smtp_4";
-                    break;
-                case 6:
-                    mailSection = "mailSettings/smtp_6";
-                    break;
-            }
+            string mailSection = string.Format("mailSettings/smtp_{0}", CompanyNo);
+            
 
             SmtpSection mailSettings = (SmtpSection)configurationFile.GetSection(mailSection);
 
@@ -230,12 +226,21 @@ namespace Axiom.Web.EmailHelper
                 string username = mailSettings.Network.UserName;
                 string domain = mailSettings.Network.ClientDomain;
                 System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(host, port);
+                fromEmail = mailSettings.From;
+
+
+                smtp.EnableSsl = mailSettings.Network.EnableSsl;
 
                 smtp.Credentials = new System.Net.NetworkCredential(username, password, domain);
 
                 // smtp.EnableSsl = true;
                 return smtp;
             }
+            else
+            {
+                fromEmail = string.Empty;
+            }
+
             return null;
         }
 

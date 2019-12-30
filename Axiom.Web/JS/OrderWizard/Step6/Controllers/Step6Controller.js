@@ -1,4 +1,4 @@
-﻿app.controller('Step6Controller', function ($scope, $rootScope, $state, $stateParams, notificationFactory, AttorneyUserService, CommonServices, Step6Service, configurationService, $compile, $filter) {
+﻿app.controller('Step6Controller', function ($scope, $rootScope, $state, $stateParams, notificationFactory, AttorneyUserService, CommonServices, Step6Service, configurationService, $compile, $filter, LocationServices) {
 
     decodeParams($stateParams);
 
@@ -397,21 +397,29 @@
     };
 
     $scope.FillLocation = function ($event) {  //Fill detail to textbox from selected location
+        debugger;
         var tblSearchLocation = $('#tblSearchLocationGrid').DataTable();
         var data = tblSearchLocation.row($($event.target).parents('tr')).data();
         $scope.LocationID = data.LocID;
         $scope.Name1 = data.Name1;
         $scope.Name2 = data.Name2;
-        //var promise = Step6Service.GetLocationByLocID($scope.LocationID);
-        //promise.success(function (response) {
-        //    if (response.Success) {
-        //        $scope.OrderStep6Obj = response.Data[0];
-        //        $scope.OrderStep6Obj.RequestMeansId = 1;
-        //        $scope.OrderStep6Obj.IsAuthorization = 1;
-        //    }
-        //});
-        //promise.error(function (data, statusCode) {
-        //});
+        if (!isNullOrUndefinedOrEmpty(data.ReplacedBy)) {
+            var promise = LocationServices.GetLocationById(data.ReplacedBy);
+            promise.success(function (response) {                
+                if (response.Success) {
+                    debugger;
+                    $scope.LocationID = response.Data[0].LocID;
+                    $scope.Name1 = response.Data[0].Name1;
+                    $scope.Name2 = response.Data[0].Name2;
+                }
+            });
+            promise.error(function (statusCode) {
+                $scope.LocationID = data.LocID;
+                $scope.Name1 = data.Name1;
+                $scope.Name2 = data.Name2;
+            });
+        }
+        
         angular.element("#modal_Location_Search").modal('hide');
     };
 

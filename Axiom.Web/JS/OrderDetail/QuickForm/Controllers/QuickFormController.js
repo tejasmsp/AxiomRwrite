@@ -90,13 +90,13 @@
             if (response.Success) {
                 if (response.Data && response.Data.length > 0) {
                     $scope.fileTypeList = angular.copy(response.Data);
-
                 }
             }
         });
         fileTypeList.error(function (data, statusCode) {
-        });
 
+        });
+        $scope.year = null;
     };
     function GetFormsAndDirectoryList() {
 
@@ -314,7 +314,7 @@
 
 
     $scope.checkedDocumentType = function (docType, status) {
-
+        
         $scope.documentType = docType;
         if (status && (docType === 'Notices' || docType === 'CWC' || docType === 'Facesheets')) {
             $scope.ShowQuickFormDocumentPopup = true;
@@ -328,6 +328,13 @@
             else if (!status) {
                 removeItemFromDocumentTable(docType);
             }
+            if (docType == "Authorizations") {
+                if (status) {
+                    angular.element("#modal_Year").modal('show');
+                }
+                
+            }
+
         }
         if (!status && (docType === 'Notices' || docType === 'CWC' || docType === 'Facesheets')) {
             removeItemFromDocumentTable(docType);
@@ -558,6 +565,14 @@
             var result = QuickFormService.QuickFormGetPdf(objpdfList[c]);
         }
     }
+
+
+    $scope.Year_Save = function () {
+        angular.element("#modal_Year").modal('hide');
+    }
+    $scope.Year_Close = function () {
+        angular.element("#modal_Year").modal('hide');
+    }
     $scope.finishClick = function () {
         debugger;
         var saveQuickformList = [];
@@ -646,7 +661,7 @@
                 objSave.PartNo = $scope.selectedPartList.toString();
             }
 
-            
+            debugger;
             objSave.DocName = item.DocumentName;
             objSave.DocPath = item.DocumentPath;
             objSave.Status = 0;
@@ -655,14 +670,14 @@
             objSave.Pages = 0
             objSave.IsPublic = 1
             objSave.UserId = $scope.UserGUID;
-            objSave.Year1 = null;
-            objSave.Year2 = null;
-            objSave.Year3 = null;
-            objSave.Year4 = null;
-            objSave.Year5 = null;
-            objSave.Year6 = null;
-            objSave.Year7 = null;
-            objSave.Year8 = null;
+            objSave.Year1 = $scope.year.year1;
+            objSave.Year2 = $scope.year.year2;
+            objSave.Year3 = $scope.year.year3;
+            objSave.Year4 = $scope.year.year4;
+            objSave.Year5 = $scope.year.year5;
+            objSave.Year6 = $scope.year.year6;
+            objSave.Year7 = $scope.year.year7;
+            objSave.Year8 = $scope.year.year8;
             objSave.printStatus = 0;
             objSave.faxStatus = 0;
             objSave.EmailStatus = 0;

@@ -91,8 +91,12 @@
             $scope.isEdit = true;
             var promise = Step1Service.GetOrderWizardStep1Details(OrderId);
             promise.success(function (response) {
+                debugger;
                 if (response && response.Data.length > 0) {
+                    $scope.OrderStep1Obj.OrderingFirmID = response.Data[0].OrderingFirmID;
                     BindAttorneyByFirmDropdown(response.Data[0].OrderingFirmID);
+                    $scope.OrderStep1Obj.OrderingFirmID = response.Data[0].OrderingFirmID;
+                    debugger;
                     $scope.OrderStep1Obj = response.Data[0];
                     $scope.OrderStep1Obj.AttorneyFor = parseInt(response.Data[0].AttorneyFor);
                     $scope.selectedAttrney = $scope.OrderStep1Obj.OrderingAttorney;
@@ -219,10 +223,12 @@
 
     $scope.InitMethodsForStep1 = function () {
         $scope.BindOrderingFirmDropDown();
+        $scope.GetOrderWizardStep1Details($scope.OrderId);
+        
         BindAttorneyByFirmDropdown($scope.OrderStep1Obj.OrderingFirmID);
         $scope.chkOrderConfirmation = false;
         $scope.GetAttorneyForCode();
-        $scope.GetOrderWizardStep1Details($scope.OrderId);
+        
     };
 
     $scope.fnChangeCol = function (val) {

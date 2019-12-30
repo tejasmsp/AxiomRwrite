@@ -62,7 +62,7 @@ namespace QuickFormService
                     query = ReplaceOrderPartNo(query, orderNo, partIds);
                     if (!string.IsNullOrEmpty(attyId))
                     {
-                        query = query.Replace("%%ATTYNO%%", @"'" + attyId + "'");
+                        query = query.Replace("%%ATTYNO%%", @"" + attyId + "");
                     }
                     if (!displaySSN)
                         query = ReplaceSSN(query);
@@ -143,7 +143,7 @@ namespace QuickFormService
                     query = ReplaceOrderPartNo(query, orderNo, partIds);
                     if (!string.IsNullOrEmpty(attyId))
                     {
-                        query = query.Replace("%%ATTYNO%%", @"'" + attyId + "'");
+                        query = query.Replace("%%ATTYNO%%", @"" + attyId + "");
                     }
                     if (!displaySSN)
                         query = ReplaceSSN(query);

@@ -13,7 +13,10 @@
             <div class="col-md-6">
                 <span style="font-weight:500;font-size:15px;" ng-bind="OrderPartObj.Name1"> </span><div class="clearfix"></div>
                 <span style="font-size:12px;" ng-bind="OrderPartObj.Name2"></span> <div class="clearfix"></div>
-                (<span style="font-size:12px;font-weight:bold;" ng-bind="OrderPartObj.LocID"></span>)
+                <span style="font-size:12px;font-weight:bold;">
+                    <a href="ManageLocation?LocID={{OrderPartObj.LocID}}" target="_blank" class="font-weight-bold" title="Click here to edit Location detail">{{OrderPartObj.LocID}}</a>
+                </span>
+                @*(<span style="font-size:12px;font-weight:bold;" ng-click="OpenLocation(OrderPartObj.LocID)" ng-bind="OrderPartObj.LocID"></span>)*@
             </div>
             <div class="col-md-6">
                 <div class="col-md-12 mt-5">

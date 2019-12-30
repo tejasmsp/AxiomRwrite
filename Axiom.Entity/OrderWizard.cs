@@ -127,6 +127,7 @@ namespace Axiom.Entity
         public string Dept { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+        public string ReplacedBy { get; set; }
 
     }
     public class OrderWizardStep6

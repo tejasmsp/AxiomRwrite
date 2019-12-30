@@ -1359,29 +1359,30 @@ namespace Axiom.Web.API
                 try
                 {
 
-                    #region Add Company Wise logo 
-                    //OLD Code: doc = new Aspose.Words.Document(filePath);
+                    
+                    doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), model.CompNo));
 
+                    // #region Add Company Wise logo 
                     // doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), model.CompNo));
 
                     // doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), model.CompNo));
 
-                    string[] testOrderNo = Convert.ToString(ConfigurationManager.AppSettings["TestOrderNo"]).Split(',');
-                    Log.ServicLog(Convert.ToString(ConfigurationManager.AppSettings["TestOrderNo"]));
-                    if (testOrderNo.Contains(model.OrderNo.ToString()))
-                    {
-                        doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), model.CompNo));
-                        Log.ServicLog(filePath);
-                    }
-                    else
-                    {
-                        Log.ServicLog("true");
-                        Log.ServicLog(filePath);
-                        //OLD Code: 
-                        doc = new Aspose.Words.Document(filePath);
-                    }
-                    #endregion
-                    //HttpContext.Current.Server.MapPath(@"~/assets/images/")
+                    //string[] testOrderNo = Convert.ToString(ConfigurationManager.AppSettings["TestOrderNo"]).Split(',');
+                    //Log.ServicLog(Convert.ToString(ConfigurationManager.AppSettings["TestOrderNo"]));
+                    //if (testOrderNo.Contains(model.OrderNo.ToString()))
+                    //{
+                    //    doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), model.CompNo));
+                    //    Log.ServicLog(filePath);
+                    //}
+                    //else
+                    //{
+                    //    Log.ServicLog("true");
+                    //    Log.ServicLog(filePath);
+                    //    //OLD Code: 
+                    //    doc = new Aspose.Words.Document(filePath);
+                    //}
+                    //#endregion
+                    ////HttpContext.Current.Server.MapPath(@"~/assets/images/")
                 }
 
                 catch (Exception ex)

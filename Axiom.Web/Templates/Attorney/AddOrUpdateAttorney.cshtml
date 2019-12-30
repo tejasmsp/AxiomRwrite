@@ -25,92 +25,95 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-10">
-                    <div class="col-md-6">
 
-                        <label class="col-sm-3 control-label lbl-primary pr-0 mandatoryField">Firm ID:</label>
-                        <div class="col-sm-9 display-inline-flex pl-0 " ng-show="!isEdit">
-                            <span class="col-sm-3">
-                                <input type="text" ng-model="objAttorney.FirmID" maxlength="20" name="FirmID" placeholder="Firm ID" class="form-control" readonly="readonly" required>
-                            </span>
-                            <span class="col-sm-9">
-                                <input type="text" ng-model="objAttorney.FirmName" maxlength="50" name="FirmName" placeholder="Firm Name" class="form-control" readonly="readonly">
-                            </span>
-                            <a class="ico_btn cursor-pointer pb-0" ng-click="FirmSearch($event)" title="Search Firm"> <i class="icon-search4"></i></a>
+                <div class="bx-grey">
+                    <div class="row mb-10">
+                        <div class="col-md-6">
+
+                            <label class="col-sm-3 control-label lbl-primary pr-0 mandatoryField">Firm ID:</label>
+                            <div class="col-sm-9 display-inline-flex pl-0 " ng-show="!isEdit">
+                                <span class="col-sm-3">
+                                    <input type="text" ng-model="objAttorney.FirmID" maxlength="20" name="FirmID" placeholder="Firm ID" class="form-control" readonly="readonly" required>
+                                </span>
+                                <span class="col-sm-9">
+                                    <input type="text" ng-model="objAttorney.FirmName" maxlength="50" name="FirmName" placeholder="Firm Name" class="form-control" readonly="readonly">
+                                </span>
+                                <a class="ico_btn cursor-pointer pb-0" ng-click="FirmSearch($event)" title="Search Firm"> <i class="icon-search4"></i></a>
+                            </div>
+
+                            <div class="col-sm-9 pl-0 pr-0" ng-show="isEdit">
+                                <span class="col-sm-3">
+                                    <input type="text" ng-model="objAttorney.FirmID" maxlength="20" name="FirmID" placeholder="Firm ID" class="form-control" readonly="readonly" required>
+                                </span>
+                                <span class="col-sm-9">
+                                    <input type="text" ng-model="objAttorney.FirmName" maxlength="50" name="FirmName" placeholder="Firm ID" class="form-control" readonly="readonly">
+                                </span>
+                            </div>
+
                         </div>
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">Street1:</label>
+                            <div class="col-sm-9">
+                                <input type="text" ng-model="objAttorney.Street1" maxlength="100" name="Street1" placeholder="Street1" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
 
-                        <div class="col-sm-9 pl-0 pr-0" ng-show="isEdit">
-                            <span class="col-sm-3">
-                                <input type="text" ng-model="objAttorney.FirmID" maxlength="20" name="FirmID" placeholder="Firm ID" class="form-control" readonly="readonly" required>
-                            </span>
-                            <span class="col-sm-9">
-                                <input type="text" ng-model="objAttorney.FirmName" maxlength="50" name="FirmName" placeholder="Firm ID" class="form-control" readonly="readonly">
-                            </span>
+                    <div class="row mb-10">
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">Street2:</label>
+                            <div class="col-sm-9">
+                                <input type="text" ng-model="objAttorney.Street2" maxlength="100" name="Street2" placeholder="Street2" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0 ">City:</label>
+                            <div class="col-sm-9">
+                                <input type="text" ng-model="objAttorney.City" maxlength="25" name="City" placeholder="City" class="form-control" readonly="readonly">
+                            </div>
                         </div>
 
                     </div>
-                    <div class="col-md-6">
-                        <label class="col-sm-3 control-label lbl-primary pr-0">Street1:</label>
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="objAttorney.Street1" maxlength="100" name="Street1" placeholder="Street1" class="form-control" readonly="readonly">
+
+                    <div class="row mb-10">
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">State:</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="State" ng-model="objAttorney.State" maxlength="20" placeholder="State" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">Zip:</label>
+                            <div class="col-sm-9">
+                                <input type="text" ng-model="objAttorney.Zip" maxlength="20" name="Zip" placeholder="Zip" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-10">
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">Phone No:</label>
+                            <div class="col-sm-3">
+                                <input type="text" name="PhoneCode" ng-model="objAttorney.FAreaCode1" maxlength="4" integer-Only="" placeholder="Code" class="form-control" readonly="readonly">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" name="experience-position" ng-model="objAttorney.FPhoneNo" maxlength="10" integer-Only="" placeholder="Phone No" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-sm-3 control-label lbl-primary pr-0">Fax No:</label>
+                            <div class="col-sm-3">
+                                <input type="text" name="FaxCode" ng-model="objAttorney.FAreaCode2" maxlength="4" integer-Only="" placeholder="Code" class="form-control" readonly="readonly">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" name="FaxNo" ng-model="objAttorney.FFaxNo" maxlength="10" integer-Only="" placeholder="Fax No" class="form-control" readonly="readonly">
+                            </div>
                         </div>
                     </div>
                 </div>
+                
 
-                <div class="row mb-10">
-                    <div class="col-md-6">
-                        <label class="col-sm-3 control-label lbl-primary pr-0">Street2:</label>
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="objAttorney.Street2" maxlength="100" name="Street2" placeholder="Street2" class="form-control" readonly="readonly">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="col-sm-3 control-label lbl-primary pr-0 ">City:</label>
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="objAttorney.City" maxlength="25" name="City" placeholder="City" class="form-control" readonly="readonly">
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row mb-10">
-                    <div class="col-md-6">
-                        <label class="col-sm-3 control-label lbl-primary pr-0">State:</label>
-                        <div class="col-sm-9">
-                            <input type="text" name="State" ng-model="objAttorney.State" maxlength="20" placeholder="State" class="form-control" readonly="readonly">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="col-sm-3 control-label lbl-primary pr-0">Zip:</label>
-                        <div class="col-sm-9">
-                            <input type="text" ng-model="objAttorney.Zip" maxlength="20" name="Zip" placeholder="Zip" class="form-control" readonly="readonly">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mb-10">
-                    <div class="col-md-6">
-                        <label class="col-sm-3 control-label lbl-primary pr-0">Phone No:</label>
-                        <div class="col-sm-3">
-                            <input type="text" name="PhoneCode" ng-model="objAttorney.FAreaCode1" maxlength="4" integer-Only="" placeholder="Code" class="form-control" readonly="readonly">
-                        </div>
-                        <div class="col-sm-6">
-                            <input type="text" name="experience-position" ng-model="objAttorney.FPhoneNo" maxlength="10" integer-Only="" placeholder="Phone No" class="form-control" readonly="readonly">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="col-sm-3 control-label lbl-primary pr-0">Fax No:</label>
-                        <div class="col-sm-3">
-                            <input type="text" name="FaxCode" ng-model="objAttorney.FAreaCode2" maxlength="4" integer-Only="" placeholder="Code" class="form-control" readonly="readonly">
-                        </div>
-                        <div class="col-sm-6">
-                            <input type="text" name="FaxNo" ng-model="objAttorney.FFaxNo" maxlength="10" integer-Only="" placeholder="Fax No" class="form-control" readonly="readonly">
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row mb-10">
+                <div class="row mb-10 mt-10">
                     <div class="col-md-6">
                         <label class="col-sm-3 control-label lbl-primary pr-0 mandatoryField">Attorney ID:</label>
                         <div class="col-sm-7">
