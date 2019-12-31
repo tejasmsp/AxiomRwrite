@@ -118,6 +118,13 @@ namespace Axiom.Web.Reports
                 return !string.IsNullOrEmpty(Request.QueryString["OnlyFilterByInvoice"]) ? Convert.ToBoolean(Request.QueryString["OnlyFilterByInvoice"]) : false;
             }
         }
+        private string _CompanyNo
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Request.QueryString["CompanyNo"]) ? Request.QueryString["CompanyNo"] : "";
+            }
+        }
 
         #endregion
         protected void Page_Load(object sender, EventArgs e)
@@ -152,6 +159,7 @@ namespace Axiom.Web.Reports
             bool? Invoice = _Invoice;
             bool? Statement = _Statement;
             bool? OpenInvoiceOnly = _OpenInvoiceOnly;
+            string CompanyNo = _CompanyNo;
 
             if (String.IsNullOrEmpty(FromDate))
             {
@@ -166,7 +174,7 @@ namespace Axiom.Web.Reports
             {
                 if (_OnlyFilterByInvoice == true)
                 {
-                    dsCustomers = GetCustomersReport_Invoice(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly,OnlyFilterByInvoice: true);
+                    dsCustomers = GetCustomersReport_Invoice(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly,OnlyFilterByInvoice: true,CompanyNo: CompanyNo);
                     this.ReportViewer1.PageCountMode = PageCountMode.Actual;
                     ReportViewer1.Width = Unit.Percentage(100);
                     ReportViewer1.ProcessingMode = 0;
@@ -179,8 +187,8 @@ namespace Axiom.Web.Reports
                 }
                 else if(_Invoice.Value && _Statement.Value)
                 {
-                    DsInvoice dsCustomers = GetCustomersReport_Statement(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly);
-                 
+                    DsInvoice dsCustomers = GetCustomersReport_Statement(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly, CompanyNo: CompanyNo);
+
                     ReportViewer1.Width = Unit.Percentage(100);                    
                     //ReportViewer1.Height = Unit.Percentage(100);
                     ReportViewer1.ProcessingMode = 0;
@@ -197,7 +205,7 @@ namespace Axiom.Web.Reports
 
                     ReportViewer1.ProcessingMode = 0;
                     ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/Reports/InvoiceNew.rdlc");
-                    dsCustomers = GetCustomersReport_Invoice(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly);
+                    dsCustomers = GetCustomersReport_Invoice(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly, CompanyNo: CompanyNo);
                     ReportDataSource datasource2 = new ReportDataSource("dsInvoice", dsCustomers.Tables["DtInvoice"]);
                     ReportViewer1.LocalReport.DataSources.Clear();
                     ReportViewer1.LocalReport.DataSources.Add(datasource2);
@@ -231,7 +239,7 @@ namespace Axiom.Web.Reports
 
                else if (_Invoice.Value)
                 {
-                     dsCustomers = GetCustomersReport_Invoice(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly);
+                     dsCustomers = GetCustomersReport_Invoice(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly, CompanyNo: CompanyNo);
                     this.ReportViewer1.PageCountMode = PageCountMode.Actual;
                     ReportViewer1.Width = Unit.Percentage(100);
                     ReportViewer1.ProcessingMode = 0;
@@ -244,7 +252,7 @@ namespace Axiom.Web.Reports
                 }
                 else if (_Statement.Value)
                 {
-                    DsInvoice dsCustomers = GetCustomersReport_Statement(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly);
+                    DsInvoice dsCustomers = GetCustomersReport_Statement(FirmID, Caption, ClaimNo, InvoiceNO, AttyID, SoldAttyName, FromDate, ToDate, Invoice, Statement, OpenInvoiceOnly, CompanyNo: CompanyNo);
                     ReportViewer1.Width = Unit.Percentage(100);
                     this.ReportViewer1.PageCountMode = PageCountMode.Actual;                    
                     ReportViewer1.ProcessingMode = 0;
@@ -413,7 +421,7 @@ namespace Axiom.Web.Reports
                 conn.Close();
             }                      
         }
-        public DsInvoice GetCustomersReport_Statement(string FirmID, string Caption, string ClaimNo, string InvoiceNO, string AttyID, string SoldAttyName, string FromDate, string ToDate,bool? Invoice,bool? Statement,bool? OpenInvoiceOnly)
+        public DsInvoice GetCustomersReport_Statement(string FirmID, string Caption, string ClaimNo, string InvoiceNO, string AttyID, string SoldAttyName, string FromDate, string ToDate,bool? Invoice,bool? Statement,bool? OpenInvoiceOnly, string CompanyNo = "1")
         {
             var conString = ConfigurationManager.ConnectionStrings["Axiom"];
             string strConnString = conString.ConnectionString;
@@ -437,6 +445,7 @@ namespace Axiom.Web.Reports
                 sqlCmd.Parameters.AddWithValue("@Invoice", (object)Invoice ?? (object)DBNull.Value);
                 sqlCmd.Parameters.AddWithValue("@Statement", (object)Statement ?? (object)DBNull.Value);
                 sqlCmd.Parameters.AddWithValue("@OpenInvoiceOnly", (object)OpenInvoiceOnly ?? (object)DBNull.Value);
+                sqlCmd.Parameters.AddWithValue("@CompanyNo", CompanyNo);
 
                 sqlCmd.ExecuteNonQuery();               
                 SqlDataAdapter da = new SqlDataAdapter(sqlCmd);
@@ -454,7 +463,7 @@ namespace Axiom.Web.Reports
 
             return null;
         }
-        public DsInvoice GetCustomersReport_Invoice(string FirmID, string Caption, string ClaimNo, string InvoiceNO, string AttyID, string SoldAttyName, string FromDate, string ToDate, bool? Invoice, bool? Statement, bool? OpenInvoiceOnly, bool? OnlyFilterByInvoice = false)
+        public DsInvoice GetCustomersReport_Invoice(string FirmID, string Caption, string ClaimNo, string InvoiceNO, string AttyID, string SoldAttyName, string FromDate, string ToDate, bool? Invoice, bool? Statement, bool? OpenInvoiceOnly, bool? OnlyFilterByInvoice = false, string CompanyNo="1")
         {
             var conString = ConfigurationManager.ConnectionStrings["Axiom"];
             string strConnString = conString.ConnectionString;
@@ -481,6 +490,7 @@ namespace Axiom.Web.Reports
                     sqlCmd.Parameters.AddWithValue("@Statement", (object)Statement ?? (object)DBNull.Value);
                     sqlCmd.Parameters.AddWithValue("@OpenInvoiceOnly", (object)OpenInvoiceOnly ?? (object)DBNull.Value);
                     sqlCmd.Parameters.AddWithValue("@OnlyFilterByInvoice", false);
+                    sqlCmd.Parameters.AddWithValue("@CompanyNo", CompanyNo);
                 }
                 else
                 {

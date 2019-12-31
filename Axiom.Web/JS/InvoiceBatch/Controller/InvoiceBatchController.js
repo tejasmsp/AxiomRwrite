@@ -274,6 +274,7 @@
         src = src + "&Invoice=" + $scope.InvoiceBatch.Invoice;
         src = src + "&Statement=" + $scope.InvoiceBatch.Statement;
         src = src + "&OpenInvoiceOnly=" + $scope.InvoiceBatch.OpenInvoiceOnly;
+        src = src + "&CompanyNo=" + $rootScope.CompanyNo;
         var iframeheight = "880px";
         if ($scope.InvoiceBatch.Invoice && $scope.InvoiceBatch.Statement) {
             iframeheight = "880px";
