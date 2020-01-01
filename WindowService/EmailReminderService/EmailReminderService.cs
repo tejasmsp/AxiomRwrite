@@ -10,6 +10,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Timers;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace EmailReminderService
 {
@@ -55,10 +56,8 @@ namespace EmailReminderService
 
 
         //================================Email Reminder Service==================================
-
-        public void ServiceExecution()
-        {
-
+        public void ServiceExecution_BackUp()
+     {
             Log.ServicLog("------------------- EMAIL REMINDER SERVICE EXECUTED " + DateTime.Now + "---------------------------");
             try
             {
@@ -167,9 +166,9 @@ namespace EmailReminderService
                         "," + item.Amount + "," + Convert.ToString(item.ProposalFeeID) + "," +
                        Convert.ToString(item.PartNo);
 
-                    string strApproveLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
+                    string strApproveLink     = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
                     string strNotApprovedLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
-                    string strEditScopeLink = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
+                    string strEditScopeLink   = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
 
                     //body = body.Replace("{APPROVELINK}", "https://www.axiomcopyonline.com/Clients/ProposalFeeApproval.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("A")) + "&value=" + strApproveLink);
                     //body = body.Replace("{NOTAPPROVELINK}", "https://www.axiomcopyonline.com/Clients/ProposalFeeApproval.aspx?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strNotApprovedLink);
@@ -182,9 +181,9 @@ namespace EmailReminderService
 
                     if (attorney != null && !string.IsNullOrEmpty(attorney.Email))  //&& Utility.isValidEmail(attorney.Email)
                     {
-                        Utility.SendMailBilling(subject, body, attorney.Email, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com", "tejaspadia@gmail.com,autoemail@axiomcopy.com");
-                    }
-                    DbAccess.UpdateProposalData(item.OrderNo, item.PartNo, item.ProposalFeeID);
+                         Utility.SendMailBilling(subject, body, attorney.Email, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com", "tejaspadia@gmail.com,autoemail@axiomcopy.com");
+                    } 
+                     DbAccess.UpdateProposalData(item.OrderNo, item.PartNo, item.ProposalFeeID);
                     Log.ServicLog("----------------------------------------");
                     Log.ServicLog("Email sent : " + System.DateTime.Now);
                     Log.ServicLog("Order No " + item.OrderNo.ToString());
@@ -203,10 +202,143 @@ namespace EmailReminderService
             finally
             {
                 Log.ServicLog("------------------- EMAIL REMINDER SERVICE EXECUTION FINISHED " + DateTime.Now + "---------------------------");
-            }
-
+            } 
         }
 
+        public void ServiceExecution()
+        {
+            Log.ServicLog("------------------- EMAIL REMINDER SERVICE EXECUTED " + DateTime.Now + "---------------------------");
+            try
+            {
+                var dataList = DbAccess.GetProposalFees();
+                if (dataList == null)
+                    return;
+                string proposalBaseFeeURL = ConfigurationManager.AppSettings["ProposalBaseFeeURL"].ToString();
+                foreach (var item in dataList)
+                {
+                    
+                    string strBillAtty = string.Empty;
+                    string attorneyEmail = string.Empty;
+                    string attorneyFirstName = string.Empty;
+                    string attorneyLastName = string.Empty;
+                    //dynamic attorney = null;
+                    if (item.HasBillingAttorney==true)
+                    {
+                        strBillAtty = item.BillingAttorneyId;
+                        attorneyEmail = item.BillingAttorneyEmail;
+                        attorneyFirstName = item.BillingAttorneyFirstName;
+                        attorneyLastName = item.BillingAttorneyLastName;
+                    }
+                    else
+                    {
+                        strBillAtty = item.OrderingAttorney;
+                        attorneyEmail = item.OrderingAttorneyEmail;
+                        attorneyFirstName = item.OrderingAttorneyFirstName;
+                        attorneyLastName = item.OrderingAttorneyLastName;
+                    }
+                    //----------------------------------
+
+                    //var location = DbAccess.GetPartLocation(item.OrderNo, item.PartNo);
+                    string subject = "Proposal Fees Reminder Request";
+                    string body = string.Empty;
+                    string htmlfilePath = AppDomain.CurrentDomain.BaseDirectory + "HtmlTemplates\\ProposalFees.html";
+                    using (StreamReader reader = new StreamReader((htmlfilePath)))
+                    {
+                        body = reader.ReadToEnd();
+                    }
+                    string userFirstName = attorneyFirstName, userLastName = attorneyLastName;
+                    //if (attorney != null)
+                    //{
+                    //    if (!string.IsNullOrEmpty(attorney.FirstName))
+                    //    {
+                    //        userFirstName = Convert.ToString(attorney.FirstName).Trim();
+                    //    }
+                    //    if (!string.IsNullOrEmpty(attorney.LastName))
+                    //    {
+                    //        userLastName = Convert.ToString(attorney.LastName).Trim();
+                    //    }
+                    //}
+
+                    string strLoc = "";
+                    if (item != null)
+                    {
+                        if (!string.IsNullOrEmpty(item.locationName1))
+                        {
+                            strLoc += Convert.ToString(item.locationName1).Trim().Replace(',', ' ');
+                        }
+                        if (!string.IsNullOrEmpty(item.LocID))
+                        {
+                            strLoc = strLoc + " (" + item.LocID + ")";
+                        }
+                    }
+
+                    body = body.Replace("{UserName}", userFirstName + " " + userLastName);
+                    body = body.Replace("{ORDERNO}", item.OrderNo.ToString());
+                    //body = body.Replace("{RECORDSOF}", patientName != null ? patientName.Name : "");
+                    body = body.Replace("{RECORDSOF}", item != null ? item.OrderPatientName : "");
+                    body = body.Replace("{LOCATION}", strLoc);
+                    body = body.Replace("{PAGES}", Convert.ToString(item.Pages));
+                    body = body.Replace("{COST}", Convert.ToString(item.Amount));
+
+                    string accExecutiveName = item.ClientAttorneyName;
+                    string accExecutiveEmail = item.ClientAttorneyEmail;
+                     
+                    string locName1 = "";
+                    string locId = "";
+                    if (item != null)
+                    {
+                        locName1 = item.locationName1;
+                        locId = item.LocID;
+                    }
+                    string strQueryString = accExecutiveEmail + "," + accExecutiveName + "," + item.OrderNo + "," 
+                        + HttpUtility.HtmlEncode(Convert.ToString(locName1).Replace(',', ' ')) 
+                        + " (" + HttpUtility.HtmlEncode(locId) + ")" + "," 
+                        + item.Pages 
+                        + "," + item.Amount + "," + Convert.ToString(item.ProposalFeeID) 
+                        + "," + Convert.ToString(item.PartNo);
+
+                    strQueryString = HttpUtility.UrlEncode(EncryptDecrypt.Encrypt(strQueryString));
+
+                    body = body.Replace("{APPROVELINK}", proposalBaseFeeURL + "/ProposalFeeApproval?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("A")) + "&value=" + strQueryString);
+                    body = body.Replace("{NOTAPPROVELINK}", proposalBaseFeeURL + "/ProposalFeeApproval?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("N")) + "&value=" + strQueryString);
+                    body = body.Replace("{EDITSCOPELINK}", proposalBaseFeeURL + "/ProposalFeeApproval?type=" + HttpUtility.UrlEncode(EncryptDecrypt.Encrypt("E")) + "&value=" + strQueryString);
+                    var emailList = new List<string>();
+                    if (!string.IsNullOrEmpty(attorneyEmail))
+                    {
+                        emailList.Add(attorneyEmail);
+                    }
+                    if (!string.IsNullOrEmpty(item.AssistantEmail))
+                    {
+                        emailList.Add(item.AssistantEmail);
+                    }
+                    attorneyEmail = string.Join(",", emailList);
+                    if (!string.IsNullOrEmpty(attorneyEmail))  //&& Utility.isValidEmail(attorney.Email)
+                    {
+                        
+                        Utility.SendMailBilling(subject, body, attorneyEmail, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com", "tejaspadia@gmail.com,autoemail@axiomcopy.com");
+                    }
+
+                    DbAccess.UpdateProposalData(item.OrderNo, item.PartNo, item.ProposalFeeID);
+               
+                     
+                    Log.ServicLog("----------------------------------------");
+                    Log.ServicLog("Email sent : " + System.DateTime.Now);
+                    Log.ServicLog("Order No " + item.OrderNo.ToString());
+                } 
+            }
+            catch (Exception ex)
+            {
+                Log.ServicLog("----------- EXCEPTION -------------------");
+                Log.ServicLog(Convert.ToString(ex.Message));
+                Log.ServicLog(Convert.ToString(ex.StackTrace));
+                Log.ServicLog(Convert.ToString(ex.InnerException));
+                Log.ServicLog("--------------------------------------------");
+            }
+            finally
+            {
+                Log.ServicLog("------------------- EMAIL REMINDER SERVICE EXECUTION FINISHED " + DateTime.Now + "---------------------------");
+            } 
+        }
 
         //==================================Axiom Service==========================================
         public void SendMonthlyEmail()
