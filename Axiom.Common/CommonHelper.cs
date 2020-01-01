@@ -84,7 +84,7 @@ namespace Axiom.Common
                 emailString = string.Join(",", ccid.Where(x => !string.IsNullOrEmpty(x) && !string.IsNullOrEmpty(x.Trim())).Select(x => x.Trim()).Distinct());
 
                 return emailString;
-                 
+
             }
             return string.Empty;
         }
@@ -102,6 +102,8 @@ namespace Axiom.Common
             return new string(chars);
         }
 
+
+
         /// <summary>
         /// Insert Image in Word Document 
         /// </summary>
@@ -115,12 +117,114 @@ namespace Axiom.Common
         /// <param name="Top">Top</param>
         /// <returns></returns>
         public static Document InsertHeaderLogo(string SourceDocumentFilePath, string InputImagePath, bool needtoAddHeader = false, double ImageWidthDraw = 120, double ImageHeightDraw = 44, double Left = 10, double Top = 10)
-            //, string TargetDocumentFilePath,
+        //, string TargetDocumentFilePath,
         {
             License license1 = new License();
             license1.SetLicense("Aspose.Words.lic");
             Document doc = new Document(SourceDocumentFilePath);
-            DocumentBuilder builder = new DocumentBuilder(doc);
+            DocumentBuilder builder;
+            RelativeHorizontalPosition h = RelativeHorizontalPosition.Page;
+            RelativeVerticalPosition v = RelativeVerticalPosition.Page;
+            WrapType w = WrapType.None;
+            List<string> DocListNeedLog = new List<string>
+            {
+                 @"\Subpoenas\State\Michigan\FAX Request.doc"
+                ,@"\Custodian Letters\All Letter Request Forms\FOIA or Letter Requests\FAX Request.doc"
+                ,@"\Face Sheets\Face Sheet-DIGITAL ONLY - ONLINE FACE SHEET ONLY.doc"
+                ,@"\Custodian Letters\All Location Letters & Faxes\Non-Compliance (HIPAA).doc"
+            };
+
+            var objDocumentPath = DocListNeedLog.FirstOrDefault(x => SourceDocumentFilePath.ToLower().Contains(x.ToLower()));
+            if (objDocumentPath != null)
+            {
+                builder = new DocumentBuilder(doc);
+                Shape shape ;
+
+                switch (objDocumentPath.ToLower())
+                {
+                    case @"\subpoenas\state\michigan\fax request.doc":// 2 LOGO
+                    case @"\custodian letters\all letter request forms\foia or letter requests\fax request.doc":
+                    case @"\custodian letters\all location letters & faxes\non-compliance (hipaa).doc":
+
+                        #region Header Logo common across three forms
+                        ImageWidthDraw = 130;
+                        ImageHeightDraw = 50;
+                        Left = 45;
+                        Top = 85;
+                        builder.InsertImage(InputImagePath, h, Left, v, ConvertUtil.PixelToPoint(Top), ConvertUtil.PixelToPoint(ImageWidthDraw), ConvertUtil.PixelToPoint(ImageHeightDraw), w);
+                        #endregion 
+
+                        #region LargeLogo
+
+                        builder.MoveToBookmark("LargeLogo");
+                       
+                   
+                        if (objDocumentPath.ToLower() == @"\custodian letters\all location letters & faxes\non-compliance (hipaa).doc")
+                        {
+                            Left = 275;
+                            ImageWidthDraw = 305;
+                            ImageHeightDraw = 118;
+                            Top = 50;
+                        }
+                        else //fax request
+                        {
+                            Left = 270;
+                            ImageWidthDraw = 305;
+                            ImageHeightDraw = 135;
+                            Top = 90;
+                        }
+
+                        shape = builder.InsertImage(InputImagePath);
+                        // Make the image float, put it behind text and center on the page
+                        shape.WrapType = WrapType.TopBottom;
+                        shape.BehindText = false;
+                        shape.RelativeHorizontalPosition = RelativeHorizontalPosition.Page;
+                        shape.HorizontalAlignment = HorizontalAlignment.Center;
+                        shape.RelativeVerticalPosition = RelativeVerticalPosition.Page;
+                        //shape.VerticalAlignment = VerticalAlignment.;
+                        shape.Top = ConvertUtil.PixelToPoint(Top);
+                        //shape.Left = ConvertUtil.PixelToPoint(Left);
+                        shape.Width = ConvertUtil.PixelToPoint(ImageWidthDraw);
+                        shape.Height = ConvertUtil.PixelToPoint(ImageHeightDraw);
+                        #endregion 
+                        
+                        return doc;
+
+                        break;
+                  
+                    case @"\face sheets\face sheet-digital only - online face sheet only.doc":// CENTER LOGO ONLY ONE LOGO
+                        ImageWidthDraw = 305;
+                        ImageHeightDraw = 110;
+                        Left = 240;
+                        Top = 170;
+
+                        shape = builder.InsertImage(InputImagePath);
+                        // Make the image float, put it behind text and center on the page
+                        shape.WrapType = WrapType.TopBottom;
+                        shape.BehindText = false;
+                        shape.RelativeHorizontalPosition = RelativeHorizontalPosition.Page;
+                        shape.HorizontalAlignment = HorizontalAlignment.Center;
+                        shape.RelativeVerticalPosition = RelativeVerticalPosition.Page;
+                        //shape.VerticalAlignment = VerticalAlignment.;
+                        shape.Top = ConvertUtil.PixelToPoint(Top);
+                        //shape.Left = ConvertUtil.PixelToPoint(Left);
+                        shape.Width = ConvertUtil.PixelToPoint(ImageWidthDraw);
+                        shape.Height = ConvertUtil.PixelToPoint(ImageHeightDraw); 
+                        return doc;
+
+                        break;
+                     
+
+                }
+                return doc;
+            }
+            else
+            {
+                return doc;
+            }
+
+
+             builder = new DocumentBuilder(doc);
             if (needtoAddHeader)
             {
                 Section currentSection = builder.CurrentSection;
@@ -175,13 +279,12 @@ namespace Axiom.Common
             }
             else
             {
-                RelativeHorizontalPosition h = RelativeHorizontalPosition.Page;
-                RelativeVerticalPosition v = RelativeVerticalPosition.Page;
-                WrapType w = WrapType.None;
+               
+                
                 if (File.Exists(InputImagePath))
                 {
-
-                    builder.InsertImage(InputImagePath, h, 10, v, 10, ImageWidthDraw, ImageHeightDraw, w);
+                    
+                    builder.InsertImage(InputImagePath, h, Left, v, Top, ImageWidthDraw, ImageHeightDraw, w);
                 }
             }
 
@@ -262,6 +365,6 @@ namespace Axiom.Common
         }
     }
 
-    
-    
+
+
 }
