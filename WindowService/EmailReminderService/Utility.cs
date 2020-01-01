@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +15,20 @@ namespace EmailReminderService
         public static string QAEmail = Convert.ToString(ConfigurationManager.AppSettings["QAEmail"]);
         public static bool isQATesting = Convert.ToBoolean(ConfigurationManager.AppSettings["isQATesting"]);
 
-        public static void SendMailBilling(string subject, string body, string SendTo, bool isHtml, string SendFrom = "AxiomSupport@axiomcopy.com", List<System.Net.Mail.Attachment> attachments = null, string cc = "", string bcc = "")
-        {
-            SmtpClient smtp = GetSMTP();
+        public static void SendMailBilling(int CompanyNo, string subject, string body, string SendTo, bool isHtml, string SendFrom = "AxiomSupport@axiomcopy.com", List<System.Net.Mail.Attachment> attachments = null, string cc = "", string bcc = "")
+        { 
+            string fromEmail = string.Empty;
+            SmtpClient smtp = GetSMTPByCompany(CompanyNo, out fromEmail);
+            System.Net.NetworkCredential nc = (NetworkCredential)smtp.Credentials;
+
+            // SmtpClient smtp = GetSMTP();
+
+            MailMessage mail = new MailMessage();
+
+            mail.From = new MailAddress(fromEmail, fromEmail);
 
             // MailMessage mail = new MailMessage(SendFrom, SendTo, subject, body);
-            MailMessage mail = new MailMessage();
+            //MailMessage mail = new MailMessage();
             if (isQATesting)
                 mail.Subject = subject + " [Actul Email to be Send : " + SendTo + " ]";
             else
@@ -84,7 +93,63 @@ namespace EmailReminderService
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             return smtp;
         }
+        public static SmtpClient GetSMTPByCompany(int CompanyNo, out string fromEmail)
+        {
+            try
+            {
+                fromEmail = string.Empty;
+                // System.Configuration.Configuration configurationFile = WebConfigurationManager.OpenWebConfiguration("~/Web.config");
+                Configuration configurationFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
+                string AxiomFromEmail = Convert.ToString(ConfigurationManager.AppSettings["AxiomFromEmail"]);
+                string LegalLogicFromEmail = Convert.ToString(ConfigurationManager.AppSettings["LegalLogicFromEmail"]);
+                string LegalEagleFromEmail = Convert.ToString(ConfigurationManager.AppSettings["LegalEagleFromEmail"]);
+                string EmailPassword = Convert.ToString(ConfigurationManager.AppSettings["EmailPassword"]);
+                string EmailHost = Convert.ToString(ConfigurationManager.AppSettings["EmailHost"]);
+                string EmailUsername = Convert.ToString(ConfigurationManager.AppSettings["EmailUsername"]);
+
+                switch (CompanyNo)
+                {
+                    case 1:
+                        fromEmail = AxiomFromEmail;
+                        break;
+                    case 4:
+                        fromEmail = LegalLogicFromEmail;
+                        break;
+                    case 6:
+                        fromEmail = LegalEagleFromEmail;
+                        break;
+                    default:
+                        fromEmail = AxiomFromEmail;
+                        break;
+                }
+
+
+
+                int port = 25;
+                string host = EmailHost;
+                string password = EmailPassword;
+                string username = EmailUsername;
+                //string domain = mailSettings.Network.ClientDomain;
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(host, port);
+
+
+
+
+                smtp.EnableSsl = false;
+
+                smtp.Credentials = new System.Net.NetworkCredential(username, password);
+
+                // smtp.EnableSsl = true;
+                return smtp;
+
+            }
+            catch (Exception ex)
+            {
+                fromEmail = string.Empty;
+                return new SmtpClient();
+            }
+        }
         public static bool isValidEmail(string inputEmail)
         {
             string strRegex = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +

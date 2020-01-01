@@ -14,7 +14,7 @@ namespace EmailReminderService.Entity
         public string Descr { get; set; }
         public int Pages { get; set; }
         public decimal Amount { get; set; }
-        public int? CompanyNo { get; set; }
+        public int CompanyNo { get; set; }
 
 
         public string LocID { get; set; }

@@ -10,7 +10,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Timers;
 using System.Web;
-using System.Web.Script.Serialization;
+
 
 namespace EmailReminderService
 {
@@ -181,7 +181,7 @@ namespace EmailReminderService
 
                     if (attorney != null && !string.IsNullOrEmpty(attorney.Email))  //&& Utility.isValidEmail(attorney.Email)
                     {
-                         Utility.SendMailBilling(subject, body, attorney.Email, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com", "tejaspadia@gmail.com,autoemail@axiomcopy.com");
+                         Utility.SendMailBilling(1, subject, body, attorney.Email, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com", "tejaspadia@gmail.com,autoemail@axiomcopy.com");
                     } 
                      DbAccess.UpdateProposalData(item.OrderNo, item.PartNo, item.ProposalFeeID);
                     Log.ServicLog("----------------------------------------");
@@ -315,7 +315,7 @@ namespace EmailReminderService
                     if (!string.IsNullOrEmpty(attorneyEmail))  //&& Utility.isValidEmail(attorney.Email)
                     {
                         
-                        Utility.SendMailBilling(subject, body, attorneyEmail, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com", "tejaspadia@gmail.com,autoemail@axiomcopy.com");
+                        Utility.SendMailBilling(item.CompanyNo, subject, body, attorneyEmail, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com", "tejaspadia@gmail.com,autoemail@axiomcopy.com");
                     }
 
                     DbAccess.UpdateProposalData(item.OrderNo, item.PartNo, item.ProposalFeeID);
@@ -436,11 +436,11 @@ namespace EmailReminderService
 
                                 if (string.IsNullOrEmpty(additionalEmail))
                                 {
-                                    Utility.SendMailBilling("Monthly Reminder - Authorization To Be Called On", body, emailDetail.Email, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com,tejas.padia@gmail.com,autoemail@axiomcopy.com");
+                                    Utility.SendMailBilling(item.CompanyNo, "Monthly Reminder - Authorization To Be Called On", body, emailDetail.Email, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com,tejas.padia@gmail.com,autoemail@axiomcopy.com");
                                 }
                                 else
                                 {
-                                    Utility.SendMailBilling("Monthly Reminder - Authorization To Be Called On", body, additionalEmail, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com,tejas.padia@gmail.com,autoemail@axiomcopy.com");
+                                    Utility.SendMailBilling(item.CompanyNo, "Monthly Reminder - Authorization To Be Called On", body, additionalEmail, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com,tejas.padia@gmail.com,autoemail@axiomcopy.com");
                                 }
                                 foreach (var part in lstPartNo)
                                 {
@@ -497,7 +497,7 @@ namespace EmailReminderService
                             if (emailDetail == null)
                             {
                                 string strbody = "Could not found records for order number " + item.OrderNo + " from OppAtty table.";
-                                Utility.SendMailBilling("Email Not Sent - Order No : " + item.OrderNo, strbody, "autharchive@axiomcopy.com", true, "AxiomSupport@axiomcopy.com", null, "tejaspadia@gmail.com,autoemail@axiomcopy.com");
+                                Utility.SendMailBilling(item.CompanyNo, "Email Not Sent - Order No : " + item.OrderNo, strbody, "autharchive@axiomcopy.com", true, "AxiomSupport@axiomcopy.com", null, "tejaspadia@gmail.com,autoemail@axiomcopy.com");
                                 continue;
                             }
                             var lstPartNo = new List<PartDetail>();
@@ -556,7 +556,7 @@ namespace EmailReminderService
                                 try
                                 {
                                     body = body.Replace("{LOCATION}", sb.ToString());
-                                    Utility.SendMailBilling("Authorization To Be Called On", body, emailDetail.Email, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com,autoemail@axiomcopy.com");
+                                    Utility.SendMailBilling(item.CompanyNo,"Authorization To Be Called On", body, emailDetail.Email, true, "AxiomSupport@axiomcopy.com", null, "autharchive@axiomcopy.com,autoemail@axiomcopy.com");
                                     foreach (var part in lstPartNo)
                                     {
                                         DbAccess.UpdateAuthorizationToBeCalledOnEmail(orderNo, part.PartNo, 0);

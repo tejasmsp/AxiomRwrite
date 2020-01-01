@@ -38,6 +38,7 @@ namespace EmailReminderService.Entity
         public int FollowupID { get; set; }
         public int OrderNo { get; set; }
         public int PartNo { get; set; }
+        public int CompanyNo { get; set; }
     }
     public class PartDetail
     {
