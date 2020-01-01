@@ -450,6 +450,7 @@ namespace QuickFormService
                                         #region Add Company Wise logo 
 
                                         Document doc;
+                                        Log.ServicLog("3");
                                         doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
 
                                         //string[] TestOrderNo = ConfigurationManager.AppSettings["TestOrderNo"].Split(',');

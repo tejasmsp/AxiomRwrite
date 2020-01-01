@@ -134,13 +134,14 @@ namespace Axiom.Common
                 ,@"\Custodian Letters\All Location Letters & Faxes\Non-Compliance (HIPAA).doc"
             };
 
-            var objDocumentPath = DocListNeedLog.FirstOrDefault(x => SourceDocumentFilePath.ToLower().Contains(x.ToLower()));
+            var objDocumentPath = DocListNeedLog.FirstOrDefault(x => SourceDocumentFilePath.ToLower().Replace('/', '\\').Contains(x.ToLower()));
+
             if (objDocumentPath != null)
             {
                 builder = new DocumentBuilder(doc);
                 Shape shape ;
 
-                switch (objDocumentPath.ToLower())
+                switch (objDocumentPath.ToLower().Replace('/', '\\'))
                 {
                     case @"\subpoenas\state\michigan\fax request.doc":// 2 LOGO
                     case @"\custodian letters\all letter request forms\foia or letter requests\fax request.doc":

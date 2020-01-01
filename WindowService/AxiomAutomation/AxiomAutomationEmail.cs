@@ -32,7 +32,7 @@ namespace AxiomAutomation
             }
             return null;
         }
-        public static SmtpClient GetSMTPByCompany(int CompanyNo, out string fromEmail)
+        public static SmtpClient GetSMTPByCompany (int CompanyNo, out string fromEmail)
         {
             try
             {

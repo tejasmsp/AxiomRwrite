@@ -515,6 +515,7 @@
             objpdf.AttysIds = $scope.selectedAttorneyFormList && $scope.selectedAttorneyFormList.length > 0 ? $scope.selectedAttorneyFormList[0].AttId : "";            
             objpdf.EmpId = $scope.UserEmployeeID;
             objpdf.UserId = $scope.UserGUID;
+            objpdf.CompNo = $rootScope.CompanyNo;
             var result = QuickFormService.QuickFormGetPdf(objpdf);
         }
 
@@ -562,6 +563,7 @@
         for (var c = 0; c < objpdfList.length; c++) {            
             objpdfList[c].EmpId = $scope.UserEmployeeID;
             objpdfList[c].UserId = $scope.UserGUID;
+            objpdfList[c].CompNo = $rootScope.CompanyNo;
             var result = QuickFormService.QuickFormGetPdf(objpdfList[c]);
         }
     }

@@ -342,6 +342,7 @@ namespace QuickFormService
                                 Document doc;
 
                                 string companyLogoDirectory = ConfigurationManager.AppSettings["CompanyLogoDirectory"];
+                                Log.ServicLog("2");
                                 doc = Common.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", companyLogoDirectory, drForm["CompanyNo"]));
 
                                 //string[] TestOrderNo = ConfigurationManager.AppSettings["TestOrderNo"].Split(',');

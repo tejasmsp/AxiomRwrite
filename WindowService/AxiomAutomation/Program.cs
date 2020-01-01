@@ -15,10 +15,6 @@ namespace AxiomAutomation
         /// </summary>
         static void Main()
         {
-            #if DEBUG
-                                isDebug = true;
-            #endif
-
             if (isDebug == false)
             {
                 try

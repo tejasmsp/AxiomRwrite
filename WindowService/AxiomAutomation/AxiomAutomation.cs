@@ -963,11 +963,20 @@ namespace AxiomAutomation
                             if (locationList != null)
                             {
                                 var LocationCheck = locationList.FirstOrDefault();
-                                if (LocationCheck.ReqAuthorization == true || LocationCheck.FeeAmountSendRequest == true)
+                                if (LocationCheck.LinkRequest)
                                 {
-                                    DbAccess.UpdateOrderPart(OrderNo, PartNo, "UTILRE", Convert.ToDateTime(pt.CallBack));
-                                    string partNotes = string.Empty;
-                                    CreateNoteString(OrderNo, PartNo, "Assign to In Office Request.", "SYSTEM", ref partNotes, false, false);
+                                    var AsgnTo = "CBLIST";
+                                    var CallBack = DateTime.Now.AddDays(14);
+                                    DbAccess.UpdateOrderPart(OrderNo, PartNo, AsgnTo, CallBack);
+                                }
+                                else
+                                {
+                                    if (LocationCheck.ReqAuthorization == true || LocationCheck.FeeAmountSendRequest == true)
+                                    {
+                                        DbAccess.UpdateOrderPart(OrderNo, PartNo, "UTILRE", Convert.ToDateTime(pt.CallBack));
+                                        string partNotes = string.Empty;
+                                        CreateNoteString(OrderNo, PartNo, "Assign to In Office Request.", "SYSTEM", ref partNotes, false, false);
+                                    }
                                 }
 
                             }
@@ -1031,7 +1040,7 @@ namespace AxiomAutomation
                 else
                     databaseNoteField += noteString;
 
-                var userId = new Guid("507D72AE-1E1F-4FC0-AEED-3962FF1DCEC8");
+                var userId = new Guid("7ABB0EFB-88A9-4699-B359-7F17216A8258");
                 DbAccess.InsertOrderNotes(OrderNo, PartNo, userId, note);
             }
             catch (Exception ex)

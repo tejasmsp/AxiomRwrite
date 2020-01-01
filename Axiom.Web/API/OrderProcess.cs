@@ -1158,10 +1158,12 @@ namespace Axiom.Web.API
 
                             #region Add Company Wise logo 
 
-                            Aspose.Words.Document doc;
-                            doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), objCompany.CompNo));
-
+                            Aspose.Words.Document doc = new Aspose.Words.Document();
+                            // doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), objCompany.CompNo));
+                            doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", logoDirectoryPath, objCompany.CompNo));
                             
+
+
                             #endregion
                             try
                             {
