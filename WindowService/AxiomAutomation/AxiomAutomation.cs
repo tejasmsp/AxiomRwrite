@@ -73,10 +73,774 @@ namespace AxiomAutomation
         {
         }
 
+
+        #region NewChangesByAkash
+        private string ReplaceQueryAccordingToQueryType(QueryType pdt,string[] folders ,string docNameDB, int partListCount)
+        {
+            if (pdt == QueryType.FaceSheet || pdt == QueryType.FaceSheetNew)
+            {
+                pdt = QueryType.FaceSheetNew;
+            }
+
+            string query = DbAccess.GetQueryByQueryTypeId((int)pdt, "Query");
+
+            switch (pdt)
+            {
+                case QueryType.Common:
+                    bool isMichigan = folders.Contains("Michigan");
+                    bool isRush = docNameDB.Contains("RUSH");
+
+                    if (!string.IsNullOrEmpty(query))
+                    {
+
+                        if (isMichigan && isRush)
+                            query = query.Replace("--Michigan and Rush", " ,DATENAME(DW, DATEADD(day,7,GETDATE())) as [DayName],DATENAME(MM, DATEADD(day,7,GETDATE())) + RIGHT(CONVERT(VARCHAR(12), DATEADD(day,7,GETDATE()), 107), 9) AS BigDate ");
+                        else if (isMichigan && !isRush)
+                            query = query.Replace("--Michigan and Rush", " ,DATENAME(DW, DATEADD(day,14,GETDATE())) as [DayName],DATENAME(MM, DATEADD(day,14,GETDATE())) + RIGHT(CONVERT(VARCHAR(12), DATEADD(day,14,GETDATE()), 107), 9) AS BigDate ");
+                    }
+                    break;
+                case QueryType.Confirmation:
+                    query = query.Replace("%%PartCnt%%", Convert.ToString(partListCount));
+                    break;
+                case QueryType.FaceSheet:
+                case QueryType.FaceSheetNew:
+                case QueryType.AttorneyForms:
+                    query = query.Replace("%%ATTYNO%%", AttyID);
+                    break;
+                case QueryType.StatusProgressReports:
+                    query = query.Replace("%%PartCnt%%", Convert.ToString(partListCount));
+                    break;
+                case QueryType.StatusLetters:
+                case QueryType.Waiver:
+                case QueryType.Interrogatories:
+                case QueryType.TargetSheets:
+                case QueryType.CerticicationNOD:
+                case QueryType.AttorneyOfRecords:
+                case QueryType.CollectionLetters:
+                case QueryType.Notices:
+                    break;
+                default:
+                    break;
+            }
+
+            return query;
+
+        }
+
+        private void DoRequireOperationOnDocuments(RequestDocuments docitem, int OrderNo, int PartNo, string filetype,
+                                            Location location, int partListCount, CompanyDetailForEmailEntity objCompany, bool isProcessServer)
+        {
+            Log.ServicLog("Order NO :" + OrderNo + "  Part NO:" + PartNo);
+            string docpath = docitem.DocumentPath.ToString().Trim().Replace(">", "/");
+            string docNameDB = OrderNo.ToString() + "_" + PartNo.ToString() + "_" + docitem.DocumentName;
+
+            bool displaySSN = true;
+
+            if (docitem.DocumentName.ToString().Split('_').Length == 3)
+                docitem.DocumentName = docitem.DocumentName.ToString().Split('_')[2].ToUpper();
+            else if (docitem.DocumentName.ToString().Split('_').Length == 4)
+                docitem.DocumentName = docitem.DocumentName.ToString().Split('_')[3].ToUpper();
+            else
+                docitem.DocumentName = docitem.DocumentName.ToString().Split('_')[1].ToUpper();
+            string[] folders = docitem.DocumentPath.Split('>');
+
+            if (folders.Contains("Custodian Letters") || folders.Contains("Subpoenas"))
+                filetype = "pdf";
+
+            string query = string.Empty;
+            QueryType pdt = DbAccess.GetDocumentType(docitem.DocumentName, folders[0].ToString());
+
+            query = ReplaceQueryAccordingToQueryType(pdt, folders, docNameDB, partListCount);
+            var dtQueryList = DbAccess.ExecuteSQLQuery(query);
+
+            MemoryStream ms = new MemoryStream();
+
+            string subquery = string.Empty;
+            var dtsubQuery = new DataTable();
+            StringBuilder partInfo = new StringBuilder();
+            StringBuilder partInfo2 = new StringBuilder();
+
+            if (pdt == QueryType.Confirmation || pdt == QueryType.TargetSheets || pdt == QueryType.StatusProgressReports)
+            {
+                subquery = DbAccess.GetQueryByQueryTypeId(Convert.ToInt32(pdt), "SubQuery");
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
+                    
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    partInfo.Append("_____________________________________________________________________________\n\r");
+                    for (int a = 0; a < dtsubQuery.Rows.Count; a++)
+                    {
+                        string partInfoText;
+                        if (pdt == QueryType.Confirmation && docitem.DocumentName.ToUpper().Equals("ORDER CONFIRMATION.DOC"))
+                            partInfoText = Convert.ToString(dtsubQuery.Rows[a]["PartInfo1"]).Replace("scopehere", Convert.ToString(dtsubQuery.Rows[a]["scope"]));
+                        else
+                            partInfoText = Convert.ToString(dtsubQuery.Rows[a]["PartInfo1"]).Replace("scopehere", "");
+                        partInfo.Append(partInfoText + "\n\r");
+                        partInfo2.Append(Convert.ToString(dtsubQuery.Rows[a]["LocationHeader"]) + "\n");
+                    }
+                }
+                var dt2 = dtQueryList;
+                DataColumn dc2 = new DataColumn("PartInfo", typeof(string));
+                DataColumn dc3 = new DataColumn("PartInfo2", typeof(string));
+                dc2.AllowDBNull = true;
+                dc3.AllowDBNull = true;
+                dt2.Columns.Add(dc2);
+                dt2.Columns.Add(dc3);
+                for (int j = 0; j < dt2.Rows.Count; j++)
+                {
+                    DataRow dr = dt2.Rows[j];
+                    dr["PartInfo"] = partInfo.ToString();
+                    dr["PartInfo2"] = partInfo2.ToString();
+                }
+            }
+            else if (pdt == QueryType.Waiver)
+            {
+                StringBuilder locationInfo = new StringBuilder();
+                subquery = DbAccess.GetQueryByQueryTypeId(5, "SubQuery");
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    for (int b = 0; b < dtsubQuery.Rows.Count; b++)
+                        locationInfo.Append(Convert.ToString(dtsubQuery.Rows[b]["Location1"]) + '\n');
+
+                }
+                var dt3 = dtQueryList;
+                dt3.Columns.Add(new DataColumn("Selected_Part", typeof(string)));
+                dt3.Columns.Add(new DataColumn("Location1", typeof(string)));
+                for (int k = 0; k < dt3.Rows.Count; k++)
+                {
+                    DataRow dr4 = dt3.Rows[k];
+                    dr4["Selected_Part"] = PartNo;
+                    dr4["Location1"] = locationInfo;
+                }
+            }
+            else if (pdt == QueryType.CerticicationNOD)
+            {
+                StringBuilder attyInfo = new StringBuilder();
+                attyInfo.Append('\n');
+                subquery = DbAccess.GetQueryByQueryTypeId(10, "SubQuery");
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    for (int c = 0; c < dtsubQuery.Rows.Count; c++)
+                        attyInfo.Append(Convert.ToString(dtsubQuery.Rows[c]["Attorneys"]) + "\n");
+                }
+                DataTable dt4 = dtQueryList;
+                dt4.Columns.Add(new DataColumn("Attorneys", typeof(string)));
+                for (int l = 0; l < dt4.Rows.Count; l++)
+                {
+                    DataRow dr5 = dt4.Rows[l];
+                    dr5["Attorneys"] = attyInfo;
+                }
+            }
+            else if (pdt == QueryType.AttorneyOfRecords)
+            {
+                subquery = DbAccess.GetQueryByQueryTypeId(6, "SubQuery");
+                string[] strQuery = null;
+                StringBuilder attyInfo2 = new StringBuilder();
+                attyInfo2.Append('\n');
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    strQuery = subquery.Split(new string[] { "--Split--" }, StringSplitOptions.RemoveEmptyEntries);
+                    subquery = ReplaceOrderPartNo(strQuery[0], OrderNo, PartNo);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    for (int d = 0; d < dtsubQuery.Rows.Count; d++)
+                        attyInfo2.Append(System.Runtime.CompilerServices.RuntimeHelpers.GetObjectValue(Convert.ToString(dtsubQuery.Rows[d]["AttyInfo"])));
+
+                    attyInfo2.Append('\n');
+                    subquery = ReplaceOrderPartNo(strQuery[1], OrderNo, PartNo);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    for (int e = 0; e < dtsubQuery.Rows.Count; e++)
+                        attyInfo2.Append(Convert.ToString(dtsubQuery.Rows[e]["AttyInfo"]) + "\n");
+                }
+                DataTable dt5 = dtQueryList;
+                dt5.Columns.Add(new DataColumn("AttyInfo", typeof(string)));
+                for (int m = 0; m < dt5.Rows.Count; m++)
+                {
+                    DataRow dr6 = dt5.Rows[m];
+                    dr6["AttyInfo"] = attyInfo2;
+                }
+            }
+            else if (pdt == QueryType.AttorneyForms)
+            {
+                StringBuilder locationInfo2 = new StringBuilder();
+                subquery = DbAccess.GetQueryByQueryTypeId(13, "SubQuery");
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo).Replace("%%ATTYNO%%", AttyID);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    for (int f = 0; f < dtsubQuery.Rows.Count; f++)
+                        locationInfo2.Append(Convert.ToString(dtsubQuery.Rows[f]["Location1"]) + "\n");
+                }
+                DataTable dt6 = dtQueryList;
+                dt6.Columns.Add(new DataColumn("Selected_Part", typeof(string)));
+                dt6.Columns.Add(new DataColumn("Location1", typeof(string)));
+                for (int n = 0; n < dt6.Rows.Count; n++)
+                {
+                    DataRow dr7 = dt6.Rows[n];
+                    dr7["Location1"] = locationInfo2;
+                }
+            }
+
+            string filePath = Path.Combine(documentRoot, docitem.DocumentPath.ToString().Trim().Replace(">", "\\"), docitem.DocumentName.Trim());
+            Aspose.Words.Document doc = new Aspose.Words.Document();
+            try
+            {
+
+                doc = new Aspose.Words.Document(filePath);
+            }
+            catch (Exception ex)
+            {
+                Log.ServicLog("---------- 379 AT CREATING NEW OBJECT OF Aspose.Word.Document. FilePath = " + filePath.ToString());
+                Log.ServicLog(ex.ToString());
+            }
+
+            try
+            {
+                DataColumnCollection columns = dtQueryList.Columns;
+                if (columns.Contains("Part_Scope"))
+                {
+                    foreach (DataRow dr in dtQueryList.Rows)
+                    {
+                        string str = Convert.ToString(dr["Part_Scope"]);
+                        if (!string.IsNullOrEmpty(str))
+                            dr["Part_Scope"] = ConvertScopeHTMLToString(str);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.ServicLog("----------- EXCEPTION at 399 -------------------");
+                Log.ServicLog(Convert.ToString(ex.Message));
+                Log.ServicLog(Convert.ToString(ex.StackTrace));
+                Log.ServicLog(Convert.ToString(ex.InnerException));
+                Log.ServicLog("--------------------------------------------");
+            }
+            doc.MailMerge.Execute(dtQueryList);
+            doc.Save(ms, Aspose.Words.SaveFormat.Pdf);
+            if (RecordType > 0 && !string.IsNullOrEmpty(BillFirm))
+            {
+                string TStamp = DateTime.Now.ToString("yyyyMMddHHmm");
+                string _storageRoot = string.Empty;
+                string FilePath = string.Empty;
+                if (BillFirm == "GRANCO01")
+                {
+                    #region GRANCO01
+                    _storageRoot = ConfigurationManager.AppSettings["GrangeRoot"].ToString();
+                    DirectoryInfo dis = new DirectoryInfo(_storageRoot);
+                    if (!dis.Exists)
+                        dis.Create();
+                    FilePath = _storageRoot + string.Format("{0}-{1}-{2}-{3}", ClaimNo, TStamp, OrderNo, PartNo + "." + filetype);
+                    int count = 1;
+                    string fileNameOnly = Path.GetFileNameWithoutExtension(FilePath);
+                    string extension = Path.GetExtension(FilePath);
+                    string path = Path.GetDirectoryName(FilePath);
+                    string newFullPath = FilePath;
+                    while (File.Exists(newFullPath))
+                    {
+                        string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
+                        newFullPath = Path.Combine(path, tempFileName + extension);
+                    }
+                    FileStream file = new FileStream(newFullPath, FileMode.Create, FileAccess.Write);
+                    ms.WriteTo(file);
+                    file.Close();
+                    #endregion
+                }
+                else if (BillFirm == "HANOAA01")
+                {
+                    #region HANOAA01
+                    _storageRoot = ConfigurationManager.AppSettings["HanoverRoot"].ToString();
+
+                    DirectoryInfo dis = new DirectoryInfo(_storageRoot);
+                    if (!dis.Exists)
+                        dis.Create();
+
+                    FilePath = _storageRoot + string.Format("{0}_{1}_{2}_{3}-{4}", ClaimNo, AttyName, TStamp, OrderNo, PartNo + "." + filetype);
+                    int count = 1;
+                    string fileNameOnly = Path.GetFileNameWithoutExtension(FilePath);
+                    string extension = Path.GetExtension(FilePath);
+                    string path = Path.GetDirectoryName(FilePath);
+                    string newFullPath = FilePath;
+                    while (File.Exists(newFullPath))
+                    {
+                        string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
+                        newFullPath = Path.Combine(path, tempFileName + extension);
+                    }
+
+                    FileStream file = new FileStream(newFullPath, FileMode.Create, FileAccess.Write);
+                    ms.WriteTo(file);
+                    file.Close();
+                    ms.Close();
+                    ms = null;
+
+                    #endregion
+                }
+            }
+            string outputFileName = "printforms";
+            outputFileName = Path.GetFileNameWithoutExtension(Convert.ToString(docNameDB).Replace(" ", "-")) + "." + filetype;
+            Guid gid = Guid.NewGuid();
+            if (PartNo > 0 || (pdt == QueryType.AttorneyForms || pdt == QueryType.Confirmation || pdt == QueryType.Waiver))
+            {
+                if (pdt == QueryType.AttorneyForms)
+                {
+                    string attorney = "";
+                    if (docNameDB.ToString().Split('_').Length == 4)
+                        attorney = docNameDB.ToString().Split('_')[2].ToUpper();
+                    outputFileName = string.Format("{0}-{1}-{2}-{3}{4}", new object[] { OrderNo, PartNo, attorney, Path.GetFileNameWithoutExtension(filePath).Replace(" ", "-"), "." + filetype }).Replace(",", "-");
+                }
+                else
+                    outputFileName = string.Format("{0}-{1}-{2}{3}", new object[] { OrderNo, PartNo, Path.GetFileNameWithoutExtension(filePath).Replace(" ", "-"), "." + filetype }).Replace(",", "-");
+
+            }
+            try //Order Level File
+            {
+                if (!Directory.Exists(Path.Combine(ConfigurationManager.AppSettings["UploadRoot"].ToString(), Convert.ToString(OrderNo), Convert.ToString(PartNo))))
+                    Directory.CreateDirectory(Path.Combine(ConfigurationManager.AppSettings["UploadRoot"].ToString(), Convert.ToString(OrderNo), Convert.ToString(PartNo)));
+                using (FileStream file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["UploadRoot"].ToString(), Convert.ToString(OrderNo), Convert.ToString(PartNo), gid.ToString() + "." + filetype), FileMode.Create, FileAccess.Write))
+                {
+                    ms.WriteTo(file);
+                    file.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.ServicLog("----------- EXCEPTION at 489-------------------");
+                Log.ServicLog(Convert.ToString(ex.Message));
+                Log.ServicLog(Convert.ToString(ex.StackTrace));
+                Log.ServicLog(Convert.ToString(ex.InnerException));
+                Log.ServicLog("--------------------------------------------");
+            }
+            finally
+            {
+                var objFile = new FileEnity();
+                objFile.OrderNo = OrderNo;
+                objFile.PartNo = PartNo;
+                objFile.FileName = outputFileName.Replace("_", "-");
+                objFile.FileTypeId = 3;
+                objFile.FileDiskName = gid + "." + filetype;
+                DbAccess.InsertFile(objFile);
+            }
+            ms.Dispose();
+            #region Location
+            var objOrderDetail = DbAccess.GetOrderDetailByOrderNo(OrderNo);
+            string OrderAttorney = string.Empty;
+            if (location != null)
+            {
+                //foreach (var location in locationList)
+                {
+                    if (!string.IsNullOrEmpty(location.SendRequest))
+                    {
+                        string[] strsplit = location.SendRequest.Split(',');
+
+                        foreach (var action in strsplit)
+                        {
+                            if (action == "0" || action == "2")
+                            {
+                                #region Email - FAX
+                                MemoryStream[] msFile = new MemoryStream[10];
+                                List<string> fileNames = new List<string>();
+                                var pdfDocName = docNameDB.Replace("doc", "pdf").Replace("DOC", "pdf");
+                                DbAccess.GetAttachFileFromDB(OrderNo, PartNo, ref fileNames, ref msFile);
+                                EmailDetails ed = new EmailDetails();
+                                ed.Caption = objOrderDetail.Caption;
+                                ed.CauseNumber = objOrderDetail.CauseNo;
+                                ed.PatientName = objOrderDetail.PatientName;
+                                ed.AccExeName = string.IsNullOrEmpty(objOrderDetail.AccExeName) ? "Josh Sanford" : objOrderDetail.AccExeName;
+                                ed.AccExeEmail = string.IsNullOrEmpty(objOrderDetail.AccExeEmail) ? "Josh.Sanford@axiomcopy.com" : objOrderDetail.AccExeEmail;
+
+
+                                OrderAttorney = Convert.ToString(objOrderDetail.OrderingAttorney);
+
+
+                                // var objAccExecutive = DbAccess.GetAccntRepDetail(acctrep);
+                                //if (objAccExecutive != null)
+                                //{
+                                //    ed.AccExeName = objAccExecutive.Name;
+                                //    ed.AccExeEmail = objAccExecutive.Email;
+                                //}
+                                //else
+                                //{
+                                //    ed.AccExeName = "Josh Sanford";
+                                //    ed.AccExeEmail = "Josh.Sanford@axiomcopy.com";
+                                //}
+                                string additionalEmail = string.Empty;
+                                if (pdt == QueryType.Confirmation)
+                                {
+                                    var notificationList = DbAccess.GetAssistantContactNotification(OrderNo);
+                                    if (notificationList != null && notificationList.Count > 0)
+                                    {
+                                        notificationList = notificationList.Where(x => x.AttyID == OrderAttorney.Trim() && x.OrderConfirmation == true).ToList();
+                                        if (notificationList.Count > 0)
+                                        {
+                                            foreach (var item in notificationList)
+                                                additionalEmail += item.AssistantEmail + ",";
+
+                                            additionalEmail = additionalEmail.Trim(',');
+                                        }
+                                    }
+                                }
+                                if (action == "2")
+                                {
+                                    // IF EMAIL LOCATION EMAIL IS NOT FOUND THEN SEND MAIL TO JACK
+                                    if (string.IsNullOrEmpty(location.Email))
+                                    {
+                                        Log.ServicLog("=========== Email not found ================ ");
+                                        string subject = "[Axiom Automation] Email Not Found for Order No " + OrderNo + "-" + PartNo + " Location ID : " + location.LocID;
+                                        string body = "We have not found Email for " + OrderNo + "-" + PartNo;
+                                        body += "\n Location ID : " + location.LocID;
+                                        body += "\n Location Name : " + location.Name1 + " " + location.Name2;
+                                        Utility.SendMailWithAttachment("j.alspaugh@axiomcopy.com", body, subject, null, null, "tejaspadia@gmail.com", "");
+                                    }
+                                    else
+                                    {
+                                        EmailDocument(doc, fileNames, location.Email, msFile, ed, additionalEmail, true, pdfDocName, objCompany);
+                                        Log.ServicLog("Email Sent to : " + location.Email);
+                                        string partNotes = string.Empty;
+                                        CreateNoteString(OrderNo, PartNo, "Input or sent via Email.", "SYSTEM", ref partNotes, false, false);
+                                    }
+                                }
+                                if (action == "0")
+                                {
+                                    string faxNumber = location.AreaCode3 + location.FaxNo;
+                                    faxNumber = faxNumber.Replace("-", "").Replace(" ", "");
+                                    if (string.IsNullOrEmpty(faxNumber))
+                                    {
+                                        Log.ServicLog("=========== Fax Number not found ================ ");
+                                        string subject = "[Axiom Automation] Fax Number Not Found for Order No " + OrderNo + "-" + PartNo + " Location ID : " + location.LocID;
+                                        string body = "We have not found Fax Number for " + OrderNo + "-" + PartNo;
+                                        body += "\n Location ID : " + location.LocID;
+                                        body += "\n Location Name : " + location.Name1 + " " + location.Name2;
+                                        Utility.SendMailWithAttachment("j.alspaugh@axiomcopy.com", body, subject, null, null, "tejaspadia@gmail.com", "");
+                                    }
+                                    else
+                                    {
+                                        FaxDocument(0, fileNames, faxNumber, location.Name1, msFile);
+                                        Log.ServicLog("Fax Sent to : " + faxNumber);
+                                        string partNotes = string.Empty;
+                                        CreateNoteString(OrderNo, PartNo, "Input or sent via Fax.", "SYSTEM", ref partNotes, false, false);
+                                    }
+                                }
+                                foreach (MemoryStream item in msFile)
+                                {
+                                    if (item != null)
+                                        item.Dispose();
+                                }
+                                #endregion
+                            }
+                            else if (action == "1")
+                            {
+                                Log.ServicLog("Mail - Standard Folder");
+                                #region MAIL
+                                string MailPath = ConfigurationManager.AppSettings["MailPath"].ToString();
+                                if (!Directory.Exists(MailPath))
+                                    Directory.CreateDirectory(MailPath);
+                                MemoryStream[] msFile = new MemoryStream[10];
+                                List<string> fileNames = new List<string>();
+                                DbAccess.GetAttachFileFromDB(OrderNo, PartNo, ref fileNames, ref msFile);
+                                int msCounter = 0;
+                                PdfSharp.Pdf.PdfDocument outputDocument = new PdfSharp.Pdf.PdfDocument();
+                                PdfSharp.Pdf.PdfDocument inputDocument = new PdfSharp.Pdf.PdfDocument();
+                                MemoryStream mstype;
+                                foreach (MemoryStream msCombine in msFile)
+                                {
+                                    if (msCombine != null)
+                                    {
+                                        mstype = new MemoryStream();
+                                        if (fileNames[msCounter].Contains(".jpeg") || fileNames[msCounter].Contains(".jpg") || fileNames[msCounter].Contains(".bmp") || fileNames[msCounter].Contains(".png"))
+                                        {
+                                            try
+                                            {
+                                                PdfSharp.Pdf.PdfDocument pdfsharpdoc = new PdfSharp.Pdf.PdfDocument();
+                                                pdfsharpdoc.Pages.Add(new PdfSharp.Pdf.PdfPage());
+
+                                                PdfSharp.Drawing.XGraphics xgr = PdfSharp.Drawing.XGraphics.FromPdfPage(pdfsharpdoc.Pages[0]);
+                                                PdfSharp.Drawing.XImage img = PdfSharp.Drawing.XImage.FromStream(msCombine);
+
+                                                xgr.DrawImage(img, 0, 0);
+                                                pdfsharpdoc.Save(mstype);
+                                                pdfsharpdoc.Close();
+
+                                                inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(mstype, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
+                                                foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
+                                                    outputDocument.AddPage(page);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Log.ServicLog("============ Exception  641 =============");
+                                                Log.ServicLog(ex.ToString());
+                                                Log.ServicLog(ex.StackTrace);
+                                                Log.ServicLog(ex.Source);
+                                                Log.ServicLog(".doc at 643");
+                                                Log.ServicLog(fileNames[msCounter]);
+                                            }
+
+                                        }
+                                        else if (fileNames[msCounter].Contains(".doc") || fileNames[msCounter].Contains(".docx"))
+                                        {
+                                            try
+                                            {
+                                                Aspose.Words.Document docWord = new Aspose.Words.Document(msCombine);
+                                                docWord.Save(mstype, Aspose.Words.SaveFormat.Pdf);
+                                                inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(mstype, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
+                                                foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
+                                                    outputDocument.AddPage(page);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Log.ServicLog("============ Exception  662=============");
+                                                Log.ServicLog(ex.ToString());
+                                                Log.ServicLog(ex.StackTrace);
+                                                Log.ServicLog(ex.Source);
+                                                Log.ServicLog(".doc at 648");
+                                                Log.ServicLog(fileNames[msCounter]);
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            try
+                                            {
+                                                inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(msCombine, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
+                                                foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
+                                                    outputDocument.AddPage(page);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Log.ServicLog("============ Exception 685 =============");
+                                                Log.ServicLog(ex.ToString());
+                                                Log.ServicLog(ex.StackTrace);
+                                                Log.ServicLog(ex.Source);
+                                                Log.ServicLog(".doc at 671");
+                                                Log.ServicLog(fileNames[msCounter]);
+                                            }
+
+                                        }
+                                    }
+                                    msCounter++;
+                                }
+                                string FilePath = MailPath + string.Format("{0}-{1}", OrderNo.ToString(), PartNo.ToString() + ".pdf");
+                                int count = 1;
+                                string fileNameOnly = Path.GetFileNameWithoutExtension(FilePath);
+                                string extension = Path.GetExtension(FilePath);
+                                string path = Path.GetDirectoryName(FilePath);
+                                string newFullPath = FilePath;
+                                while (File.Exists(newFullPath))
+                                {
+                                    string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
+                                    newFullPath = Path.Combine(path, tempFileName + extension);
+                                }
+                                using (FileStream file2 = new FileStream(newFullPath, FileMode.Create, FileAccess.Write))
+                                {
+                                    if (outputDocument.PageCount > 0)
+                                        outputDocument.Save(file2);
+                                    file2.Close();
+                                }
+                                string strNote = "Input or Sent via Mail.";
+                                string partNotes = string.Empty;
+                                CreateNoteString(OrderNo, PartNo, strNote, "SYSTEM", ref partNotes, false, false);
+
+                                outputDocument.Dispose();
+                                inputDocument.Dispose();
+
+                                foreach (MemoryStream item in msFile)
+                                {
+                                    if (item != null)
+                                        item.Dispose();
+                                }
+                                mstype = null;
+
+                                #endregion
+                            }
+
+                            else if (action == "3" || action == "4") //UPLOAD & PROCESS SERVER
+                            {
+                                isProcessServer = true;
+                                string AsgnTo = "";
+                                if (action == "3")
+                                {
+                                    AsgnTo = "UTILRE";
+                                    Log.ServicLog("Upload");
+                                }
+                                else if (action == "4")
+                                {
+
+                                    Log.ServicLog("Process Server");
+                                    AsgnTo = "REQUES";
+                                }
+                                DbAccess.UpdateQuickFormOrderPart(OrderNo, PartNo, AsgnTo);
+                            }
+                            else if (action == "5") //CERTIFIED MAIL
+                            {
+                                #region  Certified Mail
+                                string MailPath = ConfigurationManager.AppSettings["CertifiedPath"].ToString();
+                                if (!Directory.Exists(MailPath))
+                                {
+                                    Directory.CreateDirectory(MailPath);
+                                }
+                                MemoryStream[] msFile = new MemoryStream[10];
+                                List<string> fileNames = new List<string>();
+                                DbAccess.GetAttachFileFromDB(OrderNo, PartNo, ref fileNames, ref msFile);
+                                int msCounter = 0;
+                                PdfSharp.Pdf.PdfDocument outputDocument = new PdfSharp.Pdf.PdfDocument();
+                                PdfSharp.Pdf.PdfDocument inputDocument = new PdfSharp.Pdf.PdfDocument();
+                                MemoryStream mstype;
+                                foreach (MemoryStream msCombine in msFile)
+                                {
+                                    if (msCombine != null)
+                                    {
+                                        mstype = new MemoryStream();
+                                        if (fileNames[msCounter].Contains(".jpeg") || fileNames[msCounter].Contains(".jpg") || fileNames[msCounter].Contains(".bmp") || fileNames[msCounter].Contains(".png"))
+                                        {
+                                            try
+                                            {
+                                                PdfSharp.Pdf.PdfDocument pdfsharpdoc = new PdfSharp.Pdf.PdfDocument();
+                                                pdfsharpdoc.Pages.Add(new PdfSharp.Pdf.PdfPage());
+
+                                                PdfSharp.Drawing.XGraphics xgr = PdfSharp.Drawing.XGraphics.FromPdfPage(pdfsharpdoc.Pages[0]);
+                                                PdfSharp.Drawing.XImage img = PdfSharp.Drawing.XImage.FromStream(msCombine);
+
+                                                xgr.DrawImage(img, 0, 0);
+                                                pdfsharpdoc.Save(mstype);
+                                                pdfsharpdoc.Close();
+
+                                                inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(mstype, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
+                                                foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
+                                                    outputDocument.AddPage(page);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Log.ServicLog("============ Exception 783 =============");
+                                                Log.ServicLog(ex.ToString());
+                                                Log.ServicLog(ex.StackTrace);
+                                                Log.ServicLog(ex.Source);
+                                                Log.ServicLog(".doc at 776");
+                                                Log.ServicLog(fileNames[msCounter]);
+                                            }
+                                            mstype.Dispose();
+                                        }
+                                        else if (fileNames[msCounter].Contains(".doc") || fileNames[msCounter].Contains(".docx"))
+                                        {
+                                            try
+                                            {
+                                                Aspose.Words.Document docWord = new Aspose.Words.Document(msCombine);
+                                                docWord.Save(mstype, Aspose.Words.SaveFormat.Pdf);
+                                                inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(mstype, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
+
+                                                foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
+                                                    outputDocument.AddPage(page);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Log.ServicLog("============ Exception 804 =============");
+                                                Log.ServicLog(ex.ToString());
+                                                Log.ServicLog(ex.StackTrace);
+                                                Log.ServicLog(ex.Source);
+                                                Log.ServicLog(".doc at 750");
+                                                Log.ServicLog(fileNames[msCounter]);
+
+                                                try
+                                                {
+                                                    inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(msCombine, PdfSharp.Pdf.IO.PdfDocumentOpenMode.ReadOnly);
+
+                                                    foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
+                                                        outputDocument.AddPage(page);
+                                                }
+                                                catch (Exception ex1)
+                                                {
+                                                    Log.ServicLog("============ Exception  820 =============");
+                                                    Log.ServicLog(ex.ToString());
+                                                    Log.ServicLog(ex.StackTrace);
+                                                    Log.ServicLog(ex.Source);
+                                                    Log.ServicLog(".doc at 768");
+                                                    Log.ServicLog(fileNames[msCounter]);
+                                                }
+                                            }
+                                            mstype.Dispose();
+                                        }
+                                        else
+                                        {
+                                            try
+                                            {
+
+                                                inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(msCombine, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
+                                                // inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(msCombine,PdfSharp.Pdf.IO.PdfDocumentOpenMode.ReadOnly);
+                                                foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
+                                                    outputDocument.AddPage(page);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Log.ServicLog("============ Exception 840 =============");
+                                                Log.ServicLog(ex.ToString());
+                                                Log.ServicLog(ex.StackTrace);
+                                                Log.ServicLog(ex.Source);
+                                                Log.ServicLog(".doc at 835");
+                                                Log.ServicLog(fileNames[msCounter]);
+                                            }
+                                        }
+                                    }
+
+
+                                    msCounter++;
+                                }
+                                string FilePath = MailPath + string.Format("{0}-{1}", OrderNo.ToString(), PartNo.ToString() + ".pdf");
+                                int count = 1;
+                                string fileNameOnly = Path.GetFileNameWithoutExtension(FilePath);
+                                string extension = Path.GetExtension(FilePath);
+                                string path = Path.GetDirectoryName(FilePath);
+                                string newFullPath = FilePath;
+                                while (File.Exists(newFullPath))
+                                {
+                                    string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
+                                    newFullPath = Path.Combine(path, tempFileName + extension);
+                                }
+                                using (FileStream file2 = new FileStream(newFullPath, FileMode.Create, FileAccess.Write))
+                                {
+                                    if (outputDocument.PageCount > 0)
+                                        outputDocument.Save(file2);
+
+                                    file2.Close();
+                                }
+                                DbAccess.InsertMiscChgOrderPart(OrderNo, PartNo);
+
+                                //var fee = DbAccess.GetFee();
+                                //if (fee != null)
+                                outputDocument.Dispose();
+                                inputDocument.Dispose();
+
+
+                                string partNotes = string.Empty;
+                                CreateNoteString(OrderNo, PartNo, "Input or Sent via Certified Mail.", "SYSTEM", ref partNotes, false, false);
+
+                                #endregion
+
+                                foreach (MemoryStream item in msFile)
+                                {
+                                    if (item != null)
+                                        item.Dispose();
+                                }
+                                mstype = null;
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+
+            #endregion
+            Log.ServicLog("========================================================================");
+        }
+        #endregion
+
+
         public void AutomationMain()
         {
 
-            List<CompanyDetailForEmailEntity> objCompany = new List<CompanyDetailForEmailEntity>();
+            CompanyDetailForEmailEntity objCompany = new CompanyDetailForEmailEntity();
 
 
 
@@ -94,11 +858,11 @@ namespace AxiomAutomation
                             int OrderNo = pt.OrderNo;
                             int PartNo = pt.PartNo;
 
-                            objCompany = DbAccess.CompanyDetailForEmail("CompanyDetailForEmailByOrderNo", pt.OrderNo);
-                            
+                            objCompany = DbAccess.CompanyDetailForEmail("CompanyDetailForEmailByOrderNo", pt.OrderNo).FirstOrDefault();
+
 
                             bool isProcessServer = false;
-                            var locationList = DbAccess.GetPartLocation(pt.LocID);
+                            var location = DbAccess.GetPartLocation(pt.LocID);
 
                             Log.ServicLog(OrderNo + " " + PartNo);
 
@@ -117,822 +881,7 @@ namespace AxiomAutomation
                             {
                                 foreach (var docitem in docResult)
                                 {
-                                    Log.ServicLog("Order NO :" + OrderNo + "  Part NO:" + PartNo);
-                                    string docpath = docitem.DocumentPath.ToString().Trim().Replace(">", "/");
-                                    string docNameDB = OrderNo.ToString() + "_" + PartNo.ToString() + "_" + docitem.DocumentName;
-
-                                    bool displaySSN = true;
-
-                                    if (docitem.DocumentName.ToString().Split('_').Length == 3)
-                                        docitem.DocumentName = docitem.DocumentName.ToString().Split('_')[2].ToUpper();
-                                    else if (docitem.DocumentName.ToString().Split('_').Length == 4)
-                                        docitem.DocumentName = docitem.DocumentName.ToString().Split('_')[3].ToUpper();
-                                    else
-                                        docitem.DocumentName = docitem.DocumentName.ToString().Split('_')[1].ToUpper();
-                                    string[] folders = docitem.DocumentPath.Split('>');
-
-                                    if (folders.Contains("Custodian Letters") || folders.Contains("Subpoenas"))
-                                        filetype = "pdf";
-                                    string query = string.Empty;
-                                    QueryType pdt = DbAccess.GetDocumentType(docitem.DocumentName, folders[0].ToString());
-                                    if (pdt == QueryType.Common)
-                                    {
-                                        bool isMichigan = false;
-                                        bool isRush = false;
-                                        if (folders.Contains("Michigan"))
-                                            isMichigan = true;
-                                        if (docNameDB.Contains("RUSH"))
-                                            isRush = true;
-                                        if (folders.Contains("Custodian Letters") || folders.Contains("Subpoenas"))
-                                            filetype = "pdf";
-                                        query = DbAccess.GetQueryByQueryTypeId(1, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                        {
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
-                                            if (isMichigan && isRush)
-                                                query = query.Replace("--Michigan and Rush", " ,DATENAME(DW, DATEADD(day,7,GETDATE())) as [DayName],DATENAME(MM, DATEADD(day,7,GETDATE())) + RIGHT(CONVERT(VARCHAR(12), DATEADD(day,7,GETDATE()), 107), 9) AS BigDate ");
-                                            else if (isMichigan && !isRush)
-                                                query = query.Replace("--Michigan and Rush", " ,DATENAME(DW, DATEADD(day,14,GETDATE())) as [DayName],DATENAME(MM, DATEADD(day,14,GETDATE())) + RIGHT(CONVERT(VARCHAR(12), DATEADD(day,14,GETDATE()), 107), 9) AS BigDate ");
-                                        }
-                                    }
-                                    else if (pdt == QueryType.Confirmation)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(2, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo).Replace("%%PartCnt%%", Convert.ToString(partList.Count));
-                                    }
-                                    else if (pdt == QueryType.FaceSheet)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(14, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                        {
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo).Replace("%%ATTYNO%%", AttyID);
-                                            if (!displaySSN)
-                                                query = ReplaceSSN(query);
-                                        }
-                                    }
-                                    else if (pdt == QueryType.StatusLetters)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(4, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                        {
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
-                                            if (!displaySSN)
-                                                query = ReplaceSSN(query);
-                                        }
-                                    }
-                                    else if (pdt == QueryType.Waiver)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(5, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                        {
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
-                                            if (!displaySSN)
-                                                query = ReplaceSSN(query);
-                                        }
-                                    }
-                                    else if (pdt == QueryType.Interrogatories)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(7, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                        {
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
-                                            if (!displaySSN)
-                                                query = ReplaceSSN(query);
-                                        }
-                                    }
-                                    else if (pdt == QueryType.TargetSheets)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(8, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
-                                    }
-                                    else if (pdt == QueryType.StatusProgressReports)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(9, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo).Replace("%%PartCnt%%", Convert.ToString(partList.Count));
-                                    }
-                                    else if (pdt == QueryType.CerticicationNOD)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(10, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
-                                    }
-                                    else if (pdt == QueryType.AttorneyOfRecords)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(6, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
-                                    }
-                                    else if (pdt == QueryType.CollectionLetters)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(11, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
-                                    }
-                                    else if (pdt == QueryType.Notices)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(12, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                        {
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
-                                            if (!displaySSN)
-                                                query = ReplaceSSN(query);
-                                        }
-                                    }
-                                    else if (pdt == QueryType.AttorneyForms)
-                                    {
-                                        query = DbAccess.GetQueryByQueryTypeId(13, "Query");
-                                        if (!string.IsNullOrEmpty(query))
-                                        {
-                                            query = ReplaceOrderPartNo(query, OrderNo, PartNo).Replace("%%ATTYNO%%", AttyID);
-                                            if (!displaySSN)
-                                                query = ReplaceSSN(query);
-                                        }
-                                    }
-                                    MemoryStream ms = new MemoryStream();
-                                    var dtQueryList = DbAccess.ExecuteSQLQuery(query);
-
-                                    string subquery = string.Empty;
-                                    var dtsubQuery = new DataTable();
-                                    StringBuilder partInfo = new StringBuilder();
-                                    StringBuilder partInfo2 = new StringBuilder();
-
-                                    if (pdt == QueryType.Confirmation || pdt == QueryType.TargetSheets || pdt == QueryType.StatusProgressReports)
-                                    {
-                                        subquery = DbAccess.GetQueryByQueryTypeId(Convert.ToInt32(pdt), "SubQuery");
-                                        if (!string.IsNullOrEmpty(subquery))
-                                        {
-                                            subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
-                                            if (!displaySSN)
-                                                subquery = ReplaceSSN(subquery);
-                                            dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                                            partInfo.Append("_____________________________________________________________________________\n\r");
-                                            for (int a = 0; a < dtsubQuery.Rows.Count; a++)
-                                            {
-                                                string partInfoText;
-                                                if (pdt == QueryType.Confirmation && docitem.DocumentName.ToUpper().Equals("ORDER CONFIRMATION.DOC"))
-                                                    partInfoText = Convert.ToString(dtsubQuery.Rows[a]["PartInfo1"]).Replace("scopehere", Convert.ToString(dtsubQuery.Rows[a]["scope"]));
-                                                else
-                                                    partInfoText = Convert.ToString(dtsubQuery.Rows[a]["PartInfo1"]).Replace("scopehere", "");
-                                                partInfo.Append(partInfoText + "\n\r");
-                                                partInfo2.Append(Convert.ToString(dtsubQuery.Rows[a]["LocationHeader"]) + "\n");
-                                            }
-                                        }
-                                        var dt2 = dtQueryList;
-                                        DataColumn dc2 = new DataColumn("PartInfo", typeof(string));
-                                        DataColumn dc3 = new DataColumn("PartInfo2", typeof(string));
-                                        dc2.AllowDBNull = true;
-                                        dc3.AllowDBNull = true;
-                                        dt2.Columns.Add(dc2);
-                                        dt2.Columns.Add(dc3);
-                                        for (int j = 0; j < dt2.Rows.Count; j++)
-                                        {
-                                            DataRow dr = dt2.Rows[j];
-                                            dr["PartInfo"] = partInfo.ToString();
-                                            dr["PartInfo2"] = partInfo2.ToString();
-                                        }
-                                    }
-                                    else if (pdt == QueryType.Waiver)
-                                    {
-                                        StringBuilder locationInfo = new StringBuilder();
-                                        subquery = DbAccess.GetQueryByQueryTypeId(5, "SubQuery");
-                                        if (!string.IsNullOrEmpty(subquery))
-                                        {
-                                            subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
-                                            dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                                            for (int b = 0; b < dtsubQuery.Rows.Count; b++)
-                                                locationInfo.Append(Convert.ToString(dtsubQuery.Rows[b]["Location1"]) + '\n');
-
-                                        }
-                                        var dt3 = dtQueryList;
-                                        dt3.Columns.Add(new DataColumn("Selected_Part", typeof(string)));
-                                        dt3.Columns.Add(new DataColumn("Location1", typeof(string)));
-                                        for (int k = 0; k < dt3.Rows.Count; k++)
-                                        {
-                                            DataRow dr4 = dt3.Rows[k];
-                                            dr4["Selected_Part"] = PartNo;
-                                            dr4["Location1"] = locationInfo;
-                                        }
-                                    }
-                                    else if (pdt == QueryType.CerticicationNOD)
-                                    {
-                                        StringBuilder attyInfo = new StringBuilder();
-                                        attyInfo.Append('\n');
-                                        subquery = DbAccess.GetQueryByQueryTypeId(10, "SubQuery");
-                                        if (!string.IsNullOrEmpty(subquery))
-                                        {
-                                            subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
-                                            dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                                            for (int c = 0; c < dtsubQuery.Rows.Count; c++)
-                                                attyInfo.Append(Convert.ToString(dtsubQuery.Rows[c]["Attorneys"]) + "\n");
-                                        }
-                                        DataTable dt4 = dtQueryList;
-                                        dt4.Columns.Add(new DataColumn("Attorneys", typeof(string)));
-                                        for (int l = 0; l < dt4.Rows.Count; l++)
-                                        {
-                                            DataRow dr5 = dt4.Rows[l];
-                                            dr5["Attorneys"] = attyInfo;
-                                        }
-                                    }
-                                    else if (pdt == QueryType.AttorneyOfRecords)
-                                    {
-                                        subquery = DbAccess.GetQueryByQueryTypeId(6, "SubQuery");
-                                        string[] strQuery = null;
-                                        StringBuilder attyInfo2 = new StringBuilder();
-                                        attyInfo2.Append('\n');
-                                        if (!string.IsNullOrEmpty(subquery))
-                                        {
-                                            strQuery = subquery.Split(new string[] { "--Split--" }, StringSplitOptions.RemoveEmptyEntries);
-                                            subquery = ReplaceOrderPartNo(strQuery[0], OrderNo, PartNo);
-                                            dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                                            for (int d = 0; d < dtsubQuery.Rows.Count; d++)
-                                                attyInfo2.Append(System.Runtime.CompilerServices.RuntimeHelpers.GetObjectValue(Convert.ToString(dtsubQuery.Rows[d]["AttyInfo"])));
-
-                                            attyInfo2.Append('\n');
-                                            subquery = ReplaceOrderPartNo(strQuery[1], OrderNo, PartNo);
-                                            dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                                            for (int e = 0; e < dtsubQuery.Rows.Count; e++)
-                                                attyInfo2.Append(Convert.ToString(dtsubQuery.Rows[e]["AttyInfo"]) + "\n");
-                                        }
-                                        DataTable dt5 = dtQueryList;
-                                        dt5.Columns.Add(new DataColumn("AttyInfo", typeof(string)));
-                                        for (int m = 0; m < dt5.Rows.Count; m++)
-                                        {
-                                            DataRow dr6 = dt5.Rows[m];
-                                            dr6["AttyInfo"] = attyInfo2;
-                                        }
-                                    }
-                                    else if (pdt == QueryType.AttorneyForms)
-                                    {
-                                        StringBuilder locationInfo2 = new StringBuilder();
-                                        subquery = DbAccess.GetQueryByQueryTypeId(13, "SubQuery");
-                                        if (!string.IsNullOrEmpty(subquery))
-                                        {
-                                            subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo).Replace("%%ATTYNO%%", AttyID);
-                                            dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                                            for (int f = 0; f < dtsubQuery.Rows.Count; f++)
-                                                locationInfo2.Append(Convert.ToString(dtsubQuery.Rows[f]["Location1"]) + "\n");
-                                        }
-                                        DataTable dt6 = dtQueryList;
-                                        dt6.Columns.Add(new DataColumn("Selected_Part", typeof(string)));
-                                        dt6.Columns.Add(new DataColumn("Location1", typeof(string)));
-                                        for (int n = 0; n < dt6.Rows.Count; n++)
-                                        {
-                                            DataRow dr7 = dt6.Rows[n];
-                                            dr7["Location1"] = locationInfo2;
-                                        }
-                                    }
-
-                                    string filePath = Path.Combine(documentRoot, docitem.DocumentPath.ToString().Trim().Replace(">", "\\"), docitem.DocumentName.Trim());
-                                    Aspose.Words.Document doc = new Aspose.Words.Document();
-                                    try
-                                    {
-
-                                        doc = new Aspose.Words.Document(filePath);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Log.ServicLog("---------- 379 AT CREATING NEW OBJECT OF Aspose.Word.Document. FilePath = " + filePath.ToString());
-                                        Log.ServicLog(ex.ToString());
-                                    }
-
-                                    try
-                                    {
-                                        DataColumnCollection columns = dtQueryList.Columns;
-                                        if (columns.Contains("Part_Scope"))
-                                        {
-                                            foreach (DataRow dr in dtQueryList.Rows)
-                                            {
-                                                string str = Convert.ToString(dr["Part_Scope"]);
-                                                if (!string.IsNullOrEmpty(str))
-                                                    dr["Part_Scope"] = ConvertScopeHTMLToString(str);
-                                            }
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Log.ServicLog("----------- EXCEPTION at 399 -------------------");
-                                        Log.ServicLog(Convert.ToString(ex.Message));
-                                        Log.ServicLog(Convert.ToString(ex.StackTrace));
-                                        Log.ServicLog(Convert.ToString(ex.InnerException));
-                                        Log.ServicLog("--------------------------------------------");
-                                    }
-                                    doc.MailMerge.Execute(dtQueryList);
-                                    doc.Save(ms, Aspose.Words.SaveFormat.Pdf);
-                                    if (RecordType > 0 && !string.IsNullOrEmpty(BillFirm))
-                                    {
-                                        string TStamp = DateTime.Now.ToString("yyyyMMddHHmm");
-                                        string _storageRoot = string.Empty;
-                                        string FilePath = string.Empty;
-                                        if (BillFirm == "GRANCO01")
-                                        {
-                                            #region GRANCO01
-                                            _storageRoot = ConfigurationManager.AppSettings["GrangeRoot"].ToString();
-                                            DirectoryInfo dis = new DirectoryInfo(_storageRoot);
-                                            if (!dis.Exists)
-                                                dis.Create();
-                                            FilePath = _storageRoot + string.Format("{0}-{1}-{2}-{3}", ClaimNo, TStamp, OrderNo, PartNo + "." + filetype);
-                                            int count = 1;
-                                            string fileNameOnly = Path.GetFileNameWithoutExtension(FilePath);
-                                            string extension = Path.GetExtension(FilePath);
-                                            string path = Path.GetDirectoryName(FilePath);
-                                            string newFullPath = FilePath;
-                                            while (File.Exists(newFullPath))
-                                            {
-                                                string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
-                                                newFullPath = Path.Combine(path, tempFileName + extension);
-                                            }
-                                            FileStream file = new FileStream(newFullPath, FileMode.Create, FileAccess.Write);
-                                            ms.WriteTo(file);
-                                            file.Close();
-                                            #endregion
-                                        }
-                                        else if (BillFirm == "HANOAA01")
-                                        {
-                                            #region HANOAA01
-                                            _storageRoot = ConfigurationManager.AppSettings["HanoverRoot"].ToString();
-
-                                            DirectoryInfo dis = new DirectoryInfo(_storageRoot);
-                                            if (!dis.Exists)
-                                                dis.Create();
-
-                                            FilePath = _storageRoot + string.Format("{0}_{1}_{2}_{3}-{4}", ClaimNo, AttyName, TStamp, OrderNo, PartNo + "." + filetype);
-                                            int count = 1;
-                                            string fileNameOnly = Path.GetFileNameWithoutExtension(FilePath);
-                                            string extension = Path.GetExtension(FilePath);
-                                            string path = Path.GetDirectoryName(FilePath);
-                                            string newFullPath = FilePath;
-                                            while (File.Exists(newFullPath))
-                                            {
-                                                string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
-                                                newFullPath = Path.Combine(path, tempFileName + extension);
-                                            }
-
-                                            FileStream file = new FileStream(newFullPath, FileMode.Create, FileAccess.Write);
-                                            ms.WriteTo(file);
-                                            file.Close();
-                                            ms.Close();
-                                            ms = null;
-
-                                            #endregion
-                                        }                                        
-                                    }
-                                    string outputFileName = "printforms";
-                                    outputFileName = Path.GetFileNameWithoutExtension(Convert.ToString(docNameDB).Replace(" ", "-")) + "." + filetype;
-                                    Guid gid = Guid.NewGuid();
-                                    if (PartNo > 0 || (pdt == QueryType.AttorneyForms || pdt == QueryType.Confirmation || pdt == QueryType.Waiver))
-                                    {
-                                        if (pdt == QueryType.AttorneyForms)
-                                        {
-                                            string attorney = "";
-                                            if (docNameDB.ToString().Split('_').Length == 4)
-                                                attorney = docNameDB.ToString().Split('_')[2].ToUpper();
-                                            outputFileName = string.Format("{0}-{1}-{2}-{3}{4}", new object[] { OrderNo, PartNo, attorney, Path.GetFileNameWithoutExtension(filePath).Replace(" ", "-"), "." + filetype }).Replace(",", "-");
-                                        }
-                                        else
-                                            outputFileName = string.Format("{0}-{1}-{2}{3}", new object[] { OrderNo, PartNo, Path.GetFileNameWithoutExtension(filePath).Replace(" ", "-"), "." + filetype }).Replace(",", "-");
-
-                                    }
-                                    try //Order Level File
-                                    {
-                                        if (!Directory.Exists(Path.Combine(ConfigurationManager.AppSettings["UploadRoot"].ToString(), Convert.ToString(OrderNo), Convert.ToString(PartNo))))
-                                            Directory.CreateDirectory(Path.Combine(ConfigurationManager.AppSettings["UploadRoot"].ToString(), Convert.ToString(OrderNo), Convert.ToString(PartNo)));
-                                        using (FileStream file = new FileStream(Path.Combine(ConfigurationManager.AppSettings["UploadRoot"].ToString(), Convert.ToString(OrderNo), Convert.ToString(PartNo), gid.ToString() + "." + filetype), FileMode.Create, FileAccess.Write))
-                                        {
-                                            ms.WriteTo(file);
-                                            file.Close();
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Log.ServicLog("----------- EXCEPTION at 489-------------------");
-                                        Log.ServicLog(Convert.ToString(ex.Message));
-                                        Log.ServicLog(Convert.ToString(ex.StackTrace));
-                                        Log.ServicLog(Convert.ToString(ex.InnerException));
-                                        Log.ServicLog("--------------------------------------------");
-                                    }
-                                    finally
-                                    {
-                                        var objFile = new FileEnity();
-                                        objFile.OrderNo = OrderNo;
-                                        objFile.PartNo = PartNo;
-                                        objFile.FileName = outputFileName.Replace("_", "-");
-                                        objFile.FileTypeId = 3;
-                                        objFile.FileDiskName = gid + "." + filetype;
-                                        DbAccess.InsertFile(objFile);
-                                    }
-                                    ms.Dispose();
-                                    #region Location
-                                    var objOrderDetail = DbAccess.GetOrderDetailByOrderNo(OrderNo);
-                                    string OrderAttorney = string.Empty;
-                                    if (locationList != null && locationList.Count > 0)
-                                    {
-                                        foreach (var location in locationList)
-                                        {
-                                            if (!string.IsNullOrEmpty(location.SendRequest))
-                                            {
-                                                string[] strsplit = location.SendRequest.Split(',');
-
-                                                foreach (var action in strsplit)
-                                                {
-                                                    if (action == "0" || action == "2")
-                                                    {
-                                                        #region Email - FAX
-                                                        MemoryStream[] msFile = new MemoryStream[10];
-                                                        List<string> fileNames = new List<string>();
-                                                        var pdfDocName = docNameDB.Replace("doc", "pdf").Replace("DOC", "pdf");
-                                                        DbAccess.GetAttachFileFromDB(OrderNo, PartNo, ref fileNames, ref msFile);
-                                                        EmailDetails ed = new EmailDetails();
-                                                        ed.Caption = objOrderDetail.Caption;
-                                                        ed.CauseNumber = objOrderDetail.CauseNo;
-                                                        ed.PatientName = objOrderDetail.PatientName;
-                                                        ed.AccExeName = string.IsNullOrEmpty(objOrderDetail.AccExeName) ? "Josh Sanford" : objOrderDetail.AccExeName;
-                                                        ed.AccExeEmail = string.IsNullOrEmpty(objOrderDetail.AccExeEmail) ? "Josh.Sanford@axiomcopy.com" : objOrderDetail.AccExeEmail;
-
-                                                        
-                                                        OrderAttorney = Convert.ToString(objOrderDetail.OrderingAttorney);
-
-
-                                                        // var objAccExecutive = DbAccess.GetAccntRepDetail(acctrep);
-                                                        //if (objAccExecutive != null)
-                                                        //{
-                                                        //    ed.AccExeName = objAccExecutive.Name;
-                                                        //    ed.AccExeEmail = objAccExecutive.Email;
-                                                        //}
-                                                        //else
-                                                        //{
-                                                        //    ed.AccExeName = "Josh Sanford";
-                                                        //    ed.AccExeEmail = "Josh.Sanford@axiomcopy.com";
-                                                        //}
-                                                        string additionalEmail = string.Empty;
-                                                        if (pdt == QueryType.Confirmation)
-                                                        {
-                                                            var notificationList = DbAccess.GetAssistantContactNotification(OrderNo);
-                                                            if (notificationList != null && notificationList.Count > 0)
-                                                            {
-                                                                notificationList = notificationList.Where(x => x.AttyID == OrderAttorney.Trim() && x.OrderConfirmation == true).ToList();
-                                                                if (notificationList.Count > 0)
-                                                                {
-                                                                    foreach (var item in notificationList)
-                                                                        additionalEmail += item.AssistantEmail + ",";
-
-                                                                    additionalEmail = additionalEmail.Trim(',');
-                                                                }
-                                                            }
-                                                        }
-                                                        if (action == "2")
-                                                        {
-                                                            // IF EMAIL LOCATION EMAIL IS NOT FOUND THEN SEND MAIL TO JACK
-                                                            if (string.IsNullOrEmpty(location.Email))
-                                                            {
-                                                                Log.ServicLog("=========== Email not found ================ ");
-                                                                string subject = "[Axiom Automation] Email Not Found for Order No " + OrderNo + "-" + PartNo + " Location ID : " + location.LocID;
-                                                                string body = "We have not found Email for " + OrderNo + "-" + PartNo;
-                                                                body += "\n Location ID : " + location.LocID;
-                                                                body += "\n Location Name : " + location.Name1 + " " + location.Name2;
-                                                                Utility.SendMailWithAttachment("j.alspaugh@axiomcopy.com", body, subject, null, null, "tejaspadia@gmail.com", "");
-                                                            }
-                                                            else
-                                                            {
-                                                                EmailDocument(doc, fileNames, location.Email, msFile, ed, additionalEmail, true, pdfDocName,objCompany[0]);
-                                                                Log.ServicLog("Email Sent to : " + location.Email);
-                                                                string partNotes = string.Empty;
-                                                                CreateNoteString(OrderNo, PartNo, "Input or sent via Email.", "SYSTEM", ref partNotes, false, false);
-                                                            }
-                                                        }
-                                                        if (action == "0")
-                                                        {
-                                                            string faxNumber = location.AreaCode3 + location.FaxNo;
-                                                            faxNumber = faxNumber.Replace("-", "").Replace(" ", "");
-                                                            if (string.IsNullOrEmpty(faxNumber))
-                                                            {
-                                                                Log.ServicLog("=========== Fax Number not found ================ ");
-                                                                string subject = "[Axiom Automation] Fax Number Not Found for Order No " + OrderNo + "-" + PartNo + " Location ID : " + location.LocID;
-                                                                string body = "We have not found Fax Number for " + OrderNo + "-" + PartNo;
-                                                                body += "\n Location ID : " + location.LocID;
-                                                                body += "\n Location Name : " + location.Name1 + " " + location.Name2;
-                                                                Utility.SendMailWithAttachment("j.alspaugh@axiomcopy.com", body, subject, null, null, "tejaspadia@gmail.com", "");
-                                                            }
-                                                            else
-                                                            {
-                                                                FaxDocument(0, fileNames, faxNumber, location.Name1, msFile);
-                                                                Log.ServicLog("Fax Sent to : " + faxNumber);
-                                                                string partNotes = string.Empty;
-                                                                CreateNoteString(OrderNo, PartNo, "Input or sent via Fax.", "SYSTEM", ref partNotes, false, false);
-                                                            }
-                                                        }
-                                                        foreach (MemoryStream item in msFile)
-                                                        {
-                                                            if (item != null)
-                                                                item.Dispose();
-                                                        }
-                                                        #endregion
-                                                    }
-                                                    else if (action == "1")
-                                                    {
-                                                        Log.ServicLog("Mail - Standard Folder");
-                                                        #region MAIL
-                                                        string MailPath = ConfigurationManager.AppSettings["MailPath"].ToString();
-                                                        if (!Directory.Exists(MailPath))
-                                                            Directory.CreateDirectory(MailPath);
-                                                        MemoryStream[] msFile = new MemoryStream[10];
-                                                        List<string> fileNames = new List<string>();
-                                                        DbAccess.GetAttachFileFromDB(OrderNo, PartNo, ref fileNames, ref msFile);
-                                                        int msCounter = 0;
-                                                        PdfSharp.Pdf.PdfDocument outputDocument = new PdfSharp.Pdf.PdfDocument();
-                                                        PdfSharp.Pdf.PdfDocument inputDocument = new PdfSharp.Pdf.PdfDocument();
-                                                        MemoryStream mstype;
-                                                        foreach (MemoryStream msCombine in msFile)
-                                                        {
-                                                            if (msCombine != null)
-                                                            {
-                                                                mstype = new MemoryStream();
-                                                                if (fileNames[msCounter].Contains(".jpeg") || fileNames[msCounter].Contains(".jpg") || fileNames[msCounter].Contains(".bmp") || fileNames[msCounter].Contains(".png"))
-                                                                {
-                                                                    try
-                                                                    {
-                                                                        PdfSharp.Pdf.PdfDocument pdfsharpdoc = new PdfSharp.Pdf.PdfDocument();
-                                                                        pdfsharpdoc.Pages.Add(new PdfSharp.Pdf.PdfPage());
-
-                                                                        PdfSharp.Drawing.XGraphics xgr = PdfSharp.Drawing.XGraphics.FromPdfPage(pdfsharpdoc.Pages[0]);
-                                                                        PdfSharp.Drawing.XImage img = PdfSharp.Drawing.XImage.FromStream(msCombine);
-
-                                                                        xgr.DrawImage(img, 0, 0);
-                                                                        pdfsharpdoc.Save(mstype);
-                                                                        pdfsharpdoc.Close();
-
-                                                                        inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(mstype, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
-                                                                        foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
-                                                                            outputDocument.AddPage(page);
-                                                                    }
-                                                                    catch (Exception ex)
-                                                                    {
-                                                                        Log.ServicLog("============ Exception  641 =============");
-                                                                        Log.ServicLog(ex.ToString());
-                                                                        Log.ServicLog(ex.StackTrace);
-                                                                        Log.ServicLog(ex.Source);
-                                                                        Log.ServicLog(".doc at 643");
-                                                                        Log.ServicLog(fileNames[msCounter]);
-                                                                    }
-
-                                                                }
-                                                                else if (fileNames[msCounter].Contains(".doc") || fileNames[msCounter].Contains(".docx"))
-                                                                {
-                                                                    try
-                                                                    {
-                                                                        Aspose.Words.Document docWord = new Aspose.Words.Document(msCombine);
-                                                                        docWord.Save(mstype, Aspose.Words.SaveFormat.Pdf);
-                                                                        inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(mstype, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
-                                                                        foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
-                                                                            outputDocument.AddPage(page);
-                                                                    }
-                                                                    catch (Exception ex)
-                                                                    {
-                                                                        Log.ServicLog("============ Exception  662=============");
-                                                                        Log.ServicLog(ex.ToString());
-                                                                        Log.ServicLog(ex.StackTrace);
-                                                                        Log.ServicLog(ex.Source);
-                                                                        Log.ServicLog(".doc at 648");
-                                                                        Log.ServicLog(fileNames[msCounter]);
-                                                                    }
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    try
-                                                                    {
-                                                                        inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(msCombine, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
-                                                                        foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
-                                                                            outputDocument.AddPage(page);
-                                                                    }
-                                                                    catch (Exception ex)
-                                                                    {
-                                                                        Log.ServicLog("============ Exception 685 =============");
-                                                                        Log.ServicLog(ex.ToString());
-                                                                        Log.ServicLog(ex.StackTrace);
-                                                                        Log.ServicLog(ex.Source);
-                                                                        Log.ServicLog(".doc at 671");
-                                                                        Log.ServicLog(fileNames[msCounter]);
-                                                                    }
-
-                                                                }
-                                                            }
-                                                            msCounter++;
-                                                        }
-                                                        string FilePath = MailPath + string.Format("{0}-{1}", OrderNo.ToString(), PartNo.ToString() + ".pdf");
-                                                        int count = 1;
-                                                        string fileNameOnly = Path.GetFileNameWithoutExtension(FilePath);
-                                                        string extension = Path.GetExtension(FilePath);
-                                                        string path = Path.GetDirectoryName(FilePath);
-                                                        string newFullPath = FilePath;
-                                                        while (File.Exists(newFullPath))
-                                                        {
-                                                            string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
-                                                            newFullPath = Path.Combine(path, tempFileName + extension);
-                                                        }
-                                                        using (FileStream file2 = new FileStream(newFullPath, FileMode.Create, FileAccess.Write))
-                                                        {
-                                                            if (outputDocument.PageCount > 0)
-                                                                outputDocument.Save(file2);
-                                                            file2.Close();
-                                                        }
-                                                        string strNote = "Input or Sent via Mail.";
-                                                        string partNotes = string.Empty;
-                                                        CreateNoteString(OrderNo, PartNo, strNote, "SYSTEM", ref partNotes, false, false);
-
-                                                        outputDocument.Dispose();
-                                                        inputDocument.Dispose();
-
-                                                        foreach (MemoryStream item in msFile)
-                                                        {
-                                                            if (item != null)
-                                                                item.Dispose();
-                                                        }
-                                                        mstype = null;
-
-                                                        #endregion
-                                                    }
-
-                                                    else if (action == "3" || action == "4") //UPLOAD & PROCESS SERVER
-                                                    {
-                                                        isProcessServer = true;
-                                                        string AsgnTo = "";
-                                                        if (action == "3")
-                                                        {
-                                                            AsgnTo = "UTILRE";
-                                                            Log.ServicLog("Upload");
-                                                        }
-                                                        else if (action == "4")
-                                                        {
-
-                                                            Log.ServicLog("Process Server");
-                                                            AsgnTo = "REQUES";
-                                                        }
-                                                        DbAccess.UpdateQuickFormOrderPart(OrderNo, PartNo, AsgnTo);
-                                                    }
-                                                    else if (action == "5") //CERTIFIED MAIL
-                                                    {
-                                                        #region  Certified Mail
-                                                        string MailPath = ConfigurationManager.AppSettings["CertifiedPath"].ToString();
-                                                        if (!Directory.Exists(MailPath))
-                                                        {
-                                                            Directory.CreateDirectory(MailPath);
-                                                        }
-                                                        MemoryStream[] msFile = new MemoryStream[10];
-                                                        List<string> fileNames = new List<string>();
-                                                        DbAccess.GetAttachFileFromDB(OrderNo, PartNo, ref fileNames, ref msFile);
-                                                        int msCounter = 0;
-                                                        PdfSharp.Pdf.PdfDocument outputDocument = new PdfSharp.Pdf.PdfDocument();
-                                                        PdfSharp.Pdf.PdfDocument inputDocument = new PdfSharp.Pdf.PdfDocument();
-                                                        MemoryStream mstype;
-                                                        foreach (MemoryStream msCombine in msFile)
-                                                        {
-                                                            if (msCombine != null)
-                                                            {
-                                                                mstype = new MemoryStream();
-                                                                if (fileNames[msCounter].Contains(".jpeg") || fileNames[msCounter].Contains(".jpg") || fileNames[msCounter].Contains(".bmp") || fileNames[msCounter].Contains(".png"))
-                                                                {
-                                                                    try
-                                                                    {
-                                                                        PdfSharp.Pdf.PdfDocument pdfsharpdoc = new PdfSharp.Pdf.PdfDocument();
-                                                                        pdfsharpdoc.Pages.Add(new PdfSharp.Pdf.PdfPage());
-
-                                                                        PdfSharp.Drawing.XGraphics xgr = PdfSharp.Drawing.XGraphics.FromPdfPage(pdfsharpdoc.Pages[0]);
-                                                                        PdfSharp.Drawing.XImage img = PdfSharp.Drawing.XImage.FromStream(msCombine);
-
-                                                                        xgr.DrawImage(img, 0, 0);
-                                                                        pdfsharpdoc.Save(mstype);
-                                                                        pdfsharpdoc.Close();
-
-                                                                        inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(mstype, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
-                                                                        foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
-                                                                            outputDocument.AddPage(page);
-                                                                    }
-                                                                    catch (Exception ex)
-                                                                    {
-                                                                        Log.ServicLog("============ Exception 783 =============");
-                                                                        Log.ServicLog(ex.ToString());
-                                                                        Log.ServicLog(ex.StackTrace);
-                                                                        Log.ServicLog(ex.Source);
-                                                                        Log.ServicLog(".doc at 776");
-                                                                        Log.ServicLog(fileNames[msCounter]);
-                                                                    }
-                                                                    mstype.Dispose();
-                                                                }
-                                                                else if (fileNames[msCounter].Contains(".doc") || fileNames[msCounter].Contains(".docx"))
-                                                                {
-                                                                    try
-                                                                    {
-                                                                        Aspose.Words.Document docWord = new Aspose.Words.Document(msCombine);
-                                                                        docWord.Save(mstype, Aspose.Words.SaveFormat.Pdf);
-                                                                        inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(mstype, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
-                                                                        
-                                                                        foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
-                                                                            outputDocument.AddPage(page);
-                                                                    }
-                                                                    catch (Exception ex)
-                                                                    {
-                                                                        Log.ServicLog("============ Exception 804 =============");
-                                                                        Log.ServicLog(ex.ToString());
-                                                                        Log.ServicLog(ex.StackTrace);
-                                                                        Log.ServicLog(ex.Source);
-                                                                        Log.ServicLog(".doc at 750");
-                                                                        Log.ServicLog(fileNames[msCounter]);
-
-                                                                        try
-                                                                        {
-                                                                            inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(msCombine, PdfSharp.Pdf.IO.PdfDocumentOpenMode.ReadOnly);
-
-                                                                            foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
-                                                                                outputDocument.AddPage(page);
-                                                                        }
-                                                                        catch (Exception ex1)
-                                                                        {
-                                                                            Log.ServicLog("============ Exception  820 =============");
-                                                                            Log.ServicLog(ex.ToString());
-                                                                            Log.ServicLog(ex.StackTrace);
-                                                                            Log.ServicLog(ex.Source);
-                                                                            Log.ServicLog(".doc at 768");
-                                                                            Log.ServicLog(fileNames[msCounter]);
-                                                                        }
-                                                                    }
-                                                                    mstype.Dispose();
-                                                                }
-                                                                else
-                                                                {
-                                                                    try
-                                                                    {
-
-                                                                        inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(msCombine, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
-                                                                        // inputDocument = PdfSharp.Pdf.IO.PdfReader.Open(msCombine,PdfSharp.Pdf.IO.PdfDocumentOpenMode.ReadOnly);
-                                                                        foreach (PdfSharp.Pdf.PdfPage page in inputDocument.Pages)
-                                                                            outputDocument.AddPage(page);
-                                                                    }
-                                                                    catch (Exception ex)
-                                                                    {
-                                                                        Log.ServicLog("============ Exception 840 =============");
-                                                                        Log.ServicLog(ex.ToString());
-                                                                        Log.ServicLog(ex.StackTrace);
-                                                                        Log.ServicLog(ex.Source);
-                                                                        Log.ServicLog(".doc at 835");
-                                                                        Log.ServicLog(fileNames[msCounter]);
-                                                                    }
-                                                                }
-                                                            }
-
-
-                                                            msCounter++;
-                                                        }
-                                                        string FilePath = MailPath + string.Format("{0}-{1}", OrderNo.ToString(), PartNo.ToString() + ".pdf");
-                                                        int count = 1;
-                                                        string fileNameOnly = Path.GetFileNameWithoutExtension(FilePath);
-                                                        string extension = Path.GetExtension(FilePath);
-                                                        string path = Path.GetDirectoryName(FilePath);
-                                                        string newFullPath = FilePath;
-                                                        while (File.Exists(newFullPath))
-                                                        {
-                                                            string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
-                                                            newFullPath = Path.Combine(path, tempFileName + extension);
-                                                        }
-                                                        using (FileStream file2 = new FileStream(newFullPath, FileMode.Create, FileAccess.Write))
-                                                        {
-                                                            if (outputDocument.PageCount > 0)
-                                                                outputDocument.Save(file2);
-
-                                                            file2.Close();
-                                                        }
-                                                        DbAccess.InsertMiscChgOrderPart(OrderNo, PartNo);
-
-                                                        //var fee = DbAccess.GetFee();
-                                                        //if (fee != null)
-                                                        outputDocument.Dispose();
-                                                        inputDocument.Dispose();
-
-
-                                                        string partNotes = string.Empty;
-                                                        CreateNoteString(OrderNo, PartNo, "Input or Sent via Certified Mail.", "SYSTEM", ref partNotes, false, false);
-
-                                                        #endregion
-
-                                                        foreach (MemoryStream item in msFile)
-                                                        {
-                                                            if (item != null)
-                                                                item.Dispose();
-                                                        }
-                                                        mstype = null;
-                                                    }
-
-                                                }
-
-                                            }
-
-                                        }
-                                    }
-
-                                    #endregion
-                                    Log.ServicLog("========================================================================");
+                                    DoRequireOperationOnDocuments(docitem, OrderNo, PartNo, filetype, location, partList.Count, objCompany, isProcessServer);
                                 }
 
                             }
@@ -960,10 +909,10 @@ namespace AxiomAutomation
                                 DbAccess.UpdateOrderPart(OrderNo, PartNo, AsgnTo, CallBack);
                             }
 
-                            if (locationList != null)
+                            if (location != null)
                             {
-                                var LocationCheck = locationList.FirstOrDefault();
-                                if (LocationCheck.ReqAuthorization == true || LocationCheck.FeeAmountSendRequest == true)
+
+                                if (location.ReqAuthorization == true || location.FeeAmountSendRequest == true)
                                 {
                                     DbAccess.UpdateOrderPart(OrderNo, PartNo, "UTILRE", Convert.ToDateTime(pt.CallBack));
                                     string partNotes = string.Empty;
@@ -1045,7 +994,7 @@ namespace AxiomAutomation
             Log.ServicLog(" ----------- Note end -------------------");
         }
 
-        public void EmailDocument(Aspose.Words.Document doc, List<string> fileName, string email, MemoryStream[] msList, EmailDetails ed, string additionalEmail, bool isMultiple, string MargeFileName,CompanyDetailForEmailEntity objCompany)
+        public void EmailDocument(Aspose.Words.Document doc, List<string> fileName, string email, MemoryStream[] msList, EmailDetails ed, string additionalEmail, bool isMultiple, string MargeFileName, CompanyDetailForEmailEntity objCompany)
         {
             try
             {
@@ -1061,7 +1010,7 @@ namespace AxiomAutomation
                 body = body.Replace("{EXEMAIL}", ed.AccExeEmail);
 
                 string subject = string.IsNullOrEmpty(ed.Caption) ? "Quick Forms Document" : ed.Caption;
-                AxiomAutomationEmail.SendMailTest(objCompany,fileName, subject, body, email, true, isMultiple, msList, "", additionalEmail, MargeFileName);
+                AxiomAutomationEmail.SendMailTest(objCompany, fileName, subject, body, email, true, isMultiple, msList, "", additionalEmail, MargeFileName);
             }
             catch (Exception ex)
             {

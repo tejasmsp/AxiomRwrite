@@ -89,15 +89,15 @@ namespace AxiomAutomation
             return partList;
         }
 
-        public static List<Location> GetPartLocation(string LocID)
+        public static Location GetPartLocation(string LocID)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "GetLocationById";
             cmd.Parameters.Add("@LocationId", SqlDbType.VarChar).Value = LocID;
             var result = GetDataList(cmd);
-            var locationList = result != null ? ConvertDataTable<Location>(result) : null;
-            return locationList;
+            var location = result != null ? ConvertDataTable<Location>(result).FirstOrDefault() : null;
+            return location;
         }
 
         public static Attorney GetAttorneyByOrder(int OrderNo)
