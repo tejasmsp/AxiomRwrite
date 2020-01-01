@@ -1,4 +1,5 @@
 ﻿app.controller('TransferRecordController', function ($rootScope, $scope, $stateParams, notificationFactory, CommonServices, TransferRecordService, $compile, $filter) {
+
     
     //$rootScope.CheckIsPageAccessible("Settings", "Transfer Record", "View");
     decodeParams($stateParams);
@@ -25,6 +26,11 @@
 
         promise.success(function (response) {
             $scope.TransferEntityFromLst = response.Data;
+            setTimeout(function () {
+                $('.cls-firm').selectpicker('refresh');
+                $('.cls-firm').selectpicker();
+            }, 500);
+            
         });
         promise.error(function (data, statusCode) { });
     }

@@ -1,13 +1,14 @@
-﻿<div class="page-content" ng-controller="TransferRecordController">
+﻿<link href="~/Content/bootstrap-select.css" rel="stylesheet" />
+<div class="page-content" ng-controller="TransferRecordController">
     <div class="panel panel-white">
         <div class="panel-heading">
             <h4 class="panel-title text-semibold"><i class="icon-file-spreadsheet mr-10 fs-19"></i>Transfer Record</h4>
             @*<div class="heading-elements">
-                <ul class="icons-list">
-                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Transfer Record', 'Location')"><a ng-click="GetBillingRateDetail(objBillingRate.MemberID,0)" href="#" class="blue_link">[ + Add Billing Rate ]</a></li>
-                    <li ng-if="isSubModuleAccessibleToUser('Settings', 'Transfer Record', 'Attorney')"><a ng-click="GetRecordTypeDetail()" href="#" class="blue_link">[ + Add Record Type ]</a></li>
-                </ul>
-            </div>*@
+                    <ul class="icons-list">
+                        <li ng-if="isSubModuleAccessibleToUser('Settings', 'Transfer Record', 'Location')"><a ng-click="GetBillingRateDetail(objBillingRate.MemberID,0)" href="#" class="blue_link">[ + Add Billing Rate ]</a></li>
+                        <li ng-if="isSubModuleAccessibleToUser('Settings', 'Transfer Record', 'Attorney')"><a ng-click="GetRecordTypeDetail()" href="#" class="blue_link">[ + Add Record Type ]</a></li>
+                    </ul>
+                </div>*@
         </div>
         <div class="panel-body">
 
@@ -22,12 +23,12 @@
                             </ul>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <div class="row mb-10">
                     <div class="col-md-4">
                         <label class="col-sm-3 control-label lbl-primary required pr-0">Transfer Entity:</label>
                         <div class="col-sm-9">
-                            <select id="ddlEnitityTypeId"  name="ddlEnitityTypeId" ng-model="objTransferRecord.EnitityTypeId" ng-change="OnTransferEntityTypeChanged()" class="form-control" ng-options="item.Id as item.EntityName  for item in  TransferEntityList | filter:{IsVisible:false} ">
+                            <select id="ddlEnitityTypeId" name="ddlEnitityTypeId" ng-model="objTransferRecord.EnitityTypeId" ng-change="OnTransferEntityTypeChanged()" class="form-control" ng-options="item.Id as item.EntityName  for item in  TransferEntityList | filter:{IsVisible:false} ">
                                 @*<option value="">-- Select --</option>*@
                             </select>
                         </div>
@@ -36,17 +37,26 @@
                     <div class="col-md-4">
                         <label class="col-sm-1 control-label lbl-primary required pr-0">From </label>
                         <div class="col-sm-11">
-                            @*<div id="ddlSourceEntityId" name="ddlSourceEntityId" custom-select="item.Id as item.Text  for item in  TransferEntityFromLst | filter: $searchTerm" ng-model="objTransferRecord.SourceEntityId"></div>*@
-                            <select id="ddlSourceEntityId" name="ddlSourceEntityId" ng-model="objTransferRecord.SourceEntityId" ng-change="OnFromListChanged()" class="form-control" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst">
+                            <select class="form-control cls-firm" id="ddlSourceEntityId" name="ddlSourceEntityId" data-live-search="true" data-width="100%" data-size="15" ng-model="objTransferRecord.SourceEntityId" required="required" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst">
                                 <option value="">-- Select --</option>
                             </select>
+                            @*<div id="ddlSourceEntityId" name="ddlSourceEntityId" custom-select="item.Id as item.Text  for item in  TransferEntityFromLst | filter: $searchTerm" ng-model="objTransferRecord.SourceEntityId"></div>*@
+                            @*<select id="ddlSourceEntityId" name="ddlSourceEntityId" ng-model="objTransferRecord.SourceEntityId" ng-change="OnFromListChanged()" class="form-control" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst">
+                                    <option value="">-- Select --</option>
+                                </select>*@
                         </div>
                     </div>
                     <div class="col-md-4">
                         <label class="col-sm-1 control-label lbl-primary required pr-0">To</label>
                         <div class="col-sm-11">
                             @*<div id="ddlTargetEntityId" name="ddlTargetEntityId" ng-class="(objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId=='')?'bg-disabled':''" ng-disabled="objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId==''" ng-model="objTransferRecord.TargetEntityId" custom-select="item.Id as item.Text  for item in  TransferEntityToLst() | filter: $searchTerm" ng-model="objTransferRecord.SourceEntityId"></div>*@
-                            <select id="ddlTargetEntityId" name="ddlTargetEntityId" ng-class="(objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId=='')?'bg-disabled':''" ng-disabled="objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId==''" ng-model="objTransferRecord.TargetEntityId" class="form-control" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst | filter:{Id:'!' + objTransferRecord.SourceEntityId} ">
+                            @*<select id="ddlTargetEntityId" name="ddlTargetEntityId" ng-class="(objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId=='')?'bg-disabled':''" ng-disabled="objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId==''" ng-model="objTransferRecord.TargetEntityId" class="form-control" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst | filter:{Id:'!' + objTransferRecord.SourceEntityId} ">
+            <option value="">-- Select --</option>
+        </select>*@
+                            <select class="form-control cls-firm" id="ddlTargetEntityId" name="ddlTargetEntityId" 
+                                    ng-class="(objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId=='')?'bg-disabled':''" 
+                                    ng-model="objTransferRecord.TargetEntityId"
+                                    data-live-search="true" data-width="100%" data-size="15"  required="required" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst | filter:{Id:'!' + objTransferRecord.SourceEntityId} ">
                                 <option value="">-- Select --</option>
                             </select>
                         </div>
@@ -60,5 +70,6 @@
                 </div>
             </form>
         </div>
-    </div> 
+    </div>
 </div>
+<script src="~/Scripts/bootstrap-select.js"></script>
