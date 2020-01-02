@@ -15,7 +15,7 @@
             <form class="form-horizontal" name="Transferform" novalidate>
                 <div class="row">
                     <div id="messages" class="col-md-12 pl-20 pr-20">
-                        <div class="alert alert-danger alert-dismissible validationErrors" ng-show="(Transferform.$submitted  && !Transferform.$valid ) ">
+                        <div class="alert alert-danger alert-dismissible validationErrors" ng-show="( Transferform.$submitted  && !Transferform.$valid ) ">
                             <ul>
                                 <li ng-if="Transferform.ddlEnitityTypeId.$error.required">Entity type is required.</li>
                                 <li ng-if="Transferform.ddlSourceEntityId.$error.required">Source Entity is required.</li>
@@ -28,7 +28,7 @@
                     <div class="col-md-4">
                         <label class="col-sm-3 control-label lbl-primary required pr-0">Transfer Entity:</label>
                         <div class="col-sm-9">
-                            <select id="ddlEnitityTypeId" name="ddlEnitityTypeId" ng-model="objTransferRecord.EnitityTypeId" ng-change="OnTransferEntityTypeChanged()" class="form-control" ng-options="item.Id as item.EntityName  for item in  TransferEntityList">
+                            <select id="ddlEnitityTypeId" name="ddlEnitityTypeId" ng-model="objTransferRecord.EnitityTypeId" ng-change="OnTransferEntityTypeChanged()" class="form-control" ng-options="item.Id as item.EntityName  for item in  TransferEntityList | filter:{IsVisible:false} ">
                                 @*<option value="">-- Select --</option>*@
                             </select>
                         </div>
@@ -37,7 +37,7 @@
                     <div class="col-md-4">
                         <label class="col-sm-1 control-label lbl-primary required pr-0">From </label>
                         <div class="col-sm-11">
-                            <select class="form-control cls-firm" ng-change="OnFromSelectionChanged()" id="ddlSourceEntityId" name="ddlSourceEntityId" data-live-search="true" data-width="100%" data-size="15" ng-model="objTransferRecord.SourceEntityId" required="required" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst">
+                            <select class="form-control cls-firm" id="ddlSourceEntityId" name="ddlSourceEntityId" data-live-search="true" data-width="100%" data-size="15" ng-model="objTransferRecord.SourceEntityId" required="required" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst">
                                 <option value="">-- Select --</option>
                             </select>
                             @*<div id="ddlSourceEntityId" name="ddlSourceEntityId" custom-select="item.Id as item.Text  for item in  TransferEntityFromLst | filter: $searchTerm" ng-model="objTransferRecord.SourceEntityId"></div>*@
@@ -56,7 +56,7 @@
                             <select class="form-control cls-firm" id="ddlTargetEntityId" name="ddlTargetEntityId" 
                                     ng-class="(objTransferRecord.SourceEntityId==null || objTransferRecord.SourceEntityId=='')?'bg-disabled':''" 
                                     ng-model="objTransferRecord.TargetEntityId"
-                                    data-live-search="true" data-width="100%" data-size="15"  required="required" ng-options="item.Id as item.Text  for item in  TransferEntityToLst">
+                                    data-live-search="true" data-width="100%" data-size="15"  required="required" ng-options="item.Id as item.Text  for item in  TransferEntityFromLst | filter:{Id:'!' + objTransferRecord.SourceEntityId} ">
                                 <option value="">-- Select --</option>
                             </select>
                         </div>

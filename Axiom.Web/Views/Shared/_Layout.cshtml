@@ -127,7 +127,7 @@
                     </ul>
                 </li>
                 <li ng-class="{ active: $state.includes('SearchOrderList')|| $state.includes('OrderDetail')|| $state.includes('PartDetail')}" ng-if="isSubModuleAccessibleToUser('Search', 'Search', 'View')"><a ui-sref="SearchOrderList"><i class="icon-search4 position-left"></i>Search</a></li>
-                <li ng-class="{ active: $state.includes('AttorneyUsers') || $state.includes('Employees') || $state.includes('AssignUniversalList') ||  $state.includes('Scope') || $state.includes('SSN')|| $state.includes('Payment')|| $state.includes('InvoiceBatch') || $state.includes('BillingRate')  || $state.includes('Department')  || $state.includes('County') || $state.includes('District') || $state.includes('Court')|| $state.includes('QuickNotes') || $state.includes('Message') || $state.includes('Log')|| $state.includes('IIFFiles')|| $state.includes('Company') || $state.includes('TransferRecord')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Settings', 'View')" class="dropdown mega-menu mega-menu-wide">
+                <li ng-class="{ active: $state.includes('AttorneyUsers') || $state.includes('Employees') || $state.includes('AssignUniversalList') ||  $state.includes('Scope') || $state.includes('SSN')|| $state.includes('Payment')|| $state.includes('InvoiceBatch') || $state.includes('BillingRate')  || $state.includes('Department')  || $state.includes('County') || $state.includes('District') || $state.includes('Court')|| $state.includes('QuickNotes') || $state.includes('Message') || $state.includes('Log')|| $state.includes('IIFFiles')|| $state.includes('Company')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Settings', 'View')" class="dropdown mega-menu mega-menu-wide">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog3 position-left"></i>Settings<span class="caret"></span></a>
                     <div class="dropdown-menu dropdown-content">
                         <div class="dropdown-content-body">
@@ -147,7 +147,6 @@
                                         <li ng-class="{ active: $state.includes('SSN')}" ng-show="isSubModuleAccessibleToUser('Settings', 'SSN', 'View')"><a ui-sref="SSN"><i class="icon-wrench position-left"></i>SSN</a></li>
                                         <li ng-class="{ active: $state.includes('InvoiceBatch')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Invoice Batch', 'View')"><a href="#" ui-sref="InvoiceBatch"><i class="icon-calculator position-left"></i>Invoice Batch</a></li>
                                         <li ng-class="{ active: $state.includes('BillingRate')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Billing Rate', 'View')"><a href="#" ui-sref="BillingRate"><i class="icon-file-spreadsheet position-left"></i>Billing Rate</a></li>
-                                        <li ng-class="{ active: $state.includes('TransferRecord')}" ng-show="isSubModuleAccessibleToUser('Settings', 'Transfer Record', 'View')"><a href="#" ui-sref="TransferRecord"><i class="icon-file-spreadsheet position-left"></i>Transfer Record</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3">
