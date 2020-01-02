@@ -1,6 +1,6 @@
 ﻿app.controller('TransferRecordController', function ($rootScope, $scope, $stateParams, notificationFactory, CommonServices, TransferRecordService, $compile, $filter) {
 
-    
+
     //$rootScope.CheckIsPageAccessible("Settings", "Transfer Record", "View");
     decodeParams($stateParams);
 
@@ -10,9 +10,9 @@
     $scope.objTransferRecord.TargetEntityId = null;
     $scope.objTransferRecord.UserId = $rootScope.LoggedInUserDetail.UserAccessId;
 
-    
+
     $scope.TransferEntityFromLst = [];
-   // $scope.TransferEntityToLst = function () { return $filter('filter')($scope.TransferEntityFromLst, { Id:  '!'+ $scope.objTransferRecord.SourceEntityId  }, true ) }; 
+    $scope.TransferEntityToLst = []; //function () { }; 
 
     $scope.OnTransferEntityTypeChanged = function () {
         bindDropdown();
@@ -21,7 +21,7 @@
     function bindDropdown() {
 
         $scope.TransferEntityFromLst = [];
-        var promise = TransferRecordService.GetEnitityListForTrasferDropdown($scope.objTransferRecord.EnitityTypeId, $rootScope.CompanyNo);
+        var promise = TransferRecordService.GetEntityListForTrasferDropdown($scope.objTransferRecord.EnitityTypeId, $rootScope.CompanyNo);
 
 
         promise.success(function (response) {
@@ -30,13 +30,20 @@
                 $('.cls-firm').selectpicker('refresh');
                 $('.cls-firm').selectpicker();
             }, 500);
-            
+
         });
         promise.error(function (data, statusCode) { });
     }
-    $scope.OnFromListChanged = function () {
-
-        
+    $scope.OnFromSelectionChanged = function () {
+        $scope.TransferEntityToLst = [];
+        $('#ddlTargetEntityId').parent().find('.filter-option-inner-inner').text('-- Select --');
+        if (!isNullOrUndefinedOrEmpty($scope.objTransferRecord.SourceEntityId)) {
+            $scope.TransferEntityToLst = $filter('filter')($scope.TransferEntityFromLst, { Id: '!' + $scope.objTransferRecord.SourceEntityId }, true);
+            setTimeout(function () {
+                $('.cls-firm').selectpicker('refresh');
+                $('.cls-firm').selectpicker();
+            }, 500);
+        }
     };
 
     $scope.SubmitRecordsToTransfer = function (form) {
@@ -47,7 +54,7 @@
             var selectedSourceText = $("#ddlSourceEntityId option:selected").text();
             var selectedTargetText = $("#ddlTargetEntityId option:selected").text();
             bootbox.confirm({
-                message: "Are you sure you want to transfer all the records from(" + selectedSourceText + ") to (" + selectedTargetText +")?",
+                message: "Are you sure you want to transfer all the records from <b class='badge bg-info'>" + selectedSourceText + "</b> to <b class='badge bg-success'>" + selectedTargetText + "</b>?</br></br><b>Note:This transaction cannot be reversed.<b>",
                 buttons: {
                     cancel: {
                         label: 'No',
@@ -62,30 +69,33 @@
                     if (result == true) {
                         var promise = TransferRecordService.SubmitRecordsToTransfer($scope.objTransferRecord);
                         promise.success(function (response) {
-                            if (response.Success)
-                            {
+                            if (response.Success) {
                                 var affectedrecords = 0;
                                 if (response.Data != null && response.Data.length > 0) {
                                     affectedrecords = response.Data[0].AffectRecordCount;
                                 }
-                                
-                               
-                                  
-                                    
-                                    var selectedRecord = $filter("filter")($scope.TransferEntityFromLst, { Id: $scope.objTransferRecord.SourceEntityId }, true);
-                                    if (selectedRecord != null) {
-                                        selectedRecord = selectedRecord[0];
-                                        $scope.TransferEntityFromLst.splice($scope.TransferEntityFromLst.indexOf(selectedRecord), 1);
-                                        var newList = [];
-                                        angular.copy($scope.TransferEntityFromLst, newList);
-                                        $scope.TransferEntityFromLst = newList;
-                                        $scope.objTransferRecord.SourceEntityId = null;
-                                    }
-                                    $("#ddlSourceEntityId option:selected").remove();
-                                    //
-                                    //bindDropdown()
-                                
-                                 toastr.success("Total " + affectedrecords + " records has been transferred successfully (" + selectedSourceText + "-->" + selectedTargetText + " ).");
+
+                                var selectedRecord = $filter("filter")($scope.TransferEntityFromLst, { Id: $scope.objTransferRecord.SourceEntityId }, true);
+                                if (selectedRecord != null) {
+                                    selectedRecord = selectedRecord[0];
+                                    $scope.TransferEntityFromLst.splice($scope.TransferEntityFromLst.indexOf(selectedRecord), 1);
+                                    var newList = [];
+                                    angular.copy($scope.TransferEntityFromLst, newList);
+                                    $scope.TransferEntityFromLst = newList;
+                                    $scope.objTransferRecord.SourceEntityId = '';
+                                    $('#ddlSourceEntityId').parent().find('.filter-option-inner-inner').text('-- Select --');
+                                    setTimeout(function () {
+                                        $('.cls-firm').selectpicker('refresh');
+                                        $('.cls-firm').selectpicker();
+                                    }, 500);
+                                    $scope.OnFromSelectionChanged();
+                                    form.$submitted = false;
+                                }
+                                $("#ddlSourceEntityId option:selected").remove();
+                                //
+                                //bindDropdown()
+
+                                toastr.success("Total " + affectedrecords + " records has been transferred successfully (" + selectedSourceText + "-->" + selectedTargetText + " ).");
                             }
                             else {
                                 toastr.error(response.Message[0]);
@@ -95,18 +105,24 @@
                         });
                     }
                     else {
-                         
+
                     }
                     bootbox.hideAll();
                 }
             });
-
-            
         }
         else {
             toastr.error("Please select entity type, source & target entity.");
         }
 
+    };
+    $scope.RadioCheckChange = function (item, optionsList) {
+        
+        angular.forEach(optionsList, function (record, key) {
+            record.IsChecked = (item.Id == record.Id); 
+        });
+        $scope.objTransferRecord.EnitityTypeId = $filter('filter')(optionsList, { 'IsChecked': true })[0].Id;
+        bindDropdown();
     };
     function init() {
 
@@ -114,10 +130,10 @@
         $scope.TransferEntityList =
             [
                 // { Id: EntityEnum.Location, EntityName: 'Location', IsVisible: $rootScope.isSubModuleAccessibleToUser('Settings', 'Transfer Record', 'Location') },
-                 { Id: EntityEnum.Attorney, EntityName: 'Attorney', IsVisible: $rootScope.isSubModuleAccessibleToUser('Settings', 'Transfer Record', 'Attorney') },
-                 { Id: EntityEnum.Firm, EntityName: 'Firm', IsVisible: $rootScope.isSubModuleAccessibleToUser('Settings', 'Transfer Record', 'Firm') }
+            { Id: EntityEnum.Attorney, EntityName: 'Attorney', IsChecked: true },
+            { Id: EntityEnum.Firm, EntityName: 'Firm', IsChecked: false }
             ];
-        $scope.OnTransferEntityTypeChanged(); 
+        $scope.OnTransferEntityTypeChanged();
 
     };
 

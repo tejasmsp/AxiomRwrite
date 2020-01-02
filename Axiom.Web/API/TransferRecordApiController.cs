@@ -21,8 +21,8 @@ namespace Axiom.Web.API
 
         #region DatabaseOperations
         [HttpGet]
-        [Route("GetEnitityListForTrasferDropdown")]
-        public ApiResponse<DropDownEntity> GetEnitityListForTrasferDropdown(int EnitityTypeId,int CompanyNo =0 )
+        [Route("GetEntityListForTrasferDropdown")]
+        public ApiResponse<DropDownEntity> GetEntityListForTrasferDropdown(int EnitityTypeId,int CompanyNo =0 )
         {
             var response = new ApiResponse<DropDownEntity>();
 
@@ -31,7 +31,7 @@ namespace Axiom.Web.API
                
                 SqlParameter[] param = {  new SqlParameter("EnitityTypeId", (object)EnitityTypeId ?? (object)DBNull.Value) 
                                          ,new SqlParameter("CompanyNo"   , (object)CompanyNo ?? (object)DBNull.Value) };
-                var result = _repository.ExecuteSQL<DropDownEntity>("GetEnitityListForTrasferDropdown", param).ToList();
+                var result = _repository.ExecuteSQL<DropDownEntity>("GetEntityListForTrasferDropdown", param).ToList();
                
                 if (result == null)
                 {
