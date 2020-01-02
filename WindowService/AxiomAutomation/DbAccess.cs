@@ -137,9 +137,9 @@ namespace AxiomAutomation
             var result = GetDataList(cmd);
             if (result != null && result.Rows.Count > 0)
             {
-                if (str == "Query")
+                if (str.ToUpper() == "QUERY")
                     return Convert.ToString(result.Rows[0]["Query"]);
-                else if (str == "SubQuery")
+                else if (str.ToUpper() == "SUBQUERY")
                     return Convert.ToString(result.Rows[0]["SubQuery"]);
             }
             return "";

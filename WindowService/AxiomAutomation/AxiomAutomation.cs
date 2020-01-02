@@ -75,7 +75,7 @@ namespace AxiomAutomation
 
 
         #region NewChangesByAkash
-        private string ReplaceQueryAccordingToQueryType(QueryType pdt,string[] folders ,string docNameDB, int partListCount)
+        private string ReplaceQueryAccordingToQueryType(QueryType pdt, int OrderNo, int PartNo, string[] folders, string docNameDB, int partListCount)
         {
             if (pdt == QueryType.FaceSheet || pdt == QueryType.FaceSheetNew)
             {
@@ -83,7 +83,7 @@ namespace AxiomAutomation
             }
 
             string query = DbAccess.GetQueryByQueryTypeId((int)pdt, "Query");
-
+            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
             switch (pdt)
             {
                 case QueryType.Common:
@@ -126,9 +126,9 @@ namespace AxiomAutomation
             return query;
 
         }
-
+        
         private void DoRequireOperationOnDocuments(RequestDocuments docitem, int OrderNo, int PartNo, string filetype,
-                                            Location location, int partListCount, CompanyDetailForEmailEntity objCompany, bool isProcessServer)
+                                        Location location, int partListCount, CompanyDetailForEmailEntity objCompany, bool isProcessServer)
         {
             Log.ServicLog("Order NO :" + OrderNo + "  Part NO:" + PartNo);
             string docpath = docitem.DocumentPath.ToString().Trim().Replace(">", "/");
@@ -150,141 +150,13 @@ namespace AxiomAutomation
             string query = string.Empty;
             QueryType pdt = DbAccess.GetDocumentType(docitem.DocumentName, folders[0].ToString());
 
-            query = ReplaceQueryAccordingToQueryType(pdt, folders, docNameDB, partListCount);
+            query = ReplaceQueryAccordingToQueryType(pdt, OrderNo, PartNo, folders, docNameDB, partListCount);
             var dtQueryList = DbAccess.ExecuteSQLQuery(query);
 
             MemoryStream ms = new MemoryStream();
 
-            string subquery = string.Empty;
-            var dtsubQuery = new DataTable();
-            StringBuilder partInfo = new StringBuilder();
-            StringBuilder partInfo2 = new StringBuilder();
-
-            if (pdt == QueryType.Confirmation || pdt == QueryType.TargetSheets || pdt == QueryType.StatusProgressReports)
-            {
-                subquery = DbAccess.GetQueryByQueryTypeId(Convert.ToInt32(pdt), "SubQuery");
-                if (!string.IsNullOrEmpty(subquery))
-                {
-                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
-                    
-                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                    partInfo.Append("_____________________________________________________________________________\n\r");
-                    for (int a = 0; a < dtsubQuery.Rows.Count; a++)
-                    {
-                        string partInfoText;
-                        if (pdt == QueryType.Confirmation && docitem.DocumentName.ToUpper().Equals("ORDER CONFIRMATION.DOC"))
-                            partInfoText = Convert.ToString(dtsubQuery.Rows[a]["PartInfo1"]).Replace("scopehere", Convert.ToString(dtsubQuery.Rows[a]["scope"]));
-                        else
-                            partInfoText = Convert.ToString(dtsubQuery.Rows[a]["PartInfo1"]).Replace("scopehere", "");
-                        partInfo.Append(partInfoText + "\n\r");
-                        partInfo2.Append(Convert.ToString(dtsubQuery.Rows[a]["LocationHeader"]) + "\n");
-                    }
-                }
-                var dt2 = dtQueryList;
-                DataColumn dc2 = new DataColumn("PartInfo", typeof(string));
-                DataColumn dc3 = new DataColumn("PartInfo2", typeof(string));
-                dc2.AllowDBNull = true;
-                dc3.AllowDBNull = true;
-                dt2.Columns.Add(dc2);
-                dt2.Columns.Add(dc3);
-                for (int j = 0; j < dt2.Rows.Count; j++)
-                {
-                    DataRow dr = dt2.Rows[j];
-                    dr["PartInfo"] = partInfo.ToString();
-                    dr["PartInfo2"] = partInfo2.ToString();
-                }
-            }
-            else if (pdt == QueryType.Waiver)
-            {
-                StringBuilder locationInfo = new StringBuilder();
-                subquery = DbAccess.GetQueryByQueryTypeId(5, "SubQuery");
-                if (!string.IsNullOrEmpty(subquery))
-                {
-                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
-                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                    for (int b = 0; b < dtsubQuery.Rows.Count; b++)
-                        locationInfo.Append(Convert.ToString(dtsubQuery.Rows[b]["Location1"]) + '\n');
-
-                }
-                var dt3 = dtQueryList;
-                dt3.Columns.Add(new DataColumn("Selected_Part", typeof(string)));
-                dt3.Columns.Add(new DataColumn("Location1", typeof(string)));
-                for (int k = 0; k < dt3.Rows.Count; k++)
-                {
-                    DataRow dr4 = dt3.Rows[k];
-                    dr4["Selected_Part"] = PartNo;
-                    dr4["Location1"] = locationInfo;
-                }
-            }
-            else if (pdt == QueryType.CerticicationNOD)
-            {
-                StringBuilder attyInfo = new StringBuilder();
-                attyInfo.Append('\n');
-                subquery = DbAccess.GetQueryByQueryTypeId(10, "SubQuery");
-                if (!string.IsNullOrEmpty(subquery))
-                {
-                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
-                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                    for (int c = 0; c < dtsubQuery.Rows.Count; c++)
-                        attyInfo.Append(Convert.ToString(dtsubQuery.Rows[c]["Attorneys"]) + "\n");
-                }
-                DataTable dt4 = dtQueryList;
-                dt4.Columns.Add(new DataColumn("Attorneys", typeof(string)));
-                for (int l = 0; l < dt4.Rows.Count; l++)
-                {
-                    DataRow dr5 = dt4.Rows[l];
-                    dr5["Attorneys"] = attyInfo;
-                }
-            }
-            else if (pdt == QueryType.AttorneyOfRecords)
-            {
-                subquery = DbAccess.GetQueryByQueryTypeId(6, "SubQuery");
-                string[] strQuery = null;
-                StringBuilder attyInfo2 = new StringBuilder();
-                attyInfo2.Append('\n');
-                if (!string.IsNullOrEmpty(subquery))
-                {
-                    strQuery = subquery.Split(new string[] { "--Split--" }, StringSplitOptions.RemoveEmptyEntries);
-                    subquery = ReplaceOrderPartNo(strQuery[0], OrderNo, PartNo);
-                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                    for (int d = 0; d < dtsubQuery.Rows.Count; d++)
-                        attyInfo2.Append(System.Runtime.CompilerServices.RuntimeHelpers.GetObjectValue(Convert.ToString(dtsubQuery.Rows[d]["AttyInfo"])));
-
-                    attyInfo2.Append('\n');
-                    subquery = ReplaceOrderPartNo(strQuery[1], OrderNo, PartNo);
-                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                    for (int e = 0; e < dtsubQuery.Rows.Count; e++)
-                        attyInfo2.Append(Convert.ToString(dtsubQuery.Rows[e]["AttyInfo"]) + "\n");
-                }
-                DataTable dt5 = dtQueryList;
-                dt5.Columns.Add(new DataColumn("AttyInfo", typeof(string)));
-                for (int m = 0; m < dt5.Rows.Count; m++)
-                {
-                    DataRow dr6 = dt5.Rows[m];
-                    dr6["AttyInfo"] = attyInfo2;
-                }
-            }
-            else if (pdt == QueryType.AttorneyForms)
-            {
-                StringBuilder locationInfo2 = new StringBuilder();
-                subquery = DbAccess.GetQueryByQueryTypeId(13, "SubQuery");
-                if (!string.IsNullOrEmpty(subquery))
-                {
-                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo).Replace("%%ATTYNO%%", AttyID);
-                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                    for (int f = 0; f < dtsubQuery.Rows.Count; f++)
-                        locationInfo2.Append(Convert.ToString(dtsubQuery.Rows[f]["Location1"]) + "\n");
-                }
-                DataTable dt6 = dtQueryList;
-                dt6.Columns.Add(new DataColumn("Selected_Part", typeof(string)));
-                dt6.Columns.Add(new DataColumn("Location1", typeof(string)));
-                for (int n = 0; n < dt6.Rows.Count; n++)
-                {
-                    DataRow dr7 = dt6.Rows[n];
-                    dr7["Location1"] = locationInfo2;
-                }
-            }
-
+            ReplaceSubQueryAccordingToQueryType(pdt, OrderNo, PartNo, folders, docNameDB, partListCount, docitem, ref dtQueryList);
+             
             string filePath = Path.Combine(documentRoot, docitem.DocumentPath.ToString().Trim().Replace(">", "\\"), docitem.DocumentName.Trim());
             Aspose.Words.Document doc = new Aspose.Words.Document();
             try
@@ -834,6 +706,139 @@ namespace AxiomAutomation
             #endregion
             Log.ServicLog("========================================================================");
         }
+
+        private void ReplaceSubQueryAccordingToQueryType(QueryType pdt, int OrderNo, int PartNo, string[] folders, string docNameDB, int partListCount, RequestDocuments docitem, ref DataTable dtQueryList)
+        {
+            string subquery = string.Empty;
+            var dtsubQuery = new DataTable();
+            StringBuilder partInfo = new StringBuilder();
+            StringBuilder partInfo2 = new StringBuilder();
+
+            if (pdt == QueryType.Confirmation || pdt == QueryType.TargetSheets || pdt == QueryType.StatusProgressReports)
+            {
+                subquery = DbAccess.GetQueryByQueryTypeId(Convert.ToInt32(pdt), "SubQuery");
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
+
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    partInfo.Append("_____________________________________________________________________________\n\r");
+                    for (int a = 0; a < dtsubQuery.Rows.Count; a++)
+                    {
+                        string partInfoText;
+                        if (pdt == QueryType.Confirmation && docitem.DocumentName.ToUpper().Equals("ORDER CONFIRMATION.DOC"))
+                            partInfoText = Convert.ToString(dtsubQuery.Rows[a]["PartInfo1"]).Replace("scopehere", Convert.ToString(dtsubQuery.Rows[a]["scope"]));
+                        else
+                            partInfoText = Convert.ToString(dtsubQuery.Rows[a]["PartInfo1"]).Replace("scopehere", "");
+                        partInfo.Append(partInfoText + "\n\r");
+                        partInfo2.Append(Convert.ToString(dtsubQuery.Rows[a]["LocationHeader"]) + "\n");
+                    }
+                }
+                var dt2 = dtQueryList;
+                DataColumn dc2 = new DataColumn("PartInfo", typeof(string));
+                DataColumn dc3 = new DataColumn("PartInfo2", typeof(string));
+                dc2.AllowDBNull = true;
+                dc3.AllowDBNull = true;
+                dt2.Columns.Add(dc2);
+                dt2.Columns.Add(dc3);
+                for (int j = 0; j < dt2.Rows.Count; j++)
+                {
+                    DataRow dr = dt2.Rows[j];
+                    dr["PartInfo"] = partInfo.ToString();
+                    dr["PartInfo2"] = partInfo2.ToString();
+                }
+            }
+            else if (pdt == QueryType.Waiver)
+            {
+                StringBuilder locationInfo = new StringBuilder();
+                subquery = DbAccess.GetQueryByQueryTypeId(Convert.ToInt32(pdt), "SubQuery");
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    for (int b = 0; b < dtsubQuery.Rows.Count; b++)
+                        locationInfo.Append(Convert.ToString(dtsubQuery.Rows[b]["Location1"]) + '\n');
+
+                }
+                var dt3 = dtQueryList;
+                dt3.Columns.Add(new DataColumn("Selected_Part", typeof(string)));
+                dt3.Columns.Add(new DataColumn("Location1", typeof(string)));
+                for (int k = 0; k < dt3.Rows.Count; k++)
+                {
+                    DataRow dr4 = dt3.Rows[k];
+                    dr4["Selected_Part"] = PartNo;
+                    dr4["Location1"] = locationInfo;
+                }
+            }
+            else if (pdt == QueryType.CerticicationNOD)
+            {
+                StringBuilder attyInfo = new StringBuilder();
+                attyInfo.Append('\n');
+                subquery = DbAccess.GetQueryByQueryTypeId(Convert.ToInt32(pdt), "SubQuery");
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    for (int c = 0; c < dtsubQuery.Rows.Count; c++)
+                        attyInfo.Append(Convert.ToString(dtsubQuery.Rows[c]["Attorneys"]) + "\n");
+                }
+                DataTable dt4 = dtQueryList;
+                dt4.Columns.Add(new DataColumn("Attorneys", typeof(string)));
+                for (int l = 0; l < dt4.Rows.Count; l++)
+                {
+                    DataRow dr5 = dt4.Rows[l];
+                    dr5["Attorneys"] = attyInfo;
+                }
+            }
+            else if (pdt == QueryType.AttorneyOfRecords)
+            {
+                subquery = DbAccess.GetQueryByQueryTypeId(Convert.ToInt32(pdt), "SubQuery");
+                string[] strQuery = null;
+                StringBuilder attyInfo2 = new StringBuilder();
+                attyInfo2.Append('\n');
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    strQuery = subquery.Split(new string[] { "--Split--" }, StringSplitOptions.RemoveEmptyEntries);
+                    subquery = ReplaceOrderPartNo(strQuery[0], OrderNo, PartNo);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    for (int d = 0; d < dtsubQuery.Rows.Count; d++)
+                        attyInfo2.Append(System.Runtime.CompilerServices.RuntimeHelpers.GetObjectValue(Convert.ToString(dtsubQuery.Rows[d]["AttyInfo"])));
+
+                    attyInfo2.Append('\n');
+                    subquery = ReplaceOrderPartNo(strQuery[1], OrderNo, PartNo);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    for (int e = 0; e < dtsubQuery.Rows.Count; e++)
+                        attyInfo2.Append(Convert.ToString(dtsubQuery.Rows[e]["AttyInfo"]) + "\n");
+                }
+                DataTable dt5 = dtQueryList;
+                dt5.Columns.Add(new DataColumn("AttyInfo", typeof(string)));
+                for (int m = 0; m < dt5.Rows.Count; m++)
+                {
+                    DataRow dr6 = dt5.Rows[m];
+                    dr6["AttyInfo"] = attyInfo2;
+                }
+            }
+            else if (pdt == QueryType.AttorneyForms)
+            {
+                StringBuilder locationInfo2 = new StringBuilder();
+                subquery = DbAccess.GetQueryByQueryTypeId(Convert.ToInt32(pdt), "SubQuery");
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo).Replace("%%ATTYNO%%", AttyID);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                    for (int f = 0; f < dtsubQuery.Rows.Count; f++)
+                        locationInfo2.Append(Convert.ToString(dtsubQuery.Rows[f]["Location1"]) + "\n");
+                }
+                DataTable dt6 = dtQueryList;
+                dt6.Columns.Add(new DataColumn("Selected_Part", typeof(string)));
+                dt6.Columns.Add(new DataColumn("Location1", typeof(string)));
+                for (int n = 0; n < dt6.Rows.Count; n++)
+                {
+                    DataRow dr7 = dt6.Rows[n];
+                    dr7["Location1"] = locationInfo2;
+                }
+            }
+        }
         #endregion
 
 
@@ -885,29 +890,19 @@ namespace AxiomAutomation
                                 }
 
                             }
-
+                            string AsgnTo;
+                            DateTime CallBack = DateTime.Now.AddDays(14);
                             if (!isProcessServer)
                             {
-                                var AsgnTo = "CBLIST";
-                                var CallBack = DateTime.Now.AddDays(14);
-                                //if ((pt.ChngDate == Convert.ToDateTime("1900-01-01 00:00:00")) || (pt.ChngDate == null) || (pt.ChngDate <= DateTime.Now.AddYears(-2)))
-                                //{
-                                //    AsgnTo = "FSTCAL";
-                                //    CallBack = Convert.ToDateTime(pt.CallBack);
-                                //}
-                                DbAccess.UpdateOrderPart(OrderNo, PartNo, AsgnTo, CallBack);
+                                 AsgnTo = "CBLIST";
                             }
                             else
                             {
-                                var AsgnTo = "UTILRE";
-                                var CallBack = DateTime.Now.AddDays(14);
-                                //if ((pt.ChngDate == Convert.ToDateTime("1900-01-01 00:00:00")) || (pt.ChngDate == null) || (pt.ChngDate <= DateTime.Now.AddYears(-2)))
-                                //{
-                                //    AsgnTo = "FSTCAL";
-                                //    CallBack = Convert.ToDateTime(pt.CallBack);
-                                //}
-                                DbAccess.UpdateOrderPart(OrderNo, PartNo, AsgnTo, CallBack);
+                                AsgnTo = "UTILRE";
                             }
+
+                            DbAccess.UpdateOrderPart(OrderNo, PartNo, AsgnTo, CallBack);
+                          
 
                             if (location != null)
                             {
