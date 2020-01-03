@@ -55,7 +55,8 @@
                 return true;
             }           
             fd.append("file", $("#OrderDocument")[0].files[0]);
-            var fileupload = Step7Service.UploadOrderDocument(fd, $scope.OrderId, $scope.EmpId, $scope.UserAccessId);
+            fd.append("model", angular.toJson({ 'UserGuid': $rootScope.LoggedInUserDetail.UserId}));
+            var fileupload = Step7Service.UploadOrderDocument(fd, $scope.OrderId, $scope.EmpId, $scope.UserAccessId );
             fileupload.success(function (response) {
                 $scope.GetDocumentList();
                 $("#OrderDocument").val('');

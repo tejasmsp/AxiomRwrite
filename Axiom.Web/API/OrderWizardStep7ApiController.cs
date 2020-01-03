@@ -83,7 +83,45 @@ namespace Axiom.Web.API
                                              ,new SqlParameter("UserAccessId", (object)UserAccessId ?? (object)DBNull.Value) };
                     // var result = _repository.ExecuteSQL<long>("AddOrderDocument", param).FirstOrDefault();
                     var result = _repository.ExecuteSQL<long>("InsertOrderDocument", param).FirstOrDefault();
+                    #region Save as order level document 
+                    try
+                    {
+                        var data = (Newtonsoft.Json.Linq.JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(HttpContext.Current.Request.Form[0]);
+                        Guid UserGuid = Guid.Parse(Convert.ToString(data["UserGuid"]));
+                        
 
+                        int FileTypeId = 18; //other
+                        int RecordTypeId = 0; //other
+                        SqlParameter[] paramOrderLevelDoc = {  new SqlParameter("OrderId", (object)Convert.ToInt32(OrderId) ?? (object)DBNull.Value)
+                                                 ,new SqlParameter("PartNo",(object)Convert.ToInt32(0)?? (object)DBNull.Value)
+                                                 ,new SqlParameter("FileName", (object)httpPostedFile.FileName ?? (object)DBNull.Value)
+                                                 ,new SqlParameter("FileTypeId",(object)Convert.ToInt32(FileTypeId)?? (object)DBNull.Value)
+                                                 ,new SqlParameter("IsPublic",(object)Convert.ToBoolean(true)?? (object)DBNull.Value)
+                                                 ,new SqlParameter("RecordTypeId",(object) Convert.ToInt32(RecordTypeId) ?? (object)DBNull.Value)
+                                                 ,new SqlParameter("FileDiskName", (object)(OrderGuid + FileExtension) ?? (object)DBNull.Value)
+                                                 ,new SqlParameter("PageNo", (object)Convert.ToInt32(0) ?? (object)DBNull.Value)
+                                                 ,new SqlParameter("CreatedBy", (object)UserGuid?? (object)DBNull.Value) };
+
+                        var resultOrderLevelDoc = _repository.ExecuteSQL<int>("InsertFile", paramOrderLevelDoc).FirstOrDefault();
+                        string tempPath = ConfigurationManager.AppSettings["UploadRoot"].ToString();
+                        string subFolder = tempPath + "\\" + OrderId.ToString();
+                        if (!Directory.Exists(subFolder))
+                        {
+                            Directory.CreateDirectory(subFolder);
+                        }
+                        if (Directory.Exists(subFolder))
+                        {
+                            File.Copy(FileSavePath, subFolder + "\\" + OrderGuid + FileExtension, true);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+
+                    }
+
+
+                    #endregion
                     if (result > 0)
                     {
                         response.lng_InsertedId = result;
