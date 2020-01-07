@@ -100,8 +100,7 @@
         $scope.FirmSearchObj.State = "";
     } 
 
-    $scope.bindFirmList = function () {
-        debugger;
+    $scope.bindFirmList = function () { 
         if ($.fn.DataTable.isDataTable("#tblFirm")) {
             $('#tblFirm').DataTable().destroy();
         }

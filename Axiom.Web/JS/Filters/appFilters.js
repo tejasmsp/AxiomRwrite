@@ -233,3 +233,30 @@ app.filter('FindValFromArray', function () {
 
 
 app.filter('unsafe', function ($sce) { return $sce.trustAsHtml; });
+
+app.filter('distinctArray', function () {
+    return function (List, ReturnFieldCSV, SearchField, SearchValue) {
+        var objList = [];
+        var ReturnFieldlst = ReturnFieldCSV.split(",");
+        for (i = 0; i < List.length; i++) {
+            if ( (isNullOrUndefinedOrEmpty(SearchField) || isNullOrUndefinedOrEmpty(SearchValue)) ||  (List[i][SearchField] == SearchValue)) {
+                //var obj = List[i];
+                //ReturnFieldlst
+                var obj = new Object();
+                if (ReturnFieldlst != null && ReturnFieldlst.length>0) { 
+                    ReturnFieldlst.forEach(function (item, index) {
+                        obj[item] = List[i][item];
+                    });
+                }
+                //if (objList.indexOf(obj) === -1) {
+                if (!(JSON.stringify(objList).indexOf(JSON.stringify(obj)) > - 1)) {
+                    objList.push(obj);
+                }
+                
+            }
+        };
+        return objList;
+
+    };
+});
+ 

@@ -1,4 +1,4 @@
-﻿
+﻿<link href="~/Content/bootstrap-select.css" rel="stylesheet" />
 <div class="page-content" ng-controller="LogController" ng-init="createDatePicker()">
     <div class="panel panel-white">
         <div class="panel-heading">
@@ -26,21 +26,25 @@
                                 <span class="input-group-addon cursor-pointer"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>
                         </div>
-                        <div class="col-md-2" ng-if="isSubModuleAccessibleToUser('EmployeeLog', 'EmployeeLog', 'View Other User Log')">
-                            <div class="form-group">
-                                <div id="ddl_assignedTo" custom-select="item.UserId as item.EmployeeName for item in EmployeeList | filter: $searchTerm" ng-model="log.UserId"></div>
+                        @*DepartmentList*@
+                        <div class="col-md-2">
+                            <div class="form-group" ng-if="hasAccessToViewOthersLog">
+                                @*<select class="form-control" id="ddl_DepartmentId" ng-options="item.DepartmentId as item.Department for item in DepartmentList" ng-model="log.DepartmentId">
+                    <option value="0">--Select Department--</option>
+                </select>*@
+                                <select class="form-control cls-Department" id="ddl_DepartmentId" name="ddl_DepartmentId" ng-change="Department_Change()" data-live-search="true" data-width="100%" data-size="15" ng-model="log.DepartmentId" required="required" ng-options="item.DepartmentId as item.Department for item in DepartmentList"></select>
+                                @*<div  custom-select="item.DepartmentId as item.Department for item in DepartmentList | filter: $searchTerm" ng-model="log.DepartmentId"></div>*@
                             </div>
                         </div>
-                        <div class="col-md-2" ng-hide="true">
+                        @*<div id="ddl_assignedTo" multiple custom-select="item.UserId as (item.EmployeeName+' ('+item.LogCount+')') for item in EmployeeList | filter: $searchTerm" ng-model="log.UserId"></div>*@
+                        <div class="col-md-2" ng-if="hasAccessToViewOthersLog && false">
                             <div class="form-group">
-                                <select class="form-control">
-                                    <option value="0">--Select Department--</option>
-                                    <option value="1">Department 1</option>
-                                    <option value="2">Department 2</option>
-                                    <option value="2">Department 3</option>
+                                <select class="form-control cls-assignedTo" id="ddl_assignedTo" name="ddl_assignedTo" data-live-search="true" data-width="100%" data-size="15" ng-model="log.UserId" required="required" ng-options="item.UserId as  item.EmployeeName for item in EmployeeList">
+                                    <option value="">-- Select --</option>
                                 </select>
                             </div>
                         </div>
+
 
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-primary mr-5" ng-click="searchLogClick();">Search</button>
@@ -49,12 +53,21 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row">
+            <div class="row" ng-if="showEmployeeLogCount">
                 <div class="col-md-12">
                     <div class="form-group pb-0 mb-0">
                         <div class="table-responsive table-grid">
-                            <table class="table table-bordered table-framed" id="tblLog"></table>
+                            <table class="table table-bordered table-framed" id="tblEmployeeLogCount"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="showOnlyLoginUserLog">
+                <div class="col-md-12">
+                    <div class="form-group pb-0 mb-0">
+                        <div class="table-responsive table-grid">
+                            <table class="table table-bordered table-framed" id="tblEmployeeLog"></table>
                         </div>
                     </div>
                 </div>
@@ -62,6 +75,6 @@
         </div>
     </div>
 </div>
-
+<script src="~/Scripts/bootstrap-select.js"></script>
 
 

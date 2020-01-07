@@ -22,5 +22,16 @@ namespace Axiom.Entity
         public string RecordOf { get; set; }
         public string Location { get; set; }
         public string AssignedTo { get; set; }
+        public string EmployeeName { get; set; } 
+    }
+    public class LogFilterEntity
+    {
+        public int DepartmentId { get; set; }
+        public string Department { get; set; }
+        public string EmployeeName { get; set; }
+        public string UserId { get; set; }
+        public string EmpId { get; set; } 
+        public int LogCount { get; set; }
+        public bool IsSelected { get; set; }
     }
 }
