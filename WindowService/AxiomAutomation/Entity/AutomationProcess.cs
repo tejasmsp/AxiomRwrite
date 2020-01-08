@@ -41,57 +41,7 @@ namespace AxiomAutomation.Entity
         private bool displaySSN { get; set; }
 
         #region NewChangesByAkash
-        private string ReplaceQueryAccordingToQueryType(QueryType pdt, int OrderNo, int PartNo, string[] folders, string docNameDB, int partListCount)
-        {
-            if (pdt == QueryType.FaceSheet || pdt == QueryType.FaceSheetNew)
-            {
-                pdt = QueryType.FaceSheetNew;
-            }
-
-            string query = DbAccess.GetQueryByQueryTypeId((int)pdt, "Query");
-            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
-            switch (pdt)
-            {
-                case QueryType.Common:
-                    bool isMichigan = folders.Contains("Michigan");
-                    bool isRush = docNameDB.Contains("RUSH");
-
-                    if (!string.IsNullOrEmpty(query))
-                    {
-                        if (isMichigan && isRush)
-                            query = query.Replace("--Michigan and Rush", " ,DATENAME(DW, DATEADD(day,7,GETDATE())) as [DayName],DATENAME(MM, DATEADD(day,7,GETDATE())) + RIGHT(CONVERT(VARCHAR(12), DATEADD(day,7,GETDATE()), 107), 9) AS BigDate ");
-                        else if (isMichigan && !isRush)
-                            query = query.Replace("--Michigan and Rush", " ,DATENAME(DW, DATEADD(day,14,GETDATE())) as [DayName],DATENAME(MM, DATEADD(day,14,GETDATE())) + RIGHT(CONVERT(VARCHAR(12), DATEADD(day,14,GETDATE()), 107), 9) AS BigDate ");
-                    }
-                    break;
-                case QueryType.Confirmation:
-                    query = query.Replace("%%PartCnt%%", Convert.ToString(partListCount));
-                    break;
-                case QueryType.FaceSheet:
-                case QueryType.FaceSheetNew:
-                case QueryType.AttorneyForms:
-                    query = query.Replace("%%ATTYNO%%", AttyID);
-                    break;
-                case QueryType.StatusProgressReports:
-                    query = query.Replace("%%PartCnt%%", Convert.ToString(partListCount));
-                    break;
-                case QueryType.StatusLetters:
-                case QueryType.Waiver:
-                case QueryType.Interrogatories:
-                case QueryType.TargetSheets:
-                case QueryType.CerticicationNOD:
-                case QueryType.AttorneyOfRecords:
-                case QueryType.CollectionLetters:
-                case QueryType.Notices:
-                    break;
-                default:
-                    break;
-            }
-            if (!displaySSN)
-                query = ReplaceSSN(query);
-            return query;
-
-        }
+        
 
         public void DoRequireOperationOnDocuments(RequestDocuments docitem, int OrderNo, int PartNo, string filetype,
                                         Location location, int partListCount, CompanyDetailForEmailEntity objCompany, bool isProcessServer)
@@ -250,6 +200,170 @@ namespace AxiomAutomation.Entity
             Log.ServicLog("========================================================================");
         }
 
+        private string ReplaceQueryAccordingToQueryType(QueryType pdt, int OrderNo, int PartNo, string[] folders, string docNameDB, int partListCount)
+        {
+            if (pdt == QueryType.FaceSheet || pdt == QueryType.FaceSheetNew)
+            {
+                pdt = QueryType.FaceSheetNew;
+            }
+
+            string query = DbAccess.GetQueryByQueryTypeId((int)pdt, "Query");
+            query = ReplaceOrderPartNo(query, OrderNo, PartNo);
+            switch (pdt)
+            {
+                case QueryType.Common:
+                    bool isMichigan = folders.Contains("Michigan");
+                    bool isRush = docNameDB.Contains("RUSH");
+
+                    if (!string.IsNullOrEmpty(query))
+                    {
+                        if (isMichigan && isRush)
+                            query = query.Replace("--Michigan and Rush", " ,DATENAME(DW, DATEADD(day,7,GETDATE())) as [DayName],DATENAME(MM, DATEADD(day,7,GETDATE())) + RIGHT(CONVERT(VARCHAR(12), DATEADD(day,7,GETDATE()), 107), 9) AS BigDate ");
+                        else if (isMichigan && !isRush)
+                            query = query.Replace("--Michigan and Rush", " ,DATENAME(DW, DATEADD(day,14,GETDATE())) as [DayName],DATENAME(MM, DATEADD(day,14,GETDATE())) + RIGHT(CONVERT(VARCHAR(12), DATEADD(day,14,GETDATE()), 107), 9) AS BigDate ");
+                    }
+                    break;
+                case QueryType.Confirmation:
+                    query = query.Replace("%%PartCnt%%", Convert.ToString(partListCount));
+                    break;
+                case QueryType.FaceSheet:
+                case QueryType.FaceSheetNew:
+                case QueryType.AttorneyForms:
+                    query = query.Replace("%%ATTYNO%%", AttyID);
+                    break;
+                case QueryType.StatusProgressReports:
+                    query = query.Replace("%%PartCnt%%", Convert.ToString(partListCount));
+                    break;
+                case QueryType.StatusLetters:
+                case QueryType.Waiver:
+                case QueryType.Interrogatories:
+                case QueryType.TargetSheets:
+                case QueryType.CerticicationNOD:
+                case QueryType.AttorneyOfRecords:
+                case QueryType.CollectionLetters:
+                case QueryType.Notices:
+                    break;
+                default:
+                    break;
+            }
+            if (!displaySSN)
+                query = ReplaceSSN(query);
+            return query;
+
+        }
+
+        private void ReplaceSubQueryAccordingToQueryType(QueryType pdt, int OrderNo, int PartNo, string[] folders, string docNameDB, int partListCount, RequestDocuments docitem, ref DataTable dtQueryList)
+        {
+            string subquery = string.Empty;
+            var dtsubQuery = new DataTable();
+            StringBuilder partInfo = new StringBuilder();
+            StringBuilder partInfo2 = new StringBuilder();
+
+            subquery = DbAccess.GetQueryByQueryTypeId(Convert.ToInt32(pdt), "SubQuery");
+            if (!string.IsNullOrEmpty(subquery) && dtQueryList != null)
+            {
+                subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
+                if (!displaySSN)
+                    subquery = ReplaceSSN(subquery);
+
+                if (pdt == QueryType.AttorneyForms)
+                {
+                    subquery = subquery.Replace("%%ATTYNO%%", AttyID);
+                }
+                if (pdt != QueryType.AttorneyOfRecords)
+                {
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
+                }
+
+            }
+            else
+            {
+                return;
+            }
+
+            if (pdt == QueryType.Confirmation || pdt == QueryType.TargetSheets || pdt == QueryType.StatusProgressReports)
+            {
+
+                partInfo.Append("_____________________________________________________________________________\n\r");
+                for (int a = 0; a < dtsubQuery.Rows.Count; a++)
+                {
+                    string partInfoText = Convert.ToString(dtsubQuery.Rows[a]["PartInfo1"]);
+                    if (pdt == QueryType.Confirmation && docitem.DocumentName.ToUpper().Equals("ORDER CONFIRMATION.DOC"))
+                        partInfoText = partInfoText.Replace("scopehere", Convert.ToString(dtsubQuery.Rows[a]["scope"]));
+                    else
+                        partInfoText = partInfoText.Replace("scopehere", "");
+                    partInfo.Append(partInfoText + "\n\r");
+                    partInfo2.Append(Convert.ToString(dtsubQuery.Rows[a]["LocationHeader"]) + "\n");
+                }
+
+                AddColumWithDefultValue(dtQueryList, "PartInfo", typeof(string), Convert.ToString(partInfo));
+                AddColumWithDefultValue(dtQueryList, "PartInfo2", typeof(string), Convert.ToString(partInfo2));
+
+
+            }
+            else if (pdt == QueryType.Waiver)
+            {
+                StringBuilder locationInfo = new StringBuilder();
+
+                for (int b = 0; b < dtsubQuery.Rows.Count; b++)
+                {
+                    locationInfo.Append(Convert.ToString(dtsubQuery.Rows[b]["Location1"]) + '\n');
+                }
+
+                AddColumWithDefultValue(dtQueryList, "Selected_Part", typeof(string), Convert.ToString(PartNo));
+                AddColumWithDefultValue(dtQueryList, "Location1", typeof(string), Convert.ToString(locationInfo));
+            }
+            else if (pdt == QueryType.CerticicationNOD)
+            {
+                StringBuilder attyInfo = new StringBuilder();
+                attyInfo.Append('\n');
+
+                for (int c = 0; c < dtsubQuery.Rows.Count; c++)
+                {
+                    attyInfo.Append(Convert.ToString(dtsubQuery.Rows[c]["Attorneys"]) + "\n");
+                }
+
+                AddColumWithDefultValue(dtQueryList, "Attorneys", typeof(string), Convert.ToString(attyInfo));
+            }
+            else if (pdt == QueryType.AttorneyOfRecords)
+            {
+
+                string[] strQuery = null;
+                StringBuilder attyInfo2 = new StringBuilder();
+                attyInfo2.Append('\n');
+                if (!string.IsNullOrEmpty(subquery))
+                {
+                    strQuery = subquery.Split(new string[] { "--Split--" }, StringSplitOptions.RemoveEmptyEntries);
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(strQuery[0]);
+                    for (int d = 0; d < dtsubQuery.Rows.Count; d++)
+                    {
+                        attyInfo2.Append(Convert.ToString(dtsubQuery.Rows[d]["AttyInfo"]));
+                    }
+                    attyInfo2.Append('\n');
+
+                    dtsubQuery = DbAccess.ExecuteSQLQuery(strQuery[1]);
+                    for (int e = 0; e < dtsubQuery.Rows.Count; e++)
+                    {
+                        attyInfo2.Append(Convert.ToString(dtsubQuery.Rows[e]["AttyInfo"]) + "\n");
+                    }
+                }
+                AddColumWithDefultValue(dtQueryList, "AttyInfo", typeof(string), Convert.ToString(attyInfo2));
+
+            }
+            else if (pdt == QueryType.AttorneyForms)
+            {
+                StringBuilder locationInfo2 = new StringBuilder();
+
+                for (int f = 0; f < dtsubQuery.Rows.Count; f++)
+                {
+                    locationInfo2.Append(Convert.ToString(dtsubQuery.Rows[f]["Location1"]) + "\n");
+                }
+
+                AddColumWithDefultValue(dtQueryList, "Selected_Part", typeof(string), Convert.ToString(PartNo));
+                AddColumWithDefultValue(dtQueryList, "Location1", typeof(string), Convert.ToString(locationInfo2));
+            }
+        }
+         
         private void ProcessOrderLocation(int OrderNo, Location location, string docNameDB, int PartNo
                                         , QueryType pdt, CompanyDetailForEmailEntity objCompany, Aspose.Words.Document doc, bool isProcessServer)
         {
@@ -546,117 +660,6 @@ namespace AxiomAutomation.Entity
 
             #endregion
         }
-        private void ReplaceSubQueryAccordingToQueryType(QueryType pdt, int OrderNo, int PartNo, string[] folders, string docNameDB, int partListCount, RequestDocuments docitem, ref DataTable dtQueryList)
-        {
-            string subquery = string.Empty;
-            var dtsubQuery = new DataTable();
-            StringBuilder partInfo = new StringBuilder();
-            StringBuilder partInfo2 = new StringBuilder();
-
-            subquery = DbAccess.GetQueryByQueryTypeId(Convert.ToInt32(pdt), "SubQuery");
-            if (!string.IsNullOrEmpty(subquery) && dtQueryList != null)
-            {
-                subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
-                if (!displaySSN)
-                    subquery = ReplaceSSN(subquery);
-
-                if (pdt == QueryType.AttorneyForms)
-                {
-                    subquery = subquery.Replace("%%ATTYNO%%", AttyID);
-                }
-                if (pdt != QueryType.AttorneyOfRecords)
-                {
-                    dtsubQuery = DbAccess.ExecuteSQLQuery(subquery);
-                }
-
-            }
-            else
-            {
-                return;
-            }
-
-            if (pdt == QueryType.Confirmation || pdt == QueryType.TargetSheets || pdt == QueryType.StatusProgressReports)
-            {
-
-                partInfo.Append("_____________________________________________________________________________\n\r");
-                for (int a = 0; a < dtsubQuery.Rows.Count; a++)
-                {
-                    string partInfoText = Convert.ToString(dtsubQuery.Rows[a]["PartInfo1"]);
-                    if (pdt == QueryType.Confirmation && docitem.DocumentName.ToUpper().Equals("ORDER CONFIRMATION.DOC"))
-                        partInfoText = partInfoText.Replace("scopehere", Convert.ToString(dtsubQuery.Rows[a]["scope"]));
-                    else
-                        partInfoText = partInfoText.Replace("scopehere", "");
-                    partInfo.Append(partInfoText + "\n\r");
-                    partInfo2.Append(Convert.ToString(dtsubQuery.Rows[a]["LocationHeader"]) + "\n");
-                }
-
-                AddColumWithDefultValue(dtQueryList, "PartInfo", typeof(string), Convert.ToString(partInfo));
-                AddColumWithDefultValue(dtQueryList, "PartInfo2", typeof(string), Convert.ToString(partInfo2));
-
-
-            }
-            else if (pdt == QueryType.Waiver)
-            {
-                StringBuilder locationInfo = new StringBuilder();
-
-                for (int b = 0; b < dtsubQuery.Rows.Count; b++)
-                {
-                    locationInfo.Append(Convert.ToString(dtsubQuery.Rows[b]["Location1"]) + '\n');
-                }
-
-                AddColumWithDefultValue(dtQueryList, "Selected_Part", typeof(string), Convert.ToString(PartNo));
-                AddColumWithDefultValue(dtQueryList, "Location1", typeof(string), Convert.ToString(locationInfo));
-            }
-            else if (pdt == QueryType.CerticicationNOD)
-            {
-                StringBuilder attyInfo = new StringBuilder();
-                attyInfo.Append('\n');
-
-                for (int c = 0; c < dtsubQuery.Rows.Count; c++)
-                {
-                    attyInfo.Append(Convert.ToString(dtsubQuery.Rows[c]["Attorneys"]) + "\n");
-                }
-
-                AddColumWithDefultValue(dtQueryList, "Attorneys", typeof(string), Convert.ToString(attyInfo));
-            }
-            else if (pdt == QueryType.AttorneyOfRecords)
-            {
-
-                string[] strQuery = null;
-                StringBuilder attyInfo2 = new StringBuilder();
-                attyInfo2.Append('\n');
-                if (!string.IsNullOrEmpty(subquery))
-                {
-                    strQuery = subquery.Split(new string[] { "--Split--" }, StringSplitOptions.RemoveEmptyEntries);
-                    dtsubQuery = DbAccess.ExecuteSQLQuery(strQuery[0]);
-                    for (int d = 0; d < dtsubQuery.Rows.Count; d++)
-                    {
-                        attyInfo2.Append(Convert.ToString(dtsubQuery.Rows[d]["AttyInfo"]));
-                    }
-                    attyInfo2.Append('\n');
-
-                    dtsubQuery = DbAccess.ExecuteSQLQuery(strQuery[1]);
-                    for (int e = 0; e < dtsubQuery.Rows.Count; e++)
-                    {
-                        attyInfo2.Append(Convert.ToString(dtsubQuery.Rows[e]["AttyInfo"]) + "\n");
-                    }
-                }
-                AddColumWithDefultValue(dtQueryList, "AttyInfo", typeof(string), Convert.ToString(attyInfo2));
-
-            }
-            else if (pdt == QueryType.AttorneyForms)
-            {
-                StringBuilder locationInfo2 = new StringBuilder();
-
-                for (int f = 0; f < dtsubQuery.Rows.Count; f++)
-                {
-                    locationInfo2.Append(Convert.ToString(dtsubQuery.Rows[f]["Location1"]) + "\n");
-                }
-
-                AddColumWithDefultValue(dtQueryList, "Selected_Part", typeof(string), Convert.ToString(PartNo));
-                AddColumWithDefultValue(dtQueryList, "Location1", typeof(string), Convert.ToString(locationInfo2));
-            }
-        }
 
         private void AddColumWithDefultValue(DataTable dataTable, string ColumnName, Type ColumnDatatype, dynamic defultValue)
         {
@@ -718,7 +721,7 @@ namespace AxiomAutomation.Entity
             Log.ServicLog(" ----------- Note end -------------------");
         }
 
-        public void EmailDocument(Aspose.Words.Document doc, List<string> fileName, string email, MemoryStream[] msList, EmailDetails ed, string additionalEmail, bool isMultiple, string MargeFileName, CompanyDetailForEmailEntity objCompany)
+        private void EmailDocument(Aspose.Words.Document doc, List<string> fileName, string email, MemoryStream[] msList, EmailDetails ed, string additionalEmail, bool isMultiple, string MargeFileName, CompanyDetailForEmailEntity objCompany)
         {
             try
             {
@@ -747,7 +750,7 @@ namespace AxiomAutomation.Entity
             }
         }
 
-        public void FaxDocument(int Id, List<string> fileName, string fax, string name, MemoryStream[] msList)
+        private void FaxDocument(int Id, List<string> fileName, string fax, string name, MemoryStream[] msList)
         {
             int msCounter = 0;
             try
