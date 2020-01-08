@@ -116,6 +116,7 @@
     </Compile>
     <Compile Include="AxiomAutomationEmail.cs" />
     <Compile Include="DbAccess.cs" />
+    <Compile Include="Entity\AutomationProcess.cs" />
     <Compile Include="Entity\AxiomAutoEntity.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
