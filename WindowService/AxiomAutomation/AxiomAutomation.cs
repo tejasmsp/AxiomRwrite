@@ -119,7 +119,9 @@ namespace AxiomAutomation
                             var docResult = DbAccess.GetDocsForRequest(OrderNo, Convert.ToString(PartNo));
                             if (docResult != null && docResult.Count > 0)
                             {
-                                var AutomationProcess = new AutomationProcess(documentRoot, RecordType, BillFirm, ClaimNo, AttyName, AttyID,true);
+                                var AutomationProcess = new AutomationProcess(_documentRoot:documentRoot, _RecordType: RecordType, _BillFirm: BillFirm
+                                                                            , _ClaimNo: ClaimNo, _AttyName: AttyName, _AttyID:AttyID
+                                                                            , _displaySSN: true, _docFileType: FileType.Request, _part: pt, _operationInitiatedFrom: OperationInitiatedFrom.AutomationService);
                                 foreach (var docitem in docResult)
                                 {
                                     AutomationProcess.DoRequireOperationOnDocuments(docitem, OrderNo, PartNo, filetype, location, partList.Count, objCompany, isProcessServer);

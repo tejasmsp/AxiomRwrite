@@ -16,6 +16,15 @@ namespace AxiomAutomation.Entity
         public int PartNo { get; set; }
         public DateTime? ChngDate { get; set; }
         public DateTime? CallBack { get; set; }
+        public bool? isSup { get; set; }
+
+        
+        public bool isBatchUpload { get; set; }
+        
+        public bool? isCreateAuthSup { get; set; }
+        public bool? isAuth { get; set; }
+        
+        public byte? RecType { get; set; }
     }
     public class Location
     {

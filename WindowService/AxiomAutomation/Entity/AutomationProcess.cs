@@ -22,7 +22,9 @@ namespace AxiomAutomation.Entity
         {
         }
 
-        public AutomationProcess(string _documentRoot, int _RecordType, string _BillFirm, string _ClaimNo, string _AttyName, string _AttyID, bool _displaySSN)
+        public AutomationProcess(string _documentRoot, int _RecordType, string _BillFirm
+                                    , string _ClaimNo, string _AttyName, string _AttyID
+                                   , bool _displaySSN, FileType _docFileType, PartDetail _part, OperationInitiatedFrom _operationInitiatedFrom)
         {
             documentRoot = _documentRoot;
             RecordType = _RecordType;
@@ -30,7 +32,10 @@ namespace AxiomAutomation.Entity
             ClaimNo = _ClaimNo;
             AttyName = _AttyName;
             AttyID = _AttyID;
-            displaySSN = _displaySSN;
+            DisplaySSN = _displaySSN;
+            DocFileType = _docFileType;
+            Part = _part;
+            OperationInitiatedFrom = _operationInitiatedFrom;
         }
         private string documentRoot { get; set; }// = ConfigurationManager.AppSettings["DocumentRoot"].ToString();
         private int RecordType { get; set; }
@@ -38,10 +43,13 @@ namespace AxiomAutomation.Entity
         private string ClaimNo { get; set; }
         private string AttyName { get; set; }
         private string AttyID { get; set; }
-        private bool displaySSN { get; set; }
+        private bool DisplaySSN { get; set; } 
+        private FileType DocFileType { get; set; }
+        private PartDetail Part { get; set; }
+        private OperationInitiatedFrom OperationInitiatedFrom { get; set; }
 
         #region NewChangesByAkash
-        
+
 
         public void DoRequireOperationOnDocuments(RequestDocuments docitem, int OrderNo, int PartNo, string filetype,
                                         Location location, int partListCount, CompanyDetailForEmailEntity objCompany, bool isProcessServer)
@@ -75,8 +83,9 @@ namespace AxiomAutomation.Entity
             Aspose.Words.Document doc = new Aspose.Words.Document();
             try
             {
-
-                doc = new Aspose.Words.Document(filePath);
+                #region Add Company Wise logo 
+                doc = Axiom.Common.CommonHelper.InsertHeaderLogo(filePath, objCompany.LogoPath);
+                #endregion
             }
             catch (Exception ex)
             {
@@ -187,13 +196,16 @@ namespace AxiomAutomation.Entity
             }
             finally
             {
-                var objFile = new FileEnity();
-                objFile.OrderNo = OrderNo;
-                objFile.PartNo = PartNo;
-                objFile.FileName = outputFileName.Replace("_", "-");
-                objFile.FileTypeId = 3;
-                objFile.FileDiskName = gid + "." + filetype;
-                DbAccess.InsertFile(objFile);
+                if (OperationInitiatedFrom.AutomationService == OperationInitiatedFrom || (OperationInitiatedFrom.WebForm == OperationInitiatedFrom &&  Part.isSup != true ) )
+                {
+                    var objFile = new FileEnity();
+                    objFile.OrderNo = OrderNo;
+                    objFile.PartNo = PartNo;
+                    objFile.FileName = outputFileName.Replace("_", "-");
+                    objFile.FileTypeId = (int)DocFileType;
+                    objFile.FileDiskName = gid + "." + filetype;
+                    DbAccess.InsertFile(objFile);
+                }
             }
             ms.Dispose();
             ProcessOrderLocation(OrderNo, location, docNameDB, PartNo, pdt, objCompany, doc, isProcessServer);
@@ -246,7 +258,7 @@ namespace AxiomAutomation.Entity
                 default:
                     break;
             }
-            if (!displaySSN)
+            if (!DisplaySSN)
                 query = ReplaceSSN(query);
             return query;
 
@@ -263,7 +275,7 @@ namespace AxiomAutomation.Entity
             if (!string.IsNullOrEmpty(subquery) && dtQueryList != null)
             {
                 subquery = ReplaceOrderPartNo(subquery, OrderNo, PartNo);
-                if (!displaySSN)
+                if (!DisplaySSN)
                     subquery = ReplaceSSN(subquery);
 
                 if (pdt == QueryType.AttorneyForms)
@@ -374,7 +386,16 @@ namespace AxiomAutomation.Entity
             {
                 //foreach (var location in locationList)
                 {
-                    if (!string.IsNullOrEmpty(location.SendRequest))
+                    if (Part.isCreateAuthSup == true && Part.isAuth == true)
+                    {
+                        if (Part.LocID.Trim().ToUpper() != "AXIOMI001")
+                        {
+                            var AsgnTo = "AUTHSS";
+                            var CallBack = DateTime.Now.AddDays(14);
+                           DbAccess.UpdateOrderPart(OrderNo, PartNo, AsgnTo, DateTime.Now.AddDays(14));
+                        }
+                    }
+                    else if (!string.IsNullOrEmpty(location.SendRequest))
                     {
                         string[] strsplit = location.SendRequest.Split(',');
 
@@ -400,18 +421,6 @@ namespace AxiomAutomation.Entity
 
                                 OrderAttorney = Convert.ToString(objOrderDetail.OrderingAttorney);
 
-
-                                // var objAccExecutive = DbAccess.GetAccntRepDetail(acctrep);
-                                //if (objAccExecutive != null)
-                                //{
-                                //    ed.AccExeName = objAccExecutive.Name;
-                                //    ed.AccExeEmail = objAccExecutive.Email;
-                                //}
-                                //else
-                                //{
-                                //    ed.AccExeName = "Josh Sanford";
-                                //    ed.AccExeEmail = "Josh.Sanford@axiomcopy.com";
-                                //}
                                 string additionalEmail = string.Empty;
                                 if (pdt == QueryType.Confirmation)
                                 {
@@ -431,7 +440,7 @@ namespace AxiomAutomation.Entity
                                         additionalEmail = string.Join(",", notificationList.Where(x => x.AttyID == OrderAttorney.Trim() && x.OrderConfirmation == true).Select(x => x.AssistantEmail));
                                     }
                                 }
-                                if (sendRequestType == SendRequestType.Email || sendRequestType == SendRequestType.FaxNumber)
+                                if (sendRequestType == SendRequestType.FaxNumber || sendRequestType == SendRequestType.Email)
                                 {
                                     string title = (sendRequestType == SendRequestType.Email ? "Email" : "Fax Number");
                                     string SendTo = (sendRequestType == SendRequestType.Email ? location.Email : string.Concat(location.AreaCode3, location.FaxNo).Replace("-", "").Replace(" ", ""));
@@ -564,7 +573,7 @@ namespace AxiomAutomation.Entity
                                             }
 
                                         }
-                                        else
+                                        else if(!fileNames[msCounter].Contains(".html"))
                                         {
                                             try
                                             {
@@ -653,6 +662,20 @@ namespace AxiomAutomation.Entity
 
                         }
 
+                    }
+                    else
+                    { 
+                            if (location.ReqAuthorization == true || location.FeeAmountSendRequest == true || location.LinkRequest == true)
+                            {
+                            // DbAccess.UpdateOrderPart(OrderNo, part.PartNo, "UTILRE", Convert.ToDateTime(pt.CallBack));
+                            DbAccess.UpdateOrderPart(OrderNo, PartNo, "UTILRE", DateTime.Now.AddDays(14));
+
+
+                                string partNotes = string.Empty;
+                                CreateNoteString(OrderNo, PartNo, "Assign to In Office Request.", "SYSTEM", ref partNotes, false, false);
+                            }
+
+                        
                     }
 
                 }

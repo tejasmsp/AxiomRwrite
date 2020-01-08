@@ -34,4 +34,17 @@ namespace AxiomAutomation
             , ProcessServer = 4
             , CertifiedMail = 5
     }
+    public enum FileType
+    {
+        Authorization_Blank = 1,
+        Authorization = 2,
+        Request = 3,
+        Other = 18 
+    }
+    public enum OperationInitiatedFrom
+    {
+        AutomationService = 1,
+        QuickFormService = 2,
+        WebForm = 3
+    }
 }
