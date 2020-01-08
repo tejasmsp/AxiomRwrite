@@ -13,7 +13,13 @@
         var promise = QuickFormService.QuickFormGetOrderingAttorney($scope.OrderNo);
         promise.success(function (response) {
             if (response.Success) {
+                debugger;
                 $scope.attorneyDataList = response.Data;
+                if (response.Data.length > 0) {
+
+                }
+
+                
             }
         });
         promise.error(function (data, statusCode) {
@@ -34,18 +40,19 @@
 
     //#region Events
     $scope.addAttorneyClick = function () {
+        debugger;
         if ($scope.lblchecked === 'Email' && (!$scope.attorney.selectedAttorneyEmail || $scope.attorney.selectedAttorneyEmail.length === 0)) {
-            toastr.warning("Please select atleast one attorney.");              
+            toastr.warning("Please select atleast one attorney.");
             return;
         }
         else {
-            //var objtoPass = new Object();
-            //if ($scope.lblchecked === 'Email') {
-            //    objtoPass.attorneyEmail = $scope.attorney.selectedAttorneyEmail[0];
-            //}
-            //else if ($scope.lblchecked === 'Fax') {
-            //    objtoPass.attorneyFaxNo = $scope.attorney.selectedAttorneyFaxNo;
-            //}
+            var objtoPass = new Object();
+            if ($scope.lblchecked === 'Email') {
+                objtoPass.attorneyEmail = $scope.attorney.selectedAttorneyEmail[0];
+            }
+            else if ($scope.lblchecked === 'Fax') {
+                objtoPass.attorneyFaxNo = $scope.attorney.selectedAttorneyFaxNo;
+            }
             
             $scope.$parent.SelectedemailByDocNameList.push({ 'SelectedDocumentName': $scope.selectedDocumentName, 'SelectedEmail': $scope.attorney.selectedAttorneyEmail? $scope.attorney.selectedAttorneyEmail[0]:"", 'SelectedFaxNo': $scope.attorney.selectedAttorneyFaxNo })
 

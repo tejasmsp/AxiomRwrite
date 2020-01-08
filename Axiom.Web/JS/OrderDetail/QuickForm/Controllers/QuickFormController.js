@@ -523,6 +523,7 @@
     }
 
     $scope.GetDocumentRootPath = function (item) {
+        debugger;
         var currentPath = QuickFormService.GetDocumentRootPath();
         currentPath.success(function (response) {
             $scope.currentPath = response;
@@ -541,6 +542,7 @@
             objpdf.EnableDocStorage = false;
             objpdf.PartIds = !isNullOrUndefinedOrEmpty(item.Part) ? item.Part : 0;
             objpdf.AttysIds = item.AttorneyId;
+            objpdf.IsRevisedText = $scope.requestOption;
             // $scope.GetQuickformPdf(objpdf);
             objpdf.EmpId = $scope.UserEmployeeID;
             objpdf.UserId = $scope.UserGUID;
@@ -613,13 +615,20 @@
                 IsSSN = $scope.radioFaxCoverSheetStatus;
                 fileTypeId = GetFileTypeId().FAXCOVERSHEET;
             }
-            var selectedEmail = '';
+            var selectedEmail = ''; 
             if ($scope.SelectedemailByDocNameList && item.DocumentType !== "Requests") {
                 var objSelected = $filter('filter')($scope.SelectedemailByDocNameList, { SelectedDocumentName: item.DocumentName }, true);
                 if (objSelected && objSelected.length > 0) {
-                    selectedEmail = objSelected[0].SelectedEmail;
+                    selectedEmail = objSelected[0].SelectedEmail; 
                 };
             }
+
+            var selectedFax = '';
+            var objSelected = $filter('filter')($scope.SelectedemailByDocNameList, { SelectedDocumentName: item.DocumentName }, true);
+            if (objSelected && objSelected.length > 0) { 
+                selectedFax = objSelected[0].SelectedFaxNo;
+            };
+
             var objSave = new Object();
 
             //Email
@@ -684,7 +693,7 @@
             objSave.faxStatus = 0;
             objSave.EmailStatus = 0;
             objSave.Email = item.DocumentType === "Requests" ? item.Email : selectedEmail;
-            objSave.FaxNo = item.FaxNo;
+            objSave.FaxNo = selectedFax;
             objSave.Name = "";
             objSave.Address = "";
             objSave.IsSSN = IsSSN;
@@ -806,6 +815,7 @@
         }
     }
     $scope.selectedAttorneyFormData = function (index, $event) {
+        debugger;
         $event.stopPropagation();
         var objAttorneyData = angular.copy($scope.attorneyFormList[index]);
         if (objAttorneyData) {

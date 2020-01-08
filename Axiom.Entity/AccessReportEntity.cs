@@ -72,10 +72,10 @@ namespace Axiom.Entity
         //public string CancelledDate { get; set; }
         // public string NRDate { get; set; }
 
-        private string _NRDate;
-        public string NRDate { get { return _NRDate == "01/01/1900" ? "" : _NRDate; } set { _NRDate = value; } }
+        //private string _NRDate;
+        //public string NRDate { get { return _NRDate == "01/01/1900" ? "" : _NRDate; } set { _NRDate = value; } }
 
-        public string CheckedByLeah { get; set; }
+        //public string CheckedByLeah { get; set; }
     }
     public class HanoverBillingEntity
     {

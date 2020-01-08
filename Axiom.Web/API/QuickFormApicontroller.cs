@@ -355,14 +355,26 @@ namespace Axiom.Web.API
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
                 string DocumentsRoot = ConfigurationManager.AppSettings["DocumentRoot"].ToString();
                 var UploadRoot = ConfigurationManager.AppSettings["UploadRoot"].ToString();
-                var folderPath = model.Fullpath.Replace(">","\\");
+                var folderPath = model.Fullpath.Replace(">", "\\");
                 string strQuery, strSubQuery = "";
                 string filetype = "doc";
                 int orderNo = model.OrderNo;
                 string partId = model.PartIds;
                 bool displaySSN = model.SSN;
+                string revisedText = model.IsRevisedText;
                 string noOfYears = !string.IsNullOrEmpty(model.Years) ? model.Years.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Length.ToString() : "0";
                 int amount = 0;
+
+                //if (drForm["IsRevised"].ToString().ToLower() == "revised" || drForm["IsRevised"].ToString().ToLower() == "duplicate") //For Duplicate doc change
+                //{
+                //    IsRevised = 1;
+                //    IsRevisedText = drForm["IsRevised"].ToString().Trim();
+                //}
+                //else
+                //{
+                //    IsRevised = 0;
+                //    IsRevisedText = "";
+                //}
 
                 var documentName = string.Empty;
                 string[] documentNames = model.FileName.Split('_');
@@ -372,7 +384,7 @@ namespace Axiom.Web.API
                 var filePath = Path.Combine(DocumentsRoot, folderPath, /*model.FileName*/documentName);
                 documentName = Path.GetFileName(filePath);
 
-               
+
 
                 string[] folders = model.FolderPath.Split('\\');
                 var folderName = "";
@@ -730,7 +742,7 @@ namespace Axiom.Web.API
                         dr7["Part_RecordType"] = Part_RecordType;
                     }
                 }
-                filePath = Path.Combine(DocumentsRoot, model.Fullpath.Replace(">","\\"), /*model.FileName*/documentName);
+                filePath = Path.Combine(DocumentsRoot, model.Fullpath.Replace(">", "\\"), /*model.FileName*/documentName);
                 Aspose.Words.License license = new Aspose.Words.License();
                 license.SetLicense("Aspose.Words.lic");
                 Aspose.Words.Document doc;
@@ -935,7 +947,7 @@ namespace Axiom.Web.API
 
                         response.Content = new ByteArrayContent(ms.ToArray());
                         response.Content.Headers.Clear();
-                        response.Content.Headers.Add("Content-Disposition", "attachment; filename=" + outputFileName.Replace("(","").Replace(")","").Replace(",", "-"));
+                        response.Content.Headers.Add("Content-Disposition", "attachment; filename=" + outputFileName.Replace("(", "").Replace(")", "").Replace(",", "-"));
                         response.Content.Headers.Add("Content-Length", ms.Length.ToString());
 
 
@@ -1358,11 +1370,7 @@ namespace Axiom.Web.API
                 Aspose.Words.Document doc = new Aspose.Words.Document();
                 try
                 {
-
-                    
                     doc = Common.CommonHelper.InsertHeaderLogo(filePath, string.Format("{0}logo-axiom_{1}.png", HttpContext.Current.Server.MapPath(@"~/assets/images/"), model.CompNo));
-
-                    
                 }
 
                 catch (Exception ex)
@@ -1388,9 +1396,10 @@ namespace Axiom.Web.API
                 }
                 doc.MailMerge.Execute(dtQuery);
                 flag = filetype == "doc" ? true : false;
-                if (model.IsRevised == "Duplicate" || model.IsRevised == "Revised")
+                string revText = string.IsNullOrEmpty(model.IsRevisedText) ? "" : model.IsRevisedText.ToLower();
+                if (revText == "duplicate" || revText == "revised")
                 {
-                    InsertWatermarkText(doc, model.IsRevised);
+                    InsertWatermarkText(doc, model.IsRevisedText);
                     doc.FirstSection.Body.FirstParagraph.ParagraphFormat.Shading.BackgroundPatternColor = System.Drawing.Color.Empty;
                 }
                 // doc.Save(ms, Aspose.Words.SaveFormat.Pdf);

@@ -190,5 +190,6 @@ namespace Axiom.Entity
         public Guid UserId { get; set; }
         public string EmpId { get; set; }
         public Int16? CompNo { get; set; }
+        public string IsRevisedText { get; set; }
     }
 }

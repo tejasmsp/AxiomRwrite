@@ -496,6 +496,7 @@ namespace Axiom.Web.Reports
                 {
                     sqlCmd.Parameters.AddWithValue("@InvoiceNO", (object)InvoiceNO ?? (object)DBNull.Value);
                     sqlCmd.Parameters.AddWithValue("@OnlyFilterByInvoice", (object)OnlyFilterByInvoice ?? (object)DBNull.Value);
+                    sqlCmd.Parameters.AddWithValue("@CompanyNo", CompanyNo);
                 }
                 
                 sqlCmd.ExecuteNonQuery();                
