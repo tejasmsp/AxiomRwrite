@@ -128,6 +128,7 @@ namespace AxiomAutomation
                                 }
 
                             }
+                            /*
                             string AsgnTo;
                             DateTime CallBack = DateTime.Now.AddDays(14);
                             if (!isProcessServer)
@@ -145,7 +146,7 @@ namespace AxiomAutomation
                             if (location != null)
                             {
 
-                                if (location.ReqAuthorization == true || location.FeeAmountSendRequest == true)
+                                if (location.ReqAuthorization == true || location.FeeAmountSendRequest == true || location.LinkRequest == true)
                                 {
                                     DbAccess.UpdateOrderPart(OrderNo, PartNo, "UTILRE", Convert.ToDateTime(pt.CallBack));
                                     string partNotes = string.Empty;
@@ -153,6 +154,7 @@ namespace AxiomAutomation
                                 }
 
                             }
+                            */
                             #endregion Main Code
 
                         }
