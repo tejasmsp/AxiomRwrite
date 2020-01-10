@@ -15,6 +15,9 @@ namespace Axiom.Entity
         public bool? isAuth { get; set; }
         public bool? isSup { get; set; }
         public byte? RecType { get; set; }
+        public int OrderNo { get; set; }
+        public DateTime? ChngDate { get; set; }
+        public DateTime? CallBack { get; set; }
     }
 
     public class ProposalFeesEntity

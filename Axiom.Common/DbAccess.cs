@@ -8,14 +8,13 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
-using AxiomAutomation.Entity;
 using System.IO;
+using Axiom.Entity;
 
-namespace AxiomAutomation
+namespace Axiom.Common
 {
     public static class DbAccess
     {
-        /*
         public static string sConnectionString = ConfigurationManager.ConnectionStrings["Axiom"].ConnectionString;
 
         public static DataTable GetDataList(SqlCommand cmd)
@@ -90,25 +89,25 @@ namespace AxiomAutomation
             return partList;
         }
 
-        public static Location GetPartLocation(string LocID)
+        public static LocationEntity GetPartLocation(string LocID)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "GetLocationById";
             cmd.Parameters.Add("@LocationId", SqlDbType.VarChar).Value = LocID;
             var result = GetDataList(cmd);
-            var location = result != null ? ConvertDataTable<Location>(result).FirstOrDefault() : null;
+            var location = result != null ? ConvertDataTable<LocationEntity>(result).FirstOrDefault() : null;
             return location;
         }
 
-        public static Attorney GetAttorneyByOrder(int OrderNo)
+        public static AttorneyEntity GetAttorneyByOrder(int OrderNo)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "GetAttorneyByOrder";
             cmd.Parameters.Add("@OrderNo", SqlDbType.Int).Value = OrderNo;
             var result = GetDataList(cmd);
-            var attyList = result != null ? ConvertDataTable<Attorney>(result) : null;
+            var attyList = result != null ? ConvertDataTable<AttorneyEntity>(result) : null;
             return (attyList != null && attyList.Count > 0) ? attyList[0] : null;
         }
 
@@ -155,11 +154,11 @@ namespace AxiomAutomation
             return GetDataList(cmd);
         }
 
-        public static void InsertFile(FileEnity file)
+        public static void InsertFile(FileEntity file)
         {
             SqlCommand sqlCmd = new SqlCommand();
             sqlCmd.CommandType = CommandType.StoredProcedure;
-            sqlCmd.Parameters.Add("@OrderId", SqlDbType.Int).Value = file.OrderNo;
+            sqlCmd.Parameters.Add("@OrderId", SqlDbType.Int).Value = file.OrderId;
             sqlCmd.Parameters.Add("@PartNo", SqlDbType.Int).Value = file.PartNo;
             sqlCmd.Parameters.Add("@FileName", SqlDbType.VarChar).Value = file.FileName;
             sqlCmd.Parameters.Add("@FileTypeId", SqlDbType.Int).Value = file.FileTypeId;
@@ -172,14 +171,14 @@ namespace AxiomAutomation
             InsertUpdateData(sqlCmd);
         }
 
-        public static OrderDetail GetOrderDetailByOrderNo(int OrderNo)
+        public static OrderDetailEntity GetOrderDetailByOrderNo(int OrderNo)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "QuickFormGetOrderDetails";
             cmd.Parameters.Add("@OrderId", SqlDbType.Int).Value = OrderNo;
             var result = GetDataList(cmd);
-            var orderList = result != null ? ConvertDataTable<OrderDetail>(result) : null;
+            var orderList = result != null ? ConvertDataTable<OrderDetailEntity>(result) : null;
             return (orderList != null && orderList.Count > 0) ? orderList[0] : null;
         }
 
@@ -215,7 +214,7 @@ namespace AxiomAutomation
                 cmd.Parameters.Add("@OrderNumber", SqlDbType.Int).Value = OrderNo;
                 cmd.Parameters.Add("@PartNumber", SqlDbType.Int).Value = partno;
                 var result = GetDataList(cmd);
-                var attachedFileList = result != null ? ConvertDataTable<DocumentAttachmentListEntity>(result) : null;
+                var attachedFileList = result != null ? ConvertDataTable<QuickFormDocumentAttachmentListEntity>(result) : null;
                 if (attachedFileList != null && attachedFileList.Count > 0)
                 {
                     int counter = AttachFileName.Count();
@@ -279,7 +278,7 @@ namespace AxiomAutomation
             SqlCommand sqlCmd = new SqlCommand();
             sqlCmd.CommandType = CommandType.StoredProcedure;
             sqlCmd.Parameters.Add("@OrderId", SqlDbType.Int).Value = OrderNo;
-            sqlCmd.Parameters.Add("@PatNo", SqlDbType.Int).Value = PartNo;            
+            sqlCmd.Parameters.Add("@PatNo", SqlDbType.Int).Value = PartNo;
             sqlCmd.CommandText = "InsertMiscChargesForCertifiedMail";
             InsertUpdateData(sqlCmd);
         }
@@ -308,7 +307,7 @@ namespace AxiomAutomation
             sqlCmd.CommandText = "InsertOrderNotes";
             InsertUpdateData(sqlCmd);
         }
-        public static List<RequestDocuments> GetDocsForRequest(int OrderNo, string PartNo)
+        public static List<QuickFormDocumentListEntity> GetDocsForRequest(int OrderNo, string PartNo)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
@@ -317,7 +316,7 @@ namespace AxiomAutomation
             cmd.Parameters.Add("@OrderNo", SqlDbType.Int).Value = OrderNo;
             cmd.Parameters.Add("@PartNo", SqlDbType.VarChar).Value = PartNo;
             var result = GetDataList(cmd);
-            return result != null ? ConvertDataTable<RequestDocuments>(result) : null;
+            return result != null ? ConvertDataTable<QuickFormDocumentListEntity>(result) : null;
         }
         public static List<CompanyDetailForEmailEntity> CompanyDetailForEmail(string spName, int OrderNO)
         {
@@ -337,7 +336,5 @@ namespace AxiomAutomation
                 return ConvertDataTable<CompanyDetailForEmailEntity>(dt);
             }
         }
-    
-    */
     }
 }

@@ -1,28 +1,28 @@
-﻿using System;
+﻿using Axiom.Entity;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Timers;
 using System.Configuration;
+using System.Data;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
-using AxiomAutomation.Entity;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
-namespace AxiomAutomation.Entity
+namespace Axiom.Common
 {
-    public class AutomationProcess
+    
+    public class OrderOperation
     {
-        /*
-        private AutomationProcess()
+
+        private OrderOperation()
         {
         }
 
-        public AutomationProcess(string _documentRoot, int _RecordType, string _BillFirm
+        public OrderOperation(string _documentRoot, int _RecordType, string _BillFirm
                                     , string _ClaimNo, string _AttyName, string _AttyID
                                    , bool _displaySSN, FileType _docFileType, PartDetail _part, OperationInitiatedFrom _operationInitiatedFrom)
         {
@@ -51,8 +51,8 @@ namespace AxiomAutomation.Entity
         #region NewChangesByAkash
 
 
-        public void DoRequireOperationOnDocuments(RequestDocuments docitem, int OrderNo, int PartNo, string filetype,
-                                        Location location, int partListCount, CompanyDetailForEmailEntity objCompany, bool isProcessServer)
+        public void DoRequireOperationOnDocuments(QuickFormDocumentListEntity docitem, int OrderNo, int PartNo, string filetype,
+                                        LocationEntity location, int partListCount, CompanyDetailForEmailEntity objCompany, bool isProcessServer)
         {
             Log.ServicLog("Order NO :" + OrderNo + "  Part NO:" + PartNo);
             string docpath = docitem.DocumentPath.ToString().Trim().Replace(">", "/");
@@ -84,7 +84,7 @@ namespace AxiomAutomation.Entity
             try
             {
                 #region Add Company Wise logo 
-                doc = Axiom.Common.CommonHelper.InsertHeaderLogo(filePath, objCompany.LogoPath);
+                doc = CommonHelper.InsertHeaderLogo(filePath, objCompany.Logopath);
                 #endregion
             }
             catch (Exception ex)
@@ -198,8 +198,8 @@ namespace AxiomAutomation.Entity
             {
                 if (OperationInitiatedFrom.AutomationService == OperationInitiatedFrom || (OperationInitiatedFrom.WebForm == OperationInitiatedFrom && Part.isSup != true))
                 {
-                    var objFile = new FileEnity();
-                    objFile.OrderNo = OrderNo;
+                    var objFile = new FileEntity();
+                    objFile.OrderId = OrderNo;
                     objFile.PartNo = PartNo;
                     objFile.FileName = outputFileName.Replace("_", "-");
                     objFile.FileTypeId = (int)DocFileType;
@@ -264,7 +264,7 @@ namespace AxiomAutomation.Entity
 
         }
 
-        private void ReplaceSubQueryAccordingToQueryType(QueryType pdt, int OrderNo, int PartNo, string[] folders, string docNameDB, int partListCount, RequestDocuments docitem, ref DataTable dtQueryList)
+        private void ReplaceSubQueryAccordingToQueryType(QueryType pdt, int OrderNo, int PartNo, string[] folders, string docNameDB, int partListCount, QuickFormDocumentListEntity docitem, ref DataTable dtQueryList)
         {
             string subquery = string.Empty;
             var dtsubQuery = new DataTable();
@@ -376,7 +376,7 @@ namespace AxiomAutomation.Entity
             }
         }
 
-        private void ProcessOrderLocation(int OrderNo, Location location, string docNameDB, int PartNo
+        private void ProcessOrderLocation(int OrderNo, LocationEntity location, string docNameDB, int PartNo
                                         , QueryType pdt, CompanyDetailForEmailEntity objCompany, Aspose.Words.Document doc, bool isProcessServer)
         {
             #region Location
@@ -427,8 +427,16 @@ namespace AxiomAutomation.Entity
                                 var notificationList = DbAccess.GetAssistantContactNotification(OrderNo);
                                 if (notificationList != null && notificationList.Count > 0)
                                 {
-                                   
-                                  
+                                    /*
+                                    notificationList = notificationList.Where(x => x.AttyID == OrderAttorney.Trim() && x.OrderConfirmation == true).ToList();
+                                    if (notificationList.Count > 0)
+                                    {
+                                        foreach (var item in notificationList)
+                                            additionalEmail += item.AssistantEmail + ",";
+
+                                        additionalEmail = additionalEmail.Trim(',');
+                                    }
+                                    */
                                     additionalEmail = string.Join(",", notificationList.Where(x => x.AttyID == OrderAttorney.Trim() && x.OrderConfirmation == true).Select(x => x.AssistantEmail));
                                 }
                             }
@@ -636,7 +644,22 @@ namespace AxiomAutomation.Entity
 
                         else if (sendRequestType == SendRequestType.Upload || sendRequestType == SendRequestType.ProcessServer) //UPLOAD & PROCESS SERVER
                         {
-                            isProcessServer = true; 
+                            isProcessServer = true;
+                            /*
+                            AsgnTo = "";
+                            if (sendRequestType == SendRequestType.Upload)
+                            {
+                                AsgnTo = "UTILRE";
+                                Log.ServicLog("Upload");
+                            }
+                            else if (sendRequestType == SendRequestType.ProcessServer)
+                            {
+
+                                Log.ServicLog("Process Server");
+                                AsgnTo = "REQUES";
+                            }
+                            DbAccess.UpdateQuickFormOrderPart(OrderNo, PartNo, AsgnTo);
+                            */
                         }
 
                     }
@@ -648,7 +671,7 @@ namespace AxiomAutomation.Entity
                         AsgnTo = "UTILRE";
                         //DbAccess.UpdateOrderPart(OrderNo, PartNo, "UTILRE", CallBack);
                         string partNotes = string.Empty;
-                        AutomationProcess.CreateNoteString(OrderNo, PartNo, "Assign to In Office Request.", "SYSTEM", ref partNotes, false, false);
+                        CreateNoteString(OrderNo, PartNo, "Assign to In Office Request.", "SYSTEM", ref partNotes, false, false);
                     }
 
 
@@ -658,8 +681,8 @@ namespace AxiomAutomation.Entity
                     AsgnTo = "UTILRE";
                     //DbAccess.UpdateOrderPart(OrderNo, PartNo, "UTILRE", CallBack);
                     string partNotes = string.Empty;
-                    AutomationProcess.CreateNoteString(OrderNo, PartNo, "Assign to In Office Request.", "SYSTEM", ref partNotes, false, false);
-                } 
+                    CreateNoteString(OrderNo, PartNo, "Assign to In Office Request.", "SYSTEM", ref partNotes, false, false);
+                }
 
             }
 
@@ -746,7 +769,7 @@ namespace AxiomAutomation.Entity
                 body = body.Replace("{EXEMAIL}", ed.AccExeEmail);
 
                 string subject = string.IsNullOrEmpty(ed.Caption) ? "Quick Forms Document" : ed.Caption;
-                AxiomAutomationEmail.SendMailTest(objCompany, fileName, subject, body, email, true, isMultiple, msList, "", additionalEmail, MargeFileName);
+                Utility.SendMailTest(objCompany, fileName, subject, body, email, true, isMultiple, msList, "", additionalEmail, MargeFileName);
             }
             catch (Exception ex)
             {
@@ -959,6 +982,5 @@ namespace AxiomAutomation.Entity
 
             }
         }
-*/
     }
 }

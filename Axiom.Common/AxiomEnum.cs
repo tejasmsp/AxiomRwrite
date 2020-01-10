@@ -1,12 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.Web;
 
-namespace AxiomAutomation
+namespace Axiom.Common
 {
-    /*
+    public class AxiomEnum
+    {
+    }
+
+    public static class Extensions
+    {
+        public static string GetDescription(this Enum e)
+        {
+            var attribute =
+                e.GetType()
+                    .GetTypeInfo()
+                    .GetMember(e.ToString())
+                    .FirstOrDefault(member => member.MemberType == MemberTypes.Field)
+                    .GetCustomAttributes(typeof(DescriptionAttribute), false)
+                    .SingleOrDefault()
+                    as DescriptionAttribute;
+
+            return attribute?.Description ?? e.ToString();
+        }
+    }
+
     public enum QueryType
     {
         Unknown = 0
@@ -28,7 +49,7 @@ namespace AxiomAutomation
 
     public enum SendRequestType
     {
-             FaxNumber = 0
+        FaxNumber = 0
             , Mail_StandardFolder = 1
             , Email = 2
             , Upload = 3
@@ -40,7 +61,7 @@ namespace AxiomAutomation
         Authorization_Blank = 1,
         Authorization = 2,
         Request = 3,
-        Other = 18 
+        Other = 18
     }
     public enum OperationInitiatedFrom
     {
@@ -48,5 +69,4 @@ namespace AxiomAutomation
         QuickFormService = 2,
         WebForm = 3
     }
-*/
 }

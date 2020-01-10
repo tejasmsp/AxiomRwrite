@@ -280,6 +280,12 @@ namespace Axiom.Entity
         public string VsText3 { get; set; }
         public string FirmID { get; set; }
         public string FirmName { get; set; }
+
+        public string Caption { get; set; }
+        public string OrderingAttorney { get; set; }
+        public string AcctRep { get; set; }
+        public string AccExeName { get; set; }
+        public string AccExeEmail { get; set; }
     }
     public class EmailDetails
     {

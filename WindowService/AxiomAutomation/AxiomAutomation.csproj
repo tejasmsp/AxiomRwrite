@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>AxiomAutomation</RootNamespace>
     <AssemblyName>AxiomAutomation</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -1358,6 +1358,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\Confirmations\California\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Axiom.Common\Axiom.Common.csproj">
+      <Project>{ef84934c-8b29-420e-83a7-06bd195aaf37}</Project>
+      <Name>Axiom.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Axiom.Entity\Axiom.Entity.csproj">
+      <Project>{0AC9AE3D-2CAB-4B4A-9FAE-BED7F61F104A}</Project>
+      <Name>Axiom.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

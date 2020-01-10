@@ -10,6 +10,7 @@ namespace AxiomAutomation
 {
     public static class Utility
     {
+        /*
         public static bool SendMailWithAttachment(string mailTo, string bodyTemplate, string subject, List<string> attachmentFilename, List<System.Net.Mail.Attachment> lstAttachment, string ccMail = "", string bccMail = "")
         {
             try
@@ -105,5 +106,6 @@ namespace AxiomAutomation
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             return smtp;
         }
+     */
     }
 }

@@ -9,6 +9,7 @@ namespace AxiomAutomation.Entity
     public class AxiomAutoEntity
     {
     }
+    /*
     public class PartDetail
     {
         public string LocID { get; set; }
@@ -144,5 +145,5 @@ namespace AxiomAutomation.Entity
         public string SiteURL { get; set; }
 
     }
-
+    */
 }

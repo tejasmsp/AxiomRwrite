@@ -62,6 +62,8 @@ namespace Axiom.Entity
         public string ThankYouMessage { get; set; }
         public string Logopath { get; set; }
         public string SiteURL { get; set; }
-        
+
+        // CHECK FOR LOGO PATH SAMLL CAPITAL FROM STORED PROCEDURE
+
     }
 }

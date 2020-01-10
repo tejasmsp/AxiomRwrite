@@ -12,7 +12,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using AxiomAutomation.Entity;
 using System.Text.RegularExpressions;
-
+using Axiom.Common;
+using Axiom.Entity;
 
 namespace AxiomAutomation
 {
@@ -87,7 +88,7 @@ namespace AxiomAutomation
             try
             {
                 Log.ServicLog(DateTime.Now.ToString() + "======================= Automation Execution Start ===========================");
-                var partList = DbAccess.GetPartList();
+                var partList = Axiom.Common.DbAccess.GetPartList();
 
                 if (partList != null && partList.Count > 0)
                 {
@@ -98,15 +99,15 @@ namespace AxiomAutomation
                             int OrderNo = pt.OrderNo;
                             int PartNo = pt.PartNo;
 
-                            objCompany = DbAccess.CompanyDetailForEmail("CompanyDetailForEmailByOrderNo", pt.OrderNo).FirstOrDefault();
+                            objCompany = Axiom.Common.DbAccess.CompanyDetailForEmail("CompanyDetailForEmailByOrderNo", pt.OrderNo).FirstOrDefault();
 
 
                             bool isProcessServer = false;
-                            var location = DbAccess.GetPartLocation(pt.LocID);
+                            var location = Axiom.Common.DbAccess.GetPartLocation(pt.LocID);
 
                             Log.ServicLog(OrderNo + " " + PartNo);
 
-                            var Attorney = DbAccess.GetAttorneyByOrder(OrderNo);
+                            var Attorney = Axiom.Common.DbAccess.GetAttorneyByOrder(OrderNo);
                             if (Attorney != null)
                             {
                                 AttyName = Attorney.AttorneyName;
@@ -116,15 +117,15 @@ namespace AxiomAutomation
                             #region Main Code
 
                             string filetype = "pdf";
-                            var docResult = DbAccess.GetDocsForRequest(OrderNo, Convert.ToString(PartNo));
+                            var docResult = Axiom.Common.DbAccess.GetDocsForRequest(OrderNo, Convert.ToString(PartNo));
                             if (docResult != null && docResult.Count > 0)
                             {
-                                var AutomationProcess = new AutomationProcess(_documentRoot:documentRoot, _RecordType: RecordType, _BillFirm: BillFirm
+                                var OrderOperation = new OrderOperation(_documentRoot:documentRoot, _RecordType: RecordType, _BillFirm: BillFirm
                                                                             , _ClaimNo: ClaimNo, _AttyName: AttyName, _AttyID:AttyID
                                                                             , _displaySSN: true, _docFileType: FileType.Request, _part: pt, _operationInitiatedFrom: OperationInitiatedFrom.AutomationService);
                                 foreach (var docitem in docResult)
                                 {
-                                    AutomationProcess.DoRequireOperationOnDocuments(docitem, OrderNo, PartNo, filetype, location, partList.Count, objCompany, isProcessServer);
+                                    OrderOperation.DoRequireOperationOnDocuments(docitem, OrderNo, PartNo, filetype, location, partList.Count, objCompany, isProcessServer);
                                 }
 
                             }

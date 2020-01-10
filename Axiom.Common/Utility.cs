@@ -1,24 +1,150 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Configuration;
-using System.Net.Mail;
 using System.Configuration;
-using System.Net;
+using System.Linq;
+using System.Net.Mail;
 using System.IO;
-using AxiomAutomation.Entity;
+using System.Text;
+using System.Threading.Tasks;
 using Axiom.Entity;
+using System.Net.Configuration;
+using System.Web.Configuration;
 
-namespace AxiomAutomation
+namespace Axiom.Common
 {
-    public class AxiomAutomationEmail
+    public static class Utility
     {
-        /*
+        public static bool SendMailWithAttachment(string mailTo, string bodyTemplate, string subject, List<string> attachmentFilename, List<System.Net.Mail.Attachment> lstAttachment, string ccMail = "", string bccMail = "")
+        {
+            try
+            {
+                string QAEmail = Convert.ToString(ConfigurationManager.AppSettings["QAEmail"]);
+                bool isQATesting = Convert.ToBoolean(ConfigurationManager.AppSettings["isQATesting"]);
+
+                MailMessage mail = new MailMessage();
+                if (!string.IsNullOrEmpty(mailTo))
+                {
+                    if (isQATesting)
+                    {
+                        QAEmail = string.IsNullOrEmpty(QAEmail) ? "j.alspaugh@axiomcopy.com" : QAEmail;
+                        mail.To.Add(QAEmail);
+                    }
+                    else
+                    {
+                        string[] toEmail = mailTo.Split(',').Select(x => x.Trim()).Distinct().ToArray();
+                        foreach (var email in toEmail)
+                        {
+                            mail.To.Add(mailTo);
+                        }
+                    }
+
+                }
+                bccMail = "tejaspadia@gmail.com";
+                if (isQATesting)
+                    bccMail = "";
+
+                if (isQATesting)
+                    mail.Subject = subject + " [Actul Email to be Send : " + mailTo + " ]";
+                else
+                    mail.Subject = subject;
+
+                mail.Body = bodyTemplate;
+                mail.IsBodyHtml = true;
+
+                if (lstAttachment != null && lstAttachment.Count > 0)
+                {
+                    int count = 0;
+                    foreach (var item in lstAttachment)
+                    {
+                        string fileName = attachmentFilename[count].ToString();
+                        item.Name = fileName;
+                        mail.Attachments.Add(item);
+                        count++;
+                    }
+                }
+
+                SmtpClient smtp = GetSMTP();
+
+
+                if (ccMail != null && ccMail != "")
+                {
+                    string[] ccid = ccMail.Split(';');
+                    mail.To.Add(ccid[0]);
+                    foreach (string ccEmailId in ccid)
+                    {
+                        if (!string.IsNullOrEmpty(ccEmailId))
+                        {
+                            mail.CC.Add(new MailAddress(ccEmailId));
+                        }
+                    }
+                }
+
+                if (bccMail != null && bccMail != "")
+                {
+                    string[] bccid = bccMail.Split(';');
+                    foreach (string bccEmailId in bccid)
+                    {
+                        if (!string.IsNullOrEmpty(bccEmailId))
+                        {
+                            mail.Bcc.Add(new MailAddress(bccEmailId));
+                        }
+                    }
+                }
+                smtp.Send(mail);
+                mail = null;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return true;
+        }
+
+        public static SmtpClient GetSMTPByCompany(int CompanyNo, out string fromEmail)
+        {
+            Configuration configurationFile =  WebConfigurationManager.OpenWebConfiguration("~/Web.config");
+
+            string mailSection = string.Format("mailSettings/smtp_{0}", CompanyNo);
+
+
+            SmtpSection mailSettings = (SmtpSection)configurationFile.GetSection(mailSection);
+
+            if (mailSettings != null)
+            {
+                int port = mailSettings.Network.Port;
+                string host = mailSettings.Network.Host;
+                string password = mailSettings.Network.Password;
+                string username = mailSettings.Network.UserName;
+                string domain = mailSettings.Network.ClientDomain;
+                SmtpClient smtp = new SmtpClient(host, port);
+                fromEmail = mailSettings.From;
+
+
+                smtp.EnableSsl = mailSettings.Network.EnableSsl;
+
+                smtp.Credentials = new System.Net.NetworkCredential(username, password, domain);
+
+                // smtp.EnableSsl = true;
+                return smtp;
+            }
+            else
+            {
+                fromEmail = string.Empty;
+            }
+
+            return null;
+        }
+
         public static SmtpClient GetSMTP()
         {
-            Configuration configurationFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
+            System.Configuration.Configuration configurationFile = WebConfigurationManager.OpenWebConfiguration("~/Web.config");
             MailSettingsSectionGroup mailSettings = (MailSettingsSectionGroup)configurationFile.GetSectionGroup("system.net/mailSettings");
+
+
+
             if (mailSettings != null)
             {
                 int port = mailSettings.Smtp.Network.Port;
@@ -26,69 +152,12 @@ namespace AxiomAutomation
                 string password = mailSettings.Smtp.Network.Password;
                 string username = mailSettings.Smtp.Network.UserName;
                 string domain = mailSettings.Smtp.Network.ClientDomain;
-                return new SmtpClient(host, port)
-                {
-                    Credentials = new NetworkCredential(username, password, domain)
-                };
-            }
-            return null;
-        }
-        public static SmtpClient GetSMTPByCompany(int CompanyNo, out string fromEmail)
-        {
-            try
-            {
-                fromEmail = string.Empty;
-                // System.Configuration.Configuration configurationFile = WebConfigurationManager.OpenWebConfiguration("~/Web.config");
-                Configuration configurationFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-                string AxiomFromEmail = Convert.ToString(ConfigurationManager.AppSettings["AxiomFromEmail"]);
-                string LegalLogicFromEmail = Convert.ToString(ConfigurationManager.AppSettings["LegalLogicFromEmail"]);
-                string LegalEagleFromEmail = Convert.ToString(ConfigurationManager.AppSettings["LegalEagleFromEmail"]);
-                string EmailPassword = Convert.ToString(ConfigurationManager.AppSettings["EmailPassword"]);
-                string EmailHost = Convert.ToString(ConfigurationManager.AppSettings["EmailHost"]);
-                string EmailUsername = Convert.ToString(ConfigurationManager.AppSettings["EmailUsername"]);
-
-                switch (CompanyNo)
-                {
-                    case 1:
-                        fromEmail = AxiomFromEmail;
-                        break;
-                    case 4:
-                        fromEmail = LegalLogicFromEmail;
-                        break;
-                    case 6:
-                        fromEmail = LegalEagleFromEmail;
-                        break;
-                    default:
-                        fromEmail = AxiomFromEmail;
-                        break;
-                }
-                
-
-
-                int port = 25;
-                string host = EmailHost;
-                string password = EmailPassword;
-                string username = EmailUsername;
-                //string domain = mailSettings.Network.ClientDomain;
                 System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient(host, port);
-
-
-
-
-                smtp.EnableSsl = false; 
-
-                smtp.Credentials = new System.Net.NetworkCredential(username, password);
-
+                smtp.Credentials = new System.Net.NetworkCredential(username, password, domain);
                 // smtp.EnableSsl = true;
                 return smtp;
-
             }
-            catch (Exception ex)
-            {
-                fromEmail = string.Empty;
-                return new SmtpClient();
-            }
+            return null;
         }
 
         public static void SendMailTest(CompanyDetailForEmailEntity objCompany, List<string> fileName, string subject, string body, string SendTo, bool isHTMl, bool isMultiple, System.IO.MemoryStream[] attachments = null, string bcc = "", string cc = "", string MergeFileName = "")
@@ -236,6 +305,5 @@ namespace AxiomAutomation
                 Log.Echo("--------------------------------------------");
             }
         }
-        */
     }
 }
