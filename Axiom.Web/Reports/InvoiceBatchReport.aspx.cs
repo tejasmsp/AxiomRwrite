@@ -385,7 +385,7 @@ namespace Axiom.Web.Reports
                     {
                         DataRow dr = cloneSet.Tables["DtCharges"].NewRow();
                         dr["InvNo"] = Convert.ToInt32(strInvNo);
-                        dr["Description"] = "PROCESS SERVER FEE";
+                        dr["Description"] = "PRINTING & BINDING";
                         dr["Charges"] = customers.Tables[0].Rows[i]["StdFee5"].ToString();
                         cloneSet.Tables["DtCharges"].Rows.Add(dr);
                     }
