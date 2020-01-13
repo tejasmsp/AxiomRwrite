@@ -587,7 +587,6 @@ namespace Axiom.Web.API
                                 docobj.DeleteAttchFile(docitem.FileName, docitem.BatchId, sourcePath);
                             }
                         }
-
                     }
                     else
                     {
@@ -1505,15 +1504,14 @@ namespace Axiom.Web.API
                                         // UTILRE : In Office Requests
                                         // REQUES : REQUESTS TO BE SENT
                                         isProcessServer = true;
-                                        string AsgnTo = action == "3" ? "UTILRE" : "REQUES";
-                                        SqlParameter[] SQLparam = {
-                                                    new SqlParameter("OrderNo", (object)OrderNo ?? (object)DBNull.Value)
-                                                    ,new SqlParameter("PartNo", (object)part.PartNo ?? (object)DBNull.Value)
-                                                    ,new SqlParameter("AsgnTo", (object)AsgnTo ?? (object)DBNull.Value)
-                                                };
-                                        _repository.ExecuteSQL<int>("UpdateQuickFormOrderPart", SQLparam).FirstOrDefault();
-
-
+                                        // WHILE MERGE CODE
+                                        ////string AsgnTo = action == "3" ? "UTILRE" : "REQUES";
+                                        ////SqlParameter[] SQLparam = {
+                                        ////            new SqlParameter("OrderNo", (object)OrderNo ?? (object)DBNull.Value)
+                                        ////            ,new SqlParameter("PartNo", (object)part.PartNo ?? (object)DBNull.Value)
+                                        ////            ,new SqlParameter("AsgnTo", (object)AsgnTo ?? (object)DBNull.Value)
+                                        ////        };
+                                        ////_repository.ExecuteSQL<int>("UpdateQuickFormOrderPart", SQLparam).FirstOrDefault();
 
                                     }
                                     else if (action == "5") //CERTIFIED MAIL
@@ -1608,17 +1606,13 @@ namespace Axiom.Web.API
                                 {
                                     var AsgnTo = "CBLIST";
                                     var CallBack = DateTime.Now.AddDays(14);
-
-                                    // THIS LOGIC WILLNOT APPLY WHEN CREATING NEW ORDER
-                                    //if ((part.ChngDate == Convert.ToDateTime("1900-01-01 00:00:00")) || (pt.ChngDate == null) || (pt.ChngDate <= DateTime.Now.AddYears(-2)))
-                                    //{
-                                    //    AsgnTo = "FSTCAL";
-                                    //    CallBack = Convert.ToDateTime(part.CallBack);
-                                    //}
-
-                                    //DbAccess.UpdateOrderPart(OrderNo, PartNo, AsgnTo, CallBack);
                                     UpdatePart(OrderNo, part.PartNo, AsgnTo, DateTime.Now.AddDays(14));
-
+                                }
+                                else
+                                {
+                                    var AsgnTo = "UTILRE";
+                                    var CallBack = DateTime.Now.AddDays(14);
+                                    UpdatePart(OrderNo, part.PartNo, AsgnTo, CallBack);
                                 }
                                 if (locationList != null)
                                 {

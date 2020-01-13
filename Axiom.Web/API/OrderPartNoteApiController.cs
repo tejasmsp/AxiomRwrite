@@ -84,6 +84,13 @@ namespace Axiom.Web.API
                                           ,new SqlParameter("OrderIdsWithPartIdsXML",(object)OrderIdsWithPartIdsXML?? (object)DBNull.Value)
                                        };
                 var result = _repository.ExecuteSQL<int>("InsertOrderPartNotes", param).FirstOrDefault();
+
+                SqlParameter[] paramAuth = {   new SqlParameter("Orderno", (object)modal.OrderId?? (object)DBNull.Value)
+                                          ,new SqlParameter("PartNo",(object)modal.PartNo?? (object)DBNull.Value)
+                                          ,new SqlParameter("Status",(object)modal.AssgnTo?? (object)DBNull.Value) };
+
+                var resultAuth = _repository.ExecuteSQL<int>("AuthorizationToBeCalledInsert", paramAuth).FirstOrDefault();
+
                 if (result == 1)
                 {
                     if (!string.IsNullOrEmpty(modal.RoleName) && modal.RoleName == "Attorney")

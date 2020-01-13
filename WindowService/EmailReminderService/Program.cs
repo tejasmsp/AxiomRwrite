@@ -45,8 +45,8 @@ namespace EmailReminderService
                 try
                 {
                     EmailReminderService obj = new EmailReminderService();
-                    obj.ServiceExecution(); //Email Reminder Service
-                    obj.SendMonthlyEmail(); //Axiom Service
+                    // obj.ServiceExecution(); //Email Reminder Service
+                    // obj.SendMonthlyEmail(); //Axiom Service
                     obj.AxiomServiceExecution(); //Axiom Service
                 }
                 catch (Exception ex)

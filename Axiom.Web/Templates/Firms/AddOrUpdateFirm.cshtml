@@ -129,7 +129,7 @@
                     <div class="col-md-6">
                         <label class="col-sm-3 control-label lbl-primary pr-5 pt-0">Company</label>
                         <div class="col-sm-9">
-                            <select name="CompanyID" ng-model="FirmObj.CompanyID" class="form-control" ng-options="item.CompID as item.CompName for item in Companylist">
+                            <select name="CompanyID" ng-disabled="true" ng-model="FirmObj.CompanyNo" class="form-control" ng-options="item.CompNo as item.CompName for item in Companylist">
                                 <option value="">--Select--</option>
                             </select>
                         </div>

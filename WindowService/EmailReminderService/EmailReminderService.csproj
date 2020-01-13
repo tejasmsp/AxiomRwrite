@@ -84,6 +84,9 @@
     <Content Include="HtmlTemplates\AuthorizationEmail.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="HtmlTemplates\AuthorizationEmailMonthly.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="HtmlTemplates\CancelPart.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

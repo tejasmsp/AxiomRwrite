@@ -23,7 +23,7 @@
         angular.forEach($scope.PartNoteList, function (value, key) {
             debugger;
             printContents = printContents + value.Note + "</br>";
-            printContents = printContents + "<b>" + $filter('date')(value.DtsInserted, "MMM dd yyyy hh:mm:ss a")  + " - " + value.FirstName + " " + value.LastName + "</b></br>";
+            printContents = printContents + "<b>" + $filter('date')(value.DtsInserted, "MMM dd yyyy hh:mm:ss a") + " - " + value.FirstName + " " + value.LastName + "</b></br>";
             printContents = printContents + "</br>";
         });
         printContents = printContents + "</div>";
@@ -259,6 +259,20 @@
         });
     }
 
+    function GetAttempt() {
+        $scope.AttemptList = [
+            { 'value': '1st Attempt', 'ID': '1' }
+            , { 'value': '2nd Attempt', 'ID': '2' }
+            , { 'value': '3rd Attempt', 'ID': '3' }
+            , { 'value': '4th Attempt', 'ID': '4' }
+            , { 'value': '5th Attempt', 'ID': '5' }
+            , { 'value': '6th Attempt', 'ID': '6' }
+            , { 'value': '7th Attempt, Non Compliant', 'ID': '7' }
+            , { 'value': '8th Attempt, Non Compliant', 'ID': '8' }
+        ];
+    }
+
+
     function resetPartNotesDetailPopup() {
         $scope.PartNoteObj = new Object();
         $scope.PartNoteform.$setPristine();
@@ -267,17 +281,17 @@
     }
     $scope.PartNoteObj = new Object();
     function init() {
+        debugger;
         if ($scope.CurrentState == "SearchOrderList") {
             bindDropdown();
             getEmployeeList();
-
         } else {
             $scope.OrderId = $stateParams.OrderId;
             $scope.PartNo = isNullOrUndefinedOrEmpty($stateParams.PartNo) ? 0 : $stateParams.PartNo;
             $scope.PartNoteObj = new Object();
             $scope.GetOrderPartNotes();
         }
-
+        GetAttempt();
     }
     //#endregion
 

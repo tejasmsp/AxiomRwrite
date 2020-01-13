@@ -207,6 +207,7 @@ namespace EmailReminderService
 
         public void ServiceExecution()
         {
+            
             Log.ServicLog("------------------- EMAIL REMINDER SERVICE EXECUTED " + DateTime.Now + "---------------------------");
             try
             {
@@ -214,9 +215,11 @@ namespace EmailReminderService
                 if (dataList == null)
                     return;
                 string proposalBaseFeeURL = ConfigurationManager.AppSettings["ProposalBaseFeeURL"].ToString();
+                
                 foreach (var item in dataList)
                 {
-                    
+                    List<CompanyDetailForEmailEntity> objCompany = DbAccess.CompanyDetailForEmail("CompanyDetailForEmailByOrderNo", item.OrderNo);
+
                     string strBillAtty = string.Empty;
                     string attorneyEmail = string.Empty;
                     string attorneyFirstName = string.Empty;
@@ -279,6 +282,11 @@ namespace EmailReminderService
                     body = body.Replace("{LOCATION}", strLoc);
                     body = body.Replace("{PAGES}", Convert.ToString(item.Pages));
                     body = body.Replace("{COST}", Convert.ToString(item.Amount));
+                    body = body.Replace("{THANKYOU}", Convert.ToString(objCompany[0].ThankYouMessage));
+                    body = body.Replace("{LOGOURL}", Convert.ToString(objCompany[0].LogoPath));
+
+                    proposalBaseFeeURL = objCompany[0].SiteURL;
+
 
                     string accExecutiveName = item.ClientAttorneyName;
                     string accExecutiveEmail = item.ClientAttorneyEmail;
@@ -345,6 +353,8 @@ namespace EmailReminderService
         {
             Log.ServicLog("------------------- AXIOM SERVICE EXECUTED " + DateTime.Now + "---------------------------");
 
+            List<CompanyDetailForEmailEntity> objCompanyList = DbAccess.CompanyDetailForEmail("CompanyDetailForEmailByOrderNo", 0);
+            CompanyDetailForEmailEntity objCompany = new CompanyDetailForEmailEntity();
             try
             {
                 List<int> lstOrder = new List<int>();
@@ -353,6 +363,8 @@ namespace EmailReminderService
                 {
                     foreach (var item in mailSentList)
                     {
+
+                        objCompany = objCompanyList.FirstOrDefault(x => x.CompNo == item.CompanyNo);
                         int orderNo = Convert.ToInt32(item.OrderNo);
                         if (!lstOrder.Contains(orderNo))
                         {
@@ -393,6 +405,9 @@ namespace EmailReminderService
                             body = body.Replace("{UserName}", userfName + " " + userlName);
                             body = body.Replace("{ORDERNO}", Convert.ToString(item.OrderNo));
                             body = body.Replace("{PATIENTNAME}", Convert.ToString(patientName.Name));
+
+                            body = body.Replace("{LOGOURL}", Convert.ToString(objCompany.LogoPath));
+                            body = body.Replace("{THANKYOU}", Convert.ToString(objCompany.ThankYouMessage));
                             StringBuilder sb = new StringBuilder();
                             if (lstPartNo.Count > 0)
                             {
@@ -454,8 +469,6 @@ namespace EmailReminderService
                             }
 
                             Log.ServicLog('\n' + "-------------- AXIOM SERVICE EXECUTION FINISHED --" + System.DateTime.Now + "-----------------------------");
-
-
                         }
                     }
                 }

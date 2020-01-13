@@ -221,8 +221,24 @@ namespace EmailReminderService
             cmd.CommandText = "ServiceEmailReminderGetProposalFees";
             var dt = GetDataList(cmd);
             return ConvertDataTable<ProposalFees>(dt);
-
-
+        }
+        public static List<CompanyDetailForEmailEntity> CompanyDetailForEmail(string spName, int OrderNO)
+        {
+            List<string> recordList = new List<string>();
+            using (SqlConnection objConn = new SqlConnection(sConnectionString))
+            {
+                objConn.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@OrderNo", SqlDbType.Int).Value = OrderNO;
+                cmd.Connection = objConn;
+                cmd.CommandText = spName;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dt.TableName = "Result";
+                return ConvertDataTable<CompanyDetailForEmailEntity>(dt);
+            }
         }
     }
 

@@ -758,19 +758,21 @@ namespace AxiomAutomation
                                                     else if (action == "3" || action == "4") //UPLOAD & PROCESS SERVER
                                                     {
                                                         isProcessServer = true;
-                                                        string AsgnTo = "";
-                                                        if (action == "3")
-                                                        {
-                                                            AsgnTo = "UTILRE";
-                                                            Log.ServicLog("Upload");
-                                                        }
-                                                        else if (action == "4")
-                                                        {
 
-                                                            Log.ServicLog("Process Server");
-                                                            AsgnTo = "REQUES";
-                                                        }
-                                                        DbAccess.UpdateQuickFormOrderPart(OrderNo, PartNo, AsgnTo);
+                                                        // WHILE MERGE CODE
+                                                        ////string AsgnTo = "";
+                                                        ////if (action == "3")
+                                                        ////{
+                                                        ////    AsgnTo = "UTILRE";
+                                                        ////    Log.ServicLog("Upload");
+                                                        ////}
+                                                        ////else if (action == "4")
+                                                        ////{
+
+                                                        ////    Log.ServicLog("Process Server");
+                                                        ////    AsgnTo = "REQUES";
+                                                        ////}
+                                                        ////DbAccess.UpdateQuickFormOrderPart(OrderNo, PartNo, AsgnTo);
                                                     }
                                                     else if (action == "5") //CERTIFIED MAIL
                                                     {
@@ -971,7 +973,7 @@ namespace AxiomAutomation
                                 }
                                 else
                                 {
-                                    if (LocationCheck.ReqAuthorization == true || LocationCheck.FeeAmountSendRequest == true)
+                                    if (LocationCheck.ReqAuthorization == true || LocationCheck.FeeAmountSendRequest == true || LocationCheck.LinkRequest)
                                     {
                                         DbAccess.UpdateOrderPart(OrderNo, PartNo, "UTILRE", Convert.ToDateTime(pt.CallBack));
                                         string partNotes = string.Empty;

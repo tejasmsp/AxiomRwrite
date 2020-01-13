@@ -274,11 +274,42 @@ namespace Axiom.Web.Reports
         {
             string strInvNo = e.Parameters["InvNo"].Values[0].ToString();
             string strOrderNo = e.Parameters["OrderNo"].Values[0].ToString();
-            ReportDataSource rdS = new ReportDataSource("dsCharges", GetSubreportdata(strInvNo, strOrderNo));
+            ReportDataSource rdS = new ReportDataSource("dsCharges", GetSubreportdataWithCharges(strInvNo, strOrderNo));
             e.DataSources.Add(rdS);
         }
-     
 
+        public DataTable GetSubreportdataWithCharges(string strInvNo, string strOrderNo)
+        {
+            var conString = ConfigurationManager.ConnectionStrings["Axiom"];
+            string strConnString = conString.ConnectionString;
+            SqlConnection conn = new SqlConnection(strConnString);
+            conn.Open();
+
+            try
+            {
+
+                SqlCommand sqlCmd = new SqlCommand("GetInvoiceCharges_New", conn);
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+                sqlCmd.Parameters.AddWithValue("@InvNo", (object)strInvNo ?? (object)DBNull.Value);
+                sqlCmd.Parameters.AddWithValue("@OrderNo", (object)strOrderNo ?? (object)DBNull.Value);
+                sqlCmd.ExecuteNonQuery();
+                SqlDataAdapter da = new SqlDataAdapter(sqlCmd);
+                conn.Close();
+
+                using (DsInvoice dsCustomers = new DsInvoice())
+                {
+                    da.Fill(dsCustomers.Tables["DtCharges"]);
+
+                    return dsCustomers.Tables["DtCharges"];
+                }
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+            }
+            return dsCustomers.Tables["DtCharges"];
+
+        }
         public DataTable GetSubreportdata(string strInvNo, string strOrderNo)
         {
             charges(strInvNo, strOrderNo);

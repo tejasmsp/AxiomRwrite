@@ -50,11 +50,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <fieldset>
-                                <legend class="text-semibold">
-                                    <i class="icon-file-text2 position-left"></i>
-                                    Notes
-                                </legend>
+                            <fieldset>                                
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -241,6 +237,17 @@
                                             <label class="control-label col-sm-4 lbl-primary">Request Send Date</label>
                                             <div class="col-sm-8">
                                                 <input type="text" class="form-control" name="Callback" ng-model="PartNoteObj.RequestSendDate" ng-disabled="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4 lbl-primary">Attempt</label>
+                                            <div class="col-sm-8">
+                                                <div id="ddlAttempt" custom-select="item.ID as item.value for item in AttemptList | filter: $searchTerm" ng-model="PartNoteAssgnTo"></div>
+                                                @*<select class="form-control" name="assgnto" ng-model="PartNoteObj.AssgnTo" ng-options="item.EmpId as item.EmployeeName for item in EmployeeList" required>
+                                                    <option value="">-- Select --</option>
+                                                    </select>*@
                                             </div>
                                         </div>
                                     </div>
